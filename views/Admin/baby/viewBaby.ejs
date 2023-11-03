@@ -1,0 +1,69 @@
+<%- include('../common/header'); -%>
+<%- include('../common/sidebar'); -%>
+
+  <!-- BEGIN: Content-->
+  <div class="app-content content ">
+    <div class="content-overlay"></div>
+    <div class="header-navbar-shadow"></div>
+    <div class="content-wrapper container-xxl p-0">
+      <div class="content-body">
+        <section id="multiple-column-form">
+          <div class="row">
+            <div class="col-md-12 col-12">
+              <div class="card">
+                <div class="card-header">
+                 
+                  <h4 class="card-title"> View Profile</h4>
+                  <a href="/babyList" class="btn btn-primary float-right" title="Edit Profile">
+                    Back
+                  </a>
+                </div>
+                <br>
+                <div class="card-body">
+                  <form class="form form-horizontal">
+                    <div class="row">
+                      <div class="col-4">
+                        <div class="profile-widget-header text-center">
+                          <img src="<%= babydata.image %>"  class="img-thumbnail" >
+                        </div>
+                      </div>
+                      <div class="col-8" style="margin-top: 17px;">
+                        <div class="mb-1 row">
+                          <div class="col-sm-2">
+                            <label class="col-form-label new_lable" for="first-name">Name</label>
+                          </div>
+                          <div class="col-sm-10">
+                            <input type="text" id="name" class="form-control" name="name" value="<%=babydata.name%>" disabled>
+                          </div>
+                        </div>
+                        <div class="mb-1 row">
+                          <div class="col-sm-2">
+                            <label class="col-form-label new_lable" for="first-name">Gender</label>
+                          </div>
+                          <div class="col-sm-10">
+                            <input type="text" id="gender" class="form-control" name="gender" value="<%=babydata.gender%>" disabled>
+                          </div>
+                        </div>
+                        <div class="mb-1 row">
+                          <div class="col-sm-2">
+                            <label class="col-form-label new_lable" for="first-name">Birthday</label>
+                          </div>
+                          <div class="col-sm-10">
+                            <input type="text" id="birthday" class="form-control" name="birthday" value="<%=babydata.birthday%>" disabled>
+                          </div>
+                        </div>
+                      
+                      </div>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+    </div>
+  </div>
+ 
+
+<%- include('../common/footer'); -%>

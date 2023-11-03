@@ -1,0 +1,71 @@
+
+<%- include('../common/header') %>
+<%- include('../common/sidebar') %>
+
+    <!-- BEGIN: Content-->
+<div class="app-content content ">
+  <div class="content-wrapper container-xxl p-0">
+    <div class="content-header row"></div>
+      <div class="content-body">
+        <div class="main-content">
+          <section class="section">
+            <div class="section-header">
+              <h1>Dashboard</h1>
+            </div>
+            <div class="row">
+              <div class="col-lg-3 col-md-5 col-sm-5 col-12">
+                <div class="card" onclick="location.href='/userList'" style="cursor: pointer;">
+                  <div class="card-header">
+                    <div>
+                      <h2 class="fw-bolder mb-0"> <%=users%></h2>
+                      <p class="card-text">Users</p>
+                    </div>
+                    <div class="avatar bg-light-primary p-50 m-0">
+                      <div class="avatar-content">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-user"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-3 col-md-5 col-sm-5 col-12">
+                <div class="card" onclick="location.href='/babyList'" style="cursor: pointer;">
+                  <div class="card-header">
+                    <div>
+                      <h2 class="fw-bolder mb-0">
+                        <%=babies%>
+                      </h2>
+                      <p class="card-text">Babies</p>
+                    </div>
+                    <div class="avatar bg-light-primary p-50 m-0">
+                      <div class="avatar-content">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-3 col-md-5 col-sm-5 col-12">
+                <div class="card" onclick="location.href='/subscriptionList'" style="cursor: pointer;">
+                  <div class="card-header">
+                    <div>
+                      <h2 class="fw-bolder mb-0"><%=subscription%></h2>
+                        <p class="card-text">Subscriptions</p>
+                    </div>
+                    <div class="avatar bg-light-primary p-50 m-0">
+                      <div class="avatar-content">
+                        <svg  width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+
+    <%- include('../common/footer') %>
