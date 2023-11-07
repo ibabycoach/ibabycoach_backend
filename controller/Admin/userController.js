@@ -34,8 +34,8 @@ module.exports = {
             password: hash,
         
         });
-         res.redirect('/userList')
-        // res.json(createuser)
+        //  res.redirect('/userList')
+        res.json(createuser)
           console.log("signup successfully")
           return helper.success(res, "created successfully", createuser)
         } catch (error) {

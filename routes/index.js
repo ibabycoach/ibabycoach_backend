@@ -5,7 +5,8 @@ const babyController = require('../controller/Admin/babyController');
 const cmsController = require('../controller/Admin/cmsController');
 const contactUsController = require('../controller/Admin/contactUsController');
 const subscriptionsController = require('../controller/Admin/subscriptionsController');
-var {session} = require('../Helper/helper')
+var {session} = require('../Helper/helper');
+const growthController = require('../controller/Admin/growthController');
 var router = express.Router();
 
 /* GET home page. */
@@ -62,6 +63,9 @@ router.get('/editSubscription/:id', session, subscriptionsController.editSubscri
 router.post('/updateSubscription', subscriptionsController.updateSubscription)
 router.delete('/deleteSubscription/:id', subscriptionsController.deleteSubscription)
 router.post('/subsStatus', subscriptionsController.subsStatus)
+
+//*****************  GROWTH  *************************************
+router.post('/add_growth', growthController.add_growth)
 
 
 

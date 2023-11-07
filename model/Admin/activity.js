@@ -2,12 +2,14 @@ const mongoose = require('mongoose');
 
 const activitySchema = new mongoose.Schema({
 
-  baby: {type: mongoose.Schema.Types.ObjectId, ref: "baby"},
-  feeding: { type: String, default: '' },
-  sleeping: { type: String, default: '' },
+  babyId: {type: mongoose.Schema.Types.ObjectId, ref: "baby"},
+  name: { type: String, default: '' },
   image: { type: String, default: '' },
-  played: {type: String, default: ''},
-
+  status: {
+    type: String,
+    enum: ["1", "2"],
+    default: "1", //  1 for  Active , 2 for Inactive
+  },
 }, 
 
   {timestamps: true });
