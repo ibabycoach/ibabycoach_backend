@@ -10,4 +10,4 @@ const babySchema = new mongoose.Schema({
 }, 
   {timestamps: true });
 
-module.exports = mongoose.model('baby', babySchema); // It's a good practice to use a capital letter for model names
+module.exports = mongoose.model('baby', babySchema); 

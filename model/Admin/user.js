@@ -18,6 +18,15 @@ const userSchema = new mongoose.Schema({
     enum: ["1", "2"],
     default: "1", //  1 for  Active user, 2 for Inactive
   },
+  google: {type: String},     //social login
+  facebook: {type: String},  //social login
+  apple: {type: String},     //social login
+  socialtype: {type: String, enum: ["0", "1", "2", "3"]},
+  otp:{type:Number},
+  otpverify:{type:Number,default:0},
+  forgotPasswordToken: {type: String},
+  loginTime:{type: String},
+  
 }, {
   timestamps: true, // Use 'timestamps' (plural) for automatic timestamp fields
 });

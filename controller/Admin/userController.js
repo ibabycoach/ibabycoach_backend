@@ -12,24 +12,19 @@ module.exports = {
             // res.redirect('/add_user');
             return helper.failed(res,"Email Already Exist")
           }
-
           const phoneNumberExist = await userModel.findOne({ phone: req.body.phone });
           if (phoneNumberExist) {
             // req.flash("msg", "Phone number already existed");
             // res.redirect('/add_user');
             return helper.failed(res,"Phone Number Already Exist")
         }
-
         if (req.files && req.files.image) {
             var image = req.files.image;
-
             if (image) {
                 req.body.image = helper.imageUpload(image, "images");
             }
         }
-        
         let hash = await bcrypt.hash(req.body.password, 10);
-
         let createuser = await userModel.create({
             role: req.body.role,
             name: req.body.name,

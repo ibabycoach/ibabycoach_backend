@@ -17,8 +17,7 @@ module.exports = {
 
     login: async(req, res)=> {
         try {
-            var findUser = await userModel.findOne({email: req.body.email})
-
+            var findUser = await userModel.findOne({email: req.body.email,role:"0"})
             if (findUser) {
                 let checkPassword = await bcrypt.compare(req.body.password, findUser.password);
                
