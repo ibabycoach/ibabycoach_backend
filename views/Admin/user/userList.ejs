@@ -4,70 +4,75 @@
 
 
     <!-- BEGIN: Content-->
-<div class="app-content content ">
+  <div class="app-content content ">
     <div class="content-overlay"></div>
     <div class="header-navbar-shadow"></div>
     <div class="content-wrapper container-xxl p-0">
-        <div class="content-body">
-            <section id="responsive-datatable">
-                <div class="row">
-                    <div class="card">
-                        <div class="card-header border-bottom">
-                            <h4 class="card-title">User Listing</h4>
+      <div class="content-body">
+        <section id="responsive-datatable">
+          <div class="row">
+            <div class="card">
+              <div class="card-header border-bottom">
+                <h4 class="card-title">User listing</h4>
                             <!-- <div class="section-header-breadcrumb-right">
                                 <a href="/addUser" class="btn btn-primary float-right" title="Edit Profile"> Add User </a>    
                             </div> -->
-                        </div>
-                        <br>
-                        <div class="card-DataTable">
-                            <table class="dt-responsive table table-hover-animation">
-                                <thead>
-                                    <tr>
-                                        <th>S NO.</th>
-                                        <th>Name</th>
-                                        <th>Email</th>
-                                        <th>Phone</th>
-                                        <th>Status</th>
-                                        <th>Action</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <%userData.forEach(function(data,i) {%>
-                                        <tr>
-                                            <td> <%=1+i%></td>
-                                            <td> <%=data.name%></td>
-                                            <td> <%=data.email%></td>
-                                            <td> <%=data.phone%></td>
-                                            
-                                            <td>
-                                            <% if(data.status==1) { %>
-                                            <button onclick="changeStatus(this)" id="userId_<%-data.id%>" class=" btn btn-sm btn-success status " data-id="<%=data._id%>" value="0">Active</button>
-                                            <% } else { %>
-                                            <button onclick="changeStatus(this)" id="userId_<%-data.id%>" class="btn btn-sm btn-danger status" data-id="<%=data._id%>" value="1" style="display: flex;">In-active</button>
-                                            <% } %>
-                                            </td>
-                                            <td>
-                                            <a href="/viewUser/<%=data._id%>" class="btn btn-sm bg-info"><i data-feather='eye'></i></a>
-                                            <!-- <a href="/editUser/<%=data._id%>" class="btn btn-sm bg-warning"><i data-feather='edit'></i></a> -->
-                                            <button onclick="confirmDelete('<%=data._id%>')" class="btn btn-sm bg-danger"> <i data-feather='trash'></i> </button>
-                                            </td>
-                                        </tr>
-                                    <%} )%>
-                                </tbody>                                      
-                            </table>
-                        </div>
-                    </div> 
-                </div>
-            </section>
-        </div>
+              </div>
+              <br>
+              <div class="card-DataTable">
+                <table class="dt-responsive table table-hover-animation">
+                  <thead>
+                    <tr>
+                      <th>S NO.</th>
+                      <th>Name</th>
+                      <th>Email</th>
+                      <th>Phone</th>
+                      <th>Status</th>
+                      <th>Action</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <%userData.forEach(function(data,i) {%>
+                      <tr>
+                        <td> <%=1+i%></td>
+                        <td> <%=data.name%></td>
+                        <td> <%=data.email%></td>
+                        <td> <%=data.phone%></td>                    
+                        <td>
+                          <% if(data.status==1) { %>
+                          <button onclick="changeStatus(this)" id="userId_<%-data.id%>" class=" btn btn-sm btn-success status " data-id="<%=data._id%>" value="0">Active</button>
+                          <% } else { %>
+                          <button onclick="changeStatus(this)" id="userId_<%-data.id%>" class="btn btn-sm btn-danger status" data-id="<%=data._id%>" value="1" style="display: flex;">In-active</button>
+                          <% } %>
+                        </td>
+                        <td>
+                          <a href="/viewUser/<%=data._id%>" class="btn btn-sm bg-info"><i data-feather='eye'></i></a>
+                          <!-- <a href="/editUser/<%=data._id%>" class="btn btn-sm bg-warning"><i data-feather='edit'></i></a> -->
+                          <button onclick="confirmDelete('<%=data._id%>')" class="btn btn-sm bg-danger"> <i data-feather='trash'></i> </button>
+                        </td>
+                      </tr>
+                    <%} )%>
+                  </tbody>                                      
+                </table>
+              </div>
+            </div> 
+          </div>
+        </section>
+      </div>
     </div>
-</div>
+  </div>
 
 <div class="sidenav-overlay"></div>
 <div class="drag-target"></div>
 
 
 <%- include('../common/footer') %>
+
+<script>
+  setTimeout(function () {
+    $("div.msg").fadeOut();
+  }, 2000);
+</script>
 
 <script>
     $(document).ready(function () {

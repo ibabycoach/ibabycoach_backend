@@ -52,7 +52,7 @@ module.exports = {
     addUser: async(req, res)=> {
         try {
             let title = "userList"
-            res.render('Admin/user/addUser', { title, session:req.session.user })
+            res.render('Admin/user/addUser', { title, session:req.session.user,  msg: req.flash('msg') })
         } catch (error) {
            console.log(error) 
         }
@@ -62,7 +62,7 @@ module.exports = {
         try {
             let title = "userList"
             const updatedata = await userModel.findOne({_id: req.params.id})
-            res.render('Admin/user/editUser', { title, updatedata, session:req.session.user })
+            res.render('Admin/user/editUser', { title, updatedata, session:req.session.user,  msg: req.flash('msg') })
         } catch (error) {
            console.log(error) 
         }
@@ -98,7 +98,7 @@ module.exports = {
         try {
             let title = "userList"
             const userData = await userModel.find({role:1})
-            res.render('Admin/user/userList', { title, userData, session:req.session.user})
+            res.render('Admin/user/userList', { title, userData, session:req.session.user,  msg: req.flash('msg')})
         } catch (error) {
            console.log(error) 
         }
@@ -108,7 +108,7 @@ module.exports = {
         try {
             let title = "userList"
             const userdetails = await userModel.findById({_id: req.params.id})
-            res.render('Admin/user/viewUser', { title, userdetails, session:req.session.user })
+            res.render('Admin/user/viewUser', { title, userdetails, session:req.session.user,  msg: req.flash('msg') })
         } catch (error) {
             console.log(error)
         }

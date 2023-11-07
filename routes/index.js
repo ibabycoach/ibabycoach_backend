@@ -20,6 +20,9 @@ router.get('/profile', session, AdminController.profile)
 router.get('/editprofile', session, AdminController.editprofile)
 router.post('/updateAdminProfile', AdminController.updateAdminProfile)
 router.get('/changePassword', session, AdminController.changePassword)
+router.post('/updatepassword', AdminController.updatepassword)
+router.get('/logout', AdminController.logout)
+
 
 //*************** USER *********************
 router.get('/userList', session, userController.userList)
@@ -57,6 +60,8 @@ router.get('/subscriptionList', session, subscriptionsController.subscriptionLis
 router.get('/viewSubscription/:id', session, subscriptionsController.viewSubscription)
 router.get('/editSubscription/:id', session, subscriptionsController.editSubscription)
 router.post('/updateSubscription', subscriptionsController.updateSubscription)
+router.delete('/deleteSubscription/:id', subscriptionsController.deleteSubscription)
+router.post('/subsStatus', subscriptionsController.subsStatus)
 
 
 

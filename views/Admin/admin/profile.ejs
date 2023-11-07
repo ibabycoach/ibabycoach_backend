@@ -16,13 +16,13 @@
                     <i class="feather icon-arrow-left"></i>
                   </a> -->
                   <h4 class="card-title">Admin Profile</h4>
-                  <a href="/editProfile" class="btn btn-primary float-right" title="Edit Profile">
+                  <a href="/editProfile" class="btn btn-primary float-right" title="Edit Profile" >
                     Edit
                   </a>
                 </div>
                 <br>
                 <div class="card-body">
-                  <form class="form form-horizontal">
+                  <form class="form form-horizontal" id="addForm">
                     <div class="row">
                       <div class="col-4">
                         <div class="profile-widget-header text-center">
@@ -53,7 +53,7 @@
                             <label class="col-form-label new_lable" for="first-name">Phone</label>
                           </div>
                           <div class="col-sm-10">
-                            <input type="text" id="phone" class="form-control" name="phone" value="<%=session.phone%>" disabled>
+                            <input type="text" id="phone" class="form-control" name="phone" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" maxlength="12"  value="<%=session.phone%>" disabled>
                           </div>
                         </div>
                       </div>
@@ -70,3 +70,61 @@
  
 
 <%- include('../common/footer'); -%>
+
+<script>
+  $(document).ready(function() {
+
+    jQuery.validator.addMethod("noSpace", function(value, element) {
+        return value == '' || value.trim().length != 0;
+      },
+
+      jQuery.validator.addMethod("emailExt", function(value, element, param) {
+        return value.match(/^[a-zA-Z0-9_\.%\+\-]+@[a-zA-Z0-9\.\-]+\.[a-zA-Z]{2,}$/);
+      }, 'Your e-mail is wrong'),
+
+
+      $('form[id="addForm"]').validate({
+
+        keypress: function(element) {
+
+          var element_id = $(element).attr('id');
+          if (this.settings.rules[element_id].keypress !== false) {
+            $(element).valid();
+          }
+        },
+
+        rules: {
+          name: {
+            required: true,
+            noSpace: true,
+            maxlength: 20
+          },
+          phone: {
+            digits: true,
+            required: true,
+            noSpace: true,
+            minlength: 10,
+            maxlength: 12
+          },
+          
+        },
+        messages: {
+
+          name: {
+            required: "This field is required.",
+            noSpace: "Space not allowed",
+            maxlength: "First name should be 10 charcater"
+          },
+          phone: {
+            required: "This field is required.",
+            noSpace: "Space not allowed",
+            maxlength: "Phone number should be 10 charcater"
+          },
+          
+        },
+        submitHandler: function(form) {
+          form.submit();
+        }
+      }));
+  });
+</script>

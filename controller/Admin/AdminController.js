@@ -3,9 +3,9 @@ const babyModel = require('../../model/Admin/baby')
 const subscriptions = require('../../model/Admin/subscriptions')
 const bcrypt = require('bcrypt')
 const helper = require('../../Helper/helper')
+const { Validator } = require('node-input-validator');
 
 module.exports = {
-
 
     loginPage: async(req, res)=> {
         try {
@@ -49,7 +49,7 @@ module.exports = {
             let users = await userModel.count({role:1})
             let babies = await babyModel.count()
             let subscription = await subscriptions.count()
-            res.render('Admin/admin/dashboard', {title, users, babies, subscription, session:req.session.user})
+            res.render('Admin/admin/dashboard', {title, users, babies, subscription, session:req.session.user,  msg: req.flash('msg')})
         } catch (error) {
             console.log(error)
         }
@@ -58,7 +58,7 @@ module.exports = {
     profile: async(req, res)=> {
         try {
             let title = "profile"
-            res.render('Admin/admin/profile', {title, session:req.session.user})
+            res.render('Admin/admin/profile', {title, session:req.session.user,  msg: req.flash('msg')})
         } catch (error) {
             console.log(error)
         }
@@ -67,7 +67,7 @@ module.exports = {
     editprofile: async(req, res)=> {
         try {
             let title = "editprofile"
-            res.render('Admin/admin/editprofile', {title, session:req.session.user})
+            res.render('Admin/admin/editprofile', {title, session:req.session.user,  msg: req.flash('msg')})
         } catch (error) {
             console.log(error)
         }
@@ -113,10 +113,58 @@ module.exports = {
     changePassword: async(req, res)=> {
         try {
             let title = "changePassword"
-            res.render('Admin/admin/changePassword', {title, session:req.session.user})
+            res.render('Admin/admin/changePassword', {title, session:req.session.user,  msg: req.flash('msg')})
         } catch (error) {
             console.log(error)
         }
-    }
+    },
+
+    updatepassword: async function (req, res) {
+        try {
+            const V = new Validator(req.body, {
+            oldPassword: "required",
+            newPassword: "required",
+            confirm_password: "required|same:newPassword",
+          });
+  
+          V.check().then(function (matched) {
+            console.log(matched);
+            console.log(V.errors);
+          });
+          let data = req.session.user;
+  
+          if (data) {
+              let comp = await bcrypt.compare(V.inputs.oldPassword, data.password);
+              
+              if (comp) {
+                  const bcryptPassword = await bcrypt.hash(req.body.newPassword, 10);
+                  let create = await userModel.updateOne(
+                      { _id: data._id },
+                      { password: bcryptPassword }
+                      );
+                      req.session.user = create;
+                    //   console.log(create, ">>>>>>>>>.");return
+            //   req.flash('msg', 'Update password successfully')
+              res.redirect("/loginPage");
+            // res.json("updated successfully")
+            } else {
+            //   req.flash('msg', 'Old password do not match')
+              res.redirect("/changePassword");
+            // res.json("Old password do not match")
+            }
+          }
+      } catch (error) {
+        console.log(error) 
+      }
+    },
+
+    logout: async (req, res) => {
+        try {
+          req.session.destroy((err) => { });
+          res.redirect("/loginPage");
+        } catch (error) {
+          helper.error(res, error);
+        }
+      },
     
 }

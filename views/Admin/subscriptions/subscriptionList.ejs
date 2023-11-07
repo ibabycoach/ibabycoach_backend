@@ -13,7 +13,7 @@
                 <div class="row">
                     <div class="card">
                         <div class="card-header border-bottom">
-                            <h4 class="card-title">Subscription Listing</h4>
+                            <h4 class="card-title">Subscription listing</h4>
                             <!-- <div class="section-header-breadcrumb-right">
                                 <a href="/addUser" class="btn btn-primary float-right" title="Edit Profile"> Add User </a>    
                             </div> -->
@@ -108,7 +108,7 @@
         if (isConfirm.isConfirmed) {
           // alert('asd')
           $.ajax({
-            url: "/deleteUser/:id",
+            url: "/deleteSubscription/:id",
             type: 'delete',
             data: {
               id: id
@@ -144,7 +144,7 @@
   
       $.ajax({
         type: "post",
-        url: "/userStatus",
+        url: "/subsStatus",
         data: {
           id: id,
           value: value

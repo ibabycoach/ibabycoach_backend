@@ -21,7 +21,7 @@ module.exports = {
         try {
             let title = "subscriptionList"
             const subscriptionsData = await subscriptions.find()
-            res.render('Admin/subscriptions/subscriptionList', {title, subscriptionsData, session:req.session.user})
+            res.render('Admin/subscriptions/subscriptionList', {title, subscriptionsData, session:req.session.user,  msg: req.flash('msg')})
         } catch (error) {
             console.log(error)
         }
@@ -31,7 +31,7 @@ module.exports = {
         try {
             let title = "subscriptionList"
             const subdetails = await subscriptions.findById({_id: req.params.id})
-            res.render('Admin/subscriptions/viewSubscription', { title, subdetails, session:req.session.user })
+            res.render('Admin/subscriptions/viewSubscription', { title, subdetails, session:req.session.user,  msg: req.flash('msg')})
         } catch (error) {
             console.log(error)
         }
@@ -41,7 +41,7 @@ module.exports = {
         try {
             let title = "subscriptionList"
             const subsdetail = await subscriptions.findById({_id: req.params.id})
-            res.render('Admin/subscriptions/editSubscription', {title, subsdetail, session:req.session.user})
+            res.render('Admin/subscriptions/editSubscription', {title, subsdetail, session:req.session.user,  msg: req.flash('msg')})
         } catch (error) {
            console.log(error) 
         }
@@ -61,17 +61,33 @@ module.exports = {
            console.log(error) 
         }
     },
-
    
-    // deleteSubscription: async(req, res)=> {
-    //     try {
-    //         let userId = req.body.id 
-    //         const removeuser = await subscriptions.deleteOne({_id: userId})
-    //         res.redirect("/subscriptionList") 
-    //     } catch (error) {
-    //             console.log(error)
-    //     }
-    // }
+    deleteSubscription: async(req, res)=> {
+        try {
+            let userId = req.body.id 
+            const removesubs = await subscriptions.deleteOne({_id: userId})
+            res.redirect("/subscriptionList") 
+        } catch (error) {
+                console.log(error)
+        }
+    },
+
+    subsStatus: async (req, res) => {
+        try {
+          
+            var check = await userModel.updateOne(
+            { _id: req.body.id },
+            { status: req.body.value }
+            );
+            // req.flash("msg", "Status update successfully");
+            
+            if (req.body.value == 0) res.send(false);
+            if (req.body.value == 1) res.send(true);
+        
+            } catch (error) {
+            console.log(error)
+            }
+    },
 
 
 

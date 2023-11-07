@@ -9,6 +9,9 @@ const bcrypt = require('bcrypt');
 const fileupload = require("express-fileupload");
 const { v4: uuidv4 } = require('uuid');
 const Swal = require('sweetalert2');
+const { Validator } = require('node-input-validator');
+var flash = require('express-flash');
+
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
@@ -34,12 +37,13 @@ app.use(session({
     maxAge: 24 * 60 * 60 * 365 * 1000,
   },
 }));
+app.use(flash());
 
 main().catch(err => console.log(err));
 
 async function main() {
-  await mongoose.connect('mongodb://127.0.0.1:27017/iBabycoach');
   console.log("db connected")
+  await mongoose.connect(process.env.MONGO_URI);
 
   // use `await mongoose.connect('mongodb://user:password@127.0.0.1:27017/test');` if your database has auth enabled
 }

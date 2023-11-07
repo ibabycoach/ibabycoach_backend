@@ -21,7 +21,7 @@ module.exports = {
         try {
             let title = "aboutUs"
             const aboutUsData = await cmsModel.findOne({role:1})
-            res.render('Admin/cms/aboutUs', {title, aboutUsData, session:req.session.user})
+            res.render('Admin/cms/aboutUs', {title, aboutUsData, session:req.session.user,  msg: req.flash('msg')})
         } catch (error) {
             console.log(error)
         }
@@ -31,7 +31,7 @@ module.exports = {
         try {
             let title = "privacyPolicy"
             const policyData = await cmsModel.findOne({role:2})
-            res.render('Admin/cms/privacyPolicy', {title, policyData, session:req.session.user})
+            res.render('Admin/cms/privacyPolicy', {title, policyData, session:req.session.user,  msg: req.flash('msg')})
         } catch (error) {
             console.log(error)
         }
@@ -41,7 +41,7 @@ module.exports = {
         try {
             let title = "termsConditions"
             const termsData = await cmsModel.findOne({role:3})
-            res.render('Admin/cms/termsConditions', {title, termsData, session:req.session.user})
+            res.render('Admin/cms/termsConditions', {title, termsData, session:req.session.user,  msg: req.flash('msg')})
         } catch (error) {
             console.log(error)
         }

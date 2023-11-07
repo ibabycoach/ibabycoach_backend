@@ -20,7 +20,7 @@ module.exports = {
         try {
             let title = "contactUsList"
             const contactUsData = await contactUs.find()
-            res.render('Admin/cms/contactUsList', {title, contactUsData, session:req.session.user})
+            res.render('Admin/cms/contactUsList', {title, contactUsData, session:req.session.user,  msg: req.flash('msg')})
         } catch (error) {
             console.log(error)
         }
@@ -30,7 +30,7 @@ module.exports = {
         try {
             let title = "contactUsList"
             const contactUsDetail = await contactUs.findOne({_id: req.params.id})
-            res.render('Admin/cms/viewContactUs', {title, contactUsDetail, session:req.session.user})
+            res.render('Admin/cms/viewContactUs', {title, contactUsDetail, session:req.session.user,  msg: req.flash('msg')})
         } catch (error) {
             console.log(error)
         }

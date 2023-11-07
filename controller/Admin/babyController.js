@@ -9,7 +9,7 @@ module.exports = {
         try {
             let title = "BabyList"
             const userdata = await userModel.find()
-            res.render('Admin/baby/addBaby', {title, userdata, session:req.session.user})
+            res.render('Admin/baby/addBaby', {title, userdata, session:req.session.user,  msg: req.flash('msg')})
         } catch (error) {
            console.log(error) 
         }
@@ -44,7 +44,7 @@ module.exports = {
         try {
             let title = "babyList"
             const babydetail = await babyModel.findById({_id: req.params.id})
-            res.render('Admin/baby/editBaby', {title, babydetail, session:req.session.user})
+            res.render('Admin/baby/editBaby', {title, babydetail, session:req.session.user,  msg: req.flash('msg')})
         } catch (error) {
            console.log(error) 
         }
@@ -54,7 +54,7 @@ module.exports = {
         try {
             let title = "babyList"
         const babydata = await babyModel.find()
-            res.render('Admin/baby/babyList', {title, babydata, session:req.session.user})
+            res.render('Admin/baby/babyList', {title, babydata, session:req.session.user,  msg: req.flash('msg')})
         } catch (error) {
            console.log(error) 
         }
@@ -64,7 +64,7 @@ module.exports = {
         try {
             let title = "babyList"
             const babydata = await babyModel.findById({_id: req.params.id})
-            res.render('Admin/baby/viewBaby', { title, babydata , session:req.session.user})
+            res.render('Admin/baby/viewBaby', { title, babydata , session:req.session.user,  msg: req.flash('msg')})
         } catch (error) {
             console.log(error)
         }
