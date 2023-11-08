@@ -1,8 +1,6 @@
 const mongoose = require('mongoose');
 
 const activitySchema = new mongoose.Schema({
-
-  babyId: {type: mongoose.Schema.Types.ObjectId, ref: "baby"},
   name: { type: String, default: '' },
   image: { type: String, default: '' },
   status: {

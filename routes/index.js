@@ -5,12 +5,15 @@ const babyController = require('../controller/Admin/babyController');
 const cmsController = require('../controller/Admin/cmsController');
 const contactUsController = require('../controller/Admin/contactUsController');
 const subscriptionsController = require('../controller/Admin/subscriptionsController');
-var {session} = require('../Helper/helper');
+var { session } = require('../Helper/helper');
 const growthController = require('../controller/Admin/growthController');
+const activityController = require('../controller/Admin/activityController');
+const goalsController = require('../controller/Admin/goalsController');
+
 var router = express.Router();
 
 /* GET home page. */
-router.get('/', function(req, res, next) {
+router.get('/', function (req, res, next) {
   res.render('index', { title: 'Express' });
 });
 
@@ -71,6 +74,29 @@ router.get('/growth_view/:id', session, growthController.growth_view)
 router.get('/editGrowth/:id', session, growthController.editGrowth)
 router.post('/updateGrowth', growthController.updateGrowth)
 router.delete('/delete_growth/:id', growthController.delete_growth)
+
+//*****************  Activity  *************************************    
+router.post('/postActivity', session, activityController.postActivity)
+router.get('/activityList', session, activityController.activity_List)
+router.get('/activity_view/:id', session, activityController.activity_view)
+router.get('/editActivity/:id', session, activityController.editActivity)
+router.post('/updateActivity', activityController.updateActivity)
+router.delete('/deleteactivity/:id', activityController.delete_activity)
+router.get('/addActivity', session, activityController.addActivity)
+router.post('/activityStatus', activityController.activityStatus)
+
+//*****************  Goal  *************************************    
+router.post('/saveGoal', session, goalsController.saveGoal)
+router.get('/Goal_List', session, goalsController.Goal_List)
+router.get('/goalview/:id', session, goalsController.goal_view)
+router.get('/editGoal/:id', session, goalsController.editGoal)
+router.post('/updateGole', goalsController.updateGole)
+router.delete('/delete_goale/:id', goalsController.delete_goale)
+router.get('/addGoal', session, goalsController.addGoal)
+router.post('/goaleStatus', goalsController.goaleStatus)
+
+
+
 
 
 

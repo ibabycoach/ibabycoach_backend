@@ -1,12 +1,43 @@
 const activityModel = require('../../model/Admin/activity');
+const helper = require('../../Helper/helper')
+
 
 module.exports = {
+    addActivity: async(req, res)=> {
+        try {
+            let title = "Activity"
+            res.render('Admin/Activity/addActivity', {title, session:req.session.user,  msg: req.flash('msg')})
+        } catch (error) {
+           console.log(error) 
+        }
+    },
+
+    postActivity:async(req, res)=>{
+        try {
+
+            if (req.files && req.files.image) {
+                var image = req.files.image;
+                if (image) {
+                    req.body.image = helper.imageUpload(image, "images");
+                }
+            }
+            let addData = await activityModel.create({
+                name:req.body.name,
+                image:req.body.image
+            })
+            res.redirect("/ActivityList")
+
+        } catch (error) {
+            console.log(error);
+        }
+    },
 
     activity_List: async(req, res)=> {
         try {
             let title = "Activity"
-            const activityData = await activityModel.find().populate('userId babyId')
+            const activityData = await activityModel.find()
             console.log(activityData,'growthData')
+             
             res.render('Admin/Activity/ActivityList', {title, activityData, session:req.session.user,  msg: req.flash('msg')})
         } catch (error) {
             console.log(error)
@@ -26,7 +57,7 @@ module.exports = {
     editActivity: async(req, res)=> {
         try {
             let title = "Activity"
-            const activitydetail = await activityModel.findById({_id: req.params.id}).populate('userId babyId')
+            const activitydetail = await activityModel.findById({_id: req.params.id})
             res.render('Admin/Activity/editActivity', {title, activitydetail, session:req.session.user,  msg: req.flash('msg')})
         } catch (error) {
            console.log(error) 
@@ -35,11 +66,16 @@ module.exports = {
 
     updateActivity: async(req, res)=> {
         try {
+            if (req.files && req.files.image) {
+                var image = req.files.image;
+                if (image) {
+                    req.body.image = helper.imageUpload(image, "images");
+                }
+            }
             const updateData = await activityModel.updateOne({_id: req.body.id},
                 
-                {   age: req.body.age,
-                    height: req.body.height,
-                    weight:req.body.weight
+                {   name: req.body.name,
+                    image: req.body.image,
                 })
 
             res.redirect("/ActivityList")
@@ -58,7 +94,7 @@ module.exports = {
         }
     },
 
-    subsStatus: async (req, res) => {
+    activityStatus: async (req, res) => {
         try {
           
             var check = await activityModel.updateOne(

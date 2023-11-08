@@ -14,9 +14,9 @@
                     <div class="card">
                         <div class="card-header border-bottom">
                             <h4 class="card-title">Activity listing</h4>
-                            <!-- <div class="section-header-breadcrumb-right">
-                                <a href="/addUser" class="btn btn-primary float-right" title="Edit Profile"> Add User </a>    
-                            </div> -->
+                            <div class="section-header-breadcrumb-right">
+                                <a href="/addActivity" class="btn btn-primary float-right" title="Edit Profile"> Add User </a>    
+                            </div>
                         </div>
                         <br>
                         <div class="card-DataTable">
@@ -25,20 +25,19 @@
                                     <tr>
                                         <th>S NO.</th>
                                         <th>Name</th>
-                                        <th>Price</th>
-                                        <th>Tenure</th>
+                                        <th>Image</th>
                                         <th>Status</th>
                                         <th>Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <%subscriptionsData.forEach(function(data,i) {%>
+                                    <%activityData.forEach(function(data,i) {%>
                                         <tr>
                                             <td> <%=1+i%></td>
                                             <td> <%=data.name%></td>
-                                            <td> <%=data.price%></td>
-                                            <td> <%=data.tenure%></td>
-                                            
+                                            <td>
+                                              <img src="<%=data.image%>" width="45px" height="40px" type="submit" style="cursor:pointer;">
+                                            </td>
                                             <td>
                                             <% if(data.status==1) { %>
                                             <button onclick="changeStatus(this)" id="userId_<%-data.id%>" class=" btn btn-sm btn-success status " data-id="<%=data._id%>" value="0">Active</button>
@@ -47,8 +46,8 @@
                                             <% } %>
                                             </td>
                                             <td>
-                                            <a href="/viewSubscription/<%=data._id%>" class="btn btn-sm bg-info"><i data-feather='eye'></i></a>
-                                            <a href="/editSubscription/<%=data._id%>" class="btn btn-sm bg-warning"><i data-feather='edit'></i></a>
+                                            <!-- <a href="/activity_view/<%=data._id%>" class="btn btn-sm bg-info"><i data-feather='eye'></i></a> -->
+                                            <a href="/editActivity/<%=data._id%>" class="btn btn-sm bg-warning"><i data-feather='edit'></i></a>
                                             <button onclick="confirmDelete('<%=data._id%>')" class="btn btn-sm bg-danger"> <i data-feather='trash'></i> </button>
                                             </td>
                                         </tr>
@@ -108,7 +107,7 @@
         if (isConfirm.isConfirmed) {
           // alert('asd')
           $.ajax({
-            url: "/deleteSubscription/:id",
+            url: "/deleteactivity/:id",
             type: 'delete',
             data: {
               id: id
@@ -144,7 +143,7 @@
   
       $.ajax({
         type: "post",
-        url: "/subsStatus",
+        url: "/activityStatus",
         data: {
           id: id,
           value: value
