@@ -29,7 +29,9 @@
                                         <th>Age</th>
                                         <th>Height</th>
                                         <th>Weight</th>
-                                        <!-- <th>Status</th> -->
+                                        <th>Head Size</th>
+                                        <th>Birthday</th>
+                                        <th>Gender</th>
                                         <th>Action</th>
                                     </tr>
                                 </thead>
@@ -42,14 +44,17 @@
                                             <td> <%=data.age%></td>
                                             <td> <%=data.height%></td>
                                             <td> <%=data.weight%></td>
+                                            <td><%= data.headSize%></td>
+                                            <td> <%=data.birthDate%></td>
+
                                             
-                                            <!-- <td>
-                                            <% if(data.status==1) { %>
-                                            <button onclick="changeStatus(this)" id="userId_<%-data.id%>" class=" btn btn-sm btn-success status " data-id="<%=data._id%>" value="0">Active</button>
+                                            <td>
+                                            <% if(data.gender==1) { %>
+                                              Boy
                                             <% } else { %>
-                                            <button onclick="changeStatus(this)" id="userId_<%-data.id%>" class="btn btn-sm btn-danger status" data-id="<%=data._id%>" value="1" style="display: flex;">In-active</button>
+                                              Girl
                                             <% } %>
-                                            </td> -->
+                                            </td>
                                             <td>
                                             <a href="/growth_view/<%=data._id%>" class="btn btn-sm bg-info"><i data-feather='eye'></i></a>
                                             <a href="/editGrowth/<%=data._id%>" class="btn btn-sm bg-warning"><i data-feather='edit'></i></a>
