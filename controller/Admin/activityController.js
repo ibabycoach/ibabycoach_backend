@@ -4,10 +4,10 @@ module.exports = {
 
     activity_List: async(req, res)=> {
         try {
-            let title = "Growth"
+            let title = "Activity"
             const activityData = await activityModel.find().populate('userId babyId')
-            console.log(growthData,'growthData')
-            res.render('Admin/Growth/GrowthList', {title, activityData, session:req.session.user,  msg: req.flash('msg')})
+            console.log(activityData,'growthData')
+            res.render('Admin/Activity/ActivityList', {title, activityData, session:req.session.user,  msg: req.flash('msg')})
         } catch (error) {
             console.log(error)
         }
@@ -15,9 +15,9 @@ module.exports = {
 
     activity_view: async(req, res)=> {
         try {
-            let title = "Growth"
-            const growthView = await activityModel.findById({_id: req.params.id}).populate('userId babyId')
-            res.render('Admin/Growth/viewGrowth', { title, growthView, session:req.session.user,  msg: req.flash('msg')})
+            let title = "Activity"
+            const activityView = await activityModel.findById({_id: req.params.id}).populate('userId babyId')
+            res.render('Admin/Activity/viewActivity', { title, activityView, session:req.session.user,  msg: req.flash('msg')})
         } catch (error) {
             console.log(error)
         }
@@ -25,9 +25,9 @@ module.exports = {
 
     editActivity: async(req, res)=> {
         try {
-            let title = "Growth"
-            const Growthdetail = await activityModel.findById({_id: req.params.id}).populate('userId babyId')
-            res.render('Admin/Growth/editGrowth', {title, Growthdetail, session:req.session.user,  msg: req.flash('msg')})
+            let title = "Activity"
+            const activitydetail = await activityModel.findById({_id: req.params.id}).populate('userId babyId')
+            res.render('Admin/Activity/editActivity', {title, activitydetail, session:req.session.user,  msg: req.flash('msg')})
         } catch (error) {
            console.log(error) 
         }
@@ -42,7 +42,7 @@ module.exports = {
                     weight:req.body.weight
                 })
 
-            res.redirect("/growthList")
+            res.redirect("/ActivityList")
         } catch (error) {
            console.log(error) 
         }
@@ -52,7 +52,7 @@ module.exports = {
         try {
             let growthID = req.body.id 
             const removesubs = await activityModel.deleteOne({_id: growthID})
-            res.redirect("/subscriptionList") 
+            res.redirect("/ActivityList") 
         } catch (error) {
                 console.log(error)
         }
