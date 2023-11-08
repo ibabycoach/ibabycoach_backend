@@ -64,8 +64,17 @@ router.post('/updateSubscription', subscriptionsController.updateSubscription)
 router.delete('/deleteSubscription/:id', subscriptionsController.deleteSubscription)
 router.post('/subsStatus', subscriptionsController.subsStatus)
 
-//*****************  GROWTH  *************************************
+//*****************  GROWTH  *************************************  
 router.post('/add_growth', growthController.add_growth)
+router.get('/growthList', session, growthController.growth_List)
+router.get('/growth_view/:id', session, growthController.growth_view)
+router.get('/editGrowth/:id', session, growthController.editGrowth)
+router.post('/updateGrowth', growthController.updateGrowth)
+router.delete('/delete_growth/:id', growthController.delete_growth)
+
+
+
+
 
 
 
