@@ -5,7 +5,7 @@ const goals = require('../../model/Admin/goals');
 module.exports = {
     addGoal: async (req, res) => {
         try {
-            let title = "Activity"
+            let title = "Goal"
             res.render('Admin/Goal/addGoale', { title, session: req.session.user, msg: req.flash('msg') })
         } catch (error) {
             console.log(error)
@@ -39,7 +39,7 @@ module.exports = {
 
     Goal_List: async (req, res) => {
         try {
-            let title = "Activity"
+            let title = "Goal"
             const GoalData = await goals.find()
 
             res.render('Admin/Goal/goalList', { title, GoalData, session: req.session.user, msg: req.flash('msg') })
@@ -50,7 +50,7 @@ module.exports = {
 
     goal_view: async (req, res) => {
         try {
-            let title = "Activity"
+            let title = "Goal"
             const goalView = await goals.findById({ _id: req.params.id })
             res.render('Admin/Goal/viewgoal', { title, goalView, session: req.session.user, msg: req.flash('msg') })
         } catch (error) {
@@ -60,7 +60,7 @@ module.exports = {
 
     editGoal: async (req, res) => {
         try {
-            let title = "Activity"
+            let title = "Goal"
             const Goaldetail = await goals.findById({ _id: req.params.id })
             res.render('Admin/Goal/editGoal', { title, Goaldetail, session: req.session.user, msg: req.flash('msg') })
         } catch (error) {

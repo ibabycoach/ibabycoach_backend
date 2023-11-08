@@ -14,7 +14,7 @@
             <div class="card-header border-bottom">
               <h4 class="card-title">Goal listing</h4>
               <div class="section-header-breadcrumb-right">
-                <a href="/addGoal" class="btn btn-primary float-right" title="Edit Profile"> Add User </a>
+                <a href="/addGoal" class="btn btn-primary float-right" title="Edit Profile"> Add Goal </a>
               </div>
             </div>
             <br>
@@ -25,7 +25,7 @@
                     <th>S NO.</th>
                     <th>Name</th>
                     <th>Title</th>
-                    <th>Weeksdays</th>
+                    <!-- <th>Weeksdays</th> -->
                     <th>Description</th>
                     <th>Date</th>
                     <th>Image</th>
@@ -39,7 +39,7 @@
                     <td> <%=1+i%></td>
                     <td> <%=data.name%></td>
                     <td> <%=data.title%></td>
-                    <td> <%=data.weeksdays%></td>
+                    <!-- <td> <%=data.weeksdays%></td> -->
                     <td> <%=data.description%></td>
                     <td> <%=data.date%></td>
                     <td>
@@ -150,7 +150,7 @@
 
     $.ajax({
       type: "post",
-      url: "/subsStatus",
+      url: "/goaleStatus",
       data: {
         id: id,
         value: value
