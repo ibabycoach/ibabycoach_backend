@@ -1,68 +1,59 @@
-
 <%- include('../common/header') %>
-<%- include('../common/sidebar') %>
+  <%- include('../common/sidebar') %>
 
 
-<!-- BEGIN: Content-->
-<div class="app-content content ">
+    <!-- BEGIN: Content-->
+    <div class="app-content content ">
 
-  <div class="content-wrapper container-xxl p-0">
-  <div class="content-body">
-      <section id="multiple-column-form">
-        <div class="row">
-          <div class="col-md-12 col-12">
-            <div class="card-body">
-              <section id="basic-horizontal-layouts">
-                <div class="row justify-content-center">
-                  <div class="col-md-10 col-12 ">
-                    <div class="card">
-                      <div class="card-header">
-                        <h4 class="card-title"> Update Activity</h4>
+      <div class="content-wrapper container-xxl p-0">
+        <div class="content-body">
+          <section id="multiple-column-form">
+            <div class="row">
+              <div class="col-md-10 col-12 mx-auto">
+                <div class="card">
+                  <div class="card-header">
+                    <h4 class="card-title"> Update Activity</h4>
+                  </div>
+                  <br>
+                  <div class="card-body">
+                    <form class="form form-vertical" id="" action="/updateActivity" method="POST"
+                      enctype="multipart/form-data">
+                      <div class="mb-1 row">
+                        <div class="col-sm-2">
+                          <label class="col-form-label new_lable" for="name">Activity Name</label>
+                        </div>
+                        <div class="col-sm-10">
+                          <input type="text" id="name" class="form-control" name="name"
+                            value="<%=activitydetail.name%> ">
+                          <input type="hidden" name="id" value="<%=activitydetail.id%>">
+                        </div>
                       </div>
-                      <br>
-                      <div class="card-body">
-                        <form class="form form-vertical" id="" action="/updateActivity" method="POST" enctype="multipart/form-data">
-                            <div class="mb-1 row">
-                                <div class="col-sm-2">
-                                  <label class="col-form-label new_lable" for="name">Activity Name</label>
-                                </div>
-                                <div class="col-sm-10">
-                                  <input type="text" id="name" class="form-control" name="name" value="<%=activitydetail.name%> ">
-                                    <input type="hidden" name="id" value="<%=activitydetail.id%>">
-                                </div>
-                              </div>
-                              <div class="mb-1 row">
-                                <div class="col-sm-2">
-                                  <label class="col-form-label new_lable" for="price">Image</label>
-                                </div>
-                                <div class="col-sm-10">
-                                  <input type="file" id="price" class="form-control" name="image" value="<%=activitydetail.image%> " >
-                                </div>
-                              </div>
-                           
-                            <div class="col-12">
-                            <div class="col-sm-9 offset-sm-5">
-                                <button type="submit" class="btn btn-primary waves-effect waves-float waves-light">Update</button>
-                                <!-- <a href="/subscriptionList" class="btn btn-primary float-right" title="Edit Profile"> Back </a>   -->
-                            </div>
-                          </div>
-                        </form>
+                      <div class="mb-1 row">
+                        <div class="col-sm-2">
+                          <label class="col-form-label new_lable" for="price">Image</label>
+                        </div>
+                        <div class="col-sm-10">
+                          <input type="file" id="price" class="form-control" name="image"
+                            value="<%=activitydetail.image%> ">
+                        </div>
                       </div>
-                    </div>
+
+                      <div class="col-12">
+                        <div class="col-sm-9 offset-sm-5">
+                          <button type="submit"
+                            class="btn btn-primary waves-effect waves-float waves-light">Update</button>
+                          <!-- <a href="/subscriptionList" class="btn btn-primary float-right" title="Edit Profile"> Back </a>   -->
+                        </div>
+                      </div>
+                    </form>
                   </div>
                 </div>
-              </section>
+              </div>
             </div>
-
-          </div>
+          </section>
         </div>
-      </section>
+      </div>
     </div>
-  </div>
-</div>
-<div class="sidenav-overlay"></div>
-<div class="drag-target"></div>
-<%- include('../common/footer') %>
-
-
-
+    <div class="sidenav-overlay"></div>
+    <div class="drag-target"></div>
+    <%- include('../common/footer') %>
