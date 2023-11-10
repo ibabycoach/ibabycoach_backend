@@ -9,6 +9,8 @@ var { session } = require('../Helper/helper');
 const growthController = require('../controller/Admin/growthController');
 const activityController = require('../controller/Admin/activityController');
 const goalsController = require('../controller/Admin/goalsController');
+const pushNotificationController = require('../controller/Admin/pushNotificationController');
+
 
 var router = express.Router();
 
@@ -96,6 +98,10 @@ router.get('/addGoal', session, goalsController.addGoal)
 router.post('/goaleStatus', goalsController.goaleStatus)
 
 
+// **************************** Push Notification ***********************
+
+router.get('/push-notification', pushNotificationController.pushNotification);
+router.post('/push-notification', pushNotificationController.pushNotificationPost);
 
 
 

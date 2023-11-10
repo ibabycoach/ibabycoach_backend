@@ -1,67 +1,49 @@
 <!-- BEGIN: Main Menu-->
 <div class="main-menu menu-fixed menu-light menu-accordion menu-shadow" data-scroll-to-active="true">
-    <div class="navbar-header">
-        <ul class="nav navbar-nav flex-row">
-            <li class="nav-item me-auto">
-                <a href="/dashboard" class="navbar-brand">
-                    <img class="big_img" src="/app-assets/images/ibaby2.png" height="40">
-                    <img class="sm_img" src="/app-assets/images/favicon.png" height="40">
-                </a>
-                <!-- <h2 class="brand-text">NewPro</h2> -->
-            </li>
-            <li class="nav-item nav-toggle"><a class="nav-link modern-nav-toggle pe-0" data-bs-toggle="collapse"><i
-                        class="d-block d-xl-none text-primary toggle-icon font-medium-4" data-feather="x"></i><i
-                        class="d-none d-xl-block collapse-toggle-icon font-medium-4  text-primary" data-feather="disc"
-                        data-ticon="disc"></i></a></li>
-        </ul>
-    </div>
-    <div class="shadow-bottom"></div>
-    <div class="main-menu-content">
-        <ul class="navigation navigation-main" id="main-menu-navigation" data-menu="menu-navigation">
+  <div class="navbar-header">
+    <ul class="nav navbar-nav flex-row">
+      <li class="nav-item me-auto">
+        <a href="/dashboard" class="navbar-brand">
+          <img class="big_img" src="/app-assets/images/ibaby2.png" height="40">
+          <img class="sm_img" src="/app-assets/images/favicon.png" height="40">
+        </a>
+        <!-- <h2 class="brand-text">NewPro</h2> -->
+      </li>
+      <li class="nav-item nav-toggle"><a class="nav-link modern-nav-toggle pe-0" data-bs-toggle="collapse"><i class="d-block d-xl-none text-primary toggle-icon font-medium-4" data-feather="x"></i><i class="d-none d-xl-block collapse-toggle-icon font-medium-4  text-primary" data-feather="disc" data-ticon="disc"></i></a></li>
+    </ul>
+  </div>
+  <div class="shadow-bottom"></div>
+  <div class="main-menu-content">
+    <ul class="navigation navigation-main" id="main-menu-navigation" data-menu="menu-navigation">
 
-            <li class=" <%= title =='dashboard'?'active':'' %>"><a class="d-flex align-items-center"
-                    href="/dashboard"><i data-feather="home"></i><span class="menu-title text-truncate"
-                        data-i18n="Email">Dashboards</span></a>
-            </li>
-            <li class=" <%= title =='userList'?'active':'' %> "><a class="d-flex align-items-center" href="/userList"><i
-                        data-feather="users"></i><span class="menu-title text-truncate" data-i18n="Chat">User</span></a>
-            </li>
-            <li class=" <%= title =='babyList'?'active':'' %> "><a class="d-flex align-items-center" href="/babyList"><i
-                        data-feather="smile"></i><span class="menu-title text-truncate" data-i18n="Todo">Baby</span></a>
-            </li>
-            <li class=" <%= title =='Activity'?'active':'' %> "><a class="d-flex align-items-center"
-                    href="/activityList"><i data-feather="activity"></i><span class="menu-title text-truncate"
-                        data-i18n="Subscriptions">Activity </span></a>
-            </li>
-            <!-- <li class=" <%= title =='Growth'?'active':'' %> "><a class="d-flex align-items-center" href="/growthList"><i data-feather="arrow-up-right"></i><span class="menu-title text-truncate" data-i18n="Subscriptions">Growth </span></a>
+      <li class=" <%= title =='dashboard'?'active':'' %>"><a class="d-flex align-items-center" href="/dashboard"><i data-feather="home"></i><span class="menu-title text-truncate" data-i18n="Email">Dashboards</span></a>
+      </li>
+      <li class=" <%= title =='userList'?'active':'' %> "><a class="d-flex align-items-center" href="/userList"><i data-feather="users"></i><span class="menu-title text-truncate" data-i18n="Chat">User</span></a>
+      </li>
+      <li class=" <%= title =='babyList'?'active':'' %> "><a class="d-flex align-items-center" href="/babyList"><i data-feather="smile"></i><span class="menu-title text-truncate" data-i18n="Todo">Baby</span></a>
+      </li>
+      <li class=" <%= title =='Activity'?'active':'' %> "><a class="d-flex align-items-center" href="/activityList"><i data-feather="activity"></i><span class="menu-title text-truncate" data-i18n="Subscriptions">Activity </span></a>
+      </li>
+      <!-- <li class=" <%= title =='Growth'?'active':'' %> "><a class="d-flex align-items-center" href="/growthList"><i data-feather="arrow-up-right"></i><span class="menu-title text-truncate" data-i18n="Subscriptions">Growth </span></a>
             </li> -->
-            <li class=" <%= title =='Goal'?'active':'' %> "><a class="d-flex align-items-center" href="/Goal_List"><i
-                        data-feather="globe"></i><span class="menu-title text-truncate"
-                        data-i18n="Subscriptions">Goal</span></a>
-            </li>
+      <li class=" <%= title =='Goal'?'active':'' %> "><a class="d-flex align-items-center" href="/Goal_List"><i data-feather="globe"></i><span class="menu-title text-truncate" data-i18n="Subscriptions">Goal</span></a>
+      </li>
 
-            <li class=" <%= title =='subscriptionList'?'active':'' %> "><a class="d-flex align-items-center"
-                    href="subscriptionList"><i data-feather="dollar-sign"></i><span class="menu-title text-truncate"
-                        data-i18n="Subscriptions">Subscriptions </span></a>
-            </li>
-            <li class=" <%= title =='aboutUs'?'active':'' %> "><a class="d-flex align-items-center" href="/aboutUs"><i
-                        data-feather="info"></i><span class="menu-title text-truncate" data-i18n="aboutUs">About
-                        Us</span></a>
-            </li>
-            <li class=" <%= title =='privacyPolicy'?'active':'' %> "><a class="d-flex align-items-center"
-                    href="/privacyPolicy"><i data-feather="eye"></i><span class="menu-title text-truncate"
-                        data-i18n="privacyPolicy">Privacy Policy</span></a>
-            </li>
-            <li class=" <%= title =='termsConditions'?'active':'' %> "><a class="d-flex align-items-center"
-                    href="termsConditions"><i data-feather="check-square"></i><span class="menu-title text-truncate"
-                        data-i18n="termsConditions">Terms & Conditions</span></a>
-            </li>
-            <li class=" <%= title =='contactUsList'?'active':'' %> "><a class="d-flex align-items-center"
-                    href="contactUsList"><i data-feather="mail"></i><span class="menu-title text-truncate"
-                        data-i18n="termsConditions">Contact Us </span></a>
-            </li>
-        </ul>
-    </div>
+      <li class=" <%= title =='subscriptionList'?'active':'' %> "><a class="d-flex align-items-center" href="subscriptionList"><i data-feather="dollar-sign"></i><span class="menu-title text-truncate" data-i18n="Subscriptions">Subscriptions </span></a>
+      </li>
+      <li class=" <%= title =='push-notification'?'active':'' %> "><a class="d-flex align-items-center" href="/push-notification"><i data-feather="bell"></i><span class="menu-title text-truncate" data-i18n="Subscriptions">Push-notification </span></a>
+      </li>
+      <li class=" <%= title =='aboutUs'?'active':'' %> "><a class="d-flex align-items-center" href="/aboutUs"><i data-feather="info"></i><span class="menu-title text-truncate" data-i18n="aboutUs">About
+            Us</span></a>
+      </li>
+      <li class=" <%= title =='privacyPolicy'?'active':'' %> "><a class="d-flex align-items-center" href="/privacyPolicy"><i data-feather="eye"></i><span class="menu-title text-truncate" data-i18n="privacyPolicy">Privacy Policy</span></a>
+      </li>
+      <li class=" <%= title =='termsConditions'?'active':'' %> "><a class="d-flex align-items-center" href="termsConditions"><i data-feather="check-square"></i><span class="menu-title text-truncate" data-i18n="termsConditions">Terms & Conditions</span></a>
+      </li>
+      <li class=" <%= title =='contactUsList'?'active':'' %> "><a class="d-flex align-items-center" href="contactUsList"><i data-feather="mail"></i><span class="menu-title text-truncate" data-i18n="termsConditions">Contact Us </span></a>
+      </li>
+    </ul>
+  </div>
 </div>
 <!-- END: Main Menu-->
 
