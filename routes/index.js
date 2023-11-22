@@ -9,10 +9,6 @@ var {session} = require('../Helper/helper');
 const growthController = require('../controller/Admin/growthController');
 var router = express.Router();
 
-/* GET home page. */
-router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Express' });
-});
 
 router.get('/loginPage', AdminController.loginPage)
 router.post('/login', AdminController.login)
