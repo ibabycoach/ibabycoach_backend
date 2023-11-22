@@ -1,10 +1,10 @@
 /*=========================================================================================
-	File Name: ext-component-ratings.js
-	Description: Ratings Commnent
-	----------------------------------------------------------------------------------------
-	Item Name: Vuexy  - Vuejs, HTML & Laravel Admin Dashboard Template
-	Author: PIXINVENT
-	Author URL: http://www.themeforest.net/user/pixinvent
+  File Name: ext-component-ratings.js
+  Description: Ratings Commnent
+  ----------------------------------------------------------------------------------------
+  Item Name: Vuexy  - Vuejs, HTML & Laravel Admin Dashboard Template
+  Author: PIXINVENT
+  Author URL: http://www.themeforest.net/user/pixinvent
 ==========================================================================================*/
 $(function () {
   'use strict';
@@ -57,7 +57,7 @@ $(function () {
       rtl: isRtl,
       multiColor: {
         startColor: '#ea5455',
-        endColor: '#7367f0'
+        endColor: '#00467c'
       }
     });
   }

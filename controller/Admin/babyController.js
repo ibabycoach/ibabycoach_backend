@@ -1,4 +1,5 @@
 const babyModel = require('../../model/Admin/baby')
+const growthModel = require('../../model/Admin/growth')
 const userModel = require('../../model/Admin/user')
 const helper = require('../../Helper/helper')
 
@@ -53,7 +54,8 @@ module.exports = {
     babyList: async(req, res)=> {
         try {
             let title = "babyList"
-        const babydata = await babyModel.find()
+        const babydata = await babyModel.find();
+
             res.render('Admin/baby/babyList', {title, babydata, session:req.session.user,  msg: req.flash('msg')})
         } catch (error) {
            console.log(error) 
@@ -64,7 +66,9 @@ module.exports = {
         try {
             let title = "babyList"
             const babydata = await babyModel.findById({_id: req.params.id})
-            res.render('Admin/baby/viewBaby', { title, babydata , session:req.session.user,  msg: req.flash('msg')})
+            const growthData = await growthModel.find({babyId:req.params.id}).populate('userId babyId')
+
+            res.render('Admin/baby/viewBaby', { title, babydata , session:req.session.user,growthData,  msg: req.flash('msg')})
         } catch (error) {
             console.log(error)
         }

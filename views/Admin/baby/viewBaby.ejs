@@ -1,69 +1,197 @@
 <%- include('../common/header'); -%>
-<%- include('../common/sidebar'); -%>
+  <%- include('../common/sidebar'); -%>
 
-  <!-- BEGIN: Content-->
-  <div class="app-content content ">
-    <div class="content-overlay"></div>
-    <div class="header-navbar-shadow"></div>
-    <div class="content-wrapper container-xxl p-0">
-      <div class="content-body">
-        <section id="multiple-column-form">
-          <div class="row">
-            <div class="col-md-12 col-12">
-              <div class="card">
-                <div class="card-header">
-                 
-                  <h4 class="card-title"> View Profile</h4>
-                  <a href="/babyList" class="btn btn-primary float-right" title="Edit Profile">
-                    Back
-                  </a>
+    <!-- BEGIN: Content-->
+    <div class="app-content content ">
+      <div class="content-overlay"></div>
+      <div class="header-navbar-shadow"></div>
+      <div class="content-wrapper container-xxl p-0">
+        <div class="content-body">
+          <section id="multiple-column-form">
+            <div class="row">
+              <div class="col-md-12 col-12">
+                <div class="card">
+                  <div class="card-header">
+
+                    <h4 class="card-title"> View Baby Profile</h4>
+                    <a href="/babyList" class="btn btn-primary float-right" title="Edit Profile">
+                      Back
+                    </a>
+                  </div>
+                  <br>
+                  <div class="card-body">
+                    <form class="form form-horizontal">
+                      <div class="row">
+                        <div class="col-md-4">
+                          <div class="profile-widget-header text-center">
+                            <img src="<%= babydata.image %>" class="img-thumbnail user_bigimg ms-md-0 mx-auto">
+                          </div>
+                        </div>
+                        <div class="col-md-8" style="margin-top: 17px;">
+                          <div class="mb-1 row">
+                            <div class="col-sm-2">
+                              <label class="col-form-label new_lable" for="first-name">Name</label>
+                            </div>
+                            <div class="col-sm-10">
+                              <input type="text" id="name" class="form-control" name="name" value="<%=babydata.name%>"
+                                disabled>
+                            </div>
+                          </div>
+                          <div class="mb-1 row">
+                            <div class="col-sm-2">
+                              <label class="col-form-label new_lable" for="first-name">Gender</label>
+                            </div>
+                            <div class="col-sm-10">
+                              <input type="text" id="gender" class="form-control" name="gender"
+                                value="<%=babydata.gender%>" disabled>
+                            </div>
+                          </div>
+                          <div class="mb-1 row">
+                            <div class="col-sm-2">
+                              <label class="col-form-label new_lable" for="first-name">Birthday</label>
+                            </div>
+                            <div class="col-sm-10">
+                              <input type="text" id="birthday" class="form-control" name="birthday"
+                                value="<%=babydata.birthday%>" disabled>
+                            </div>
+                          </div>
+
+                        </div>
+                      </div>
+                    </form>
+                  </div>
+
                 </div>
-                <br>
-                <div class="card-body">
-                  <form class="form form-horizontal">
-                    <div class="row">
-                      <div class="col-4">
-                        <div class="profile-widget-header text-center">
-                          <img src="<%= babydata.image %>"  class="img-thumbnail" >
-                        </div>
-                      </div>
-                      <div class="col-8" style="margin-top: 17px;">
-                        <div class="mb-1 row">
-                          <div class="col-sm-2">
-                            <label class="col-form-label new_lable" for="first-name">Name</label>
-                          </div>
-                          <div class="col-sm-10">
-                            <input type="text" id="name" class="form-control" name="name" value="<%=babydata.name%>" disabled>
-                          </div>
-                        </div>
-                        <div class="mb-1 row">
-                          <div class="col-sm-2">
-                            <label class="col-form-label new_lable" for="first-name">Gender</label>
-                          </div>
-                          <div class="col-sm-10">
-                            <input type="text" id="gender" class="form-control" name="gender" value="<%=babydata.gender%>" disabled>
-                          </div>
-                        </div>
-                        <div class="mb-1 row">
-                          <div class="col-sm-2">
-                            <label class="col-form-label new_lable" for="first-name">Birthday</label>
-                          </div>
-                          <div class="col-sm-10">
-                            <input type="text" id="birthday" class="form-control" name="birthday" value="<%=babydata.birthday%>" disabled>
-                          </div>
-                        </div>
-                      
-                      </div>
+
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-12 col-12">
+                <div class="card-header">
+                  <h4 class="card-title"> Baby Activity</h4>
+                </div>
+                <div class="row mb-3">
+                  <div class="col-md-6">
+                    <input type="date" class="form-control">
+                    <div class="card card-body h-100">
+                      <h3 class="m-b-0">Activity</h3>
+                      <div id="chart" class="w-100"></div>
                     </div>
-                  </form>
+                  </div>
+                  <div class="col-md-6">
+                    <input type="date" class="form-control">
+
+                    <div class="card card-body h-100">
+                      <h3 class="m-b-0">Growth</h3>
+                      <div id="chart01" class="w-100"></div>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-        </section>
+            <div class="row">
+              <div class="col-md-12 col-12">
+                <div class="card-header">
+                  <h4 class="card-title"> Baby Growth</h4>
+                </div>
+                <div class="card-DataTable table-responsive">
+                  <table class="table table-hover-animation">
+                    <thead>
+                      <tr>
+                        <th>S NO.</th>
+                        <th>Age</th>
+                        <th>Height</th>
+                        <th>Weight</th>
+                        <th>Head Size</th>
+                        <th>Birthday</th>
+                        <th>Action</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <%growthData.forEach(function(data,i) {%>
+                        <tr>
+                          <td>
+                            <%=1+i%>
+                          </td>
+                          <td>
+                            <%=data.age%>
+                          </td>
+                          <td>
+                            <%=data.height%>
+                          </td>
+                          <td>
+                            <%=data.weight%>
+                          </td>
+                          <td>
+                            <%= data.headSize%>
+                          </td>
+                          <td>
+                            <%=data.birthDate%>
+                          </td>
+                          <td>
+                            <a href="/growth_view/<%=data._id%>" class="btn btn-sm bg-light-primary"><i
+                                data-feather='eye'></i></a>
+                            <!-- <a href="/editGrowth/<%=data._id%>" class="btn btn-sm bg-warning"><i data-feather='edit'></i></a> -->
+                            <!-- <button onclick="confirmDelete('<%=data._id%>')" class="btn btn-sm bg-danger"> <i data-feather='trash'></i> </button> -->
+                          </td>
+                        </tr>
+                        <%} )%>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+
+          </section>
+        </div>
       </div>
     </div>
-  </div>
- 
 
-<%- include('../common/footer'); -%>
+
+    <%- include('../common/footer'); -%>
+
+      <script>
+        var options = {
+          series: [44, 55, 13, 43, 22],
+          chart: {
+            height: 300,
+            type: 'pie',
+          },
+          labels: ['Breast Feeding', 'Bottel', 'Disper', 'Sleeping', 'Bath'],
+          legend: {
+            position: 'bottom'
+          }
+          // responsive: [{
+          //   breakpoint: 480,
+          //   options: {
+          //     chart: {
+          //       width: '100%'
+          //     },
+          //     legend: {
+          //       position: 'bottom'
+          //     }
+          //   }
+          // }]
+        };
+
+        var chart = new ApexCharts(document.querySelector("#chart"), options);
+        chart.render();
+        var options = {
+          series: [44, 55, 13],
+          chart: {
+            height: 300,
+            type: 'pie',
+          },
+          labels: ['Height', 'Weight', 'Head Size'],
+          dataLabels: {
+            enabled: false // This will hide the percentages
+          },
+          legend: {
+            position: 'bottom'
+          }
+
+        };
+
+        var chart = new ApexCharts(document.querySelector("#chart01"), options);
+        chart.render();
+      </script>

@@ -1,0 +1,117 @@
+
+<%- include('../common/header') %>
+<%- include('../common/sidebar') %>
+
+
+<!-- BEGIN: Content-->
+<div class="app-content content ">
+
+  <div class="content-wrapper container-xxl p-0">
+  <div class="content-body">
+      <section id="multiple-column-form">
+        <div class="row">
+          <div class="col-md-12 col-12">
+            <div class="card-body">
+              <section id="basic-horizontal-layouts">
+                <div class="row justify-content-center">
+                  <div class="col-md-10 col-12 ">
+                    <div class="card">
+                      <div class="card-header">
+                        <h4 class="card-title">Update Growth</h4>
+                      </div>
+                      <br>
+                      <div class="card-body">
+                        <form class="form form-vertical" id="" action="/updateGrowth" method="POST" enctype="multipart/form-data">
+                          <div class="mb-1 row">
+                            <div class="col-sm-2">
+                              <label class="col-form-label new_lable" for="name">User Name</label>
+                            </div>
+                            <div class="col-sm-10">
+                              <input type="text" id="name" class="form-control" name="name" value="<%=Growthdetail.userId.name%> " disabled>
+                            </div>
+                          </div>
+                          <div class="mb-1 row">
+                            <div class="col-sm-2">
+                              <label class="col-form-label new_lable" for="email">Baby Name</label>
+                            </div>
+                            <div class="col-sm-10">
+                              <input type="text" id="price" class="form-control" name="price" value="<%=Growthdetail.babyId.name%> " disabled>
+                            </div>
+                          </div>
+                          <div class="mb-1 row">
+                            <div class="col-sm-2">
+                              <label class="col-form-label new_lable" for="name">Birthday</label>
+                            </div>
+                            <div class="col-sm-10">
+                              <input type="text" id="name" class="form-control" name="age" value="<%=Growthdetail.birthDate%> " disabled>
+                            </div>
+                          </div>
+                          <div class="mb-1 row">
+                            <div class="col-sm-2">
+                              <label class="col-form-label new_lable" for="name">Gender</label>
+                            </div>
+                            <div class="col-sm-10">
+                              <input type="text" id="name" class="form-control" name="age" value="<%=Growthdetail.gender%> " disabled>
+                            </div>
+                          </div>
+                            <div class="mb-1 row">
+                                <div class="col-sm-2">
+                                  <label class="col-form-label new_lable" for="name">Age</label>
+                                </div>
+                                <div class="col-sm-10">
+                                  <input type="text" id="name" class="form-control" name="age" value="<%=Growthdetail.age%> ">
+                                    <input type="hidden" name="id" value="<%=Growthdetail.id%>">
+                                </div>
+                              </div>
+                              <div class="mb-1 row">
+                                <div class="col-sm-2">
+                                  <label class="col-form-label new_lable" for="price">Height</label>
+                                </div>
+                                <div class="col-sm-10">
+                                  <input type="text" id="price" class="form-control" name="height" value="<%=Growthdetail.height%> " >
+                                </div>
+                              </div>
+                              <div class="mb-1 row">
+                                <div class="col-sm-2">
+                                  <label class="col-form-label new_lable" for="tenure">Weight</label>
+                                </div>
+                                <div class="col-sm-10">
+                                  <input type="text" id="tenure" class="form-control" name="weight" value="<%=Growthdetail.weight%> ">
+                                </div>
+                              </div>
+                              <div class="mb-1 row">
+                                <div class="col-sm-2">
+                                  <label class="col-form-label new_lable" for="name">Head Size</label>
+                                </div>
+                                <div class="col-sm-10">
+                                  <input type="text" id="name" class="form-control" name="age" value="<%=Growthdetail.headSize%> ">
+                                    <input type="hidden" name="id" value="<%=Growthdetail.id%>">
+                                </div>
+                              </div>
+                           
+                            <div class="col-12">
+                            <div class="col-sm-9 offset-sm-5">
+                                <button type="submit" class="btn btn-primary waves-effect waves-float waves-light">Update</button>
+                                <!-- <a href="/subscriptionList" class="btn btn-primary float-right" title="Edit Profile"> Back </a>   -->
+                            </div>
+                          </div>
+                        </form>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </section>
+            </div>
+
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
+</div>
+<div class="sidenav-overlay"></div>
+<div class="drag-target"></div>
+<%- include('../common/footer') %>
+
+
+

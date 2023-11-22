@@ -1,77 +1,270 @@
-
 <%- include('../common/header') %>
-<%- include('../common/sidebar') %>
+  <%- include('../common/sidebar') %>
 
     <!-- BEGIN: Content-->
-<div class="app-content content ">
-  <div class="content-wrapper container-xxl p-0">
-    <div class="content-header row"></div>
-      <div class="content-body">
-        <div class="main-content">
-          <section class="section">
-            <div class="section-header">
-              <h1>Dashboard</h1>
-            </div>
-            <div class="row">
-              <div class="col-lg-3 col-md-5 col-sm-5 col-12">
-                <div class="card" onclick="location.href='/userList'" style="cursor: pointer;">
-                  <div class="card-header">
-                    <div>
-                      <h2 class="fw-bolder mb-0"> <%=users%></h2>
-                      <p class="card-text">Users</p>
-                    </div>
-                    <div class="avatar bg-light-primary p-50 m-0">
-                      <div class="avatar-content">
-                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-user"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+    <div class="app-content content ">
+      <div class="content-wrapper container-xxl p-0">
+        <div class="content-header row"></div>
+        <div class="content-body">
+          <div class="main-content">
+            <section class="section">
+              <div class="section-header">
+                <h1>Dashboard</h1>
+              </div>
+              <div class="row">
+                <div class="col-lg-3 col-md-5 col-sm-5 col-12">
+                  <div class="card" onclick="location.href='/userList'" style="cursor: pointer;">
+                    <div class="card-header">
+                      <div>
+                        <h2 class="fw-bolder mb-0">
+                          <%=users%>
+                        </h2>
+                        <p class="card-text">Users</p>
+                      </div>
+                      <div class="avatar bg-light-primary p-50 m-0">
+                        <div class="avatar-content">
+                          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                            class="feather feather-user">
+                            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                            <circle cx="12" cy="7" r="4"></circle>
+                          </svg>
+                        </div>
                       </div>
                     </div>
                   </div>
                 </div>
-              </div>
-              <div class="col-lg-3 col-md-5 col-sm-5 col-12">
-                <div class="card" onclick="location.href='/babyList'" style="cursor: pointer;">
-                  <div class="card-header">
-                    <div>
-                      <h2 class="fw-bolder mb-0">
-                        <%=babies%>
-                      </h2>
-                      <p class="card-text">Babies</p>
-                    </div>
-                    <div class="avatar bg-light-primary p-50 m-0">
-                      <div class="avatar-content">
-                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                <div class="col-lg-3 col-md-5 col-sm-5 col-12">
+                  <div class="card" onclick="location.href='/babyList'" style="cursor: pointer;">
+                    <div class="card-header">
+                      <div>
+                        <h2 class="fw-bolder mb-0">
+                          <%=babies%>
+                        </h2>
+                        <p class="card-text">Babies</p>
+                      </div>
+                      <div class="avatar bg-light-danger p-50 m-0">
+                        <div class="avatar-content">
+                          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                            <circle cx="12" cy="7" r="4"></circle>
+                          </svg>
+                        </div>
                       </div>
                     </div>
                   </div>
                 </div>
-              </div>
-              <div class="col-lg-3 col-md-5 col-sm-5 col-12">
-                <div class="card" onclick="location.href='/subscriptionList'" style="cursor: pointer;">
-                  <div class="card-header">
-                    <div>
-                      <h2 class="fw-bolder mb-0"><%=subscription%></h2>
+                <div class="col-lg-3 col-md-5 col-sm-5 col-12">
+                  <div class="card" onclick="location.href='/subscriptionList'" style="cursor: pointer;">
+                    <div class="card-header">
+                      <div>
+                        <h2 class="fw-bolder mb-0">
+                          <%=subscription%>
+                        </h2>
                         <p class="card-text">Subscriptions</p>
-                    </div>
-                    <div class="avatar bg-light-primary p-50 m-0">
-                      <div class="avatar-content">
-                        <svg  width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                      </div>
+                      <div class="avatar bg-light-success p-50 m-0">
+                        <div class="avatar-content">
+                          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                            <circle cx="12" cy="7" r="4"></circle>
+                          </svg>
+                        </div>
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
-            </div>
-          </section>
+              <div class="row mb-3">
+                <div class="col-md-6">
+                  <div class="card card-body h-100">
+                    <h3 class="m-b-0">Users</h3>
+                    <div id="chart01" class="w-100"></div>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="card card-body h-100">
+                    <h3 class="m-b-0">Baby</h3>
+                    <div id="chart02" class="w-100"></div>
+                  </div>
+                </div>
+              </div>
+            </section>
+          </div>
         </div>
       </div>
     </div>
-  </div>
-  
-
     <%- include('../common/footer') %>
 
-    <script>
-      setTimeout(function () {
-        $("div.msg").fadeOut();
-      }, 2000);
-    </script>
+      <script>
+
+        setTimeout(function () {
+          $("div.msg").fadeOut();
+        }, 2000);
+        let userCounts = JSON.parse('<%= JSON.stringify(userCounts) %>'); // Convert the string to an array
+        var options = {
+          series: [{
+            name: 'User',
+            data: userCounts
+          }],
+          chart: {
+            height: 350,
+            type: 'bar',
+          },
+          plotOptions: {
+            bar: {
+              borderRadius: 10,
+              dataLabels: {
+                position: 'top',
+              },
+            }
+          },
+          dataLabels: {
+            enabled: true,
+            formatter: function (val) {
+              return val;
+            },
+            offsetY: -20,
+            style: {
+              fontSize: '12px',
+              colors: ["#304758"]
+            }
+          },
+
+          xaxis: {
+            categories: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+            position: 'top',
+            axisBorder: {
+              show: false
+            },
+            axisTicks: {
+              show: false
+            },
+            crosshairs: {
+              fill: {
+                type: 'gradient',
+                gradient: {
+                  colorFrom: '#D8E3F0',
+                  colorTo: '#BED1E6',
+                  stops: [0, 100],
+                  opacityFrom: 0.4,
+                  opacityTo: 0.5,
+                }
+              }
+            },
+            tooltip: {
+              enabled: true,
+            }
+          },
+          yaxis: {
+            axisBorder: {
+              show: false
+            },
+            axisTicks: {
+              show: false,
+            },
+            labels: {
+              show: false,
+              formatter: function (val) {
+                return val;
+              }
+            }
+
+          },
+          title: {
+            text: 'User Monthly Rcord in 2023',
+            floating: true,
+            offsetY: 330,
+            align: 'center',
+            style: {
+              color: '#0c3d86'
+            }
+          }
+        };
+        var chart = new ApexCharts(document.querySelector("#chart01"), options);
+        chart.render();
+        let babyCount = JSON.parse('<%= JSON.stringify(babyCount) %>'); // Convert the string to an array
+        var options = {
+          series: [{
+            name: 'User',
+            data: babyCount
+          }],
+          chart: {
+            height: 350,
+            type: 'bar',
+          },
+          plotOptions: {
+            bar: {
+              borderRadius: 10,
+              dataLabels: {
+                position: 'top',
+              },
+            }
+          },
+          dataLabels: {
+            enabled: true,
+            formatter: function (val) {
+              return val;
+            },
+            offsetY: -20,
+            style: {
+              fontSize: '12px',
+              colors: ["#304758"]
+            }
+          },
+
+          xaxis: {
+            categories: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+            position: 'top',
+            axisBorder: {
+              show: false
+            },
+            axisTicks: {
+              show: false
+            },
+            crosshairs: {
+              fill: {
+                type: 'gradient',
+                gradient: {
+                  colorFrom: '#D8E3F0',
+                  colorTo: '#BED1E6',
+                  stops: [0, 100],
+                  opacityFrom: 0.4,
+                  opacityTo: 0.5,
+                }
+              }
+            },
+            tooltip: {
+              enabled: true,
+            }
+          },
+          yaxis: {
+            axisBorder: {
+              show: false
+            },
+            axisTicks: {
+              show: false,
+            },
+            labels: {
+              show: false,
+              formatter: function (val) {
+                return val;
+              }
+            }
+
+          },
+          title: {
+            text: 'Baby Monthly Rcord in 2023',
+            floating: true,
+            offsetY: 330,
+            align: 'center',
+            style: {
+              color: '#0c3d86'
+            }
+          }
+        };
+        var chart = new ApexCharts(document.querySelector("#chart02"), options);
+        chart.render();
+      </script>
