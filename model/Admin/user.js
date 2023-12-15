@@ -2,12 +2,13 @@ const mongoose = require('mongoose');
 
 const userSchema = new mongoose.Schema({
 
-  
+
   name: { type: String, default: '' },
   email: { type: String, default: '' },
   password: { type: String, default: '' },
   phone: { type: Number, default: '' },
   image: { type: String, default: '' },
+  country_code: {type: Number},
   role: {
     type: String,
     enum: ["0", "1"],
@@ -17,6 +18,12 @@ const userSchema = new mongoose.Schema({
     type: String,
     enum: ["1", "2"],
     default: "1", //  1 for  Active user, 2 for Inactive
+  },
+  device_token: {type: String},
+  device_type: {
+    type: Number,
+    required: true,
+    enum: [1, 2, ], //1 for Android, 2 for IOS
   },
   google: {type: String},     //social login
   facebook: {type: String},  //social login

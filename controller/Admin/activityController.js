@@ -3,6 +3,7 @@ const helper = require('../../Helper/helper')
 
 
 module.exports = {
+
     addActivity: async(req, res)=> {
         try {
             let title = "Activity"
@@ -21,8 +22,10 @@ module.exports = {
                     req.body.image = helper.imageUpload(image, "images");
                 }
             }
+            let userId =  req.session.user._id;
             let addData = await activityModel.create({
-                name:req.body.name,
+                userId: userId,
+                activity_name:req.body.activity_name,
                 image:req.body.image
             })
             res.redirect("/ActivityList")
@@ -66,6 +69,7 @@ module.exports = {
 
     updateActivity: async(req, res)=> {
         try {
+
             if (req.files && req.files.image) {
                 var image = req.files.image;
                 if (image) {
@@ -74,10 +78,10 @@ module.exports = {
             }
             const updateData = await activityModel.updateOne({_id: req.body.id},
                 
-                {   name: req.body.name,
+                {   activity_name: req.body.activity_name,
                     image: req.body.image,
                 })
-
+            req.flash("msg", "Activity updated successfully");
             res.redirect("/ActivityList")
         } catch (error) {
            console.log(error) 
@@ -101,7 +105,7 @@ module.exports = {
             { _id: req.body.id },
             { status: req.body.value }
             );
-            // req.flash("msg", "Status update successfully");
+            req.flash("msg", "Status update successfully");
             
             if (req.body.value == 0) res.send(false);
             if (req.body.value == 1) res.send(true);

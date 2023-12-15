@@ -1,14 +1,11 @@
-let user_model = require('../../model/Admin/user_model')
+let user_model = require('../../model/Admin/user')
 let helper = require('../../Helper/helper')
 const authenticateHeader = require("../../Helper/helper").authenticateHeader;
 const bcrypt = require('bcrypt');
 const { Validator } = require('node-input-validator');
 var jwt = require('jsonwebtoken');
-const secretCryptoKey = process.env.jwtSecretKey;
+var secretCryptoKey = process.env.jwtSecretKey || "secret_iBabycoachs_@onlyF0r_JWT";
 const nodemailer = require("nodemailer");
-const { bank_list } = require('./bankcontroller');
-const bankmodel = require('../../model/Admin/bankmodel');
-const cardmodel = require('../../model/Admin/cardmodel')
 
 
 module.exports = {
@@ -22,7 +19,6 @@ module.exports = {
         phone: "required",
         country_code: "required",
       });
-  
       const values = JSON.parse(JSON.stringify(v));
       let errorsResponse = await helper.checkValidation(v);
   
@@ -52,41 +48,19 @@ module.exports = {
   
       var Otp = 1111;
       // var Otp = Math.floor(1000 + Math.random() * 9000);
-  
-      let hash = await bcrypt.hash(req.body.password, 10);
-  
+
       let time = helper.unixTimestamp();
       values.inputs.loginTime = time;
       values.inputs.otp = Otp;
   
-      // Check if longitude and latitude are provided, otherwise use default coordinates
-    //   if (req.body.longitude && req.body.latitude) {
-    //     values.inputs.location = {
-    //       type: "Point",
-    //       coordinates: [Number(req.body.longitude), Number(req.body.latitude)],
-    //     };
-    //     values.inputs.latitude = Number(req.body.latitude);
-    //     values.inputs.longitude = Number(req.body.longitude);
-    //   } else {
-    //     // Default coordinates
-    //     values.inputs.location = {
-    //       type: "Point",
-    //       coordinates: [0, 0], // Default coordinates
-    //     };
-    //     values.inputs.latitude = 0;
-    //     values.inputs.longitude = 0;
-    //   }
-  
-      const stripeCustmor = await helper.strieCustomer(req.body.email);
-      values.inputs.stripe_customer = stripeCustmor;
-  
-      let dataEnter = await user_model.create({ ...values.inputs });
+      let hash = await bcrypt.hash(req.body.password, 10);
+      
+      let dataEnter = await user_model.create({ ...values.inputs, password: hash });
   
       const getUser = await user_model.findOne({ email: dataEnter.email });
   
       if (dataEnter) {
         let userInfo = await user_model.findOne({ _id: dataEnter._id });
-        delete userInfo.password;
         delete userInfo.password;
   
         return helper.success(res, "Signup Successfully", userInfo);
@@ -99,45 +73,54 @@ module.exports = {
   
   Login: async (req, res) => {
     try {
-      // var otp = Math.floor(1000 + Math.random() * 9000);
-      var otp = 1111;
-      var update_otp = await user_model.findOneAndUpdate(
-        { phone: req.body.phone },
-        { otp: otp,
-          device_type:req.body.device_type }
-      );
-      if (update_otp) {
-        var finadata = await user_model.findById(update_otp._id);
-        let userCard = await cardmodel.findOne({ userId: finadata._id });
+          const v = new Validator(req.body, {
+            email: 'required|email',
+            password: 'required|minLength:6',
+        });
 
-        let time = await helper.unixTimestamp();
-        let token = jwt.sign(
-          {
-            data: {
-              _id: finadata._id,
-              phone: finadata.phone,
-              loginTime: time,
-            },
-          },
-          secretCryptoKey,
-          { expiresIn: "365d" }
-        );
-        finadata = JSON.stringify(finadata);
-        finadata = JSON.parse(finadata);
-        finadata.token = token;
-        finadata.is_card = userCard ? 1 : 0;
-
-        if (finadata) {
-          return await helper.success(res, "otp send successfully", finadata);
-        } else {
-          return helper.failed(res, "something went wrong");
+        let errorsResponse = await helper.checkValidation(v)
+        if (errorsResponse) {
+            return await helper.failed(res, errorsResponse)
         }
-      } else {
-        return helper.failed(res, "incorrect phone number");
 
-      }
+        const updateDeviceToken = await user_model.findOneAndUpdate({email: req.body.email},
+          {device_token: req.body.device_token,
+            device_type: req.body.device_type},
+            {new: true}
+            ); 
+            
+        var findUser = await user_model.findOne({ email: req.body.email})
+        if (findUser) {
+            let checkPassword = await bcrypt.compare(req.body.password, findUser.password);
+
+            let time = await helper.unixTimestamp();
+            let token = jwt.sign(
+              {
+                data: {
+                  _id: findUser._id,
+                  loginTime: time,
+                },
+              },
+              secretCryptoKey,
+              { expiresIn: "365d" }
+            );
+            findUser = JSON.stringify(findUser);
+            findUser = JSON.parse(findUser);
+            findUser.token = token;
+        
+            if (checkPassword == true) {
+                req.session.user = findUser;
+                return await helper.success(res, "login successful", findUser)
+            } else {
+                console.log("incorrect password")
+                return helper.failed(res, "incorrect password")
+            }
+        } else {
+            console.log("incorrect email")
+            return helper.failed(res, "incorrect email")
+        }
     } catch (error) {
-      return helper.failed(res, error);
+        console.log(error)
     }
   },
 
@@ -154,15 +137,15 @@ module.exports = {
         return helper.failed(res, errorsResponse);
       }
 
-      let isEmailExist = await user_model.findOne({ phone: req.body.phone, country_code: req.body.country_code });
+      let isUserExist = await user_model.findOne({ phone: req.body.phone, country_code: req.body.country_code });
 
-      if (isEmailExist) {
-        if (req.body.otp == isEmailExist.otp) {
-          await user_model.updateOne({ _id: isEmailExist._id }, { otpverify: 1, otp: '' });
+      if (isUserExist) {
+        if (req.body.otp == isUserExist.otp) {
+          await user_model.updateOne({ _id: isUserExist._id }, { otpverify: 1, otp: '' });
         } else {
           return helper.failed(res, "OTP doesn't match");
         }
-        let userDetail = await user_model.findOne({ _id: isEmailExist._id }).populate("skill").populate("tools")
+        let userDetail = await user_model.findOne({ _id: isUserExist._id })
 
         let time = await helper.unixTimestamp();
         let token = jwt.sign(
@@ -173,7 +156,7 @@ module.exports = {
               loginTime: time,
             },
           },
-          secretCryptoKey,
+          "secretCryptoKey",
           { expiresIn: "365d" }
         );
 
@@ -181,10 +164,10 @@ module.exports = {
         userDetail = JSON.parse(userDetail);
         userDetail.token = token;
 
-        const account = await bankmodel.count({ workerId: userDetail._id });
+        // const account = await bankmodel.count({ workerId: userDetail._id });
         let obj = {
           userDetail,
-          account
+          // account
         }
         return await helper.success(res, " otp verify successfully", obj);
       } else {
@@ -216,7 +199,7 @@ module.exports = {
     }
   },
 
-  logOut: async (req, res) => {
+  logout: async (req, res) => {
     try {
       await user_model.updateOne(
         { _id: req.user._id },
@@ -225,7 +208,6 @@ module.exports = {
       return helper.success(res, "Logout successfully");
     } catch (error) {
       console.log(error);
-      return helper.error(res, error);
     }
   },
 
@@ -368,11 +350,47 @@ module.exports = {
     } catch (error) {
       return helper.failed(res, error);
     }
-  }
+  },
 
+  change_password: async function (req, res) {
+    try {
+        const V = new Validator(req.body, {
+            oldPassword: "required",
+            newPassword: "required",
+            confirm_password: "required|same:newPassword",
+        });
 
+        V.check().then(function (matched) {
+            console.log(matched);
+            console.log(V.errors);
+        });
+        let data = req.session.user;
 
+        if (data) {
+            let comp = await bcrypt.compare(V.inputs.oldPassword, data.password);
 
+            if (comp) {
+                const bcryptPassword = await bcrypt.hash(req.body.newPassword, 10);
+                let create = await userModel.updateOne(
+                    { _id: data._id },
+                    { password: bcryptPassword }
+                );
+                req.session.user = create;
+                  console.log(create, ">>>>>>>>>.");
+                //   req.flash('msg', 'Update password successfully')
+                // res.redirect("/loginPage");
+                res.json("updated successfully")
+            } else {
+                // res.redirect("/changePassword");
+                res.json("Old password not match")
+            }
+        }
+    } catch (error) {
+        console.log(error)
+    }
+  },
+
+  
 
 }
 

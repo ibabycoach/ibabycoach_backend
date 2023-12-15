@@ -3,6 +3,7 @@ const goals = require('../../model/Admin/goals');
 
 
 module.exports = {
+
     addGoal: async (req, res) => {
         try {
             let title = "Goal"
@@ -87,7 +88,7 @@ module.exports = {
                     date: req.body.date
 
                 })
-
+            req.flash("msg", "Goal updated successfully");
             res.redirect("/Goal_List")
         } catch (error) {
             console.log(error)
@@ -111,7 +112,7 @@ module.exports = {
                 { _id: req.body.id },
                 { status: req.body.value }
             );
-            // req.flash("msg", "Status update successfully");
+            req.flash("msg", "Status updates successfully");
 
             if (req.body.value == 0) res.send(false);
             if (req.body.value == 1) res.send(true);
@@ -121,5 +122,7 @@ module.exports = {
         }
     },
 
+
+    
 
 }

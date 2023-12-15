@@ -1,15 +1,15 @@
 // var { v4: uuid } = require('uuid');
 var path = require('path');
-const userModel = require('../model/Admin/user')
+const user_model = require('../model/Admin/user');
 // const { v4: uuidv4 } = require('uuid');
 const uuid = require('uuid').v4
 const bcrypt = require('bcrypt');
-// const { Validator } = require("node-input-validator");
-// var jwt = require("jsonwebtoken");
-// const secretCryptoKey = process.env.jwtSecretKey;
+const { Validator } = require("node-input-validator");
+var jwt = require("jsonwebtoken");
+const secretCryptoKey = process.env.jwtSecretKey || "secret_iBabycoachs_@onlyF0r_JWT";
 // const stripe = require('stripe')(process.env.SECRETKEY)
-// const SECRET_KEY = process.env.SECRET_KEY;
-// const PUBLISH_KEY =process.env.PUBLISH_KEY;
+const SECRET_KEY = process.env.SECRET_KEY;
+const PUBLISH_KEY =process.env.PUBLISH_KEY;
 // var FCM = require('fcm-node');
 
 // let hash =  bcrypt.hash("secret_KeyFor_jobbie_@#!$", 10).then((res)=>{
@@ -282,7 +282,7 @@ module.exports = {
       const token = authHeader.split(" ")[1];
 
       jwt.verify(token, secretCryptoKey, async (err, payload) => {
-        // console.log("🚀  file: nextHelpers.js:41  jwt.verify ~ payload:", payload)
+
         if (err) {
           return res.status(401).json({
             success: false,
@@ -570,7 +570,5 @@ module.exports = {
     // }
     }
   },
-
-   
 
 }

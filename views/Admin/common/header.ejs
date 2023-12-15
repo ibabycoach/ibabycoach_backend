@@ -82,7 +82,7 @@
                             </span>
                         </div>
                         <span class="avatar">
-                            <img class="round" src="<%=session.image%>" alt="avatar" height="45" width="45">
+                            <img class="round" src="<%=session.image%>" alt="avatar" height="40" width="40">
                             <span class="avatar-status-online"></span>
                         </span>
                     </a>
@@ -96,5 +96,14 @@
             </ul>
         </div>
     </nav>
+    
+    <% if(msg !='' ) { %>
+        <div class="alert alert-success msg" style="position: absolute; z-index: 9999; right: 150px; top: 40px;">
+        <span style="font-size: 18px; padding: 10px; border-radius: 5px; color: rgb(232, 232, 240);  background-color: #1e4f99;">
+        <%= msg %>
+        </span>
+        </div>
+        <% } %>
+    
 
     <!-- END: Header-->

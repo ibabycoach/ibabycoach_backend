@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html class="loading" lang="en" data-textdirection="ltr">
-<!-- BEGIN: Head-->
 
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -33,12 +32,17 @@
   <link rel="stylesheet" type="text/css" href="../../../app-assets/css/pages/page-auth.css">
   <!-- END: Page CSS-->
 
-  <!-- BEGIN: Custom CSS-->
   <link rel="stylesheet" type="text/css" href="../../../assets/css/style.css">
-  <!-- END: Custom CSS-->
 
 </head>
-<!-- END: Head-->
+
+<% if(msg !='' ) { %>
+  <div class="alert alert-success msg" style="position: absolute; z-index: 9999; right: 100px; top: 10px;">
+  <span style="font-size: 18px; padding: 10px; border-radius: 5px; color: rgb(232, 232, 240);  background-color: #1e4f99;">
+  <%= msg %>
+  </span>
+  </div>
+  <% } %>
 
 <style>
   .error {
@@ -141,26 +145,10 @@
                   <button class="btn btn-primary w-100" tabindex="4">Sign in</button>
                 </form>
 
-
-
                 <div class="divider my-2">
                   <!-- <div class="divider-text">or</div> -->
                 </div>
 
-                <!-- <div class="auth-footer-btn d-flex justify-content-center">
-                                    <a href="#" class="btn btn-facebook">
-                                        <i data-feather="facebook"></i>
-                                    </a>
-                                    <a href="#" class="btn btn-twitter white">
-                                        <i data-feather="twitter"></i>
-                                    </a>
-                                    <a href="#" class="btn btn-google">
-                                        <i data-feather="mail"></i>
-                                    </a>
-                                    <a href="#" class="btn btn-github">
-                                        <i data-feather="github"></i>
-                                    </a>
-                                </div> -->
               </div>
             </div>
             <!-- /Login v1 -->
@@ -179,7 +167,7 @@
 
   <!-- BEGIN: Page Vendor JS-->
   <script src="../../../app-assets/vendors/js/forms/validation/jquery.validate.min.js"></script>
-  <!-- <script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/jquery.validate.min.js"></script> -->
+  <script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/jquery.validate.min.js"></script>
   <script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/additional-methods.min.js"></script>
   <!-- END: Page Vendor JS-->
 

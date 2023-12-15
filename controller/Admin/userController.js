@@ -116,7 +116,7 @@ module.exports = {
             { _id: req.body.id },
             { status: req.body.value }
             );
-            // req.flash("msg", "Status update successfully");
+            req.flash("msg", "Status updated successfully");
             
             if (req.body.value == 0) res.send(false);
             if (req.body.value == 1) res.send(true);
@@ -132,10 +132,12 @@ module.exports = {
             const removeuser = await userModel.deleteOne({_id: userId})
             res.redirect("/userList") 
         } catch (error) {
-                console.log(error)
+        console.log(error)
         }
     }
 
 
+
+    
 
 }

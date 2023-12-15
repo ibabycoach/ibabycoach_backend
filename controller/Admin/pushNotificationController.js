@@ -6,13 +6,11 @@ module.exports = {
 
     pushNotification: async (req, res) => {
         try {
-            // if (!req.session.user) return res.redirect('/');
             let title = "push-notification"
 
             const getUser = await userModel.find({role: 1, status: 1});
 
-
-            res.render('Admin/push notification/pushNotification', {title, msg: req.flash("msg"),session:req.session.user, getUser });
+            res.render('Admin/push notification/pushNotification', {title, getUser, session:req.session.user, msg: req.flash("msg") });
         } catch (error) {
             console.log(error);
             res.status(500).send('Internal server error');
@@ -21,8 +19,6 @@ module.exports = {
 
     pushNotificationPost: async (req, res) => {
         try {
-            // if (!req.session.user) return res.redirect('/');
-
             const ids = req.body.users;
             let pushNotificationMsg = [];
 
@@ -49,4 +45,6 @@ module.exports = {
             res.status(500).send('Internal server error');
         }
     }
+
+
 }

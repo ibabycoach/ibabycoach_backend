@@ -1,7 +1,13 @@
 const mongoose = require('mongoose');
 
 const activitySchema = new mongoose.Schema({
-  name: { type: String, default: '' },
+
+  userId: {type: mongoose.Schema.Types.ObjectId, ref: "user"},
+  babyId: {type: mongoose.Schema.Types.ObjectId, ref: "baby"},
+  
+  activity_name: { type: String, default: '' },
+  time: { type: String, default: '' },
+  day: { type: String, default: '' },
   image: { type: String, default: '' },
   status: {
     type: String,

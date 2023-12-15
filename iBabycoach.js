@@ -11,10 +11,13 @@ const { v4: uuidv4 } = require('uuid');
 const Swal = require('sweetalert2');
 const { Validator } = require('node-input-validator');
 var flash = require('express-flash');
+var jwt = require('jsonwebtoken');
 
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
+var apiRouter = require('./routes/api');
+
 require('dotenv').config();
 
 var app = express();
@@ -50,6 +53,7 @@ async function main() {
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
+app.use('/api', apiRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

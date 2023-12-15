@@ -18,13 +18,11 @@ module.exports = {
 
     createBaby: async(req, res)=> {
         try {
-
             if (req.files && req.files.image) {
                 var image = req.files.image;
           
                 if (image) {
                   req.body.image = helper.imageUpload(image, "images");
-
                 }
             }
             const addBabies = await babyModel.create({
@@ -39,7 +37,6 @@ module.exports = {
             console.log(error)
         }
     },
-    
 
     editBaby: async(req, res)=> {
         try {

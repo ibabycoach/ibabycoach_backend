@@ -9,7 +9,7 @@ module.exports = {
 
     loginPage: async (req, res) => {
         try {
-            res.render('Admin/admin/loginPage')
+            res.render('Admin/admin/loginPage', {msg: req.flash('msg')})
         } catch (error) {
             console.log(error)
         }
@@ -17,6 +17,7 @@ module.exports = {
 
     login: async (req, res) => {
         try {
+
             var findUser = await userModel.findOne({ email: req.body.email, role: "0" })
             if (findUser) {
                 let checkPassword = await bcrypt.compare(req.body.password, findUser.password);
@@ -24,18 +25,17 @@ module.exports = {
                 if (checkPassword == true) {
                     req.session.user = findUser;
 
-                    // res.json("login successful")
+                    req.flash('msg', 'Login successfully');
                     res.redirect("/dashboard")
                 } else {
-                    // console.log("incorrect password")
-                    // res.json("incorrect password")
+                    console.log("incorrect password")
+                    req.flash('msg', 'Incorrect password');
                     res.redirect("/loginPage")
                 }
             } else {
                 console.log("incorrect email")
-                // res.json("incorrect email")
+                req.flash('msg', 'Incorrect email');
                 res.redirect("/loginPage")
-
             }
         } catch (error) {
             console.log(error)
@@ -99,7 +99,7 @@ module.exports = {
                 const monthIndex = result._id.month - 1;
                 userCounts[monthIndex] = result.count;
             });
-            res.render('Admin/admin/dashboard', { userCounts,babyCount, title, users, babies, subscription, session: req.session.user, msg: req.flash('msg') })
+            res.render('Admin/admin/dashboard', { userCounts, babyCount, title, users, babies, subscription, session: req.session.user, msg: req.flash('msg') })
         } catch (error) {
             console.log(error)
         }
@@ -216,6 +216,7 @@ module.exports = {
         } catch (error) {
             helper.error(res, error);
         }
-      },
-    
+    },
+
+
 }

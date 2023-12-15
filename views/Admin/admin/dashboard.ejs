@@ -1,6 +1,7 @@
 <%- include('../common/header') %>
   <%- include('../common/sidebar') %>
 
+
     <!-- BEGIN: Content-->
     <div class="app-content content ">
       <div class="content-wrapper container-xxl p-0">
@@ -103,6 +104,7 @@
         setTimeout(function () {
           $("div.msg").fadeOut();
         }, 2000);
+
         let userCounts = JSON.parse('<%= JSON.stringify(userCounts) %>'); // Convert the string to an array
         var options = {
           series: [{
@@ -174,7 +176,7 @@
 
           },
           title: {
-            text: 'User Monthly Rcord in 2023',
+            text: 'User Monthly Record in 2023',
             floating: true,
             offsetY: 330,
             align: 'center',
@@ -256,7 +258,7 @@
 
           },
           title: {
-            text: 'Baby Monthly Rcord in 2023',
+            text: 'Baby Monthly Record in 2023',
             floating: true,
             offsetY: 330,
             align: 'center',
