@@ -15,7 +15,6 @@ module.exports = {
 
     saveGoal: async (req, res) => {
         try {
-
             if (req.files && req.files.image) {
                 var image = req.files.image;
                 if (image) {
@@ -29,7 +28,6 @@ module.exports = {
                 title: req.body.title,
                 description: req.body.description,
                 date: req.body.date
-
             })
             res.redirect("/Goal_List")
 

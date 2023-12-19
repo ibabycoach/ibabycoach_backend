@@ -7,6 +7,7 @@ const babycontroller = require('../controller/Api/babycontroller');
 const routinecontroller = require('../controller/Api/routinecontroller');
 const memoriescontroller = require('../controller/Api/memoriescontroller');
 const activitycontroller = require('../controller/Api/activitycontroller');
+const cmscontroller = require('../controller/Api/cmscontroller');
 const authenticateJWT = require("../Helper/helper").authenticateJWT;
 const authenticateHeader = require("../Helper/helper").authenticateHeader;
 
@@ -33,9 +34,15 @@ router.post('/add_routine', authenticateJWT, routinecontroller.add_routine)
 
 ///////////  MEMORIES ///////
 router.post('/add_memories', authenticateJWT, memoriescontroller.add_memories)
+router.get('/get_memory_images', authenticateJWT, memoriescontroller.get_memory_images)
 
 //////// ACTIVITY ///////
 router.post('/customizable_activity', authenticateJWT, activitycontroller.customizable_activity)
+
+/////////// CMS //////////////////
+router.get('/aboutUs', authenticateJWT, cmscontroller.aboutUs)
+router.get('/privacyPolicy', authenticateJWT, cmscontroller.privacyPolicy)
+router.get('/termsConditions', authenticateJWT, cmscontroller.termsConditions)
 
 
 

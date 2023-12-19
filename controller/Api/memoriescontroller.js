@@ -5,43 +5,63 @@ const { Validator } = require('node-input-validator');
 
 module.exports = {
 
-add_memories: async(req, res)=> {
+get_memory_images: async(req, res) => {
     try {
-        const v = new Validator(req.body, {
-            babyId: "required"
-            // note: "required",
-          });
-    
-          const errorResponse = await helper.checkValidation(v);
-          if (errorResponse) {
-            return helper.failed(res, errorResponse);
-          }
-          let imgdata = [];
-          if (req.files && req.files.image && Array.isArray(req.files.image))
-              for (i in req.files.image) {
-                  let image = req.files.image[i];
-                  imgdata.push({ url: helper.imageUpload(image, "images") });
-              }
-          else {
-              req.files && req.files.image;
-              let image = req.files.image;
-              imgdata.push({ url: helper.imageUpload(image, "images") });
-          }
-          req.body.image = imgdata;
+        const get_baby_memories = await memories_model.findOne({babyId: req.body.babyId});
 
-        let userId = req.user.id;
-
-        const addmemories = await memories_model.create({
-            userId,
-            ...req.body
-        }) 
-
-        return helper.success(res, "memories added successfully", addmemories )
-
+        return helper.success(res, "baby memories", get_baby_memories)
     } catch (error) {
         console.log(error)
     }
-}
+},
+
+add_memories: async (req, res) => {
+    try {
+      let userId = req.user.id;
+  
+      const v = new Validator(req.body, {
+        babyId: "required",
+      });
+  
+      const errorResponse = await helper.checkValidation(v);
+      if (errorResponse) {
+        return helper.failed(res, errorResponse);
+      }
+  
+      let imgdata = [];
+  
+      if (req.files && req.files.image) {
+        const images = Array.isArray(req.files.image) ? req.files.image : [req.files.image];
+  
+        for (let i = 0; i < images.length; i++) {
+          let image = images[i];
+          imgdata.push({ url: helper.imageUpload(image, "images") });
+        }
+      }
+      req.body.image = imgdata;
+  
+      const existingMemory = await memories_model.findOne({ userId, babyId: req.body.babyId });
+  
+      if (existingMemory) {
+        existingMemory.image.push(...imgdata);
+        await existingMemory.save();
+  
+        return helper.success(res, "Memories updated successfully", existingMemory);
+      }
+  
+      // Create new memories if the babyId doesn't exist
+      const addmemories = await memories_model.create({
+        userId,
+        ...req.body,
+      });
+  
+      return helper.success(res, "Memories added successfully", addmemories);
+    } catch (error) {
+      console.log(error);
+      return helper.failed(res, "Internal Server Error");
+    }
+},
+  
 
 
 }

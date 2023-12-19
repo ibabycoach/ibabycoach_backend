@@ -8,7 +8,7 @@ module.exports = {
     customizable_activity: async(req, res)=> {
         try {
             const v = new Validator(req.body, {
-                activity_name: "required",    //activity
+                activity_name: "required", 
                 time: "required",
                 day: "required"
             });
@@ -24,7 +24,6 @@ module.exports = {
                     req.body.image = helper.imageUpload(image, "images");
                 }
             }
-            
             let userId = req.user.id;
             const addactivity = await activity_model.create({
                 userId,

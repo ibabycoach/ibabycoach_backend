@@ -151,7 +151,6 @@ module.exports = {
     });
   },
 
-  //function createVideoThumb(fileData, thumbnailPath){
   createVideoThumb: async (fileData, thumbnailPath) => {
     var VIDEO_THUMBNAIL_TIME = '00:00:02'
     var VIDEO_THUMBNAIL_SIZE = '300x200'
@@ -525,7 +524,7 @@ module.exports = {
     // sender,
     ) {
     let dataForSend = {
-    title: 'jobbie',
+    title: 'ibabycoach',
     body: payload.message,
     message: payload.message,
     deviceToken: deviceToken,

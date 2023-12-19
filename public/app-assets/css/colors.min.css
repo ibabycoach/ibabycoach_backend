@@ -468,7 +468,7 @@ input:focus~.bg-light {
 .btn-primary:active,
 .btn-primary:focus {
     color: #FFF;
-    background-color: #5E50EE !important
+    background-color: #00467c !important
 }
 
 .btn-primary:hover:not(.disabled):not(:disabled) {

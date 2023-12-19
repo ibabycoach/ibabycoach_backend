@@ -4,10 +4,15 @@ const babymemories = new mongoose.Schema({
 
   userId: {type: mongoose.Schema.Types.ObjectId, ref: "User"},
   babyId: {type: mongoose.Schema.Types.ObjectId, ref: "baby"},
+  image: [
+    {
+      url: String,
+    },
+  ],
 
-  image: [{
-    url:{ type : String}
-  }],
+  // image: [{
+  //   url:{ type : String}
+  // }],
 
   note: { type: String, default: '' },
 }, 

@@ -405,8 +405,8 @@ input:focus~.bg-light {
 }
 
 .bg-light-primary {
-  background: rgba(115, 103, 240, 0.12) !important;
-  color: #00467c !important;
+  background: rgb(23 133 153 / 92%) !important;;
+  color: #fafdff !important;
 }
 
 .bg-light-primary.fc-h-event,
