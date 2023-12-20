@@ -27,7 +27,8 @@ module.exports = {
         try {
             let userId = req.user.id;
             const get_user_data = await activity_model.find({})
-            // console.log(get_user_data, "djvbcjdbcd");return
+
+            console.log(get_user_data, "check");return
 
             return helper.success(res, "activity", get_user_data)
             
