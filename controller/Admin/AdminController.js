@@ -194,12 +194,11 @@ module.exports = {
                         { password: bcryptPassword }
                     );
                     req.session.user = create;
-                    //   console.log(create, ">>>>>>>>>.");return
-                    //   req.flash('msg', 'Update password successfully')
+                      req.flash('msg', 'Password updated successfully')
                     res.redirect("/loginPage");
                     // res.json("updated successfully")
                 } else {
-                    //   req.flash('msg', 'Old password do not match')
+                      req.flash('msg', 'Invalid old password')
                     res.redirect("/changePassword");
                     // res.json("Old password do not match")
                 }

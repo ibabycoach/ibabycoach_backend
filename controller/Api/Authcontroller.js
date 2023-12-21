@@ -203,7 +203,7 @@ module.exports = {
     try {
       await user_model.updateOne(
         { _id: req.user._id },
-        { loginTime: "0", deviceToken: "" }
+        { loginTime: "0", device_token: "" }
       );
       return helper.success(res, "Logout successfully");
     } catch (error) {
@@ -354,6 +354,7 @@ module.exports = {
 
   change_password: async function (req, res) {
     try {
+      
         const V = new Validator(req.body, {
             oldPassword: "required",
             newPassword: "required",
@@ -364,25 +365,21 @@ module.exports = {
             console.log(matched);
             console.log(V.errors);
         });
-        let data = req.session.user;
-
+        let data = req.user;
+        
         if (data) {
             let comp = await bcrypt.compare(V.inputs.oldPassword, data.password);
 
             if (comp) {
                 const bcryptPassword = await bcrypt.hash(req.body.newPassword, 10);
-                let create = await userModel.updateOne(
+                let create = await user_model.updateOne(
                     { _id: data._id },
                     { password: bcryptPassword }
                 );
-                req.session.user = create;
-                  console.log(create, ">>>>>>>>>.");
-                //   req.flash('msg', 'Update password successfully')
-                // res.redirect("/loginPage");
-                res.json("updated successfully")
+              
+                return helper.success(res, "updated successfully")
             } else {
-                // res.redirect("/changePassword");
-                res.json("Old password not match")
+              return helper.failed(res, "Old password not match")
             }
         }
     } catch (error) {
