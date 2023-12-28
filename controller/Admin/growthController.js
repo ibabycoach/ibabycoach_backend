@@ -13,6 +13,7 @@ module.exports = {
                 age: req.body.age,
                 height: req.body.height,
                 weight: req.body.weight,
+                headSize: req.body.headSize
             });
             
             res.json(babygrowth)
@@ -81,8 +82,7 @@ module.exports = {
         try {          
             var check = await userModel.updateOne(
             { _id: req.body.id },
-            { status: req.body.value }
-            );
+            { status: req.body.value });
             req.flash("msg", "Status updated successfully");
             
             if (req.body.value == 0) res.send(false);

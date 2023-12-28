@@ -47,7 +47,6 @@ module.exports = {
         }
     },
 
-
     updatecms: async(req, res)=> {
         try {
             const updatedata = await cmsModel.updateOne({ _id: req.body.id },

@@ -8,6 +8,8 @@ const routinecontroller = require('../controller/Api/routinecontroller');
 const memoriescontroller = require('../controller/Api/memoriescontroller');
 const activitycontroller = require('../controller/Api/activitycontroller');
 const cmscontroller = require('../controller/Api/cmscontroller');
+const growthController = require('../controller/Admin/growthController');
+const growthcontroller = require('../controller/Api/growthcontroller');
 const authenticateJWT = require("../Helper/helper").authenticateJWT;
 const authenticateHeader = require("../Helper/helper").authenticateHeader;
 
@@ -28,6 +30,9 @@ router.get('/home_screen', authenticateJWT, userprofilecontroller.home_screen)
 
 //////////////// BABY ////////
 router.post('/add_baby', authenticateJWT, babycontroller.add_baby)
+
+/////////// GROWTH ////////////////////
+router.post('/Add_growth', authenticateJWT, growthcontroller.Add_growth)
 
 ////// ROUTINE BUILDER ///////
 router.post('/add_routine', authenticateJWT, routinecontroller.add_routine)

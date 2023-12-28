@@ -12,9 +12,6 @@
             <div class="card">
               <div class="card-header">
                 <h4 class="card-title"> Terms and Conditions</h4>
-                <!-- <a href="/userList" class="btn btn-primary float-right" title="Edit Profile">
-                              Back
-                            </a> -->
               </div>
 
               <div class="card-body">
@@ -22,15 +19,15 @@
                   <div class="form-group row mb-2">
                     <label class="col-form-label text-md-left col-10 col-md-1 col-lg-1">Title </label>
                     <div class="col-sm-12 col-md-12">
-                      <input type="text" name="title" value="<%=termsData.title%>" class="form-control" disabled>
+                      <input type="text" name="title" value="<%=termsData?.title%>" class="form-control" disabled>
                     </div>
                   </div>
                   <div class="form-group row mb-2">
                     <label class="col-form-label col-12 col-md-3 col-lg-3">Description</label>
                     <div class="col-sm-12 col-md-12">
                       <textarea class="content" id="content" name="description" class="form-control"
-                        required> <%=termsData.description%> </textarea>
-                      <input type="hidden" name="id" value="<%=termsData.id%>"> <br>
+                        required> <%=termsData?.description%> </textarea>
+                      <input type="hidden" name="id" value="<%=termsData?.id%>"> <br>
                       <button type="submit" class="btn btn-primary">Submit <i
                           class="icon-arrow-right14 position-right"></i></button>
                     </div>
@@ -45,7 +42,6 @@
     <div class="sidenav-overlay"></div>
     <div class="drag-target"></div>
     <%- include('../common/footer') %>
-
 
       <script>
         CKEDITOR.replace('content');

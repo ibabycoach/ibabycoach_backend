@@ -10,10 +10,6 @@ const babymemories = new mongoose.Schema({
     },
   ],
 
-  // image: [{
-  //   url:{ type : String}
-  // }],
-
   note: { type: String, default: '' },
 }, 
   {timestamps: true });
