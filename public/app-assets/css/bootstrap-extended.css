@@ -1082,7 +1082,7 @@ select:-webkit-autofill {
 }
 
 .header-navbar .navbar-container ul.navbar-nav li a.dropdown-user-link .user-status {
-  font-size: smaller;
+  font-size: medium;
 }
 
 .header-navbar .navbar-container ul.navbar-nav li a.dropdown-user-link img {

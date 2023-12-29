@@ -1,6 +1,7 @@
 const userModel = require('../../model/Admin/user')
 const babyModel = require('../../model/Admin/baby')
 const subscriptions = require('../../model/Admin/subscriptions')
+const activityModel = require('../../model/Admin/activity')
 const bcrypt = require('bcrypt')
 const helper = require('../../Helper/helper')
 const { Validator } = require('node-input-validator');
@@ -48,6 +49,7 @@ module.exports = {
             let users = await userModel.count({ role: 1 })
             let babies = await babyModel.count()
             let subscription = await subscriptions.count()
+            let activity = await activityModel.count()
             const baby = await babyModel.aggregate([
                 {
                     $project: {
@@ -99,7 +101,7 @@ module.exports = {
                 const monthIndex = result._id.month - 1;
                 userCounts[monthIndex] = result.count;
             });
-            res.render('Admin/admin/dashboard', { userCounts, babyCount, title, users, babies, subscription, session: req.session.user, msg: req.flash('msg') })
+            res.render('Admin/admin/dashboard', { userCounts, babyCount, title, users, babies, subscription, activity, session: req.session.user, msg: req.flash('msg') })
         } catch (error) {
             console.log(error)
         }
