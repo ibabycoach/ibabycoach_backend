@@ -26,7 +26,6 @@ router.post('/change_password', authenticateJWT, Authcontroller.change_password)
 
 ///////// PROFILE //////
 router.get('/profile', authenticateJWT, userprofilecontroller.profile)
-router.get('/home_screen', authenticateJWT, userprofilecontroller.home_screen)
 
 //////////////// BABY ////////
 router.post('/add_baby', authenticateJWT, babycontroller.add_baby)
