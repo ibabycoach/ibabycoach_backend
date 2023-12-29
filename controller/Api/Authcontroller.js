@@ -62,6 +62,20 @@ module.exports = {
       if (dataEnter) {
         let userInfo = await user_model.findOne({ _id: dataEnter._id });
         delete userInfo.password;
+
+        let token = jwt.sign(
+          {
+            data: {
+              _id: userInfo._id,
+              loginTime: time,
+            },
+          },
+          secretCryptoKey,
+          { expiresIn: "365d" }
+        );
+        userInfo = JSON.stringify(userInfo);
+        userInfo = JSON.parse(userInfo);
+        userInfo.token = token;
   
         return helper.success(res, "Signup Successfully", userInfo);
       }
