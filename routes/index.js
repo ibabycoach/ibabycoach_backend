@@ -10,6 +10,7 @@ const growthController = require('../controller/Admin/growthController');
 const activityController = require('../controller/Admin/activityController');
 const goalsController = require('../controller/Admin/goalsController');
 const pushNotificationController = require('../controller/Admin/pushNotificationController');
+const chatController = require('../controller/Admin/chatController');
 
 
 var router = express.Router();
@@ -98,6 +99,10 @@ router.post('/goaleStatus', goalsController.goaleStatus)
 
 router.get('/push-notification', pushNotificationController.pushNotification);
 router.post('/push-notification', pushNotificationController.pushNotificationPost);
+
+
+//////////////  CHAT  ///////////////
+router.get('/user_chat', chatController.user_chat)
 
 
 
