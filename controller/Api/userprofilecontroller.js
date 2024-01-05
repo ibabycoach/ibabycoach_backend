@@ -26,7 +26,6 @@ module.exports = {
     edit_profile: async(req, res)=> {
         try {
             let userId = req.user.id;
-            let babyId = req.body.id;
             
             const userdata = await user_model.findByIdAndUpdate({_id: userId},
                 {name: req.body.name });

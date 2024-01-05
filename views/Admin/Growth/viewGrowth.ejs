@@ -36,7 +36,7 @@
                             value="<%=growthView.babyId.name%> " disabled>
                         </div>
                       </div>
-                      <div class="mb-1 row">
+                      <!-- <div class="mb-1 row">
                         <div class="col-sm-2">
                           <label class="col-form-label new_lable" for="name">Birthday</label>
                         </div>
@@ -44,38 +44,15 @@
                           <input type="text" id="name" class="form-control" name="name"
                             value="<%=growthView.birthDate%> " disabled>
                         </div>
-                      </div>
+                      </div> -->
                       <div class="mb-1 row">
                         <div class="col-sm-2">
                           <label class="col-form-label new_lable" for="name">Gender</label>
                         </div>
-                        <% if(growthView.gender==1) { %>
-                          <div class="col-sm-10">
-                            Boy
-                          </div>
-                          <% } else { %>
-                            <div class="col-sm-10">
-                              Girl
-                            </div>
-                            <% } %>
-                      </div>
-
-                      <!-- <div class="mb-1 row">
-                        <div class="col-sm-2">
-                            <label class="col-form-label new_lable" for="gender">Gender</label>
-                        </div>
                         <div class="col-sm-10">
-                            <select id="gender" name="gender" class="form-control">
-                                <% if(growthView.gender == 1) { %>
-                                    <option value="1" selected>Boy</option>
-                                    <option value="2">Girl</option>
-                                <% } else { %>
-                                    <option value="1">Boy</option>
-                                    <option value="2" selected>Girl</option>
-                                <% } %>
-                            </select>
+                          <input type="text" class="form-control" id="gender" name="gender" value="<%= growthView.gender == 1 ? 'Boy' : 'Girl' %>" disabled>
                         </div>
-                    </div> -->
+                      </div>
                     
                       <div class="mb-1 row">
                         <div class="col-sm-2">
@@ -102,6 +79,15 @@
                         <div class="col-sm-10">
                           <input type="text" id="tenure" class="form-control" name="tenure"
                             value="<%=growthView.weight%> " disabled>
+                        </div>
+                      </div>
+                      <div class="mb-1 row">
+                        <div class="col-sm-2">
+                          <label class="col-form-label new_lable" for="phone">Head Size</label>
+                        </div>
+                        <div class="col-sm-10">
+                          <input type="text" id="tenure" class="form-control" name="tenure"
+                            value="<%=growthView.headSize%> " disabled>
                         </div>
                       </div>
 

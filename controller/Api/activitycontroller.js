@@ -36,6 +36,31 @@ module.exports = {
         }
     },
 
+    edit_activity: async(req, res)=> {
+        try {
+            const v = new Validator(req.body, {
+                activityId: "required",
+            }) 
+
+            const errorResponse = await helper.checkValidation(v);
+            if (errorResponse) {
+                return helper.failed(res, errorResponse);
+            }
+
+            let activityId = req.body.activityId;
+            const editActivity = await activity_model.findOneAndUpdate({_id: req.body.activityId},
+                {   ...req.body });
+
+                const findactivity = await activity_model.findOne({_id:req.body.activityId})
+            return helper.success(res, "activity updated successfully", findactivity)
+
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+
+
     
 
 

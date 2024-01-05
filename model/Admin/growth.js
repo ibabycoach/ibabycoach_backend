@@ -4,6 +4,7 @@ const growthSchema = new mongoose.Schema({
   userId: {type: mongoose.Schema.Types.ObjectId, ref: "User"},
   babyId: {type: mongoose.Schema.Types.ObjectId, ref: "baby"},
   age: { type: String, default: '' },
+  time: { type: Date, default: '' },
   height: { type: String, default: '' },
   weight: { type: String, default: '' },
   birthDate: {type: String, default: ''},

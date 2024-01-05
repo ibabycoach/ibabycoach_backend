@@ -24,27 +24,33 @@ router.post('/socialLogin', Authcontroller.socialLogin)
 router.post('/logout', authenticateJWT, Authcontroller.logout)
 router.post('/change_password', authenticateJWT, Authcontroller.change_password)
 
-///////// PROFILE //////
+///////// PROFILE ////////////
 router.get('/profile', authenticateJWT, userprofilecontroller.profile)
 router.post('/edit_profile', authenticateJWT, userprofilecontroller.edit_profile)
 
 //////////////// BABY ////////
 router.post('/add_baby', authenticateJWT, babycontroller.add_baby)
+router.post('/edit_baby', authenticateJWT, babycontroller.edit_baby)
+router.delete('/delete_baby', authenticateJWT, babycontroller.delete_baby)
 
-/////////// GROWTH ////////////////////
+/////////// GROWTH ///////////
 router.post('/Add_growth', authenticateJWT, growthcontroller.Add_growth)
+router.post('/edit_growth', authenticateJWT, growthcontroller.edit_growth)
 
 ////// ROUTINE BUILDER ///////
 router.post('/add_routine', authenticateJWT, routinecontroller.add_routine)
+router.post('/edit_routine', authenticateJWT, routinecontroller.edit_routine)
 
-///////////  MEMORIES ///////
+///////////  MEMORIES ////////
 router.post('/add_memories', authenticateJWT, memoriescontroller.add_memories)
-router.get('/get_memory_images', authenticateJWT, memoriescontroller.get_memory_images)
+router.post('/get_memory_images', authenticateJWT, memoriescontroller.get_memory_images)
+router.post('/delete_images', authenticateJWT, memoriescontroller.delete_images)
 
-//////// ACTIVITY ///////
+//////// ACTIVITY ////////////
 router.post('/customizable_activity', authenticateJWT, activitycontroller.customizable_activity)
+router.post('/edit_activity', authenticateJWT, activitycontroller.edit_activity)
 
-/////////// CMS //////////////////
+/////////// CMS //////////////
 router.get('/aboutUs', authenticateJWT, cmscontroller.aboutUs)
 router.get('/privacyPolicy', authenticateJWT, cmscontroller.privacyPolicy)
 router.get('/termsConditions', authenticateJWT, cmscontroller.termsConditions)

@@ -5,16 +5,6 @@ const { Validator } = require('node-input-validator');
 
 module.exports = {
 
-get_memory_images: async(req, res) => {
-    try {
-        const get_baby_memories = await memories_model.findOne({babyId: req.body.babyId});
-
-        return helper.success(res, "baby memories", get_baby_memories)
-    } catch (error) {
-        console.log(error)
-    }
-},
-
 add_memories: async (req, res) => {
     try {
       let userId = req.user.id;
@@ -60,6 +50,43 @@ add_memories: async (req, res) => {
       return helper.failed(res, "Internal Server Error");
     }
 },
+
+get_memory_images: async(req, res) => {
+  try {
+
+    let babyId = req.body.babyId
+    const get_baby_memories = await memories_model.findOne({babyId: req.body.babyId});
+
+    return helper.success(res, "baby memories", get_baby_memories)
+    
+  } catch (error) {
+      console.log(error)
+  }
+},
+
+delete_images : async(req, res)=> {
+  try {
+
+    let memoryId = req.body.id;
+    let imageId = req.body.imageId;
+    
+    const findmemory = await memories_model.findOne({_id: req.body.memoryId})
+
+    if (!findmemory) {
+      return helper.failed(res, "memories not found")
+    }
+    findmemory.image.pull(imageId)
+
+    await findmemory.save();
+
+    const updatedmemories = await memories_model.findOne({_id: req.body.memoryId}) 
+   
+    return helper.success(res, "image removed successfully", updatedmemories)
+
+  } catch (error) {
+    console.log(error)
+  }
+}
   
 
 
