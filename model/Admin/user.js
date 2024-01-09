@@ -9,9 +9,10 @@ const userSchema = new mongoose.Schema({
   phone: { type: Number, default: '' },
   image: { type: String, default: '' },
   country_code: {type: Number},
+  parentId :{ type: mongoose.Schema.Types.ObjectId, ref: "User",default: null},
   role: {
     type: String,
-    enum: ["0", "1"],
+    enum: ["0", "1", "2"],
     default: "1", // 0 for Admin, 1 for user
   },
   status: {

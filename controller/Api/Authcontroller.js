@@ -86,61 +86,140 @@ module.exports = {
     }
   },
   
+  // Login: async (req, res) => {
+  //   try {
+  //         const v = new Validator(req.body, {
+  //           email: 'required|email',
+  //           password: 'required|minLength:6',
+  //       });
+
+  //       let errorsResponse = await helper.checkValidation(v)
+  //       if (errorsResponse) {
+  //           return await helper.failed(res, errorsResponse)
+  //       }
+
+  //       const updateDeviceToken = await user_model.findOneAndUpdate({email: req.body.email},
+  //         {device_token: req.body.device_token,
+  //           device_type: req.body.device_type},
+  //           {new: true}
+  //           ); 
+            
+  //       var findUser = await user_model.findOne({ email: req.body.email})
+
+  //       if (findUser) {
+  //           let checkPassword = await bcrypt.compare(req.body.password, findUser.password);
+  //           const findbaby = await babyModel.findOne({userId: findUser._id});
+
+  //           let time = await helper.unixTimestamp();
+  //           let token = jwt.sign(
+  //             {
+  //               data: {
+  //                 _id: findUser._id,
+  //                 loginTime: time,
+  //               },
+  //             },
+  //             secretCryptoKey,
+  //             { expiresIn: "365d" }
+  //           );
+  //           findUser = JSON.stringify(findUser);
+  //           findUser = JSON.parse(findUser);
+  //           findUser.token = token;
+
+  //           if (findUser.role === 2) {
+  //             return await helper.success(res, "login successful", findUser)
+  //         } else {
+             
+  //             const findbaby = await babyModel.findOne({
+  //                 userId: findUser._id,
+  //             });
+  //             findUser.hasBabyAdded = findbaby ? 1 : 0;
+  //         }
+        
+  //           if (checkPassword == true) {
+  //               req.session.user = findUser;
+  //               return await helper.success(res, "login successful", findUser)
+  //           } else {
+  //               console.log("incorrect password")
+  //               return helper.failed(res, "incorrect password")
+  //           }
+  //       } else {
+  //           console.log("incorrect email")
+  //           return helper.failed(res, "incorrect email")
+  //       }
+  //   } catch (error) {
+  //       console.log(error)
+  //   }
+  // },
+
+
   Login: async (req, res) => {
     try {
-          const v = new Validator(req.body, {
+        const v = new Validator(req.body, {
             email: 'required|email',
             password: 'required|minLength:6',
         });
 
-        let errorsResponse = await helper.checkValidation(v)
+        let errorsResponse = await helper.checkValidation(v);
         if (errorsResponse) {
-            return await helper.failed(res, errorsResponse)
+            return await helper.failed(res, errorsResponse);
         }
 
-        const updateDeviceToken = await user_model.findOneAndUpdate({email: req.body.email},
-          {device_token: req.body.device_token,
-            device_type: req.body.device_type},
-            {new: true}
-            ); 
-            
-        var findUser = await user_model.findOne({ email: req.body.email})
+        const updateDeviceToken = await user_model.findOneAndUpdate(
+            { email: req.body.email },
+            {
+                device_token: req.body.device_token,
+                device_type: req.body.device_type,
+            },
+            { new: true }
+        );
 
+        const findUser = await user_model.findOne({ email: req.body.email });
         if (findUser) {
-            let checkPassword = await bcrypt.compare(req.body.password, findUser.password);
-            const findbaby = await babyModel.findOne({userId: findUser._id});
+            let checkPassword = await bcrypt.compare(
+                req.body.password,
+                findUser.password
+            );
 
             let time = await helper.unixTimestamp();
             let token = jwt.sign(
-              {
-                data: {
-                  _id: findUser._id,
-                  loginTime: time,
+                {
+                    data: {
+                        _id: findUser._id,
+                        loginTime: time,
+                    },
                 },
-              },
-              secretCryptoKey,
-              { expiresIn: "365d" }
+                secretCryptoKey,
+                { expiresIn: "365d" }
             );
-            findUser = JSON.stringify(findUser);
-            findUser = JSON.parse(findUser);
+
             findUser.token = token;
-            findUser.hasBabyAdded = findbaby ? 1 : 0;
-        
+
+            // Check the user's role
+            if (findUser.role === 2) {
+                // If role is 2 (or any other condition you want to check), do not include hasBabyAdded
+            } else {
+                // For other roles, include hasBabyAdded
+                const findbaby = await babyModel.findOne({
+                    userId: findUser._id,
+                });
+                findUser.hasBabyAdded = findbaby ? 1 : 0;
+            }
+
             if (checkPassword == true) {
                 req.session.user = findUser;
-                return await helper.success(res, "login successful", findUser)
+                return await helper.success(res, "login successful", findUser);
             } else {
-                console.log("incorrect password")
-                return helper.failed(res, "incorrect password")
+                console.log("incorrect password");
+                return helper.failed(res, "incorrect password");
             }
         } else {
-            console.log("incorrect email")
-            return helper.failed(res, "incorrect email")
+            console.log("incorrect email");
+            return helper.failed(res, "incorrect email");
         }
     } catch (error) {
-        console.log(error)
+        console.log(error);
     }
-  },
+},
 
   otpVerify: async (req, res) => {
     try {

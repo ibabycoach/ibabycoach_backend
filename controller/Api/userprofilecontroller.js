@@ -3,6 +3,10 @@ const baby_model = require('../../model/Admin/baby')
 const activity_model = require('../../model/Admin/activity')
 const helper = require('../../Helper/helper')
 const { Validator } = require('node-input-validator');
+const bcrypt = require('bcrypt');
+var jwt = require('jsonwebtoken');
+var secretCryptoKey = process.env.jwtSecretKey || "secret_iBabycoachs_@onlyF0r_JWT";
+const nodemailer = require("nodemailer");
 
 module.exports = {
 
@@ -39,6 +43,77 @@ module.exports = {
         } catch (error) {
             console.log(error)
         }
+    },
+
+    add_subuser: async(req, res)=> {
+        try {
+            let parentId = req.user._id;
+            // console.log(req.user._id, ">>>>>>>>");return
+
+            const v = new Validator(req.body, {
+              name: "required",
+              email: "required",
+              password: "required",
+              phone: "required",
+              country_code: "required",
+            });
+            const values = JSON.parse(JSON.stringify(v));
+            let errorsResponse = await helper.checkValidation(v);
+        
+            if (errorsResponse) {
+              return helper.failed(res, errorsResponse);
+            }
+            
+            const isemailExist = await user_model.findOne({ email: req.body.email });
+        
+            if (isemailExist) {
+              return helper.failed(res, "Email already exists");
+            }
+        
+            const ismobileExist = await user_model.findOne({ phone: req.body.phone });
+        
+            if (ismobileExist) {
+              return helper.failed(res, "Mobile already exists");
+            }
+        
+            var Otp = 1111;
+            // var Otp = Math.floor(1000 + Math.random() * 9000);
+      
+            let time = helper.unixTimestamp();
+            req.body.loginTime = time;
+            req.body.otp = Otp;
+        
+            let hash = await bcrypt.hash(req.body.password, 10);
+
+            let dataEnter = await user_model.create({ parentId: parentId,
+                ...req.body, password: hash });
+        
+            const getUser = await user_model.findOne({ email: dataEnter.email });
+        
+            if (dataEnter) {
+              let userInfo = await user_model.findOne({ _id: dataEnter._id });
+              delete userInfo.password;
+      
+              let token = jwt.sign(
+                {
+                  data: {
+                    _id: userInfo._id,
+                    loginTime: time,
+                  },
+                },
+                secretCryptoKey,
+                { expiresIn: "365d" }
+              );
+              userInfo = JSON.stringify(userInfo);
+              userInfo = JSON.parse(userInfo);
+              userInfo.token = token;
+        
+              return helper.success(res, "Signup Successfully", userInfo);
+            }
+          } catch (error) {
+            console.log(error);
+            return helper.error(res, "error");
+          }
     }
 
 

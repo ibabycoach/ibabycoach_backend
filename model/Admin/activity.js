@@ -11,7 +11,7 @@ const activitySchema = new mongoose.Schema({
   image: { type: String, default: '' },
   status: {
     type: String,
-    enum: ["1", "2"],
+    enum: ["0", "1"],
     default: "1", //  1 for  Active , 2 for Inactive
   },
 }, 

@@ -14,8 +14,8 @@ const goalsSchema = new mongoose.Schema({
 
   status: {
     type: String,
-    enum: ["1", "2"],
-    default: "1", //  1 for  Active, 2 for Inactive
+    enum: ["0", "1"],
+    default: "1", //  1 for  Active, 0 for Inactive
   },
 
 },
