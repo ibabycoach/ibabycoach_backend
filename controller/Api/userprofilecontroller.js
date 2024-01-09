@@ -13,9 +13,13 @@ module.exports = {
             const userprofile = await user_model.findOne({_id: userId})
 
             if (!userprofile) {
-                return helper.failed (res, "something went wrong")
+                return helper.failed (res, "user not found")
             }
             const userBaby = await baby_model.find({userId: userprofile._id})
+
+            if (!userprofile) {
+                return helper.failed (res, "baby not found")
+            }
 
             return helper.success(res, "user profile", {userprofile, userBaby} )
         } catch (error) {

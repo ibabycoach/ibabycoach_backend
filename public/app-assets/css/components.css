@@ -3979,11 +3979,11 @@ tr.group {
 }
 
 .navbar-floating .navbar-container:not(.main-menu-content) {
-  box-shadow: none !important;
+  box-shadow: black;
 }
 
 .card-header:first-child {
-  box-shadow: none !important;
+  box-shadow:  black;
 }
 
 .main-menu .sm_img {

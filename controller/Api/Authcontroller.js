@@ -1,4 +1,5 @@
 let user_model = require('../../model/Admin/user')
+let babyModel = require('../../model/Admin/baby')
 let helper = require('../../Helper/helper')
 const authenticateHeader = require("../../Helper/helper").authenticateHeader;
 const bcrypt = require('bcrypt');
@@ -104,8 +105,10 @@ module.exports = {
             ); 
             
         var findUser = await user_model.findOne({ email: req.body.email})
+
         if (findUser) {
             let checkPassword = await bcrypt.compare(req.body.password, findUser.password);
+            const findbaby = await babyModel.findOne({userId: findUser._id});
 
             let time = await helper.unixTimestamp();
             let token = jwt.sign(
@@ -121,6 +124,7 @@ module.exports = {
             findUser = JSON.stringify(findUser);
             findUser = JSON.parse(findUser);
             findUser.token = token;
+            findUser.hasBabyAdded = findbaby ? 1 : 0;
         
             if (checkPassword == true) {
                 req.session.user = findUser;
