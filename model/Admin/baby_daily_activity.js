@@ -16,7 +16,7 @@ const babyDailyActivitySchema = new mongoose.Schema({
   status: {
     type: String,
     enum: ["0", "1"],
-    default: "0", //  1 for  Active , 2 for Inactive
+    default: "1", //  1 for  Active , 0 for Inactive
   },
 }, 
 
