@@ -151,7 +151,6 @@ module.exports = {
     }
   },
 
-
   otpVerify: async (req, res) => {
     try {
       const v = new Validator(req.body, {

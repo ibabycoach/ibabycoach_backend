@@ -50,6 +50,7 @@ router.post('/delete_images', authenticateJWT, memoriescontroller.delete_images)
 //////// ACTIVITY ////////////
 router.post('/customizable_activity', authenticateJWT, activitycontroller.customizable_activity)
 router.post('/edit_activity', authenticateJWT, activitycontroller.edit_activity)
+router.get('/get_activity', authenticateJWT, activitycontroller.get_activity)
 
 /////////// CMS //////////////
 router.get('/aboutUs', authenticateJWT, cmscontroller.aboutUs)

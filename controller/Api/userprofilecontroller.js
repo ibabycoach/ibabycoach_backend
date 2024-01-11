@@ -48,7 +48,6 @@ module.exports = {
     add_subuser: async(req, res)=> {
         try {
             let parentId = req.user._id;
-            // console.log(req.user._id, ">>>>>>>>");return
 
             const v = new Validator(req.body, {
               name: "required",

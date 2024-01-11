@@ -11,6 +11,7 @@ const activityController = require('../controller/Admin/activityController');
 const goalsController = require('../controller/Admin/goalsController');
 const pushNotificationController = require('../controller/Admin/pushNotificationController');
 const chatController = require('../controller/Admin/chatController');
+const subuserController = require('../controller/Admin/subuserController');
 
 
 var router = express.Router();
@@ -36,6 +37,10 @@ router.post('/createUser', userController.createUser)
 router.post('/updateUser', userController.updateUser)
 router.delete('/deleteUser/:id', userController.deleteUser)
 router.post('/userStatus', userController.userStatus)
+
+ //***************SUBUSER ****************************
+ router.get('/subuser_List', subuserController.subuser_List)
+ router.get('/viewSubuser/:id', subuserController.viewSubuser)
 
 //**************** BABY *****************************
 router.post('/createBaby', babyController.createBaby)

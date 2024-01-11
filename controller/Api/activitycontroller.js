@@ -36,6 +36,15 @@ module.exports = {
         }
     },
 
+    get_activity: async(req, res)=> {
+        try {
+            const getactivity = await activity_model.find()
+            return helper.success(res, "activity list", getactivity )
+        } catch (error) {
+            console.log(error)
+        }
+    },
+
     edit_activity: async(req, res)=> {
         try {
             const v = new Validator(req.body, {
