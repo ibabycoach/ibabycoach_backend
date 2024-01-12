@@ -16,7 +16,7 @@
                   </div>
                   <br>
                   <div class="card-body">
-                    <form class="form form-vertical" id="" action="/postActivity" method="POST"
+                    <form class="form form-vertical" action="/postActivity" method="POST" id="profile"
                       enctype="multipart/form-data">
                       <div class="mb-1 row">
                         <div class="col-sm-2">
@@ -55,3 +55,44 @@
     <div class="sidenav-overlay"></div>
     <div class="drag-target"></div>
     <%- include('../common/footer') %>
+
+    <script>
+      $(document).ready(function () {
+
+        jQuery.validator.addMethod("noSpace", function (value, element) {
+          return value == '' || value.trim().length != 0;
+        }, "No space please and don't leave it empty");
+
+        $('#profile').validate({
+          rules: {
+            activity_name: {
+              required: true,
+              noSpace: true,
+              maxlength: 60
+            },
+           
+
+          },
+
+          errorElement: "div",
+          errorClass: "jqval-error",
+          errorPlacement: function (error, element) {
+            error.insertAfter(element);
+            error.slideDown(400);
+            error.animate({
+              opacity: 1
+            }, {
+              queue: false,
+              duration: 700
+            });
+          },
+
+          submitHandler: function (form) {
+            var error = $(".assign_error_div").text();
+            if (!error) {
+              form.submit();
+            }
+          }
+        });
+      });
+    </script>
