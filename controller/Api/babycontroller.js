@@ -26,9 +26,13 @@ module.exports = {
             }
           }
           let userId = req.user._id
-            const addbaby = await baby_model.create({ 
+            var addbaby = await baby_model.create({ 
               userId,
               ...req.body });
+
+              const updatebabydata = await user_model.findByIdAndUpdate(userId, {
+               babyId: addbaby._id
+            });
 
           return helper.success(res, "baby details added", addbaby)
     } catch (error) {

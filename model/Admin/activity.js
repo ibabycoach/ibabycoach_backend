@@ -9,7 +9,12 @@ const activitySchema = new mongoose.Schema({
   time: { type: String, default: '' },
   day: { type: String, default: '' },
   image: { type: String, default: '' },
-  status: {
+  activity_type: {type: String,
+    type: String,
+    enum: ["1", "2"],
+    default: "1", //  1 for  by admin , 2 for by user
+  },
+    status: {
     type: String,
     enum: ["0", "1"],
     default: "1", //  1 for  Active , 0 for Inactive
