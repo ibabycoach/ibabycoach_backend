@@ -53,6 +53,13 @@ add_memories: async (req, res) => {
 
 get_memory_images: async(req, res) => {
   try {
+    const v = new Validator(req.body, {
+      babyId: "required"
+    })
+    const errorResponse = await helper.checkValidation(v);
+    if(errorResponse) {
+      return helper.failed(res, "something went wrong")
+    }
 
     let babyId = req.body.babyId
     const get_baby_memories = await memories_model.findOne({babyId: req.body.babyId});

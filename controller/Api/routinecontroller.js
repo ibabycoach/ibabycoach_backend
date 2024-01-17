@@ -31,6 +31,36 @@ module.exports = {
       }
   },
 
+  get_activityByAdmin: async(req, res)=> {
+    try {
+        const getactivity = await activity_model.find({activity_type:1})
+        return helper.success(res, "activity list", getactivity )
+    } catch (error) {
+        console.log(error)
+    }
+  },
+
+  get_routine: async(req, res)=> {
+    try {
+      const v = new Validator(req.body, {
+        babyId: "required"
+      })
+      const errorResponse = await helper.checkValidation(v);
+      if(errorResponse) {
+        return helper.failed(res, "something went wrong")
+      }
+
+      let babyId = req.body.babyId
+    const get_baby_memories = await routinebuilder.find({babyId: babyId});
+
+    return helper.success(res, "baby routine", get_baby_memories)
+
+    } catch (error) {
+      console.log(error);
+    }
+  },
+
+
   edit_routine: async(req, res)=> {
       try {
         
