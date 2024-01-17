@@ -36,6 +36,7 @@ router.delete('/delete_baby', authenticateJWT, babycontroller.delete_baby)
 
 /////////// GROWTH ///////////
 router.post('/Add_growth', authenticateJWT, growthcontroller.Add_growth)
+router.post('/track_growth', authenticateJWT, growthcontroller.track_growth)
 router.post('/edit_growth', authenticateJWT, growthcontroller.edit_growth)
 
 ////// ROUTINE BUILDER ///////
