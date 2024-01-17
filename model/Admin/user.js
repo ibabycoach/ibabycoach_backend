@@ -2,14 +2,14 @@ const mongoose = require('mongoose');
 
 const userSchema = new mongoose.Schema({
   
-  babyId:{ type: mongoose.Schema.Types.ObjectId, ref: "baby",default: null},
+  babyId:{ type: mongoose.Schema.Types.ObjectId, ref: "baby", default: null},
   name: { type: String, default: '' },
   email: { type: String, default: '' },
   password: { type: String, default: '' },
   phone: { type: Number, default: '' },
   image: { type: String, default: '' },
   country_code: {type: Number},
-  parentId :{ type: mongoose.Schema.Types.ObjectId, ref: "User",default: null},
+  parentId :{ type: mongoose.Schema.Types.ObjectId, ref: "User", default: null},
   role: {
     type: String,
     enum: ["0", "1", "2"],

@@ -1,12 +1,8 @@
 const mongoose = require('mongoose');
 
 const goalsSchema = new mongoose.Schema({
-  name: {
-    type: String
-  },
-  weeksdays: {
-    type: String,
-  },
+  name: { type: String},
+  weeksdays: {type: String},
   title: { type: String, default: '' },
   image: { type: String, default: '' },
   description: { type: String, default: '' },

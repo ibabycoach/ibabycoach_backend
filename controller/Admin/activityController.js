@@ -1,5 +1,6 @@
 const activityModel = require('../../model/Admin/activity');
 const helper = require('../../Helper/helper')
+const userModel = require('../../model/Admin/user')
 
 
 module.exports = {
@@ -38,10 +39,10 @@ module.exports = {
     activity_List: async(req, res)=> {
         try {
             let title = "Activity"
-            const activityData = await activityModel.find()
-            console.log(activityData,'growthData')
+            const activityData = await activityModel.find({activity_type:'1'})
+            const customactivity = await activityModel.find({activity_type:'2'}).populate('userId', 'name')
              
-            res.render('Admin/Activity/ActivityList', {title, activityData, session:req.session.user,  msg: req.flash('msg')})
+            res.render('Admin/Activity/ActivityList', {title, activityData, customactivity, session:req.session.user,  msg: req.flash('msg')})
         } catch (error) {
             console.log(error)
         }

@@ -3,8 +3,8 @@ const mongoose = require('mongoose');
 const babySchema = new mongoose.Schema({
 
   userId: {type: mongoose.Schema.Types.ObjectId, ref: "User"},
-  name: { type: String, default: '' },
-  birthday: { type: String, default: '' },
+  baby_name: { type: String, default: '' },
+  birthday: { type: Date, default: '' },
   image: { type: String, default: '' },
   gender: {
     type: String,

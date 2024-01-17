@@ -8,7 +8,7 @@ module.exports = {
   add_baby : async(req, res)=> {
     try {
       const v = new Validator(req.body, {
-        name: "required",
+        baby_name: "required",
         birthday: "required",
         gender: "required"
       });
@@ -61,7 +61,7 @@ module.exports = {
      let babyId = req.body.babyId;
 
       const babydata = await baby_model.findByIdAndUpdate({_id: babyId},
-        {name: req.body.name,
+        {baby_name: req.body.baby_name,
         image: req.body.image,
         birthday: req.body.birthday,
         gender: req.body.gender});

@@ -33,12 +33,32 @@ module.exports = {
 
     edit_profile: async(req, res)=> {
         try {
-            let userId = req.user.id;
-            
+            let userId = req.user._id;
             const userdata = await user_model.findByIdAndUpdate({_id: userId},
-                {name: req.body.name });
+                {name: req.body.name,
+                phone: req.body.phone});
 
-            return helper.success(res, "user details updated successfully", userdata)
+                if (req.files && req.files.image) {
+                  var image = req.files.image;
+                
+                  if (image) {
+                    req.body.image = helper.imageUpload(image, "images");
+                  }
+                }
+                
+                const babydata = await baby_model.findByIdAndUpdate({_id: req.body.babyId},
+                  {baby_name: req.body.baby_name,
+                  birthday: req.body.birthday,
+                  gender: req.body.gender,
+                  image: req.body.image}
+                  );
+
+                  const findUpdatedUser = await user_model.findOne({_id: userId})
+                  const findUpdatedbaby = await baby_model.findOne({_id: req.body.babyId})
+                
+            return helper.success(res, "user details updated successfully", 
+            { user_data: findUpdatedUser, 
+              baby_data: findUpdatedbaby })
 
         } catch (error) {
             console.log(error)
