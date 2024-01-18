@@ -50,8 +50,7 @@ module.exports = {
                   {baby_name: req.body.baby_name,
                   birthday: req.body.birthday,
                   gender: req.body.gender,
-                  image: req.body.image}
-                  );
+                  image: req.body.image});
 
                   const findUpdatedUser = await user_model.findOne({_id: userId})
                   const findUpdatedbaby = await baby_model.findOne({_id: req.body.babyId})
@@ -127,7 +126,7 @@ module.exports = {
               userInfo = JSON.parse(userInfo);
               userInfo.token = token;
         
-              return helper.success(res, "Signup Successfully", userInfo);
+              return helper.success(res, "sub-user added successfully", userInfo);
             }
           } catch (error) {
             console.log(error);

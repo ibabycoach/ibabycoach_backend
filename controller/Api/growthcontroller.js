@@ -41,14 +41,13 @@ module.exports = {
       }
 
       let babyId = req.body.babyId;
-      const babygrowth = await growthModel.find({babyId: babyId})
+      const babygrowth = await growthModel.find({ babyId: babyId }).sort({ createdAt: 1 });
 
       return helper.success(res, "baby growth details", babygrowth)
     } catch (error) {
       
     }
   },
-
 
   edit_growth: async(req, res)=> {
     try {

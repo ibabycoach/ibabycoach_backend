@@ -58,7 +58,7 @@
                           <label class="col-form-label new_lable" for="tenure">Date</label>
                         </div>
                         <div class="col-sm-10">
-                          <input type="text" id="tenure" class="form-control" name="date" value="<%=Goaldetail.date%> ">
+                          <input type="text" id="tenure" class="form-control" name="date" value="<%= new Date(Goaldetail.date).toLocaleDateString('en-US', { day: '2-digit', month: 'long', year: 'numeric' }) %>">
                         </div>
                       </div>
                       <div class="mb-1 row">

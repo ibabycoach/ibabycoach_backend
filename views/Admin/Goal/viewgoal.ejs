@@ -68,7 +68,7 @@
                           <label class="col-form-label new_lable" for="email">Date</label>
                         </div>
                         <div class="col-sm-10">
-                          <input type="text" id="price" class="form-control" name="date" value="<%=goalView.date%> "
+                          <input type="text" id="price" class="form-control" name="date" value="<%= new Date(goalView.date).toLocaleDateString('en-US', { day: '2-digit', month: 'long', year: 'numeric' }) %>"
                             disabled>
                         </div>
                       </div>

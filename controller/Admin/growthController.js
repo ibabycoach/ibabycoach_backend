@@ -5,9 +5,7 @@ module.exports = {
 
     add_growth: async(req, res)=> {
         try {
-
             let babygrowth = await growthModel.create({
-
                 userId: req.body.userId,
                 babyId: req.body.babyId,
                 age: req.body.age,

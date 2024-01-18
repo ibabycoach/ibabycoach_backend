@@ -37,13 +37,13 @@
                             <%=1+i%>
                           </td>
                           <td>
-                            <%=data.name%>
+                            <%=data.baby_name%>
                           </td>
                           <td>
                             <%= (data.gender == 0) ? 'Girl' : (data.gender == 1) ? 'Male' : 'Not specified' %>
                           </td>
                           <td>
-                            <%=data.birthday%>
+                            <%= new Date(data.birthday).toLocaleDateString('en-US', { day: '2-digit', month: 'long', year: 'numeric' }) %>
                           </td>
                           <td>
                             <img src="<%=data.image%>" width="45px" height="40px" type="submit" style="cursor:pointer;">

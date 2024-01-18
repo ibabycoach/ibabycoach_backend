@@ -33,7 +33,7 @@
                               <label class="col-form-label new_lable" for="first-name">Name</label>
                             </div>
                             <div class="col-sm-10">
-                              <input type="text" id="name" class="form-control" name="name" value="<%=babydata.name%>"
+                              <input type="text" id="name" class="form-control" name="baby_name" value="<%=babydata.baby_name%>"
                                 disabled>
                             </div>
                           </div>
@@ -52,7 +52,8 @@
                             </div>
                             <div class="col-sm-10">
                               <input type="text" id="birthday" class="form-control" name="birthday"
-                                value="<%=babydata.birthday%>" disabled>
+                                value="<%= new Date(babydata.birthday).toLocaleDateString('en-US', { day: '2-digit', month: 'long', year: 'numeric' }) %>
+                                " disabled>
                             </div>
                           </div>
 

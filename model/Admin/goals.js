@@ -6,7 +6,7 @@ const goalsSchema = new mongoose.Schema({
   title: { type: String, default: '' },
   image: { type: String, default: '' },
   description: { type: String, default: '' },
-  date: { type: String },
+  date: { type: Date, default: '' },
 
   status: {
     type: String,

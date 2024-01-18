@@ -51,7 +51,6 @@ module.exports = {
             const v = new Validator(req.body, {
                 activityId: "required",
             }) 
-
             const errorResponse = await helper.checkValidation(v);
             if (errorResponse) {
                 return helper.failed(res, errorResponse);
