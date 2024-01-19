@@ -65,7 +65,6 @@ get_memory_images: async(req, res) => {
     const get_baby_memories = await memories_model.findOne({babyId: req.body.babyId});
 
     return helper.success(res, "baby memories", get_baby_memories)
-    
   } catch (error) {
       console.log(error)
   }

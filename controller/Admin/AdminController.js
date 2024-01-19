@@ -47,9 +47,11 @@ module.exports = {
         try {
             let title = "dashboard"
             let users = await userModel.count({ role: 1 })
+            let subUser = await userModel.count({ role:2 })
             let babies = await babyModel.count()
             let subscription = await subscriptions.count()
-            let activity = await activityModel.count()
+            let activity = await activityModel.count({activity_type:'1'})
+            let customActivity = await activityModel.count({activity_type:'2'})
             const baby = await babyModel.aggregate([
                 {
                     $project: {
@@ -101,7 +103,7 @@ module.exports = {
                 const monthIndex = result._id.month - 1;
                 userCounts[monthIndex] = result.count;
             });
-            res.render('Admin/admin/dashboard', { userCounts, babyCount, title, users, babies, subscription, activity, session: req.session.user, msg: req.flash('msg') })
+            res.render('Admin/admin/dashboard', { userCounts, babyCount, title, users, subUser, babies, customActivity, subscription, activity, session: req.session.user, msg: req.flash('msg') })
         } catch (error) {
             console.log(error)
         }

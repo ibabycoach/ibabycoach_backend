@@ -45,7 +45,7 @@ module.exports = {
 
       return helper.success(res, "baby growth details", babygrowth)
     } catch (error) {
-      
+      console.log(error)
     }
   },
 

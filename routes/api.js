@@ -10,6 +10,7 @@ const activitycontroller = require('../controller/Api/activitycontroller');
 const cmscontroller = require('../controller/Api/cmscontroller');
 const growthController = require('../controller/Admin/growthController');
 const growthcontroller = require('../controller/Api/growthcontroller');
+const goalcontroller = require('../controller/Api/goalcontroller');
 const authenticateJWT = require("../Helper/helper").authenticateJWT;
 const authenticateHeader = require("../Helper/helper").authenticateHeader;
 
@@ -54,6 +55,9 @@ router.post('/delete_images', authenticateJWT, memoriescontroller.delete_images)
 router.post('/customizable_activity', authenticateJWT, activitycontroller.customizable_activity)
 router.post('/edit_activity', authenticateJWT, activitycontroller.edit_activity)
 router.get('/get_activity', authenticateJWT, activitycontroller.get_activity)
+
+/////////// GOALS ///////////////
+router.get('/get_goals', authenticateJWT, goalcontroller.get_goals)
 
 /////////// CMS //////////////
 router.get('/aboutUs', authenticateJWT, cmscontroller.aboutUs)

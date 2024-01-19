@@ -11,7 +11,7 @@ module.exports = {
           activityId: "required",
           babyId: "required",
           day: "required",
-          time: "required"
+          // time: "required"
         });
         
         const errorResponse = await helper.checkValidation(v);
@@ -33,6 +33,7 @@ module.exports = {
 
   get_activityByAdmin: async(req, res)=> {
     try {
+        
         const getactivity = await activity_model.find({activity_type:1})
         return helper.success(res, "activity list", getactivity )
     } catch (error) {

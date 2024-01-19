@@ -10,8 +10,9 @@ module.exports = {
             const v = new Validator(req.body, {
                 activity_name: "required", 
                 babyId: "required",
-                time: "required",
-                day: "required"
+                day: "required",
+                // time: "required",
+               
             });
             
             const errorResponse = await helper.checkValidation(v);
