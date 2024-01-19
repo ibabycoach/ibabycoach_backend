@@ -5,7 +5,7 @@
    babyId: {type: mongoose.Schema.Types.ObjectId, ref: "baby"},
    activityId: { type: mongoose.Schema.Types.ObjectId, ref: "activity", default:null},  
 
-   day: {type: String, default: ''},
+   day: [{type: String, default: ''}],
    time: {type: String, default: ''},
    status: {type: String, default: '1'}
  },
