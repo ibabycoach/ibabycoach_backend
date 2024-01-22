@@ -36,7 +36,8 @@ module.exports = {
             let userId = req.user._id;
             const userdata = await user_model.findByIdAndUpdate({_id: userId},
                 {name: req.body.name,
-                phone: req.body.phone});
+                phone: req.body.phone,
+                country_code: req.body.country_code});
 
                 if (req.files && req.files.image) {
                   var image = req.files.image;

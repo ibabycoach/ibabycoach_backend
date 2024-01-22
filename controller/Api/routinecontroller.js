@@ -24,16 +24,44 @@ module.exports = {
           ...req.body
         })
 
-        return helper.success(res, "routine added successfully", addroutine)
-            
+        return helper.success(res, "routine added successfully")
       } catch (error) {
-        console.log(error``)
+        console.log(error)
       }
   },
 
+  get_day_routine: async (req, res) => {
+    try {
+      const v = new Validator(req.body, {
+        babyId: "required",
+        day: "string", // Allow day to be optional, assuming it's a string like "Monday"
+      });
+  
+      const errorResponse = await helper.checkValidation(v);
+      if (errorResponse) {
+        await helper.failed(res, "Something went wrong");
+      }
+  
+      let babyId = req.body.babyId;
+      let query = { babyId: babyId };
+  console.log(req.body.day);
+      if (req.body.day) {
+        // If the day is specified, add it to the query
+        query.day = req.body.day; // No need for $in if day is a string
+      }
+  
+      const get_baby_memories = await routinebuilder.find(query);
+  
+      return helper.success(res, "Baby routine", get_baby_memories);
+    } catch (error) {
+      console.log(error);
+    }
+  },
+  
+
   get_activityByAdmin: async(req, res)=> {
     try {
-        
+
         const getactivity = await activity_model.find({activity_type:1})
         return helper.success(res, "activity list", getactivity )
     } catch (error) {

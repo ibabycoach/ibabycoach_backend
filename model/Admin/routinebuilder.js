@@ -4,8 +4,15 @@
    userId: {type: mongoose.Schema.Types.ObjectId, ref: "user"},
    babyId: {type: mongoose.Schema.Types.ObjectId, ref: "baby"},
    activityId: { type: mongoose.Schema.Types.ObjectId, ref: "activity", default:null},  
+ 
+  // day: [{
+  //   type:String
+  // }],
 
-   day: [{type: String, default: ''}],
+  day: [
+    {type:String}
+ ],
+
    time: {type: String, default: ''},
    status: {type: String, default: '1'}
  },
