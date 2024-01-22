@@ -33,6 +33,15 @@ module.exports = {
 
     edit_profile: async(req, res)=> {
         try {
+            const v = new Validator(req.body, {
+                babyId: "required",
+            });
+            
+            const errorResponse = await helper.checkValidation(v);
+            if (errorResponse) {
+                return helper.failed(res, errorResponse);
+            }
+
             let userId = req.user._id;
             const userdata = await user_model.findByIdAndUpdate({_id: userId},
                 {name: req.body.name,
