@@ -30,39 +30,11 @@ module.exports = {
       }
   },
 
-  // get_day_routine: async (req, res) => {
-  //   try {
-  //     const v = new Validator(req.body, {
-  //       babyId: "required",
-  //       // day: "string",
-  //     });
-  
-  //     const errorResponse = await helper.checkValidation(v);
-  //     if (errorResponse) {
-  //       await helper.failed(res, "Something went wrong");
-  //     }
-  
-  //     let babyId = req.body.babyId;
-  //     let query = { babyId: babyId };
-
-  //     if (req.body.day) {
-  //       // If the day is specified, add it to the query
-  //       query.day = req.body.day;
-  //     }
-  
-  //     const get_baby_memories = await routinebuilder.find(query);
-  
-  //     return helper.success(res, "Baby routine", get_baby_memories);
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // },
-  
   get_day_routine: async (req, res) => {
     try {
       const v = new Validator(req.body, {
         babyId: "required",
-        day: "string",
+        day_name: "string",
       });
   
       const errorResponse = await helper.checkValidation(v);
@@ -73,9 +45,9 @@ module.exports = {
       let babyId = req.body.babyId;
       let query = { babyId: babyId };
   
-      if (req.body.day) {
+      if (req.body.day_name) {
         // If the day is specified, add it to the query using regex
-        query.day = new RegExp(req.body.day, 'i'); // 'i' for case-insensitive
+        query.day = new RegExp(req.body.day_name, 'i'); // 'i' for case-insensitive
       }
   
       const get_baby_routine = await routinebuilder.find(query);
