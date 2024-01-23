@@ -51,6 +51,7 @@ router.post('/get_day_routine', authenticateJWT, routinecontroller.get_day_routi
 router.post('/add_memories', authenticateJWT, memoriescontroller.add_memories)
 router.post('/get_memory_images', authenticateJWT, memoriescontroller.get_memory_images)
 router.post('/delete_images', authenticateJWT, memoriescontroller.delete_images)
+router.post('/add_memory', authenticateJWT, memoriescontroller.add_memory)
 
 //////// ACTIVITY ////////////
 router.post('/customizable_activity', authenticateJWT, activitycontroller.customizable_activity)

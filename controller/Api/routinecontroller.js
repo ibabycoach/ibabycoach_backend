@@ -24,7 +24,7 @@ module.exports = {
           ...req.body
         })
 
-        return helper.success(res, "routine added successfully", addroutine)
+        return helper.success(res, "routine added successfully")
       } catch (error) {
         console.log(error)
       }
@@ -78,9 +78,9 @@ module.exports = {
         query.day = new RegExp(req.body.day, 'i'); // 'i' for case-insensitive
       }
   
-      const get_baby_memories = await routinebuilder.find(query);
+      const get_baby_routine = await routinebuilder.find(query);
   
-      return helper.success(res, "Baby routine", get_baby_memories);
+      return helper.success(res, "Baby routine", get_baby_routine);
     } catch (error) {
       console.log(error);
     }
@@ -115,7 +115,6 @@ module.exports = {
       console.log(error);
     }
   },
-
 
   edit_routine: async(req, res)=> {
       try {
