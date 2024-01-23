@@ -8,11 +8,9 @@ const babymemories = new mongoose.Schema({
     type: Date,
     default: Date.now
   },
-  image: [
-    {
-      url: String,
-    },
-  ],
+  image: [{
+    url:{type:String}
+  }],
 
   note: { type: String, default: '' },
 }, 

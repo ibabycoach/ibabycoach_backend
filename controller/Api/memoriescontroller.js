@@ -28,17 +28,7 @@ add_memories: async (req, res) => {
         }
       }
       req.body.image = imgdata;
-  
-      const existingMemory = await memories_model.findOne({ userId, babyId: req.body.babyId });
-  
-      if (existingMemory) {
-        existingMemory.image.push(...imgdata);
-        await existingMemory.save();
-  
-        return helper.success(res, "Memories updated successfully", existingMemory);
-      }
-  
-      // Create new memories if the babyId doesn't exist
+
       const addmemories = await memories_model.create({
         userId,
         ...req.body,
@@ -49,44 +39,6 @@ add_memories: async (req, res) => {
       console.log(error);
       return helper.failed(res, "Internal Server Error");
     }
-},
-
-add_memory: async (req, res) => {
-  try {
-    let userId = req.user.id;
-
-    const v = new Validator(req.body, {
-      babyId: "required",
-    });
-
-    const errorResponse = await helper.checkValidation(v);
-    if (errorResponse) {
-      return helper.failed(res, errorResponse);
-    }
-
-    let imgdata = [];
-    if (req.files && req.files.image) {
-      const images = Array.isArray(req.files.image) ? req.files.image : [req.files.image];
-
-      for (let i = 0; i < images.length; i++) {
-        let image = images[i];
-        imgdata({ url: helper.imageUpload(image, "images") });
-      }
-    }
-    req.body.image = imgdata;
-
-    const addmemories = await memories_model.create({ 
-      userId,
-      ...req.body});
-
-
-    // console.log(existingMemory, ">>>>>>>>>>>");return
-
-    return helper.success(res, "Memories added successfully", addmemories);
-  } catch (error) {
-    console.log(error);
-    return helper.failed(res, "Internal Server Error");
-  }
 },
 
 get_memory_images: async(req, res) => {
