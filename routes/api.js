@@ -40,19 +40,20 @@ router.post('/Add_growth', authenticateJWT, growthcontroller.Add_growth)
 router.post('/track_growth', authenticateJWT, growthcontroller.track_growth)
 router.post('/edit_growth', authenticateJWT, growthcontroller.edit_growth)
 
-////// ROUTINE BUILDER ///////
+////// ROUTINE BUILDER /////////
 router.post('/add_routine', authenticateJWT, routinecontroller.add_routine)
 router.post('/get_routine', authenticateJWT, routinecontroller.get_routine)
 router.post('/edit_routine', authenticateJWT, routinecontroller.edit_routine)
 router.get('/get_activityByAdmin', authenticateJWT, routinecontroller.get_activityByAdmin)
 router.post('/get_day_routine', authenticateJWT, routinecontroller.get_day_routine)
+router.post('/get_customized_routine', authenticateJWT, routinecontroller.get_customized_routine)
 
-///////////  MEMORIES ////////
+///////////  MEMORIES ///////////
 router.post('/add_memories', authenticateJWT, memoriescontroller.add_memories)
 router.post('/get_memory_images', authenticateJWT, memoriescontroller.get_memory_images)
 router.post('/delete_images', authenticateJWT, memoriescontroller.delete_images)
 
-//////// ACTIVITY ////////////
+//////// ACTIVITY ///////////////
 router.post('/customizable_activity', authenticateJWT, activitycontroller.customizable_activity)
 router.post('/edit_activity', authenticateJWT, activitycontroller.edit_activity)
 router.get('/get_activity', authenticateJWT, activitycontroller.get_activity)
@@ -60,7 +61,7 @@ router.get('/get_activity', authenticateJWT, activitycontroller.get_activity)
 /////////// GOALS ///////////////
 router.get('/get_goals', authenticateJWT, goalcontroller.get_goals)
 
-/////////// CMS //////////////
+/////////// CMS /////////////////
 router.get('/aboutUs', authenticateJWT, cmscontroller.aboutUs)
 router.get('/privacyPolicy', authenticateJWT, cmscontroller.privacyPolicy)
 router.get('/termsConditions', authenticateJWT, cmscontroller.termsConditions)

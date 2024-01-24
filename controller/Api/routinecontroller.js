@@ -53,6 +53,43 @@ module.exports = {
         query.day = new RegExp(req.body.day_name, 'i'); // 'i' for case-insensitive
       }
       
+      const get_baby_routine = await routinebuilder.find(query).populate('activityIds', 'activity_name image');
+  
+      // Check if day_name is not provided, return the entire routine
+      if (!req.body.day_name) {
+        return helper.success(res, "Baby routine", get_baby_routine);
+      }
+  
+      // If day_name is provided, filter the routine based on the day_name
+      let data = get_baby_routine.filter(element => element.day.includes(req.body.day_name));
+  
+      return helper.success(res, "Baby routine", data);
+    } catch (error) {
+      console.log(error);
+      return helper.failed(res, "Something went wrong");
+    }
+  },
+
+  get_customized_routine: async (req, res) => {
+    try {
+      const v = new Validator(req.body, {
+        babyId: "required",
+        day_name: "string",
+      });
+  
+      const errorResponse = await helper.checkValidation(v);
+      if (errorResponse) {
+        return helper.failed(res, "Something went wrong");
+      }
+  
+      let babyId = req.body.babyId;
+      let query = { babyId: babyId };
+  
+      if (req.body.day_name) {
+        // If the day is specified, add it to the query using regex
+        query.day = new RegExp(req.body.day_name, 'i'); // 'i' for case-insensitive
+      }
+      
       const get_baby_routine = await routinebuilder.find(query).populate('activityIds', 'activity_name');
   
       // Check if day_name is not provided, return the entire routine
