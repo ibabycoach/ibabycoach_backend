@@ -12,7 +12,6 @@ add_memories: async (req, res) => {
       const v = new Validator(req.body, {
         babyId: "required",
       });
-  
       const errorResponse = await helper.checkValidation(v);
       if (errorResponse) {
         return helper.failed(res, errorResponse);
@@ -28,7 +27,6 @@ add_memories: async (req, res) => {
         }
       }
       req.body.image = imgdata;
-
       const addmemories = await memories_model.create({
         userId,
         ...req.body,

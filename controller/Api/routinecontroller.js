@@ -8,7 +8,7 @@ module.exports = {
   add_routine: async(req, res)=> {
       try {
         const v = new Validator(req.body, {
-          activityId: "required",
+          activityIds: "required",
           babyId: "required",
           day: "required",
           // time: "required"
@@ -42,38 +42,32 @@ module.exports = {
       if (errorResponse) {
         await helper.failed(res, "Something went wrong");
       }
-  
+
       let babyId = req.body.babyId;
       let query = { babyId: babyId };
   
       if (req.body.day_name) {
         // If the day is specified, add it to the query using regex
         query.day = new RegExp(req.body.day_name, 'i'); // 'i' for case-insensitive
-        console.log(query.day)
       }
-
-      const get_baby_routine = await routinebuilder.find(query).populate('activityId', 'activity_name');
+      const get_baby_routine = await routinebuilder.find(query);
 
       let data=[]
       for (let i = 0; i < get_baby_routine.length; i++) {
         const element = get_baby_routine[i];
-        console.log(element.day, element.day.includes(req.body.day_name))
+      
         if(element.day.includes(req.body.day_name)){
           data.push(element)
-        }
-  
-}
-
-  
+        }  
+      }
       return helper.success(res, "Baby routine", data);
     } catch (error) {
-      console.log(error);
-    }
+        console.log(error);
+      }
   },
   
   get_activityByAdmin: async(req, res)=> {
     try {
-
         const getactivity = await activity_model.find({activity_type:1})
         return helper.success(res, "activity list", getactivity )
     } catch (error) {
