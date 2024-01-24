@@ -18,7 +18,7 @@ module.exports = {
         if (errorResponse) {
           return helper.failed(res, errorResponse);
         }
-        // activityIds = req.body.activityId;
+       
         let userId = req.user.id;
         // req.body.day=req.body.day.split(" ")
         const addroutine = await routinebuilder.create({ 
@@ -26,7 +26,6 @@ module.exports = {
           activityIds: req.body.activityId,
           ...req.body
         })
-
         return helper.success(res, "routine added successfully")
       } catch (error) {
         console.log(error)
@@ -111,6 +110,15 @@ module.exports = {
     try {
         const getactivity = await activity_model.find({activity_type:1})
         return helper.success(res, "activity list", getactivity )
+    } catch (error) {
+        console.log(error)
+    }
+  },
+
+  get_customized_activity: async(req, res)=> {
+    try {
+        const getactivity = await activity_model.find({activity_type:2})
+        return helper.success(res, "Customized activity list", getactivity )
     } catch (error) {
         console.log(error)
     }

@@ -16,7 +16,6 @@ add_memories: async (req, res) => {
       if (errorResponse) {
         return helper.failed(res, errorResponse);
       }
-  
       // let imgdata = [];
       // if (req.files && req.files.image) {
       //   const images = Array.isArray(req.files.image) ? req.files.image : [req.files.image];
@@ -39,7 +38,7 @@ add_memories: async (req, res) => {
         ...req.body,
       });
   
-      return helper.success(res, "Memories added successfully", addmemories);
+      return helper.success(res, "Memories added successfully");
     } catch (error) {
       console.log(error);
       return helper.failed(res, "Internal Server Error");
@@ -67,7 +66,6 @@ get_memory_images: async(req, res) => {
 
 delete_images : async(req, res)=> {
   try {
-
     let memoryId = req.body.id;
     let imageId = req.body.imageId;
     

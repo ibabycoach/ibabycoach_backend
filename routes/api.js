@@ -47,6 +47,7 @@ router.post('/edit_routine', authenticateJWT, routinecontroller.edit_routine)
 router.get('/get_activityByAdmin', authenticateJWT, routinecontroller.get_activityByAdmin)
 router.post('/get_day_routine', authenticateJWT, routinecontroller.get_day_routine)
 router.post('/get_customized_routine', authenticateJWT, routinecontroller.get_customized_routine)
+router.get('/get_customized_activity', authenticateJWT, routinecontroller.get_customized_activity)
 
 ///////////  MEMORIES ///////////
 router.post('/add_memories', authenticateJWT, memoriescontroller.add_memories)
