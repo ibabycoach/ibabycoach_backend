@@ -50,7 +50,7 @@ module.exports = {
         // If the day is specified, add it to the query using regex
         query.day = new RegExp(req.body.day_name, 'i'); // 'i' for case-insensitive
       }
-      const get_baby_routine = await routinebuilder.find(query);
+      const get_baby_routine = await routinebuilder.find(query).populate('activityIds', 'activity_name');
 
       let data=[]
       for (let i = 0; i < get_baby_routine.length; i++) {
