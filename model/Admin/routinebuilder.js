@@ -11,6 +11,7 @@ const routineSchema = new mongoose.Schema ({
     enum: ["1", "2"],
     default: "1", //  1 = use activity by admin  , 2 = customized activity by user
   },
+  deleted: {type: Boolean, default: false},
 },
   {timestamps: true});
 

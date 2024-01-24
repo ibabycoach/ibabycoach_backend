@@ -11,6 +11,7 @@ const babySchema = new mongoose.Schema({
     enum: ["0", "1", "2"],
     default: "", //  0 for girl, 1 for Boy, 2 for not specify
   },
+  deleted: {type: Boolean, default: false},
 }, 
   {timestamps: true });
 

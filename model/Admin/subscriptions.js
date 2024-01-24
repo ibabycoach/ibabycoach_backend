@@ -6,7 +6,9 @@ const subscriptionSchema = new mongoose.Schema ({
     price: {type: String},
     tenure: {type: String},
     status: {type: String, default: '1'},
+    deleted: {type: Boolean, default: false},
     },
+    
     {timestamps: true})
 
     module.exports = mongoose.model('subscriptions', subscriptionSchema);

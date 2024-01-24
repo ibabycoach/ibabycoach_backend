@@ -34,7 +34,7 @@ const userSchema = new mongoose.Schema({
   otpverify:{type:Number,default:0},
   forgotPasswordToken: {type: String},
   loginTime:{type: String},
-  
+  deleted: {type: Boolean, default: false},
 }, {
   timestamps: true, // Use 'timestamps' (plural) for automatic timestamp fields
 });

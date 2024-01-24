@@ -8,7 +8,7 @@ const growthSchema = new mongoose.Schema({
   weight: { type: String, default: '' },
   headSize: { type: String, default: '' },
   image: { type: String, default: '' },
- 
+  deleted: {type: Boolean, default: false},
 }, 
   {timestamps: true });
 

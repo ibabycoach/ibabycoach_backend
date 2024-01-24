@@ -7,7 +7,7 @@ const goalsSchema = new mongoose.Schema({
   image: { type: String, default: '' },
   description: { type: String, default: '' },
   date: { type: Date, default: '' },
-
+  deleted: {type: Boolean, default: false},
   status: {
     type: String,
     enum: ["0", "1"],

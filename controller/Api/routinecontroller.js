@@ -90,16 +90,16 @@ module.exports = {
       }
       
       const get_baby_routine = await routinebuilder.find(query).populate('activityIds', 'activity_name');
-  
+
       // Check if day_name is not provided, return the entire routine
       if (!req.body.day_name) {
-        return helper.success(res, "Baby routine", get_baby_routine);
+        return helper.success(res, "Baby customized routine", get_baby_routine);
       }
   
       // If day_name is provided, filter the routine based on the day_name
-      let data = get_baby_routine.filter(element => element.day.includes(req.body.day_name));
+      let customiseddata = get_baby_routine.filter(element => element.day.includes(req.body.day_name));
   
-      return helper.success(res, "Baby routine", data);
+      return helper.success(res, "Baby routine", customiseddata);
     } catch (error) {
       console.log(error);
       return helper.failed(res, "Something went wrong");
