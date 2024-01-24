@@ -8,7 +8,7 @@ module.exports = {
   add_routine: async(req, res)=> {
       try {
         const v = new Validator(req.body, {
-          activityIds: "required",
+          activityId: "required",
           babyId: "required",
           day: "required",
           // time: "required"
@@ -18,10 +18,12 @@ module.exports = {
         if (errorResponse) {
           return helper.failed(res, errorResponse);
         }
+        // activityIds = req.body.activityId;
         let userId = req.user.id;
         // req.body.day=req.body.day.split(" ")
         const addroutine = await routinebuilder.create({ 
           userId,
+          activityIds: req.body.activityId,
           ...req.body
         })
 
@@ -29,7 +31,7 @@ module.exports = {
       } catch (error) {
         console.log(error)
       }
-  },
+  },  
 
   get_day_routine: async (req, res) => {
     try {
@@ -40,9 +42,9 @@ module.exports = {
   
       const errorResponse = await helper.checkValidation(v);
       if (errorResponse) {
-        await helper.failed(res, "Something went wrong");
+        return helper.failed(res, "Something went wrong");
       }
-
+  
       let babyId = req.body.babyId;
       let query = { babyId: babyId };
   
@@ -50,20 +52,22 @@ module.exports = {
         // If the day is specified, add it to the query using regex
         query.day = new RegExp(req.body.day_name, 'i'); // 'i' for case-insensitive
       }
-      const get_baby_routine = await routinebuilder.find(query).populate('activityIds', 'activity_name');
-
-      let data=[]
-      for (let i = 0; i < get_baby_routine.length; i++) {
-        const element = get_baby_routine[i];
       
-        if(element.day.includes(req.body.day_name)){
-          data.push(element)
-        }  
+      const get_baby_routine = await routinebuilder.find(query).populate('activityIds', 'activity_name');
+  
+      // Check if day_name is not provided, return the entire routine
+      if (!req.body.day_name) {
+        return helper.success(res, "Baby routine", get_baby_routine);
       }
+  
+      // If day_name is provided, filter the routine based on the day_name
+      let data = get_baby_routine.filter(element => element.day.includes(req.body.day_name));
+  
       return helper.success(res, "Baby routine", data);
     } catch (error) {
-        console.log(error);
-      }
+      console.log(error);
+      return helper.failed(res, "Something went wrong");
+    }
   },
   
   get_activityByAdmin: async(req, res)=> {
