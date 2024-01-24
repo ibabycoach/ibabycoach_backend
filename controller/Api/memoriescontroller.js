@@ -17,16 +17,23 @@ add_memories: async (req, res) => {
         return helper.failed(res, errorResponse);
       }
   
-      let imgdata = [];
-      if (req.files && req.files.image) {
-        const images = Array.isArray(req.files.image) ? req.files.image : [req.files.image];
+      // let imgdata = [];
+      // if (req.files && req.files.image) {
+      //   const images = Array.isArray(req.files.image) ? req.files.image : [req.files.image];
   
-        for (let i = 0; i < images.length; i++) {
-          let image = images[i];
-          imgdata.push({ url: helper.imageUpload(image, "images") });
+      //   for (let i = 0; i < images.length; i++) {
+      //     let image = images[i];
+      //     imgdata.push({ url: helper.imageUpload(image, "images") });
+      //   }
+      // }
+      // req.body.image = imgdata;
+
+      if (req.files && req.files.image) {
+        var image = req.files.image;
+        if (image) {
+            req.body.image = helper.imageUpload(image, "images");
         }
-      }
-      req.body.image = imgdata;
+    }
       const addmemories = await memories_model.create({
         userId,
         ...req.body,
@@ -50,7 +57,7 @@ get_memory_images: async(req, res) => {
     }
 
     let babyId = req.body.babyId
-    const get_baby_memories = await memories_model.findOne({babyId: req.body.babyId});
+    const get_baby_memories = await memories_model.find({babyId: req.body.babyId});
 
     return helper.success(res, "baby memories", get_baby_memories)
   } catch (error) {
