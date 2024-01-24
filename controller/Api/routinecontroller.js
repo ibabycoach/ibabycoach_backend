@@ -45,7 +45,7 @@ module.exports = {
       }
   
       let babyId = req.body.babyId;
-      let query = { babyId: babyId };
+      let query = { babyId: babyId, routine_type: "2"  };
   
       if (req.body.day_name) {
         // If the day is specified, add it to the query using regex

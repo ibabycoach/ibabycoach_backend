@@ -11,7 +11,7 @@ module.exports = {
     
         const v = new Validator(req.body, {
           babyId: "required",
-          image: "required"
+          // image: "required"
         });
         const errorResponse = await helper.checkValidation(v);
         if (errorResponse) {
