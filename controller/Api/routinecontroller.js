@@ -54,7 +54,6 @@ module.exports = {
       
       const get_baby_routine = await routinebuilder.find(query).populate('activityIds', 'activity_name image');
   
-      // Check if day_name is not provided, return the entire routine
       if (!req.body.day_name) {
         return helper.success(res, "Baby routine", get_baby_routine);
       }
@@ -82,7 +81,7 @@ module.exports = {
       }
   
       let babyId = req.body.babyId;
-      let query = { babyId: babyId };
+      let query = { babyId: babyId, routine_type: "2"  };
   
       if (req.body.day_name) {
         // If the day is specified, add it to the query using regex

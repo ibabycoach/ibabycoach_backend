@@ -23,7 +23,7 @@ module.exports = {
           if (image) {
               req.body.image = helper.imageUpload(image, "images");
           }
-      }
+        }
         const addmemories = await memories_model.create({
           userId,
           ...req.body,
@@ -51,7 +51,7 @@ module.exports = {
 
       return helper.success(res, "baby memories", get_baby_memories)
     } catch (error) {
-        console.log(error)
+      console.log(error)
     }
   },
 
