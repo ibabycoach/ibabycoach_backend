@@ -17,16 +17,6 @@ module.exports = {
         if (errorResponse) {
           return helper.failed(res, errorResponse);
         }
-        // let imgdata = [];
-        // if (req.files && req.files.image) {
-        //   const images = Array.isArray(req.files.image) ? req.files.image : [req.files.image];
-    
-        //   for (let i = 0; i < images.length; i++) {
-        //     let image = images[i];
-        //     imgdata.push({ url: helper.imageUpload(image, "images") });
-        //   }
-        // }
-        // req.body.image = imgdata;
 
         if (req.files && req.files.image) {
           var image = req.files.image;
@@ -39,7 +29,7 @@ module.exports = {
           ...req.body,
         });
     
-        return helper.success(res, "Memories added successfully");
+        return helper.success(res, "Memories added successfully", addmemories );
       } catch (error) {
         console.log(error);
         return helper.failed(res, "Internal Server Error");
