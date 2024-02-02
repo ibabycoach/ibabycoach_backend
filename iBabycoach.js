@@ -21,6 +21,8 @@ var apiRouter = require('./routes/api');
 require('dotenv').config();
 
 var app = express();
+var http = require("http").Server(app);
+var io = require("socket.io")(http);
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -72,6 +74,7 @@ app.use(function (err, req, res, next) {
 });
 
 const PORT = process.env.PORT || 4111
+// const socket = require("./socket/socket")(io);
 app.listen(PORT, () => {
   console.log(`server listening on ${PORT}`)
 })

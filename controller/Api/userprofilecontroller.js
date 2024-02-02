@@ -75,75 +75,71 @@ module.exports = {
     },
 
     add_subuser: async(req, res)=> {
-        try {
-            let parentId = req.user._id;
+      try {
+        let parentId = req.user._id;
 
-            const v = new Validator(req.body, {
-              name: "required",
-              email: "required",
-              password: "required",
-              phone: "required",
-              country_code: "required",
-            });
-            const values = JSON.parse(JSON.stringify(v));
-            let errorsResponse = await helper.checkValidation(v);
+        const v = new Validator(req.body, {
+          name: "required",
+          email: "required",
+          password: "required",
+          phone: "required",
+          country_code: "required",
+        });
+        const values = JSON.parse(JSON.stringify(v));
+        let errorsResponse = await helper.checkValidation(v);
         
-            if (errorsResponse) {
-              return helper.failed(res, errorsResponse);
-            }
-            
-            const isemailExist = await user_model.findOne({ email: req.body.email });
+        if (errorsResponse) {
+          return helper.failed(res, errorsResponse);
+        }
+        const isemailExist = await user_model.findOne({ email: req.body.email });
         
-            if (isemailExist) {
-              return helper.failed(res, "Email already exists");
-            }
+        if (isemailExist) {
+          return helper.failed(res, "Email already exists");
+        }
+        const ismobileExist = await user_model.findOne({ phone: req.body.phone });
         
-            const ismobileExist = await user_model.findOne({ phone: req.body.phone });
+        if (ismobileExist) {
+          return helper.failed(res, "Mobile already exists");
+        }
         
-            if (ismobileExist) {
-              return helper.failed(res, "Mobile already exists");
-            }
-        
-            var Otp = 1111;
-            // var Otp = Math.floor(1000 + Math.random() * 9000);
+        var Otp = 1111;
+        // var Otp = Math.floor(1000 + Math.random() * 9000);
       
-            let time = helper.unixTimestamp();
-            req.body.loginTime = time;
-            req.body.otp = Otp;
+        let time = helper.unixTimestamp();
+        req.body.loginTime = time;
+        req.body.otp = Otp;
         
-            let hash = await bcrypt.hash(req.body.password, 10);
+        let hash = await bcrypt.hash(req.body.password, 10);
 
-            let dataEnter = await user_model.create({ parentId: parentId,
-                ...req.body, password: hash });
+        let dataEnter = await user_model.create({ parentId: parentId,
+        ...req.body, password: hash });
         
-            const getUser = await user_model.findOne({ email: dataEnter.email });
+        const getUser = await user_model.findOne({ email: dataEnter.email });
         
-            if (dataEnter) {
-              let userInfo = await user_model.findOne({ _id: dataEnter._id });
-              delete userInfo.password;
+        if (dataEnter) {
+          let userInfo = await user_model.findOne({ _id: dataEnter._id });
+          delete userInfo.password;
       
-              let token = jwt.sign(
-                {
-                  data: {
-                    _id: userInfo._id,
-                    loginTime: time,
-                  },
-                },
-                secretCryptoKey,
-                { expiresIn: "365d" }
-              );
-              userInfo = JSON.stringify(userInfo);
-              userInfo = JSON.parse(userInfo);
-              userInfo.token = token;
+          let token = jwt.sign(
+            {
+              data: {
+                _id: userInfo._id,
+                loginTime: time,
+              },
+            },
+            secretCryptoKey,
+            { expiresIn: "365d" }
+          );
+          userInfo = JSON.stringify(userInfo);
+          userInfo = JSON.parse(userInfo);
+          userInfo.token = token;
         
-              return helper.success(res, "sub-user added successfully", userInfo);
-            }
-          } catch (error) {
-            console.log(error);
-            return helper.error(res, "error");
-          }
+          return helper.success(res, "sub-user added successfully", userInfo);
+        }
+      } catch (error) {
+          console.log(error);
+          return helper.error(res, "error");
+        }
     }
-
-
 
 }

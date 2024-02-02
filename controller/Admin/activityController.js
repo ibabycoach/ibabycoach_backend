@@ -111,10 +111,20 @@ module.exports = {
             if (req.body.value == 0) res.send(false);
             if (req.body.value == 1) res.send(true);
         
-            } catch (error) {
-            console.log(error)
-            }
+        } catch (error) {
+          console.log(error)
+        }
     },
+
+    viewCustomizedActivity:async(req, res)=> {
+        try {
+            let title = "Activity"
+            const activitydetail = await activityModel.findById({_id: req.params.id}).populate('userId')
+            res.render('Admin/Activity/viewCustomizedActivity', {title, activitydetail, session:req.session.user,  msg: req.flash('msg')})
+        } catch (error) {
+           console.log(error) 
+        }
+    }
     
 
 }

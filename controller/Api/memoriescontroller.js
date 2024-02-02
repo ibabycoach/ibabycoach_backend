@@ -47,7 +47,7 @@ module.exports = {
       }
 
       let babyId = req.body.babyId
-      const get_baby_memories = await memories_model.find({babyId: req.body.babyId});
+      const get_baby_memories = await memories_model.find({babyId: babyId, deleted: false });
 
       return helper.success(res, "baby memories", get_baby_memories)
     } catch (error) {
@@ -57,22 +57,18 @@ module.exports = {
 
   delete_images : async(req, res)=> {
     try {
-      let memoryId = req.body.id;
-      let imageId = req.body.imageId;
-      
-      const findmemory = await memories_model.findOneAndUpdate({_id: req.body.memoryId})
-
+      let memoryId = req.body;
+      // let imageId = req.body.imageId;
+      const findmemory = await memories_model.findOneAndUpdate(
+        {_id: req.body.memoryId},
+        {deleted: true}
+      );
       if (!findmemory) {
         return helper.failed(res, "memories not found")
       }
-      findmemory.image.pull(imageId)
-
-      await findmemory.save();
-
       const updatedmemories = await memories_model.findOne({_id: req.body.memoryId}) 
     
       return helper.success(res, "image removed successfully", updatedmemories)
-
     } catch (error) {
       console.log(error)
     }

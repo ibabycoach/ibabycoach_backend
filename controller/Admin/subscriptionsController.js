@@ -74,12 +74,11 @@ module.exports = {
 
     subsStatus: async (req, res) => {
         try {
-          
-            var check = await userModel.updateOne(
+            var check = await activityModel.updateOne(
             { _id: req.body.id },
             { status: req.body.value }
             );
-            // req.flash("msg", "Status update successfully");
+            req.flash("msg", "Status update successfully");
             
             if (req.body.value == 0) res.send(false);
             if (req.body.value == 1) res.send(true);

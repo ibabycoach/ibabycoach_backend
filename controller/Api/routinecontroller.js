@@ -6,28 +6,27 @@ const { Validator } = require('node-input-validator');
 module.exports = {
 
   add_routine: async(req, res)=> {
-      try {
-        const v = new Validator(req.body, {
-          activityId: "required",
-          babyId: "required",
-          day: "required",
-          // time: "required"
-        });
+    try {
+      const v = new Validator(req.body, {
+        activityId: "required",
+        babyId: "required",
+        day: "required",
+        // time: "required"
+      });
         
-        const errorResponse = await helper.checkValidation(v);
-        if (errorResponse) {
-          return helper.failed(res, errorResponse);
-        }
+      const errorResponse = await helper.checkValidation(v);
+      if (errorResponse) {
+        return helper.failed(res, errorResponse);
+      }
        
-        let userId = req.user.id;
-        // req.body.day=req.body.day.split(" ")
+      let userId = req.user.id;
         const addroutine = await routinebuilder.create({ 
           userId,
           activityIds: req.body.activityId,
           ...req.body
         })
         return helper.success(res, "routine added successfully")
-      } catch (error) {
+    } catch (error) {
         console.log(error)
       }
   },  
@@ -87,10 +86,8 @@ module.exports = {
         // If the day is specified, add it to the query using regex
         query.day = new RegExp(req.body.day_name, 'i'); // 'i' for case-insensitive
       }
-      
-      const get_baby_routine = await routinebuilder.find(query).populate('activityIds', 'activity_name');
+      const get_baby_routine = await routinebuilder.find(query).populate('activityIds', 'activity_name image');
 
-      // Check if day_name is not provided, return the entire routine
       if (!req.body.day_name) {
         return helper.success(res, "Baby customized routine", get_baby_routine);
       }
@@ -100,7 +97,7 @@ module.exports = {
   
       return helper.success(res, "Baby routine", customiseddata);
     } catch (error) {
-      console.log(error);
+      console.log(error)
       return helper.failed(res, "Something went wrong");
     }
   },

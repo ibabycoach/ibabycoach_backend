@@ -101,12 +101,9 @@
     <div class="content-overlay"></div>
     <div class="header-navbar-shadow"></div>
     <div class="content-wrapper">
-      <div class="content-header row">
-      </div>
       <div class="content-body">
         <div class="auth-wrapper auth-v1 px-2">
           <div class="auth-inner py-2">
-            <!-- Login v1 -->
             <div class="card mb-0">
               <div class="card-body">
                 <a href="#" class="brand-logo">
@@ -119,7 +116,6 @@
                     <input type="text" class="form-control" id="email" name="email" placeholder="john@example.com"
                       aria-describedby="login-email" tabindex="1" autofocus />
                   </div>
-
                   <div class="mb-1">
                     <div class="d-flex justify-content-between">
                       <label class="form-label" for="password">Password</label>
@@ -136,20 +132,12 @@
                     </div>
                   </div>
                   <br>
-                  
                   <button class="btn btn-primary w-100" tabindex="4">Sign in</button>
                 </form>
-
-                <div class="divider my-2">
-                  <!-- <div class="divider-text">or</div> -->
-                </div>
-
               </div>
             </div>
-            <!-- /Login v1 -->
           </div>
         </div>
-
       </div>
     </div>
   </div>
@@ -172,7 +160,9 @@
   <!-- END: Theme JS-->
 
   <!-- BEGIN: Page JS-->
+  
   <script src="../../../app-assets/js/scripts/pages/page-auth-login.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.20.0/dist/jquery.validate.min.js" integrity="sha256-ic6hxNWCB3IBDsXq0z5KpKHmcJc1anmnh0xGOi0C5Dw=" crossorigin="anonymous"></script>
   <!-- END: Page JS-->
 
   <script>
@@ -187,10 +177,7 @@
   </script>
 
 </body>
-<!-- END: Body-->
-
 </html>
-
 
 <script>
   $(document).ready(function () {
@@ -215,7 +202,6 @@
         },
 
         rules: {
-
           email: {
             required: true,
             emailExt: true
@@ -224,7 +210,6 @@
             required: true,
             minlength: 5
           },
-
         },
         messages: {
 

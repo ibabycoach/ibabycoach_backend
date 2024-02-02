@@ -88,6 +88,7 @@ router.post('/updateActivity', activityController.updateActivity)
 router.delete('/deleteactivity/:id', activityController.delete_activity)
 router.get('/addActivity', session, activityController.addActivity)
 router.post('/activityStatus', activityController.activityStatus)
+router.get('/viewCustomizedActivity/:id', activityController.viewCustomizedActivity)
 
 //*****************  Goal  *************************************    
 router.post('/saveGoal', session, goalsController.saveGoal)
