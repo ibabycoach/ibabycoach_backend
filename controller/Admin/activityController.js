@@ -26,6 +26,7 @@ module.exports = {
             let userId =  req.session.user._id;
             let addData = await activityModel.create({
                 userId: userId,
+                bg_color: req.body.bg_color,
                 activity_name:req.body.activity_name,
                 image:req.body.image
             })
@@ -80,6 +81,7 @@ module.exports = {
             const updateData = await activityModel.updateOne({_id: req.body.id},
                 
                 {   activity_name: req.body.activity_name,
+                    bg_color: req.body.bg_color,
                     image: req.body.image,
                 })
             req.flash("msg", "Activity updated successfully");

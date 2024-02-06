@@ -9,6 +9,7 @@ const activitySchema = new mongoose.Schema({
   time: { type: String, default: '' },
   day: { type: String, default: '' },
   image: { type: String, default: '' },
+  bg_color: {type: String, default: ''},
   activity_type: {type: String,
     enum: ["1", "2"],
     default: "1", //  1 for  by admin , 2 for by user

@@ -57,7 +57,6 @@ module.exports = {
     }
   },
 
-
   delete_images : async(req, res)=> {
     try {
       let memoryId = req.body;

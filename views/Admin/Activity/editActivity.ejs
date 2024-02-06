@@ -98,9 +98,18 @@
                                   maxlength="60">
                                 <input type="hidden" name="id" value="<%=activitydetail.id%>">
                               </div>
-                            </div>                          
-                            <div class="mb-1 row justify-content-center">
-                              <div class="col-sm-4 text-end">
+                            </div>       
+                            <div class="mb-1 row">
+                              <div class="col-sm-2">
+                                <label class="col-form-label new_lable" for="name">Background color</label>
+                              </div>
+                              <div class="col-sm-4">
+                                <input type="color" id="name" class="form-control" style="padding: revert" name="bg_color" value="<%=activitydetail.bg_color%>"
+                                  maxlength="60">
+                              </div>
+                            </div>   
+                           <div class="col-12">
+                              <div class="col-sm-9 offset-sm-5">
                                 <button type="submit"
                                   class="btn btn-primary waves-effect waves-float waves-light">Update</button>
                               </div>
