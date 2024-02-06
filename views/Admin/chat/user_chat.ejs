@@ -428,3 +428,16 @@
 </body>
 <!-- END: Body-->
 <%- include('../common/footer') %>
+
+<script src="https://cdn.socket.io/socket.io-4.7.4.js"></script>
+
+<script>
+var socket = io()
+console.log(socket,'=====================================')
+window.onload = function() {
+    let data = {
+        userId: 143434
+    };
+    socket.emit('connect_user', data);
+};
+</script>

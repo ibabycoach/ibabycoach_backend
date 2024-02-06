@@ -47,13 +47,16 @@ module.exports = {
       }
 
       let babyId = req.body.babyId
-      const get_baby_memories = await memories_model.find({babyId: babyId, deleted: false });
+      const get_baby_memories = await memories_model.
+      find({babyId: babyId, deleted: false })
+      .sort({createdAt: -1});
 
       return helper.success(res, "baby memories", get_baby_memories)
     } catch (error) {
       console.log(error)
     }
   },
+
 
   delete_images : async(req, res)=> {
     try {
