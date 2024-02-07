@@ -2,6 +2,7 @@ const routinebuilder = require('../../model/Admin/routinebuilder')
 const activity_model = require('../../model/Admin/activity')
 const helper = require('../../Helper/helper')
 const { Validator } = require('node-input-validator');
+const daily_task = require('../../model/Admin/daily_task');
 
 module.exports = {
 
@@ -163,6 +164,26 @@ module.exports = {
       } catch (error) {
         console.log(error);
       }
+  },
+
+  assign_task: async(req, res)=> {
+    try {
+      const v = new Validator(req.body, {
+        activityId: "required",
+        subuserId: "required"
+      })
+      const errorResponse = await helper.checkValidation(v);
+      if (errorResponse) {
+        return helper.failed(res, errorResponse);
+      }
+      let userId = req.user.id;
+      const assignTask = await daily_task.create({userId,
+      ...req.body
+    })
+    return helper.success(res, "daily task has been added", assignTask)
+    } catch (error) {
+      console.log(error);
+    }
   }
 
 

@@ -11,6 +11,7 @@ const cmscontroller = require('../controller/Api/cmscontroller');
 const growthController = require('../controller/Admin/growthController');
 const growthcontroller = require('../controller/Api/growthcontroller');
 const goalcontroller = require('../controller/Api/goalcontroller');
+const contactSupportcontroller = require('../controller/Api/contactSupportcontroller');
 const authenticateJWT = require("../Helper/helper").authenticateJWT;
 const authenticateHeader = require("../Helper/helper").authenticateHeader;
 
@@ -48,6 +49,7 @@ router.get('/get_activityByAdmin', authenticateJWT, routinecontroller.get_activi
 router.post('/get_day_routine', authenticateJWT, routinecontroller.get_day_routine)
 router.post('/get_customized_routine', authenticateJWT, routinecontroller.get_customized_routine)
 router.get('/get_customized_activity', authenticateJWT, routinecontroller.get_customized_activity)
+router.post('/assign_task', authenticateJWT, routinecontroller.assign_task)
 
 ///////////  MEMORIES ///////////
 router.post('/add_memories', authenticateJWT, memoriescontroller.add_memories)
@@ -66,6 +68,9 @@ router.get('/get_goals', authenticateJWT, goalcontroller.get_goals)
 router.get('/aboutUs', authenticateJWT, cmscontroller.aboutUs)
 router.get('/privacyPolicy', authenticateJWT, cmscontroller.privacyPolicy)
 router.get('/termsConditions', authenticateJWT, cmscontroller.termsConditions)
+
+//////////////////////////////////////////////
+router.post('/contactsupport', authenticateJWT, contactSupportcontroller.contactsupport)
 
 
 
