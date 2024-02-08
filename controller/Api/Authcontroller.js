@@ -164,7 +164,7 @@ module.exports = {
         return helper.failed(res, errorsResponse);
       }
 
-      let isUserExist = await user_model.findOne({ phone: req.body.phone, country_code: req.body.country_code });
+      let isUserExist = await user_model.findOne({ phone: req.body.phone });
 
       if (isUserExist) {
         if (req.body.otp == isUserExist.otp) {
