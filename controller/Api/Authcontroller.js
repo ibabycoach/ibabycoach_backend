@@ -18,7 +18,7 @@ module.exports = {
         email: "required",
         password: "required",
         phone: "required",
-        country_code: "required",
+        // country_code: "required",
       });
       const values = JSON.parse(JSON.stringify(v));
       let errorsResponse = await helper.checkValidation(v);
