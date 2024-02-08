@@ -90,7 +90,7 @@ module.exports = {
     try {
           const v = new Validator(req.body, {
             email: 'required|email',
-            password: 'required|minLength:6',
+            password: 'required',
         });
 
         let errorsResponse = await helper.checkValidation(v)

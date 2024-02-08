@@ -8,7 +8,7 @@ const userSchema = new mongoose.Schema({
   password: { type: String, default: '' },
   phone: { type: Number, default: '' },
   image: { type: String, default: '' },
-  country_code: {type: String},
+  country_code: {type: String, default: ''},
   parentId :{ type: mongoose.Schema.Types.ObjectId, ref: "User", default: null},
   role: {
     type: String,

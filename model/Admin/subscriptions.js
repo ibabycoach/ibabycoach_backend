@@ -2,9 +2,9 @@ let mongoose = require('mongoose')
 
 const subscriptionSchema = new mongoose.Schema ({
 
-    name: {type: String},
-    price: {type: String},
-    tenure: {type: String},
+    name: {type: String, default: ''},
+    price: {type: String, default: ''},
+    tenure: {type: String, default: ''},
     deleted: {type: Boolean, default: false},
     status: { type: String,
      enum: ["0", "1"],
