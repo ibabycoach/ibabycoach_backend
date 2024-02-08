@@ -156,7 +156,7 @@ module.exports = {
       const v = new Validator(req.body, {
         otp: "required",
         phone: "required",
-        country_code: "required",
+        // country_code: "required",
 
       });
       let errorsResponse = await helper.checkValidation(v);
