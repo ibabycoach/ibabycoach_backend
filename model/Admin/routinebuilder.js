@@ -1,7 +1,7 @@
  const mongoose = require('mongoose')
 
 const routineSchema = new mongoose.Schema ({
-  userId: {type: mongoose.Schema.Types.ObjectId, ref: "user"},
+  userId: {type: mongoose.Schema.Types.ObjectId, ref: "User"},
   babyId: {type: mongoose.Schema.Types.ObjectId, ref: "baby"},
   activityIds: { type: mongoose.Schema.Types.ObjectId, ref: "activity", default:null},  
   day:  {type:String, default: ''} ,

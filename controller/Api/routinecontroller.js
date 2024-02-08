@@ -52,7 +52,8 @@ module.exports = {
         query.day = new RegExp(req.body.day_name, 'i'); // 'i' for case-insensitive
       }
       
-      const get_baby_routine = await routinebuilder.find(query).populate('activityIds', 'activity_name image');
+      const get_baby_routine = await routinebuilder.find(query).populate('activityIds', 'activity_name image')
+      .populate('userId', 'name relation');
       
       if (!req.body.day_name) {
         return helper.success(res, "Baby routine", get_baby_routine);

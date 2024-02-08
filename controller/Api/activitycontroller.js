@@ -44,6 +44,7 @@ module.exports = {
             return helper.success(res, "activity list", getactivity )
         } catch (error) {
             console.log(error)
+            return helper.failed(res, "Something went wrong");
         }
     },
 
@@ -89,7 +90,7 @@ module.exports = {
             query.day = new RegExp(req.body.day_name, 'i'); // 'i' for case-insensitive
           }
           
-          const get_baby_activity = await activity_model.find(query)
+          const get_baby_activity = await activity_model.find(query).populate('userId', 'name relation')
           
           if (!req.body.day_name) {
             return helper.success(res, "Baby activity", get_baby_activity);
@@ -103,12 +104,7 @@ module.exports = {
           console.log(error);
           return helper.failed(res, "Something went wrong");
         }
-      },
-
-
-
-    
-
+    },
 
 
 }
