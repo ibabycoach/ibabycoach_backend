@@ -40,7 +40,7 @@ module.exports = {
 
     get_activity: async(req, res)=> {
         try {
-            const getactivity = await activity_model.find()
+            const getactivity = await activity_model.find({activity_type: '1'})
             return helper.success(res, "activity list", getactivity )
         } catch (error) {
             console.log(error)
@@ -67,7 +67,43 @@ module.exports = {
         } catch (error) {
             console.log(error)
         }
-    }
+    },
+
+    get_day_activity: async (req, res) => {
+        try {
+          const v = new Validator(req.body, {
+            babyId: "required",
+            day_name: "string",
+          });
+      
+          const errorResponse = await helper.checkValidation(v);
+          if (errorResponse) {
+            return helper.failed(res, "Something went wrong");
+          }
+      
+          let babyId = req.body.babyId;
+          let query = { babyId: babyId };
+          
+          if (req.body.day_name) {
+            // If the day is specified, add it to the query using regex
+            query.day = new RegExp(req.body.day_name, 'i'); // 'i' for case-insensitive
+          }
+          
+          const get_baby_activity = await activity_model.find(query)
+          
+          if (!req.body.day_name) {
+            return helper.success(res, "Baby activity", get_baby_activity);
+          }
+    
+          // If day_name is provided, filter the routine based on the day_name
+          let datas = get_baby_activity.filter(element => element.day.includes(req.body.day_name));
+      
+          return helper.success(res, "Baby activity", datas);
+        } catch (error) {
+          console.log(error);
+          return helper.failed(res, "Something went wrong");
+        }
+      },
 
 
 

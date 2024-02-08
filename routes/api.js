@@ -60,6 +60,7 @@ router.post('/delete_images', authenticateJWT, memoriescontroller.delete_images)
 router.post('/customizable_activity', authenticateJWT, activitycontroller.customizable_activity)
 router.post('/edit_activity', authenticateJWT, activitycontroller.edit_activity)
 router.get('/get_activity', authenticateJWT, activitycontroller.get_activity)
+router.post('/get_day_activity', authenticateJWT, activitycontroller.get_day_activity)
 
 /////////// GOALS ///////////////
 router.get('/get_goals', authenticateJWT, goalcontroller.get_goals)

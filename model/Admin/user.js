@@ -9,6 +9,7 @@ const userSchema = new mongoose.Schema({
   phone: { type: Number, default: '' },
   image: { type: String, default: '' },
   country_code: {type: String, default: ''},
+  relation: {type: String, default: ''},
   parentId :{ type: mongoose.Schema.Types.ObjectId, ref: "User", default: null},
   role: {
     type: String,

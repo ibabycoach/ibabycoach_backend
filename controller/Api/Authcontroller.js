@@ -137,14 +137,14 @@ module.exports = {
         
             if (checkPassword == true) {
                 req.session.user = findUser;
-                return await helper.success(res, "login successful", findUser)
+                return await helper.success(res, "Login successful", findUser)
             } else {
                 console.log("incorrect password")
-                return helper.failed(res, "incorrect password")
+                return helper.failed(res, "Incorrect password")
             }
         } else {
             console.log("incorrect email")
-            return helper.failed(res, "incorrect email")
+            return helper.failed(res, "Incorrect email")
         }
     } catch (error) {
         console.log(error)
