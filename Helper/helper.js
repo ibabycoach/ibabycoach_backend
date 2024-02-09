@@ -56,7 +56,7 @@ module.exports = {
   },
 
   error: function (res, err, req) {
-    console.log(err, "===========================>error");
+    console.log(err, "====================>error");
     let code = typeof err === "object" ? (err.code ? err.code : 403) : 403;
     let message =
       typeof err === "object" ? (err.message ? err.message : "") : err;
@@ -570,4 +570,5 @@ module.exports = {
     }
   },
 
+  
 }

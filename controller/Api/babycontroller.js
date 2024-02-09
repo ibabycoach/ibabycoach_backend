@@ -91,7 +91,19 @@ module.exports = {
     } catch (error) {
       console.log(error)
     }
-  }
+  },
+
+  baby_list: async(req, res)=> {
+    try {
+        let userId = req.user._id;
+        const getbabydetails = await baby_model.find({userId: userId})
+
+        return helper.success(res, "baby list", getbabydetails )
+    } catch (error) {
+        console.log(error)
+        return helper.failed(res, "Something went wrong");
+    }
+  },
 
 
     

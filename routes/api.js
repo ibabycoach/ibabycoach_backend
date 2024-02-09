@@ -35,6 +35,7 @@ router.post('/add_subuser', authenticateJWT, userprofilecontroller.add_subuser)
 router.post('/add_baby', authenticateJWT, babycontroller.add_baby)
 router.post('/edit_baby', authenticateJWT, babycontroller.edit_baby)
 router.delete('/delete_baby', authenticateJWT, babycontroller.delete_baby)
+router.get('/baby_list', authenticateJWT, babycontroller.baby_list)
 
 /////////// GROWTH ///////////
 router.post('/Add_growth', authenticateJWT, growthcontroller.Add_growth)
