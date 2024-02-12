@@ -24,12 +24,11 @@ const userSchema = new mongoose.Schema({
   device_token: {type: String},
   device_type: {
     type: Number,
-    required: true,
     enum: [1, 2, ], //1 for Android, 2 for IOS
   },
   google: {type: String},     //social login
-  facebook: {type: String},  //social login
-  apple: {type: String},     //social login
+  facebook: {type: String},   //social login
+  apple: {type: String},      //social login
   socialtype: {type: String, enum: ["0", "1", "2", "3"]},
   otp:{type:Number},
   otpverify:{type:Number,default:0},

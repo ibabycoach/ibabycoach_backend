@@ -113,15 +113,6 @@ module.exports = {
     }
   },
 
-  get_customized_activity: async(req, res)=> {
-    try {
-        const getactivity = await activity_model.find({activity_type:2})
-        return helper.success(res, "Customized activity list", getactivity )
-    } catch (error) {
-        console.log(error)
-    }
-  },
-
   get_routine: async(req, res)=> {
     try {
       const v = new Validator(req.body, {

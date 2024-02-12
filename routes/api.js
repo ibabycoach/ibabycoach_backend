@@ -49,7 +49,6 @@ router.post('/edit_routine', authenticateJWT, routinecontroller.edit_routine)
 router.get('/get_activityByAdmin', authenticateJWT, routinecontroller.get_activityByAdmin)
 router.post('/get_day_routine', authenticateJWT, routinecontroller.get_day_routine)
 router.post('/get_customized_routine', authenticateJWT, routinecontroller.get_customized_routine)
-router.get('/get_customized_activity', authenticateJWT, routinecontroller.get_customized_activity)
 router.post('/assign_task', authenticateJWT, routinecontroller.assign_task)
 
 ///////////  MEMORIES ///////////
@@ -62,6 +61,7 @@ router.post('/customizable_activity', authenticateJWT, activitycontroller.custom
 router.post('/edit_activity', authenticateJWT, activitycontroller.edit_activity)
 router.get('/get_activity', authenticateJWT, activitycontroller.get_activity)
 router.post('/get_day_activity', authenticateJWT, activitycontroller.get_day_activity)
+router.post('/get_customized_activity', authenticateJWT, activitycontroller.get_customized_activity)
 
 /////////// GOALS ///////////////
 router.get('/get_goals', authenticateJWT, goalcontroller.get_goals)

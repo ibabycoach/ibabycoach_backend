@@ -106,6 +106,43 @@ module.exports = {
         }
     },
 
+    get_customized_activity: async(req, res)=> {
+        try {
+
+            const v = new Validator(req.body, {
+                babyId: "required",
+                day_name: "string",
+            });
+            
+            const errorResponse = await helper.checkValidation(v);
+            if (errorResponse) {
+                return helper.failed(res, "Something went wrong");
+            }
+        
+            let babyId = req.body.babyId;
+            let query = { babyId: babyId };
+            
+            if (req.body.day_name) {
+              // If the day is specified, add it to the query using regex
+              query.day = new RegExp(req.body.day_name, 'i'); // 'i' for case-insensitive
+            }
+            
+            const baby_customized_activity = await activity_model.find(query).populate('userId', 'name relation')
+            
+            if (!req.body.day_name) {
+              return helper.success(res, "Baby customized activity", baby_customized_activity);
+            }
+      
+            // If day_name is provided, filter the routine based on the day_name
+            let datas = baby_customized_activity.filter(element => element.day.includes(req.body.day_name));
+        
+            return helper.success(res, "Baby customized activity", datas);
+        } catch (error) {
+            console.log(error);
+            return helper.failed(res, "Something went wrong");
+        }
+    },
+
 
 }
 
