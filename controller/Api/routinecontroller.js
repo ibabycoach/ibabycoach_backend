@@ -171,9 +171,8 @@ module.exports = {
         console.log(error);
         
     }
-},
+  },
 
-  
   get_activityByAdmin: async(req, res)=> {
     try {
         const getactivity = await activity_model.find({activity_type:1, deleted: false})
@@ -182,7 +181,6 @@ module.exports = {
         console.log(error)
     }
   },
-
 
   get_routine: async(req, res)=> {
     try {
