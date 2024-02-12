@@ -156,8 +156,7 @@ module.exports = {
             const removeActivity = await activity_model.findOneAndUpdate({_id: activityId},
                 {deleted: true});
 
-            const findactivity = await activity_model.findOne({_id:req.body.activityId})
-            return helper.success(res, "Category deleted successfully", findactivity)
+            return helper.success(res, "Activity deleted successfully")
 
         } catch (error) {
             console.log(error)

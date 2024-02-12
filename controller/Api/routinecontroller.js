@@ -117,8 +117,7 @@ module.exports = {
         const removeRoutine = await routinebuilder.findOneAndUpdate({_id: routineId},
             {deleted: true});
 
-        const findroutine = await routinebuilder.findOne({_id:req.body.routineId})
-        return helper.success(res, "Category deleted successfully", findroutine)
+        return helper.success(res, "Routine deleted successfully")
 
     } catch (error) {
         console.log(error)
