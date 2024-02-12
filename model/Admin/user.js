@@ -21,10 +21,11 @@ const userSchema = new mongoose.Schema({
     enum: ["1", "2"],
     default: "1", //  1 for  Active user, 2 for Inactive
   },
-  device_token: {type: String},
+  device_token: {type: String, default: ''},
   device_type: {
     type: Number,
     enum: [1, 2, ], //1 for Android, 2 for IOS
+    default: ''
   },
   google: {type: String},     //social login
   facebook: {type: String},   //social login

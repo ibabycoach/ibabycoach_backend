@@ -18,7 +18,7 @@ module.exports = {
         email: "required",
         password: "required",
         phone: "required",
-        // country_code: "required",
+        country_code: "required",
       });
       const values = JSON.parse(JSON.stringify(v));
       let errorsResponse = await helper.checkValidation(v);
@@ -156,15 +156,14 @@ module.exports = {
       const v = new Validator(req.body, {
         otp: "required",
         phone: "required",
-        // country_code: "required",
+        country_code: "required",
 
       });
       let errorsResponse = await helper.checkValidation(v);
       if (errorsResponse) {
         return helper.failed(res, errorsResponse);
       }
-
-      let isUserExist = await user_model.findOne({ phone: req.body.phone });
+      let isUserExist = await user_model.findOne({ phone: req.body.phone, country_code: req.body.country_code });
 
       if (isUserExist) {
         if (req.body.otp == isUserExist.otp) {
@@ -191,10 +190,8 @@ module.exports = {
         userDetail = JSON.parse(userDetail);
         userDetail.token = token;
 
-        // const account = await bankmodel.count({ workerId: userDetail._id });
         let obj = {
           userDetail,
-          // account
         }
         return await helper.success(res, " otp verify successfully", obj);
       } else {

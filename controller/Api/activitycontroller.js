@@ -40,7 +40,7 @@ module.exports = {
 
     get_activity: async(req, res)=> {
         try {
-            const getactivity = await activity_model.find({activity_type: '1'})
+            const getactivity = await activity_model.find({activity_type: '1', deleted: false})
             return helper.success(res, "activity list", getactivity )
         } catch (error) {
             console.log(error)
@@ -83,7 +83,7 @@ module.exports = {
           }
       
           let babyId = req.body.babyId;
-          let query = { babyId: babyId };
+          let query = { babyId: babyId, deleted: false};
           
           if (req.body.day_name) {
             // If the day is specified, add it to the query using regex
@@ -120,7 +120,7 @@ module.exports = {
             }
         
             let babyId = req.body.babyId;
-            let query = { babyId: babyId };
+            let query = { babyId: babyId, deleted: false};
             
             if (req.body.day_name) {
               // If the day is specified, add it to the query using regex

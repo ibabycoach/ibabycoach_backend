@@ -45,7 +45,7 @@ module.exports = {
       }
   
       let babyId = req.body.babyId;
-      let query = { babyId: babyId };
+      let query = { babyId: babyId, deleted: false };
       
       if (req.body.day_name) {
         // If the day is specified, add it to the query using regex
@@ -82,7 +82,7 @@ module.exports = {
       }
   
       let babyId = req.body.babyId;
-      let query = { babyId: babyId, routine_type: "2"  };
+      let query = { babyId: babyId, routine_type: "2", deleted:false  };
   
       if (req.body.day_name) {
         // If the day is specified, add it to the query using regex
@@ -127,7 +127,7 @@ module.exports = {
   
   get_activityByAdmin: async(req, res)=> {
     try {
-        const getactivity = await activity_model.find({activity_type:1})
+        const getactivity = await activity_model.find({activity_type:1, deleted: false})
         return helper.success(res, "activity list", getactivity )
     } catch (error) {
         console.log(error)
@@ -146,7 +146,7 @@ module.exports = {
       }
 
       let babyId = req.body.babyId
-    const get_baby_memories = await routinebuilder.find({babyId: babyId});
+    const get_baby_memories = await routinebuilder.find({babyId: babyId, deleted:false});
 
     return helper.success(res, "baby routine", get_baby_memories)
 
