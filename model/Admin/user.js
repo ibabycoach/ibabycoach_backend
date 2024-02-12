@@ -25,7 +25,7 @@ const userSchema = new mongoose.Schema({
   device_type: {
     type: Number,
     enum: [1, 2, ], //1 for Android, 2 for IOS
-    default: ''
+    default: '',
   },
   google: {type: String},     //social login
   facebook: {type: String},   //social login

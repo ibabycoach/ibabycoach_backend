@@ -104,25 +104,75 @@ module.exports = {
     }
   },
 
-  delete_routine: async(req, res)=> {
+  // delete_routine: async(req, res)=> {
+  //   try {
+  //       const v = new Validator(req.body, {
+  //           routineId: "required",
+  //       }) 
+  //       const errorResponse = await helper.checkValidation(v);
+  //       if (errorResponse) {
+  //           return helper.failed(res, errorResponse);
+  //       }
+  //       let routineId = req.body.routineId;
+  //       const removeRoutine = await routinebuilder.findOneAndUpdate({_id: routineId},
+  //           {deleted: true});
+
+  //       return helper.success(res, "Routine deleted successfully")
+
+  //   } catch (error) {
+  //       console.log(error)
+  //   }
+  // },
+
+  delete_routine: async (req, res) => {
     try {
         const v = new Validator(req.body, {
             routineId: "required",
-        }) 
+            dayToRemove: "required|string" // New parameter for the day to remove
+        });
         const errorResponse = await helper.checkValidation(v);
         if (errorResponse) {
             return helper.failed(res, errorResponse);
         }
         let routineId = req.body.routineId;
-        const removeRoutine = await routinebuilder.findOneAndUpdate({_id: routineId},
-            {deleted: true});
+        let dayToRemove = req.body.dayToRemove.trim(); // Get the day to remove from the request body
 
-        return helper.success(res, "Routine deleted successfully")
+        // Find the routine by ID
+        const routine = await routinebuilder.findById(routineId);
+        if (!routine) {
+            return helper.failed(res, "Routine not found");
+        }
 
+        // Split the days string into an array
+        let daysArray = routine.day.split(",").map(day => day.trim());
+
+        // Find the index of the day to remove
+        let index = daysArray.indexOf(dayToRemove);
+        if (index !== -1) {
+            // Remove the day from the array
+            daysArray.splice(index, 1);
+
+            // Join the array back into a string
+            const updatedDayString = daysArray.join(", ");
+            // console.log( updatedDayString, ">>>>>");return
+
+            // Update the routine with the modified days string
+            const updateRoutine = await routinebuilder.findByIdAndUpdate(
+                routineId,
+                { day: updatedDayString },
+                { new: true }
+            );
+
+            return helper.success(res, `${dayToRemove} removed from routine successfully`);
+        } else {
+            return helper.failed(res, `${dayToRemove} not found in routine`);
+        }
     } catch (error) {
-        console.log(error)
+        console.log(error);
+        
     }
 },
+
   
   get_activityByAdmin: async(req, res)=> {
     try {

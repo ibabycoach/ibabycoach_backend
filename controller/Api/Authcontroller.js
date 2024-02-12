@@ -15,7 +15,7 @@ module.exports = {
     try {
       const v = new Validator(req.body, {
         name: "required",
-        email: "required",
+        email: "required|email",
         password: "required",
         phone: "required",
         country_code: "required",
@@ -103,7 +103,7 @@ module.exports = {
             device_type: req.body.device_type},
             {new: true}
             ); 
-            
+
         var findUser = await user_model.findOne({ email: req.body.email})
 
         if (findUser) {
