@@ -103,6 +103,27 @@ module.exports = {
       return helper.failed(res, "Something went wrong");
     }
   },
+
+  delete_routine: async(req, res)=> {
+    try {
+        const v = new Validator(req.body, {
+            routineId: "required",
+        }) 
+        const errorResponse = await helper.checkValidation(v);
+        if (errorResponse) {
+            return helper.failed(res, errorResponse);
+        }
+        let routineId = req.body.routineId;
+        const removeRoutine = await routinebuilder.findOneAndUpdate({_id: routineId},
+            {deleted: true});
+
+        const findroutine = await routinebuilder.findOne({_id:req.body.routineId})
+        return helper.success(res, "Category deleted successfully", findroutine)
+
+    } catch (error) {
+        console.log(error)
+    }
+},
   
   get_activityByAdmin: async(req, res)=> {
     try {
@@ -112,6 +133,7 @@ module.exports = {
         console.log(error)
     }
   },
+
 
   get_routine: async(req, res)=> {
     try {

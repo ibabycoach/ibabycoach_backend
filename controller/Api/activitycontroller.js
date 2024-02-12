@@ -106,9 +106,9 @@ module.exports = {
         }
     },
 
+    // customized activity by user
     get_customized_activity: async(req, res)=> {
         try {
-
             const v = new Validator(req.body, {
                 babyId: "required",
                 day_name: "string",
@@ -142,6 +142,28 @@ module.exports = {
             return helper.failed(res, "Something went wrong");
         }
     },
+
+    delete_activity: async(req, res)=> {
+        try {
+            const v = new Validator(req.body, {
+                activityId: "required",
+            }) 
+            const errorResponse = await helper.checkValidation(v);
+            if (errorResponse) {
+                return helper.failed(res, errorResponse);
+            }
+            let activityId = req.body.activityId;
+            const removeActivity = await activity_model.findOneAndUpdate({_id: activityId},
+                {deleted: true});
+
+            const findactivity = await activity_model.findOne({_id:req.body.activityId})
+            return helper.success(res, "Category deleted successfully", findactivity)
+
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
 
 
 }
