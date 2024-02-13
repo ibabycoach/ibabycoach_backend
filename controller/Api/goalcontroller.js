@@ -5,17 +5,7 @@ const { Validator } = require('node-input-validator');
 
 module.exports = {
 
-    get_goals: async(req, res)=> {
-        try {
-            const goalslist = await goalModel.find()
-
-            return helper.success(res, "goals list", goalslist)
-        } catch (error) {
-            console.log(error)
-        }
-    },
-
-    get_day_goals: async (req, res) => {
+    get_goals: async (req, res) => {
         try {
             const v = new Validator(req.body, {
                 day_name: "string",
