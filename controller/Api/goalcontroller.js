@@ -42,7 +42,6 @@ module.exports = {
             if (errorResponse) {
                 return helper.failed(res, "Validation error");
             }
-
             const goalDetails = await goalModel.findById({_id: req.body.goalid})
             
             return helper.success(res, "Goal details", goalDetails)

@@ -15,16 +15,19 @@ module.exports = {
 
     saveGoal: async (req, res) => {
         try {
+            let day = req.body.day.toString();
+           
             if (req.files && req.files.image) {
                 var image = req.files.image;
                 if (image) {
                     req.body.image = helper.imageUpload(image, "images");
                 }
             }
+
             let addData = await goals.create({
                 name: req.body.name,
                 image: req.body.image,
-                day: req.body.day,
+                day: day,
                 title: req.body.title,
                 description: req.body.description,
                 date: req.body.date
@@ -76,15 +79,13 @@ module.exports = {
                 }
             }
             const updateData = await goals.updateOne({ _id: req.body.id },
-
                 {
                     name: req.body.name,
                     image: req.body.image,
                     day: req.body.day,
                     title: req.body.title,
                     description: req.body.description,
-                    date: req.body.date
-
+                    date: req.body.date 
                 })
             req.flash("msg", "Goal updated successfully");
             res.redirect("/Goal_List")
