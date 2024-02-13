@@ -23,7 +23,6 @@ module.exports = {
                 const specifiedDay = req.body.day_name;
                 query.day = { $regex: new RegExp(`\\b${specifiedDay}\\b`, 'i') }; // Match whole word, case-insensitive
             }
-    
             const goalslist = await goalModel.find(query);
     
             return helper.success(res, "Goals list", goalslist);
@@ -31,16 +30,26 @@ module.exports = {
             console.log(error);
             return helper.failed(res, "Error occurred while fetching goals");
         }
+    },
+
+    goal_details: async(req, res)=> {
+        try {
+            const v = new Validator(req.body, {
+                goalid: "string",
+            });
+    
+            const errorResponse = await helper.checkValidation(v);
+            if (errorResponse) {
+                return helper.failed(res, "Validation error");
+            }
+
+            const goalDetails = await goalModel.findById({_id: req.body.goalid})
+            
+            return helper.success(res, "Goal details", goalDetails)
+        } catch (error) {
+            console.log(error);
+        }
     }
-    
-    
-    
-    
-    
-
-
-    
-
 
 
 }

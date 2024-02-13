@@ -18,58 +18,73 @@
                   <div class="card-body">
                     <form class="form form-vertical" id="" action="/updateGole" method="POST"
                       enctype="multipart/form-data">
-                      <div class="mb-1 row">
-                        <div class="col-sm-2">
-                          <label class="col-form-label new_lable" for="name">Name</label>
-                        </div>
-                        <div class="col-sm-10">
-                          <input type="text" id="name" class="form-control" name="name" value="<%=Goaldetail.name%> ">
-                          <input type="hidden" name="id" value="<%=Goaldetail.id%>">
-                        </div>
-                      </div>
-                      <div class="mb-1 row">
-                                <div class="col-sm-2">
-                                  <label class="col-form-label new_lable" for="name">day</label>
-                                </div>
-                                <div class="col-sm-10">
-                                  <input type="text" id="name" class="form-control" name="day" value="<%=Goaldetail.day%> ">
-                                </div>
-                              </div>
-                      <div class="mb-1 row">
-                        <div class="col-sm-2">
-                          <label class="col-form-label new_lable" for="price">Title</label>
-                        </div>
-                        <div class="col-sm-10">
-                          <input type="text" id="price" class="form-control" name="title"
-                            value="<%=Goaldetail.title%> ">
-                        </div>
-                      </div>
-                      <div class="mb-1 row">
-                        <div class="col-sm-2">
-                          <label class="col-form-label new_lable" for="tenure">Tenure</label>
-                        </div>
-                        <div class="col-sm-10">
-                          <input type="text" id="tenure" class="form-control" name="description"
-                            value="<%=Goaldetail.description%> ">
-                        </div>
-                      </div>
-                      <div class="mb-1 row">
-                        <div class="col-sm-2">
-                          <label class="col-form-label new_lable" for="tenure">Date</label>
-                        </div>
-                        <div class="col-sm-10">
-                          <input type="text" id="tenure" class="form-control" name="date" value="<%= new Date(Goaldetail.date).toLocaleDateString('en-US', { day: '2-digit', month: 'long', year: 'numeric' }) %>">
-                        </div>
-                      </div>
-                      <div class="mb-1 row">
-                        <div class="col-sm-2">
-                          <label class="col-form-label new_lable" for="tenure">Image</label>
-                        </div>
-                        <div class="col-sm-10">
-                          <input type="file" id="tenure" class="form-control" name="image" value="">
-                        </div>
-                      </div>
+                      <div class="row">
+                        <div class="col-md-4">
+                          <div class="profile-widget-header text-center">
+                            <img src="<%=Goaldetail.image%>" id="output2" alt="Profile Edit"
+                              class="ms-md-0 mx-auto img-thumbnail user_bigimg">
 
+                            <input onchange="loadFile(event,'output2')" type="file" id="imgInp" name="image" />
+                            <label for="imgInp" style="cursor: pointer;">
+                              <span class="fe fe-24 fe-camera"></span>
+                              <i class="fe fe-24 camera_icon" data-feather='camera'></i>
+                            </label>
+                          </div>
+                        </div>
+                        <div class="col-md-8" style="margin-top: 17px;">
+                          <div class="mb-1 row">
+                            <div class="col-sm-2">
+                              <label class="col-form-label new_lable" for="name">Name</label>
+                            </div>
+                            <div class="col-sm-10">
+                              <input type="text" id="name" class="form-control" name="name" value="<%=Goaldetail.name%> ">
+                              <input type="hidden" name="id" value="<%=Goaldetail.id%>">
+                            </div>
+                          </div>
+                          <div class="mb-1 row">
+                            <div class="col-sm-2">
+                              <label class="col-form-label new_lable" for="name">Day</label>
+                            </div>
+                            <div class="col-sm-10">
+                              <input type="text" id="name" class="form-control" name="day" value="<%=Goaldetail.day%> ">
+                            </div>
+                          </div>
+                          <div class="mb-1 row">
+                            <div class="col-sm-2">
+                              <label class="col-form-label new_lable" for="price">Title</label>
+                            </div>
+                            <div class="col-sm-10">
+                              <input type="text" id="price" class="form-control" name="title"
+                                value="<%=Goaldetail.title%> ">
+                            </div>
+                          </div>
+                          <div class="mb-1 row">
+                            <div class="col-sm-2">
+                              <label class="col-form-label new_lable" for="tenure">Description</label>
+                            </div>
+                            <div class="col-sm-10">
+                              <input type="text" id="tenure" class="form-control" name="description"
+                                value="<%=Goaldetail.description%> ">
+                            </div>
+                          </div>
+                          <div class="mb-1 row">
+                            <div class="col-sm-2">
+                              <label class="col-form-label new_lable" for="tenure">Date</label>
+                            </div>
+                            <div class="col-sm-10">
+                              <input type="text" id="tenure" class="form-control" name="date" value="<%= new Date(Goaldetail.date).toLocaleDateString('en-US', { day: '2-digit', month: 'long', year: 'numeric' }) %>">
+                            </div>
+                          </div>
+                          <!-- <div class="mb-1 row">
+                            <div class="col-sm-2">
+                              <label class="col-form-label new_lable" for="tenure">Image</label>
+                            </div>
+                            <div class="col-sm-10">
+                              <input type="file" id="tenure" class="form-control" name="image" value="">
+                            </div>
+                          </div> -->
+                        </div>
+                      </div>
                       <div class="col-12">
                         <div class="col-sm-9 offset-sm-5">
                           <button type="submit"
