@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 
 const goalsSchema = new mongoose.Schema({
   name: { type: String, default: ''},
-  weeksdays: {type: String, default: ''},
+  day: {type: String, default: ''},
   title: { type: String, default: '' },
   image: { type: String, default: '' },
   description: { type: String, default: '' },

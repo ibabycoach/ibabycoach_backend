@@ -67,6 +67,7 @@ router.post('/delete_activity', authenticateJWT, activitycontroller.delete_activ
 
 /////////// GOALS ///////////////
 router.get('/get_goals', authenticateJWT, goalcontroller.get_goals)
+router.get('/get_day_goals', authenticateJWT, goalcontroller.get_day_goals)
 
 /////////// CMS /////////////////
 router.get('/aboutUs', authenticateJWT, cmscontroller.aboutUs)

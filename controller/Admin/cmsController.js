@@ -11,7 +11,7 @@ module.exports = {
                 description: req.body.description,
                 role: req.body.role
             })
-            res.json(createcms)
+            return helper.success(res, "CMS added successfully")
         } catch (error) {
             console.log(error)
         }
@@ -50,10 +50,9 @@ module.exports = {
     updatecms: async(req, res)=> {
         try {
             const updatedata = await cmsModel.updateOne({ _id: req.body.id },
-                { role: req.body.role,
+                {role: req.body.role,
                   description: req.body.description,
-                }
-              );
+                });
             res.redirect("back")
             // res.json(updatedata)
         } catch (error) {

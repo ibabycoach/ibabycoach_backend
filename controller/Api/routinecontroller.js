@@ -104,26 +104,6 @@ module.exports = {
     }
   },
 
-  // delete_routine: async(req, res)=> {
-  //   try {
-  //       const v = new Validator(req.body, {
-  //           routineId: "required",
-  //       }) 
-  //       const errorResponse = await helper.checkValidation(v);
-  //       if (errorResponse) {
-  //           return helper.failed(res, errorResponse);
-  //       }
-  //       let routineId = req.body.routineId;
-  //       const removeRoutine = await routinebuilder.findOneAndUpdate({_id: routineId},
-  //           {deleted: true});
-
-  //       return helper.success(res, "Routine deleted successfully")
-
-  //   } catch (error) {
-  //       console.log(error)
-  //   }
-  // },
-
   delete_routine: async (req, res) => {
     try {
         const v = new Validator(req.body, {

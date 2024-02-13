@@ -24,7 +24,7 @@ module.exports = {
             let addData = await goals.create({
                 name: req.body.name,
                 image: req.body.image,
-                weeksdays: req.body.weeksdays,
+                day: req.body.day,
                 title: req.body.title,
                 description: req.body.description,
                 date: req.body.date
@@ -80,7 +80,7 @@ module.exports = {
                 {
                     name: req.body.name,
                     image: req.body.image,
-                    weeksdays: req.body.weeksdays,
+                    day: req.body.day,
                     title: req.body.title,
                     description: req.body.description,
                     date: req.body.date

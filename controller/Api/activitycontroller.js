@@ -165,8 +165,21 @@ module.exports = {
             // Split the days string into an array
             let daysArray = activity.day.split(",").map(day => day.trim());
     
+            if (daysArray.every(day => day == '')) {
+                // Update the routine to set deleted to true
+                await activity_model.findByIdAndUpdate(
+                    activityId,
+                    { deleted: true },
+                    { new: true }
+                );
+                return helper.success(res, "Routine deleted successfully");
+            }
+
+            // console.log(daysArray, ">>>>>>>>>>>>>>>.");return
             // Find the index of the day to remove
             let index = daysArray.indexOf(dayToRemove);
+
+            
             if (index !== -1) {
                 // Remove the day from the array
                 daysArray.splice(index, 1);
@@ -191,26 +204,6 @@ module.exports = {
             
         }
     },
-
-    // delete_activity: async(req, res)=> {
-    //     try {
-    //         const v = new Validator(req.body, {
-    //             activityId: "required",
-    //         }) 
-    //         const errorResponse = await helper.checkValidation(v);
-    //         if (errorResponse) {
-    //             return helper.failed(res, errorResponse);
-    //         }
-    //         let activityId = req.body.activityId;
-    //         const removeActivity = await activity_model.findOneAndUpdate({_id: activityId},
-    //             {deleted: true});
-
-    //         return helper.success(res, "Activity deleted successfully")
-
-    //     } catch (error) {
-    //         console.log(error)
-    //     }
-    // }
 
 
 
