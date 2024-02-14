@@ -30,6 +30,7 @@ router.post('/change_password', authenticateJWT, Authcontroller.change_password)
 router.get('/profile', authenticateJWT, userprofilecontroller.profile)
 router.post('/edit_profile', authenticateJWT, userprofilecontroller.edit_profile)
 router.post('/add_subuser', authenticateJWT, userprofilecontroller.add_subuser)
+router.get('/subUser_list', authenticateJWT, userprofilecontroller.subUser_list)
 
 //////////////// BABY ////////
 router.post('/add_baby', authenticateJWT, babycontroller.add_baby)

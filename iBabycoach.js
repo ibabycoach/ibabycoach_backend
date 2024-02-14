@@ -74,7 +74,7 @@ app.use(function (err, req, res, next) {
 });
 
 const PORT = process.env.PORT || 4111
-// const socket = require("./socket/socket")(io);
+const socket = require("./socket/socket")(io);
 app.listen(PORT, () => {
   console.log(`server listening on ${PORT}`)
 })

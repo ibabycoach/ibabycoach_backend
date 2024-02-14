@@ -1,6 +1,6 @@
 const SocketUsers = require('../model/socket/socketusers');
 const Messages = require('../model/socket/message');
-const Users = require('../model/Admin/user')
+const Users = require('../model/Admin/user');
 const socket = require('socket.io');
 const reportRequest = require('../model/socket/reportrequest')
 const my_function = require('./socketFunction');
@@ -14,7 +14,6 @@ module.exports = function (io) {
 
     socket.on('connect_user', async function (data) {
       try {
-        console.log(data ,'5444444444444444444444444444444444444444',data.userId);
         if (!data.userId) {
           error_message = {
             error_message: 'please enter user id first',
@@ -254,6 +253,24 @@ module.exports = function (io) {
       }
     });
 
+    socket.on('report_user', async get_data => {
+      try {
+        const getrole = await Users.findOne({ id: get_data.userId1 });
+
+        const report = await reportRequest.create({
+          reportTo: get_data.reportTo,
+          reportBy: get_data.reportBy,
+          message: get_data.message,
+        });
+        success_message = {
+          success_message: 'Report send successfully'
+        };
+        socket.emit('report_user_listener', success_message);
+      } catch (error) {
+        throw error;
+      }
+    });
+
     socket.on("read_unread", async (get_read_status) => {
       try {
 
@@ -362,7 +379,43 @@ module.exports = function (io) {
       } catch (error) {
         throw error;
       }
-    });    
+    });
+
+    // socket.on("job_tracking_status", async (get_read_status) => {
+    //   try {
+    //     const socketUserObj = await SocketUsers.findOne({
+    //       userId: get_read_status.receiver_id,
+    //     });
+
+    //     socket.emit('update_tracking_listener', socketUserObj)
+    //     io.to(socketUserObj && socketUserObj.socketId).emit('update_tracking_listener', socketUserObj);
+       
+    //   } catch (error) {
+    //     console.log(error);
+    //   }
+    // });
+
+    socket.on("job_tracking_status", async (get_read_status) => {
+      try {
+        
+        const socketUserObj = await SocketUsers.findOne({
+          userId: get_read_status.receiver_id,
+        });
+    
+        if (socketUserObj) {
+          socket.emit('update_tracking_listener', socketUserObj);
+          
+          if (socketUserObj.socketId) {
+            io.to(socketUserObj.socketId).emit('update_tracking_listener', socketUserObj);
+          }
+        } else {
+          console.log("User not found in the database");
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    });
+    
 
 
   });
