@@ -12,6 +12,7 @@ const growthController = require('../controller/Admin/growthController');
 const growthcontroller = require('../controller/Api/growthcontroller');
 const goalcontroller = require('../controller/Api/goalcontroller');
 const contactSupportcontroller = require('../controller/Api/contactSupportcontroller');
+const remindercontroller = require('../controller/Api/remindercontroller');
 const authenticateJWT = require("../Helper/helper").authenticateJWT;
 const authenticateHeader = require("../Helper/helper").authenticateHeader;
 
@@ -67,7 +68,6 @@ router.post('/get_customized_activity', authenticateJWT, activitycontroller.get_
 router.post('/delete_activity', authenticateJWT, activitycontroller.delete_activity)
 
 /////////// GOALS ///////////////
-
 router.post('/get_goals', authenticateJWT, goalcontroller.get_goals)
 router.post('/goal_details', authenticateJWT, goalcontroller.goal_details)
 
@@ -78,6 +78,9 @@ router.get('/termsConditions', authenticateJWT, cmscontroller.termsConditions)
 
 //////////////////////////////////////////////
 router.post('/contactsupport', authenticateJWT, contactSupportcontroller.contactsupport)
+
+////////////  REMINDER //////////////
+router.post('/add_reminder', authenticateJWT, remindercontroller.add_reminder)
 
 
 
