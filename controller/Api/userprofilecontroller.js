@@ -10,27 +10,30 @@ const nodemailer = require("nodemailer");
 
 module.exports = {
 
-  profile: async(req, res)=> {
-      try {
-          const userId = req.user.id;
-
-          const userprofile = await user_model.findOne({_id: userId})
-
-          if (!userprofile) {
-              return helper.failed (res, "user not found")
-          }
-          const userBaby = await baby_model.findOne({userId: userprofile._id})
-
-          if (!userprofile) {
-              return helper.failed (res, "baby not found")
-          }
-
-          return helper.success(res, "user profile", {userprofile, userBaby} )
-      } catch (error) {
-          console.log(error)
+  profile: async (req, res) => {
+    try {
+      const userId = req.user._id;
+      const userprofile = await user_model.findOne({ _id: userId });
+  
+      if (!userprofile) {
+        return helper.failed(res, "User not found");
       }
+  
+      let userBaby;
+      if (req.user.role == 2) {
+        const parentId = req.user.parentId;
+        userBaby = await baby_model.findOne({ userId: parentId });
+      } else {
+        userBaby = await baby_model.findOne({ userId: userprofile._id });
+      }
+  
+      return helper.success(res, "User profile", { userprofile, userBaby });
+    } catch (error) {
+      console.log(error);
+      return helper.error(res, "Error");
+    }
   },
-
+  
   edit_profile: async(req, res)=> {
       try {
           const v = new Validator(req.body, {
@@ -89,12 +92,12 @@ module.exports = {
       if (errorsResponse) {
         return helper.failed(res, errorsResponse);
       }
-
+  
       const isemailExist = await user_model.findOne({ email: req.body.email });
       if (isemailExist) {
         return helper.failed(res, "Email already exists");
       }
-
+  
       const isphoneExist = await user_model.findOne({ phone: req.body.phone });
       
       if (isphoneExist) {
@@ -102,24 +105,40 @@ module.exports = {
       }
       var Otp = 1111;
       // var Otp = Math.floor(1000 + Math.random() * 9000);
-
+  
       let time = helper.unixTimestamp();
       req.body.loginTime = time;
       req.body.otp = Otp;
-
+  
       let hash = await bcrypt.hash(req.body.password, 10);
+  
+      let userData = { 
+        parentId: parentId,
+        ...req.body, 
+        password: hash 
+      };
+  
+      if (req.user.role == 1) {
+        // If the logged-in user has role:1, set babyId in userData
+        const userBaby = await baby_model.findOne({ userId: parentId });
 
-      let addsubUser = await user_model.create({ parentId: parentId,
-      ...req.body, password: hash });
-     
-      return helper.success(res, "sub-user added successfully", addsubUser);
-
-    } catch (error) {
-        console.log(error);
-        return helper.error(res, "error");
+        if (userBaby) {
+          userData.babyId = userBaby._id;
+        } else {
+          return helper.failed(res, "Parent user does not have a baby assigned");
+        }
       }
+  
+      let addsubUser = await user_model.create(userData);
+     
+      return helper.success(res, "Sub-user added successfully", addsubUser);
+  
+    } catch (error) {
+      console.log(error);
+      return helper.error(res, "Error");
+    }
   },
-
+  
   subUser_list: async (req, res) => {
     try {
       const userId = req.user._id
