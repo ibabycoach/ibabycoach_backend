@@ -100,7 +100,13 @@ module.exports = {
       if (isphoneExist) {
         return helper.failed(res, "Phone number already exists");
       }
-      
+      var Otp = 1111;
+      // var Otp = Math.floor(1000 + Math.random() * 9000);
+
+      let time = helper.unixTimestamp();
+      req.body.loginTime = time;
+      req.body.otp = Otp;
+
       let hash = await bcrypt.hash(req.body.password, 10);
 
       let addsubUser = await user_model.create({ parentId: parentId,
