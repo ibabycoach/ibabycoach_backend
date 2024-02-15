@@ -28,8 +28,23 @@ module.exports = {
             return helper.success(res, "reminder added successfully", addreminder)
         } catch (error) {
             console.log(error)
-          }
-      }, 
+        }
+    }, 
+
+    reminder_list: async(req, res)=> {
+    try {
+        let userId = req.user._id;
+        const reminderList = await reminderModel.find({ userId: userId }).sort ({createdAt: -1})
+        if (!reminderList) {
+            return helper.failed(res, "No reminder found")
+        }
+
+        return helper.success(res, "reminder list", reminderList)
+    } catch (error) {
+        console.log(error);
+        return helper.failed(res, "something went wrong") 
+    }
+    }
 
 
 }
