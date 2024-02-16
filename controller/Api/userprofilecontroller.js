@@ -18,7 +18,6 @@ module.exports = {
       if (!userprofile) {
         return helper.failed(res, "User not found");
       }
-  
       let userBaby;
       if (req.user.role == 2) {
         const parentId = req.user.parentId;
@@ -65,8 +64,8 @@ module.exports = {
                 gender: req.body.gender,
                 image: req.body.image});
 
-                const findUpdatedUser = await user_model.findOne({_id: userId})
-                const findUpdatedbaby = await baby_model.findOne({_id: req.body.babyId})
+              const findUpdatedUser = await user_model.findOne({_id: userId})
+              const findUpdatedbaby = await baby_model.findOne({_id: req.body.babyId})
               
           return helper.success(res, "user details updated successfully", 
           { user_data: findUpdatedUser, 

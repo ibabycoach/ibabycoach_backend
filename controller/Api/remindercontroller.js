@@ -36,7 +36,7 @@ module.exports = {
       let userId = req.user._id;
       const reminderList = await reminderModel.find({ userId: userId }).sort ({createdAt: -1}).populate("activityId")
       if (!reminderList) {
-          return helper.failed(res, "No reminder found")
+        return helper.failed(res, "No reminder found")
       }
       return helper.success(res, "reminder list", reminderList)
   } catch (error) {
