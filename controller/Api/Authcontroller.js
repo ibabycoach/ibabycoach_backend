@@ -46,7 +46,6 @@ module.exports = {
           values.inputs.image = helper.imageUpload(image, "images");
         }
       }
-  
       var Otp = 1111;
       // var Otp = Math.floor(1000 + Math.random() * 9000);
 

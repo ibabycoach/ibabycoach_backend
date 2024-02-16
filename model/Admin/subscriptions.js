@@ -9,7 +9,6 @@ const subscriptionSchema = new mongoose.Schema ({
     status: { type: String,
      enum: ["0", "1"],
       default: "1"  }    //  1 for  Active , 0 for Inactive
-    
     },
     
     {timestamps: true})
