@@ -175,7 +175,6 @@ module.exports = {
                 return helper.success(res, "Routine deleted successfully");
             }
 
-            // console.log(daysArray, ">>>>>>>>>>>>>>>.");return
             // Find the index of the day to remove
             let index = daysArray.indexOf(dayToRemove);
 

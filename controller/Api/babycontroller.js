@@ -96,8 +96,14 @@ module.exports = {
   baby_list: async(req, res)=> {
     try {
         let userId = req.user._id;
-        const getbabydetails = await baby_model.find({userId: userId})
 
+        if (req.user.role == 2) {
+          const parentId = req.user.parentId;
+          getbabydetails = await baby_model.find({ userId: parentId });
+        } else {
+          getbabydetails = await baby_model.find({ userId: userId });
+        }
+        
         return helper.success(res, "baby list", getbabydetails )
     } catch (error) {
         console.log(error)
