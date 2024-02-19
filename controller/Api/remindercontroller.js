@@ -8,8 +8,9 @@ module.exports = {
   add_reminder: async(req, res)=> {
       try {
         const v = new Validator(req.body, {
-          activityIds: "required",
+          activityId: "required",
           time: "required"
+          // babyId: "required",
           // day: "required",
         });
           
@@ -21,7 +22,7 @@ module.exports = {
         let userId = req.user.id;
           const addreminder = await reminderModel.create({ 
             userId,
-            activityIds: req.body.activityIds,
+            activityIds: req.body.activityId,
             ...req.body
           })
           return helper.success(res, "reminder added successfully", addreminder)
