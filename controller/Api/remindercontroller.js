@@ -25,7 +25,7 @@ module.exports = {
             activityIds: req.body.activityId,
             ...req.body
           })
-          return helper.success(res, "reminder added successfully", addreminder)
+          return helper.success(res, "reminder added successfully")
       } catch (error) {
           console.log(error)
       }
@@ -34,7 +34,7 @@ module.exports = {
   reminder_list: async(req, res)=> {
   try {
       let userId = req.user._id;
-      const reminderList = await reminderModel.find({ userId: userId }).sort ({createdAt: -1}).populate("activityIds")
+      const reminderList = await reminderModel.find({ userId: userId, deleted: false }).sort ({createdAt: -1}).populate("activityIds")
       if (!reminderList) {
         return helper.failed(res, "No reminder found")
       }
@@ -43,7 +43,27 @@ module.exports = {
       console.log(error);
       return helper.failed(res, "something went wrong") 
   }
-  }
+  },
+
+  delete_reminder: async(req, res)=> {
+    try {
+      const v = new Validator(req.body, {
+        reminderId: "required"
+      })
+      const errorResponse = await helper.checkValidation(v);
+      if (errorResponse) {
+        return helper.failed(res, errorResponse);
+      }
+      const removeReminder = await reminderModel.findByIdAndUpdate({_id:req.body.reminderId},  
+        {deleted: true}
+      ); 
+      
+      return helper.success(res, "reminder deleted successfully", removeReminder)
+
+    } catch (error) {
+      console.log(error)
+    }
+  },
 
 
 }

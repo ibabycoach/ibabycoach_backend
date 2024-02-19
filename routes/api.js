@@ -82,6 +82,7 @@ router.post('/contactsupport', authenticateJWT, contactSupportcontroller.contact
 ////////////  REMINDER //////////////
 router.post('/add_reminder', authenticateJWT, remindercontroller.add_reminder)
 router.get('/reminder_list', authenticateJWT, remindercontroller.reminder_list)
+router.post('/delete_reminder', authenticateJWT, remindercontroller.delete_reminder)
 
 
 
