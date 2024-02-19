@@ -21,7 +21,7 @@ module.exports = {
         try {
             let title = "subscriptionList"
             const subscriptionsData = await subscriptions.find()
-            res.render('Admin/subscriptions/subscriptionList', {title, subscriptionsData, session:req.session.user,  msg: req.flash('msg')})
+            res.render('Admin/subscription/subscriptionList', {title, subscriptionsData, session:req.session.user,  msg: req.flash('msg')})
         } catch (error) {
             console.log(error)
         }
@@ -31,7 +31,7 @@ module.exports = {
         try {
             let title = "subscriptionList"
             const subdetails = await subscriptions.findById({_id: req.params.id})
-            res.render('Admin/subscriptions/viewSubscription', { title, subdetails, session:req.session.user,  msg: req.flash('msg')})
+            res.render('Admin/subscription/viewSubscription', { title, subdetails, session:req.session.user,  msg: req.flash('msg')})
         } catch (error) {
             console.log(error)
         }
@@ -41,7 +41,7 @@ module.exports = {
         try {
             let title = "subscriptionList"
             const subsdetail = await subscriptions.findById({_id: req.params.id})
-            res.render('Admin/subscriptions/editSubscription', {title, subsdetail, session:req.session.user,  msg: req.flash('msg')})
+            res.render('Admin/subscription/editSubscription', {title, subsdetail, session:req.session.user,  msg: req.flash('msg')})
         } catch (error) {
            console.log(error) 
         }

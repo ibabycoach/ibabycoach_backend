@@ -8,7 +8,7 @@ module.exports = {
         try {
             let title = "subuser_List"
             const userData = await userModel.find({role:2})
-            res.render('Admin/sub user/subuser_List', { title, userData, session:req.session.user,  msg: req.flash('msg')})
+            res.render('Admin/sub_user/subuser_List', { title, userData, session:req.session.user,  msg: req.flash('msg')})
         } catch (error) {
             console.log(error) 
         }
@@ -21,9 +21,10 @@ module.exports = {
             
             if (userdetails.parentId){
                 const parentdetail = await userModel.findOne({ _id: userdetails.parentId})
-                res.render('Admin/sub user/viewSubuser', { title, userdetails, parentdetail, session:req.session.user, msg: req.flash('msg') })
+
+                res.render('Admin/sub_user/viewSubuser', { title, userdetails, parentdetail, session:req.session.user, msg: req.flash('msg') })
             }
-            res.render('Admin/sub user/viewSubuser', { title, userdetails, parentdetail, session:req.session.user,  msg: req.flash('msg') })
+            res.render('Admin/sub_user/viewSubuser', { title, userdetails, parentdetail, session:req.session.user,  msg: req.flash('msg') })
         } catch (error) {
             console.log(error)
         }

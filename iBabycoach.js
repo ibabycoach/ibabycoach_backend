@@ -70,12 +70,12 @@ app.use(function (err, req, res, next) {
 
   // render the error page
   res.status(err.status || 500);
-  res.render('error');
+  res.render('Admin/admin/errorPage');
 });
 
 const PORT = process.env.PORT || 4111
 const socket = require("./socket/socket")(io);
-app.listen(PORT, () => {
+http.listen(PORT, () => {
   console.log(`server listening on ${PORT}`)
 })
 

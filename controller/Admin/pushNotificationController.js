@@ -10,7 +10,7 @@ module.exports = {
 
             const getUser = await userModel.find({role: 1, status: 1});
 
-            res.render('Admin/push notification/pushNotification', {title, getUser, session:req.session.user, msg: req.flash("msg") });
+            res.render('Admin/push_notification/pushNotification', {title, getUser, session:req.session.user, msg: req.flash("msg") });
         } catch (error) {
             console.log(error);
             res.status(500).send('Internal server error');

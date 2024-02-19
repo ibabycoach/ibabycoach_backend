@@ -221,5 +221,13 @@ module.exports = {
         }
     },
 
+    errorPage: async(req, res) => {
+        try {
+            res.render('Admin/admin/errorPage', {msg: req.flash('msg')})
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
 
 }
