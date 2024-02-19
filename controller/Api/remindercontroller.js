@@ -10,7 +10,6 @@ module.exports = {
         const v = new Validator(req.body, {
           activityId: "required",
           time: "required"
-          // babyId: "required",
           // day: "required",
         });
           
