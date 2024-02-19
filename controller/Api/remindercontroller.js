@@ -8,7 +8,7 @@ module.exports = {
   add_reminder: async(req, res)=> {
       try {
         const v = new Validator(req.body, {
-          activityId: "required",
+          activityIds: "required",
           time: "required"
           // day: "required",
         });
@@ -21,7 +21,7 @@ module.exports = {
         let userId = req.user.id;
           const addreminder = await reminderModel.create({ 
             userId,
-            activityIds: req.body.activityId,
+            activityIds: req.body.activityIds,
             ...req.body
           })
           return helper.success(res, "reminder added successfully", addreminder)
@@ -33,7 +33,7 @@ module.exports = {
   reminder_list: async(req, res)=> {
   try {
       let userId = req.user._id;
-      const reminderList = await reminderModel.find({ userId: userId }).sort ({createdAt: -1}).populate("activityId")
+      const reminderList = await reminderModel.find({ userId: userId }).sort ({createdAt: -1}).populate("activityIds")
       if (!reminderList) {
         return helper.failed(res, "No reminder found")
       }
