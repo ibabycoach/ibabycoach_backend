@@ -58,12 +58,31 @@ module.exports = {
         {deleted: true}
       ); 
       
-      return helper.success(res, "reminder deleted successfully", removeReminder)
+      return helper.success(res, "reminder deleted successfully")
 
     } catch (error) {
       console.log(error)
     }
   },
+
+  do_not_disturb: async(req, res)=> {
+     try {
+      // console.log(req.body);return
+      const reminderStatus = await reminderModel.updateOne({
+        _id: req.body.id},
+        {status : req.body.status});
+
+        if (!reminderStatus) {
+          return helper.failed(res, "Something went wrong")
+        }
+        const updatedReminder = await reminderModel.findOne({_id: req.body.id})
+        
+        return helper.success(res,  "Reminder off successfully", updatedReminder)
+     } catch (error) {
+      console.log(error)
+      return helper.failed(res, "Internal server error")
+     } 
+  }
 
 
 }
