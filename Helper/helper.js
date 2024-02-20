@@ -10,7 +10,7 @@ const secretCryptoKey = process.env.jwtSecretKey || "secret_iBabycoachs_@onlyF0r
 // const stripe = require('stripe')(process.env.SECRETKEY)
 const SECRET_KEY = process.env.SECRET_KEY;
 const PUBLISH_KEY =process.env.PUBLISH_KEY;
-// var FCM = require('fcm-node');
+var FCM = require('fcm-node');
 
 // let hash =  bcrypt.hash("secret_KeyFor_jobbie_@#!$", 10).then((res)=>{
   //   console.log("🚀  file: ApiController.js:31  hash:", res)
@@ -513,62 +513,111 @@ module.exports = {
       return notify;
   },
 
-  send_push_notification: async function (
-    deviceType,
-    deviceToken,
-    // type,
-    sender_name,
-    sender_image,
-    payload,
-    save_noti_data,
-    // sender,
-    ) {
-    let dataForSend = {
-    title: 'ibabycoach',
-    body: payload.message,
-    message: payload.message,
-    deviceToken: deviceToken,
-    deviceType: deviceType,
-    sender_name: sender_name,
-    sender_image: sender_image,
-    notificationType: save_noti_data.type,
-    userId: save_noti_data.receiver,
-    user2Id: save_noti_data.sender,
-    jobId: save_noti_data.jobId,
-    // data: sender,
-    }
+  // send_push_notification: async function (
+  //   deviceType,
+  //   deviceToken,
+  //   // type,
+  //   sender_name,
+  //   sender_image,
+  //   payload,
+  //   save_noti_data,
+  //   // sender,
+  //   ) {
+  //   let dataForSend = {
+  //   title: 'ibabycoach',
+  //   body: payload.message,
+  //   message: payload.message,
+  //   deviceToken: deviceToken,
+  //   deviceType: deviceType,
+  //   sender_name: sender_name,
+  //   sender_image: sender_image,
+  //   notificationType: save_noti_data.type,
+  //   userId: save_noti_data.receiver,
+  //   user2Id: save_noti_data.sender,
+  //   // data: sender,
+  //   }
     
-    console.log('===ddddd====deviceType', deviceType);
-    // return
+  //   console.log('===ddddd====deviceType', deviceType);
+  //   // return
   
-    if (deviceType == 1) {
+  //   if (deviceType == 1) {
     
-    // if (deviceToken != '' && deviceToken != null) {
+  //   // if (deviceToken != '' && deviceToken != null) {
     
-    console.log('---------------1------------------------');
-    let message = {
-    to: deviceToken,
+  //   console.log('---------------1------------------------');
+  //   let message = {
+  //   to: deviceToken,
     
-    data: dataForSend,
-    notification: dataForSend
-    };
+  //   data: dataForSend,
+  //   notification: dataForSend
+  //   };
     
-    var serverKey = "AAAAwS9BkG8:APA91bHy4wzjoLwcYEhnDrbt1D1TavsyfKxsGMc3cRmR2Iciq-gxQlahfKq9B-s7nXVPg_cQnFv7nTy0p_cnx9uayMRbBwO2aG4HOB3gfZ0sDnetGOUYjX8IgwvYko-wf6naHzJJKnjm"; //put
-    var fcm = new FCM(serverKey);
-    console.log('--message---', message, '---dataForSend---', dataForSend, '--end------');
+  //   var serverKey = "AAAAwS9BkG8:APA91bHy4wzjoLwcYEhnDrbt1D1TavsyfKxsGMc3cRmR2Iciq-gxQlahfKq9B-s7nXVPg_cQnFv7nTy0p_cnx9uayMRbBwO2aG4HOB3gfZ0sDnetGOUYjX8IgwvYko-wf6naHzJJKnjm"; //put
+  //   var fcm = new FCM(serverKey);
+  //   console.log('--message---', message, '---dataForSend---', dataForSend, '--end------');
     
-    fcm.send(message, function (err, response) {
-    if (err) {
-    console.log("Something has gone wrong!", err);
-    } else {
-    console.log("Successfully sent with response: ", response);
+  //   fcm.send(message, function (err, response) {
+  //   if (err) {
+  //   console.log("Something has gone wrong!", err);
+  //   } else {
+  //   console.log("Successfully sent with response: ", response);
+  //   }
+  //   });
+    
+  //   return fcm;
+  //   // }
+  //   }
+  // },
+
+  send_push_notifications : (payLoad) => {
+    try {
+      // console.log(payLoad,'=-=-=-=-=-=-=-=-=-=-=-=-')
+      if (payLoad && payLoad.device_token && payLoad.device_token != "") {
+        var message = {
+          to: payLoad.device_token,
+          notification: {
+            title: "ibabycoach",
+            body: payLoad.message,
+            content_available: true,
+            priority: "high",
+            // jobId:payLoad.jobId,
+            notificationType: payLoad.type,
+            sender_name: payLoad.sender_name,
+            // senderId: payLoad.senderId,
+            // receiverId: payload.receiverId
+          },
+  
+          data: {
+            title: "ibabycoach",
+            body: payLoad.message,
+            content_available: true,
+            priority: "high",
+            // jobId:payLoad.jobId,
+            notificationType: payLoad.type,
+            sender_name: payLoad.sender_name,
+            sender_id:payLoad.sender_id  ,
+            receiver_id:payLoad.receiver_id  ,
+          },
+          
+        };
+
+        var serverKey = "AAAAwS9BkG8:APA91bHy4wzjoLwcYEhnDrbt1D1TavsyfKxsGMc3cRmR2Iciq-gxQlahfKq9B-s7nXVPg_cQnFv7nTy0p_cnx9uayMRbBwO2aG4HOB3gfZ0sDnetGOUYjX8IgwvYko-wf6naHzJJKnjm"; //put
+        var fcm = new FCM(serverKey);
+  
+        fcm.send(message, function (err, response) {
+          console.log("PUSH.....FCM . SEND............!!!");
+  
+          if (err) {
+            console.log("Something has gone wrong!", err);
+          } else {
+            console.log("Successfully sent with response: ", response);
+          }
+        });
+      }
+    } catch (error) {
+      console.log(error)
     }
-    });
-    
-    return fcm;
-    // }
-    }
-  },
+    },
 
   
 }

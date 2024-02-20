@@ -121,9 +121,7 @@ module.exports = function (io) {
             });
             
             var get_user = await Users.findById( get_data.receiver_id);
-            var sender_data = await Users.findById( get_data.sender_id );
-
-         
+            var sender_data = await Users.findById( get_data.sender_id );         
         
             const { device_token, device_type, firstname, lastname } = get_user;
             if (get_user) {
@@ -225,7 +223,7 @@ module.exports = function (io) {
               io.to(get_socket_id.socketId).emit('send_message_listener', getdata);
             }
 
-            socket.emit('send_message_listener', getdata);
+            // socket.emit('send_message_listener', getdata);
           }
         }
       } catch (error) {
@@ -381,20 +379,6 @@ module.exports = function (io) {
         throw error;
       }
     });
-
-    // socket.on("job_tracking_status", async (get_read_status) => {
-    //   try {
-    //     const socketUserObj = await SocketUsers.findOne({
-    //       userId: get_read_status.receiver_id,
-    //     });
-
-    //     socket.emit('update_tracking_listener', socketUserObj)
-    //     io.to(socketUserObj && socketUserObj.socketId).emit('update_tracking_listener', socketUserObj);
-       
-    //   } catch (error) {
-    //     console.log(error);
-    //   }
-    // });
 
     socket.on("job_tracking_status", async (get_read_status) => {
       try {
