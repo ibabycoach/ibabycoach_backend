@@ -32,6 +32,7 @@ router.get('/profile', authenticateJWT, userprofilecontroller.profile)
 router.post('/edit_profile', authenticateJWT, userprofilecontroller.edit_profile)
 router.post('/add_subuser', authenticateJWT, userprofilecontroller.add_subuser)
 router.get('/subUser_list', authenticateJWT, userprofilecontroller.subUser_list)
+router.get('/admin_detail', authenticateJWT, userprofile.admin_detail)
 
 //////////////// BABY ////////
 router.post('/add_baby', authenticateJWT, babycontroller.add_baby)

@@ -214,8 +214,7 @@ module.exports = function (io) {
                 payload,
                 sender_id: get_data.sender_id  ,
                 receiver_id: get_data.receiver_id
-              }
-              
+              }              
 
               const push = await helper.send_push_notifications(objS);
             }

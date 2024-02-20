@@ -153,5 +153,21 @@ module.exports = {
     }
   },
 
+  admin_detail: async(req, res)=> {
+    try {
+      const userId = req.user._id;
+      const adminData = await user_model.findOne({ role: 0});
+  
+      if (!adminData) {
+        return helper.failed(res, "User not found");
+      }
+  
+      return helper.success(res, "Admin profile", adminData );
+    } catch (error) {
+      console.log(error);
+      return helper.error(res, "Error");
+    }
+  }
+
   
 }
