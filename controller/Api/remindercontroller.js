@@ -19,9 +19,8 @@ module.exports = {
       try {
         const v = new Validator(req.body, {
           activityId: "required",
-          // time: "required"
-          // babyId: "required",
-          // day: "required",
+          // time: "required",
+          // duration: "required"
         });
           
         const errorResponse = await helper.checkValidation(v);
@@ -35,7 +34,7 @@ module.exports = {
             activityIds: req.body.activityId,
             ...req.body
           })
-          return helper.success(res, "reminder added successfully", addreminder)
+          return helper.success(res, "reminder added successfully")
       } catch (error) {
           console.log(error);
       }
