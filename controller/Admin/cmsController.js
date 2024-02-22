@@ -54,7 +54,6 @@ module.exports = {
                   description: req.body.description,
                 });
             res.redirect("back")
-            // res.json(updatedata)
         } catch (error) {
             console.log(error)
         }
