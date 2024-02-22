@@ -1,7 +1,6 @@
 const SocketUsers = require('../model/socket/socketusers');
 const Messages = require('../model/socket/message');
 const Users = require('../model/Admin/user');
-// const jobModel = require('../model/Admin/job_model')
 const socket = require('socket.io');
 const reportRequest = require('../model/socket/reportrequest')
 const my_function = require('./socketFunction');
@@ -400,7 +399,6 @@ module.exports = function (io) {
       }
     });
     
-
 
   });
 };

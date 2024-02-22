@@ -11,6 +11,7 @@ const activityController = require('../controller/Admin/activityController');
 const goalsController = require('../controller/Admin/goalsController');
 const pushNotificationController = require('../controller/Admin/pushNotificationController');
 const subuserController = require('../controller/Admin/subuserController');
+const chatController = require('../controller/Admin/chatController');
 
 
 var router = express.Router();
@@ -49,6 +50,9 @@ router.get('/addBaby', session, babyController.addBaby)
 router.get('/editBaby/:id', session, babyController.editBaby)
 router.get('/viewBaby/:id', session, babyController.viewBaby)
 router.delete('/deleteBaby/:id', babyController.deleteBaby)
+
+//************* CHAT ******************
+router.get('/user_chat', session, chatController.user_chat)
 
 //*************** CMS *************************
 router.post('/addCms', cmsController.addCms)
@@ -102,7 +106,6 @@ router.post('/goaleStatus', goalsController.goaleStatus)
 
 
 // **************************** Push Notification ***********************
-
 router.get('/push-notification', pushNotificationController.pushNotification);
 router.post('/push-notification', pushNotificationController.pushNotificationPost);
 

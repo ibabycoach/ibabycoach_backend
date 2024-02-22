@@ -43,59 +43,6 @@ module.exports = {
     }
   },
 
-  // getChat: async function (get_data) {
-  //   try {
-  //     const mongoose = require ('mongoose');
-  //     let id = new mongoose.Types.ObjectId (get_data.sender_id);
-
-  //     var constant_check = await Messages.findOne ({
-  //       $or: [
-  //         {sender_id: get_data.sender_id, receiver_id: get_data.receiver_id},
-  //         {receiver_id: get_data.sender_id, sender_id: get_data.receiver_id},
-  //       ],
-  //     });
-  //     if (constant_check) {
-  //       let get_message = await Messages.aggregate ([
-  //         {
-  //           $lookup: {
-  //             from: 'users',
-  //             localField: 'sender_id',
-  //             foreignField: '_id',
-  //             as: 'sender',
-  //           },
-  //         },
-  //         {
-  //           $lookup: {
-  //             from: 'users',
-  //             localField: 'receiver_id',
-  //             foreignField: '_id',
-  //             as: 'receiver',
-  //           },
-  //         },
-  //         {
-  //           $match: {
-  //             constant_id: constant_check.constant_id,
-  //             deleted_by: {$ne: id},
-  //           },
-  //         },
-  //         {
-  //           $project: {
-  //             'sender': 0,       // Exclude sender details
-  //             'receiver': 0,     // Exclude receiver details
-  //           },
-  //         },
-  //       ]);
-  //       if (get_message) {
-  //         return get_message;
-  //       }
-  //     } else {
-  //       return [];
-  //     }
-  //   } catch (err) {
-  //     console.log (err);
-  //   }
-  // },
-
   read_unread: async function updateReadStatus(getReadStatus) {
       try {
         
@@ -266,8 +213,6 @@ module.exports = {
     }
   },
 
-
-  
   
 
 };

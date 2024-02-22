@@ -2,6 +2,16 @@ const reminderModel = require ('../../model/Admin/reminder')
 const activity_model = require ('../../model/Admin/activity')
 const helper = require('../../Helper/helper')
 const { Validator } = require('node-input-validator');
+var cron = require('node-cron');
+
+// Schedule a task to run every hour
+cron.schedule('* * * * *', async () => {
+  console.log('running a task every minute');
+
+const gettime = await reminderModel.findOne({})
+
+});
+
 
 module.exports = { 
 
@@ -9,7 +19,7 @@ module.exports = {
       try {
         const v = new Validator(req.body, {
           activityId: "required",
-          time: "required"
+          // time: "required"
           // babyId: "required",
           // day: "required",
         });
@@ -25,9 +35,9 @@ module.exports = {
             activityIds: req.body.activityId,
             ...req.body
           })
-          return helper.success(res, "reminder added successfully")
+          return helper.success(res, "reminder added successfully", addreminder)
       } catch (error) {
-          console.log(error)
+          console.log(error);
       }
   }, 
 
@@ -67,7 +77,7 @@ module.exports = {
 
   do_not_disturb: async(req, res)=> {
      try {
-      // console.log(req.body);return
+    
       const reminderStatus = await reminderModel.updateOne({
         _id: req.body.id},
         {status : req.body.status});
@@ -82,7 +92,8 @@ module.exports = {
       console.log(error)
       return helper.failed(res, "Internal server error")
      } 
-  }
+  },
+
 
 
 }
