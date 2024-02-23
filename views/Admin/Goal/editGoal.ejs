@@ -22,12 +22,7 @@
                           <div class="profile-widget-header text-center">
                             <img src="<%=Goaldetail.image%>" id="output2" alt="Profile Edit"
                               class="ms-md-0 mx-auto img-thumbnail user_bigimg">
-
                             <input onchange="loadFile(event,'output2')" type="file" id="imgInp" name="image" />
-                            <!-- <label for="imgInp" style="cursor: pointer;">
-                              <span class="fe fe-24 fe-camera"></span>
-                              <i class="fe fe-24 camera_icon" data-feather='camera'></i>
-                            </label> -->
                           </div>
                         </div>
                         <div class="col-md-8">
@@ -42,43 +37,6 @@
                           </div>
                           <div class="mb-1 row">
                             <div class="col-sm-2">
-                              <label class="col-form-label new_lable" for="name">Day</label>
-                            </div>
-                            <div class="col-sm-10">
-                              <input type="text" id="name" class="form-control" name="day" value="<%=Goaldetail.day%> ">
-                            </div>
-                          </div>
-
-                          <!-- <div class="mb-1 row">
-                            <div class="col-sm-2">
-                                <label class="col-form-label new_label">Days</label>
-                            </div>
-                            <div class="col-sm-10">
-                                    <input class="form-check-input" type="checkbox" id="mon" name="day" value="<%=Goaldetail.day%>">
-                                    <label class="form-check-label" for="monday">Mon</label>
-                                
-                                    <input class="form-check-input" type="checkbox" id="tue" name="day" value="<%=Goaldetail.day%>">
-                                    <label class="form-check-label" for="tuesday">Tue</label>
-                                
-                                    <input class="form-check-input" type="checkbox" id="wed" name="day" value="<%=Goaldetail.day%>">
-                                    <label class="form-check-label" for="wednesday">Wed</label>
-                               
-                                    <input class="form-check-input" type="checkbox" id="thu" name="day" value="T<%=Goaldetail.day%>hu">
-                                    <label class="form-check-label" for="thursday">Thu</label>
-                               
-                                    <input class="form-check-input" type="checkbox" id="fri" name="day" value="<%=Goaldetail.day%>">
-                                    <label class="form-check-label" for="friday">Fri</label>
-                               
-                                    <input class="form-check-input" type="checkbox" id="sat" name="day" value="<%=Goaldetail.day%>">
-                                    <label class="form-check-label" for="saturday">Sat</label>
-                              
-                                    <input class="form-check-input" type="checkbox" id="sun" name="day" value="<%=Goaldetail.day%>">
-                                    <label class="form-check-label" for="sunday">Sun</label>
-                               
-                            </div>
-                        </div> -->
-                          <div class="mb-1 row">
-                            <div class="col-sm-2">
                               <label class="col-form-label new_lable" for="price">Title</label>
                             </div>
                             <div class="col-sm-10">
@@ -88,11 +46,10 @@
                           </div>
                           <div class="mb-1 row">
                             <div class="col-sm-2">
-                              <label class="col-form-label new_lable" for="tenure">Description</label>
+                              <label class="col-form-label new_lable" for="name">Day</label>
                             </div>
                             <div class="col-sm-10">
-                              <input type="text" id="tenure" class="form-control" name="description"
-                                value="<%=Goaldetail.description%> ">
+                              <input type="text" id="name" class="form-control" name="day" value="<%=Goaldetail.day%> ">
                             </div>
                           </div>
                           <div class="mb-1 row">
@@ -101,6 +58,14 @@
                             </div>
                             <div class="col-sm-10">
                               <input type="text" id="tenure" class="form-control" name="date" value="<%= new Date(Goaldetail.date).toLocaleDateString('en-US', { day: '2-digit', month: 'long', year: 'numeric' }) %>">
+                            </div>
+                          </div>
+                          <div class="mb-1 row">
+                            <div class="col-sm-2">
+                              <label class="col-form-label new_lable" for="tenure">Description</label>
+                            </div>
+                            <div class="col-sm-10">
+                              <textarea class="form-control" id="content" rows="5" name="description" required> <%=Goaldetail.description%>  </textarea>
                             </div>
                           </div>
                         </div>

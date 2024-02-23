@@ -34,7 +34,17 @@ module.exports = {
         } catch (error) {
             console.log(error)
         }
-    }
+    },
+
+    delete_contact: async(req, res)=> {
+        try {
+            let contactId = req.body.id 
+            const removesubs = await contactUs.deleteOne({_id: contactId})
+            res.redirect("/contactUsList") 
+        } catch (error) {
+                console.log(error)
+        }
+    },
 
 
 }

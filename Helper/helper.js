@@ -94,6 +94,21 @@ module.exports = {
     });
   },
 
+  failed2: function (res, message = "") {
+    message =
+      typeof message === "object"
+        ? message.message
+          ? message.message
+          : ""
+        : message;
+    return res.status(400).json({
+      success: false,
+      code: 400,
+      message: message,
+      body: [],
+    });
+  },
+
   failed403: function (res, message = "") {
     message =
       typeof message === "object"

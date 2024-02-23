@@ -65,6 +65,7 @@ router.post('/updatecms', cmsController.updatecms)
 router.post('/createContactUs', contactUsController.createContactUs)
 router.get('/contactUsList', session, contactUsController.contactUsList)
 router.get('/viewContactUs/:id', session, contactUsController.viewContactUs)
+router.delete('/delete_contact/:id', contactUsController.delete_contact)
 
 //*******************  SUBSCRIPTIONS  *************************
 router.post('/createSubscription', subscriptionsController.createSubscription)
