@@ -32,7 +32,7 @@ module.exports = {
                 ...req.body
             });
 
-            return helper.success(res, "customized activity added successfully", addactivity)
+            return helper.success(res, "customized activity added successfully")
         } catch (error) {
             console.log(error);
         }
