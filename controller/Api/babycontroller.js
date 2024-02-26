@@ -2,6 +2,7 @@ const user_model = require ('../../model/Admin/user')
 const baby_model = require ('../../model/Admin/baby')
 const helper = require('../../Helper/helper')
 const { Validator } = require('node-input-validator');
+const routinebuilder = require('../../model/Admin/routinebuilder');
 
 module.exports = {
 
@@ -117,25 +118,25 @@ module.exports = {
       const v = new Validator(req.body, {
         babyId: "required",
       });
-        
-        const errorResponse = await helper.checkValidation(v);
-          if (errorResponse) {
-            return helper.failed(res, errorResponse);
-          }
+      const errorResponse = await helper.checkValidation(v);
+        if (errorResponse) {
+          return helper.failed(res, errorResponse);
+        }
 
       if (req.user.role == 2) {
-        // const parentId = req.user.parentId;
         getBabyData = await baby_model.findById({ _id: req.body.babyId });
       } else {
         getBabyData = await baby_model.findById({ _id: req.body.babyId });
       }
-      
-      return helper.success(res, "baby details", getBabyData )
+
+      const getroutine = await routinebuilder.find({babyId: req.body.babyId}).populate('activityIds', 'activity_name time day image')
+
+      return helper.success(res, "baby details", {getBabyData, getroutine} )
   } catch (error) {
       console.log(error)
       return helper.failed(res, "Something went wrong");
   }
-  }
+  },
 
 
     

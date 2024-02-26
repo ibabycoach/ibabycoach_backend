@@ -7,17 +7,22 @@ module.exports = {
     
     bottle_time: async(req, res)=> {
         try {
-            const v = new Validator(req, res, {
-                bottle: "required"
-            })
-            const errorResponse = await helper.checkValidation(v);
-            if (errorResponse) {
-                return helper.failed(res, "something went wrong")
-            }
+            // console.log(req.body, ">>>>>");return
+            let userId = req.user._id;
+            const v = new Validator(req.body, {
+               bottle: "required"
+              });
+                
+                const errorResponse = await helper.checkValidation(v);
+                if (errorResponse) {
+                  return helper.failed(res, errorResponse);
+                }
+
             const bottleTime = await daily_task.create({
-            user: req.body.userId,
-            ...req.body
+                userId: userId,
+                ...req.body,
             })
+            
             return helper.success(res, "bottle task added successfully", bottleTime)
 
         } catch (error) {
