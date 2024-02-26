@@ -29,7 +29,7 @@ router.post('/logout', authenticateJWT, Authcontroller.logout)
 router.post('/change_password', authenticateJWT, Authcontroller.change_password)
 
 ///////// PROFILE ////////////
-router.get('/profile', authenticateJWT, userprofilecontroller.profile)
+router.post('/profile', authenticateJWT, userprofilecontroller.profile)
 router.post('/edit_profile', authenticateJWT, userprofilecontroller.edit_profile)
 router.post('/add_subuser', authenticateJWT, userprofilecontroller.add_subuser)
 router.get('/subUser_list', authenticateJWT, userprofilecontroller.subUser_list)

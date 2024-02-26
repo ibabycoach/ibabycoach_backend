@@ -10,28 +10,28 @@ const nodemailer = require("nodemailer");
 
 module.exports = {
 
-  profile: async (req, res) => {
-    try {
-      const userId = req.user._id;
-      const userprofile = await user_model.findOne({ _id: userId });
+  // profile: async (req, res) => {
+  //   try {
+  //     const userId = req.user._id;
+  //     const userprofile = await user_model.findOne({ _id: userId });
   
-      if (!userprofile) {
-        return helper.failed(res, "User not found");
-      }
-      let userBaby;
-      if (req.user.role == 2) {
-        const parentId = req.user.parentId;
-        userBaby = await baby_model.findOne({ userId: parentId });
-      } else {
-        userBaby = await baby_model.findOne({ userId: userprofile._id });
-      }
+  //     if (!userprofile) {
+  //       return helper.failed(res, "User not found");
+  //     }
+  //     let userBaby;
+  //     if (req.user.role == 2) {
+  //       const parentId = req.user.parentId;
+  //       userBaby = await baby_model.findOne({ userId: parentId });
+  //     } else {
+  //       userBaby = await baby_model.findOne({ userId: userprofile._id });
+  //     }
   
-      return helper.success(res, "User profile", { userprofile, userBaby });
-    } catch (error) {
-      console.log(error);
-      return helper.error(res, "Error");
-    }
-  },
+  //     return helper.success(res, "User profile", { userprofile, userBaby });
+  //   } catch (error) {
+  //     console.log(error);
+  //     return helper.error(res, "Error");
+  //   }
+  // },
   
   edit_profile: async(req, res)=> {
       try {
@@ -167,7 +167,41 @@ module.exports = {
       console.log(error);
       return helper.error(res, "Error");
     }
-  }
+  },
+
+  profile: async (req, res) => {
+    try {
+        const userId = req.user._id;
+        const userprofile = await user_model.findOne({ _id: userId });
+
+        if (!userprofile) {
+            return helper.failed(res, "User not found");
+        }
+
+        let userBaby;
+
+        if (req.body.babyId) { // Check if babyId is provided in req.body
+            userBaby = await baby_model.findOne({ userId: userId, _id: req.body.babyId });
+        } else {
+            if (req.user.role == 2) {
+                const parentId = req.user.parentId;
+                userBaby = await baby_model.findOne({ userId: parentId });
+            } else {
+                userBaby = await baby_model.findOne({ userId: userId });
+            }
+        }
+
+        if (!userBaby) {
+            return helper.failed(res, "No baby found");
+        }
+
+        return helper.success(res, "User profile", { userprofile, userBaby });
+    } catch (error) {
+        console.log(error);
+        return helper.error(res, "Error");
+    }
+}
+
 
   
 }
