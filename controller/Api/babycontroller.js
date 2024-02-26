@@ -124,7 +124,7 @@ module.exports = {
           }
 
       if (req.user.role == 2) {
-        const parentId = req.user.parentId;
+        // const parentId = req.user.parentId;
         getBabyData = await baby_model.findById({ _id: req.body.babyId });
       } else {
         getBabyData = await baby_model.findById({ _id: req.body.babyId });

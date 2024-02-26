@@ -102,7 +102,7 @@ module.exports = {
           : ""
         : message;
     return res.status(400).json({
-      success: false,
+      success: true,
       code: 200,
       message: message,
       body: [],
