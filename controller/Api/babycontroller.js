@@ -111,6 +111,32 @@ module.exports = {
     }
   },
 
+  switch_baby_account: async(req, res)=> {
+    try {
+      let userId = req.user._id;
+      const v = new Validator(req.body, {
+        babyId: "required",
+      });
+        
+        const errorResponse = await helper.checkValidation(v);
+          if (errorResponse) {
+            return helper.failed(res, errorResponse);
+          }
+
+      if (req.user.role == 2) {
+        const parentId = req.user.parentId;
+        getBabyData = await baby_model.findById({ _id: req.body.babyId });
+      } else {
+        getBabyData = await baby_model.findById({ _id: req.body.babyId });
+      }
+      
+      return helper.success(res, "baby details", getBabyData )
+  } catch (error) {
+      console.log(error)
+      return helper.failed(res, "Something went wrong");
+  }
+  }
+
 
     
 }

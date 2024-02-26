@@ -7,14 +7,15 @@ const dailytaskSchema = new mongoose.Schema({
   activityId: { type: mongoose.Schema.Types.ObjectId, ref: "activity" },
   subuserId: { type: mongoose.Schema.Types.ObjectId, ref: "user" },
   breast_feeding: { type:  String, 
-    enum: ["1", "2"],
-    default: '', //  1 for  left , 0 for right
-  },
-  bottle: { type:  String, default: '' },   //  1 for  left , 0 for right
- 
+    enum: ['left', 'right'],
+    default: '' },
+  diapers:  { type:  String, 
+    enum: ['wet', 'dry'],
+    default: '' }, 
+  bottle: { type: String, default: '' },  
   time: { type: Date, default: '' },
-  started: { type: String, default: '' },
   duration: { type: String, default: '' },
+  started: { type: String, default: '' },
   ended: { type: String, default: '' },
   day: { type: String, default: '' },
   image: { type: String, default: '' },

@@ -13,6 +13,7 @@ const growthcontroller = require('../controller/Api/growthcontroller');
 const goalcontroller = require('../controller/Api/goalcontroller');
 const contactSupportcontroller = require('../controller/Api/contactSupportcontroller');
 const remindercontroller = require('../controller/Api/remindercontroller');
+const daily_taskcontroller = require('../controller/Api/daily_taskcontroller');
 const authenticateJWT = require("../Helper/helper").authenticateJWT;
 const authenticateHeader = require("../Helper/helper").authenticateHeader;
 
@@ -39,6 +40,7 @@ router.post('/add_baby', authenticateJWT, babycontroller.add_baby)
 router.post('/edit_baby', authenticateJWT, babycontroller.edit_baby)
 router.delete('/delete_baby', authenticateJWT, babycontroller.delete_baby)
 router.get('/baby_list', authenticateJWT, babycontroller.baby_list)
+router.post('/switch_baby_account', authenticateJWT, babycontroller.switch_baby_account)
 
 /////////// GROWTH ///////////
 router.post('/Add_growth', authenticateJWT, growthcontroller.Add_growth)
@@ -67,6 +69,9 @@ router.get('/get_activity', authenticateJWT, activitycontroller.get_activity)
 router.post('/get_day_activity', authenticateJWT, activitycontroller.get_day_activity)
 router.post('/get_customized_activity', authenticateJWT, activitycontroller.get_customized_activity)
 router.post('/delete_activity', authenticateJWT, activitycontroller.delete_activity)
+
+//////////// DAILY TASK ///////////
+router.post('/bottle_time', authenticateJWT, daily_taskcontroller.bottle_time)
 
 /////////// GOALS ///////////////
 router.post('/get_goals', authenticateJWT, goalcontroller.get_goals)
