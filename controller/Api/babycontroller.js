@@ -129,7 +129,8 @@ module.exports = {
         getBabyData = await baby_model.findById({ _id: req.body.babyId });
       }
 
-      const getroutine = await routinebuilder.find({babyId: req.body.babyId}).populate('activityIds', 'activity_name time day image')
+      const getroutine = await routinebuilder.find({babyId: req.body.babyId})
+      .populate('activityIds', 'activity_name time day image')
 
       return helper.success(res, "baby details", {getBabyData, getroutine} )
   } catch (error) {

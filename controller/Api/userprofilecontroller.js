@@ -9,30 +9,7 @@ var secretCryptoKey = process.env.jwtSecretKey || "secret_iBabycoachs_@onlyF0r_J
 const nodemailer = require("nodemailer");
 
 module.exports = {
-
-  // profile: async (req, res) => {
-  //   try {
-  //     const userId = req.user._id;
-  //     const userprofile = await user_model.findOne({ _id: userId });
-  
-  //     if (!userprofile) {
-  //       return helper.failed(res, "User not found");
-  //     }
-  //     let userBaby;
-  //     if (req.user.role == 2) {
-  //       const parentId = req.user.parentId;
-  //       userBaby = await baby_model.findOne({ userId: parentId });
-  //     } else {
-  //       userBaby = await baby_model.findOne({ userId: userprofile._id });
-  //     }
-  
-  //     return helper.success(res, "User profile", { userprofile, userBaby });
-  //   } catch (error) {
-  //     console.log(error);
-  //     return helper.error(res, "Error");
-  //   }
-  // },
-  
+ 
   edit_profile: async(req, res)=> {
       try {
           const v = new Validator(req.body, {
@@ -200,8 +177,32 @@ module.exports = {
         console.log(error);
         return helper.error(res, "Error");
     }
-}
-
-
+  },
   
+  switch_user_account: async (req, res) => {
+    try {
+      const v = new Validator(req.body, {
+        userId: "required"
+      });
+      const errorResponse = await helper.checkValidation(v);
+      if (errorResponse) {
+        return helper.failed(res, errorResponse);
+      }
+      const userdata = await user_model.findById({ _id: req.body.userId });
+
+      let userBaby;
+      if (userdata.role == 2) {
+        const parentId = userdata.parentId;
+        userBaby = await baby_model.findOne({ userId: parentId });
+      } else {
+        userBaby = await baby_model.findOne({ userId: req.body.userId });
+      }
+       
+      return helper.success(res, "User details", { userdata, userBaby });
+    } catch (error) {
+      return helper.failed(res, "Something went wrong");
+    }
+  },
+
+
 }
