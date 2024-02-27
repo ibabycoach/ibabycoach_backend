@@ -14,6 +14,7 @@ module.exports = function (io) {
 
     socket.on('connect_user', async function (data) {
       try {
+       
         if (!data.userId) {
           error_message = {
             error_message: 'please enter user id first',

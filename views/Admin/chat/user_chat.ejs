@@ -21,7 +21,6 @@
                         </header>
                     </div>
                     <!--/ Admin user profile area -->
-
                     <!-- Chat Sidebar area -->
                     <div class="sidebar-content">
                         <span class="sidebar-close-icon">
@@ -32,8 +31,8 @@
                             <div class="d-flex align-items-center w-100">
                                 <div class="sidebar-profile-toggle">
                                     <div class="avatar avatar-border">
-                                        <img src="../../../app-assets/images/portrait/small/avatar-s-11.jpg" alt="user_avatar" height="42" width="42" />
-                                        <span class="avatar-status-online"></span>
+                                        <img src="<%=session.image%>" alt="user_avatar" height="45" width="45" />
+                                        <!-- <span class="avatar-status-online"></span> -->
                                     </div>
                                 </div>
                                 <div class="input-group input-group-merge ms-1 w-100">
@@ -46,72 +45,18 @@
 
                         <!-- Sidebar Users start -->
                         <div id="users-list" class="chat-user-list-wrapper list-group">
+
+                            <input type="hidden" id="adminId" name="adminId" value="<%= adminId %>">
                             <h4 class="chat-list-title">Chats</h4>
-                            <ul class="chat-users-list chat-list media-list">
-                                <li>
-                                    <span class="avatar"><img src="../../../app-assets/images/portrait/small/avatar-s-3.jpg" height="42" width="42" alt="Generic placeholder image" />
-                                        <span class="avatar-status-offline"></span>
-                                    </span>
-                                    <div class="chat-info flex-grow-1">
-                                        <h5 class="mb-0">Elizabeth Elliott</h5>
-                                        <p class="card-text text-truncate">
-                                            Cake pie jelly jelly beans. Marzipan lemon drops halvah cake. Pudding cookie lemon drops icing
-                                        </p>
-                                    </div>
-                                    <div class="chat-meta text-nowrap">
-                                        <small class="float-end mb-25 chat-time">4:14 PM</small>
-                                        <span class="badge bg-danger rounded-pill float-end">3</span>
-                                    </div>
-                                </li>
-                                <li>
-                                    <span class="avatar"><img src="../../../app-assets/images/portrait/small/avatar-s-7.jpg" height="42" width="42" alt="Generic placeholder image" />
-                                        <span class="avatar-status-busy"></span>
-                                    </span>
-                                    <div class="chat-info flex-grow-1">
-                                        <h5 class="mb-0">Kristopher Candy</h5>
-                                        <p class="card-text text-truncate">
-                                            Cake pie jelly jelly beans. Marzipan lemon drops halvah cake. Pudding cookie lemon drops icing
-                                        </p>
-                                    </div>
-                                    <div class="chat-meta text-nowrap">
-                                        <small class="float-end mb-25 chat-time">9:09 AM</small>
-                                    </div>
-                                </li>
-                                <li>
-                                    <span class="avatar"><img src="../../../app-assets/images/portrait/small/avatar-s-8.jpg" height="42" width="42" alt="Generic placeholder image" />
-                                        <span class="avatar-status-away"></span>
-                                    </span>
-                                    <div class="chat-info flex-grow-1">
-                                        <h5 class="mb-0">Sarah Woods</h5>
-                                        <p class="card-text text-truncate">
-                                            Cake pie jelly jelly beans. Marzipan lemon drops halvah cake. Pudding cookie lemon drops icing.
-                                        </p>
-                                    </div>
-                                    <div class="chat-meta text-nowrap">
-                                        <small class="float-end mb-25 chat-time">5:48 PM</small>
-                                    </div>
-                                </li>
-                                <li class="no-results">
-                                    <h6 class="mb-0">No Chats Found</h6>
-                                </li>
-                            </ul>
-                            <h4 class="chat-list-title">Contacts</h4>
-                            <ul class="chat-users-list contact-list media-list">
-                                <li>
-                                    <span class="avatar"><img src="../../../app-assets/images/portrait/small/avatar-s-7.jpg" height="42" width="42" alt="Generic placeholder image" />
-                                    </span>
-                                    <div class="chat-info">
-                                        <h5 class="mb-0">Jenny Perich</h5>
-                                        <p class="card-text text-truncate">
-                                            Tart dragée carrot cake chocolate bar. Chocolate cake jelly beans caramels tootsie roll candy canes.
-                                        </p>
-                                    </div>
-                                </li>
+
+                            <ul class="chat-users-list chat-list media-list"  id="chatList">
+                                
                               
-                                <li class="no-results">
-                                    <h6 class="mb-0">No Contacts Found</h6>
-                                </li>
+                                <!-- <li class="no-results">
+                                    <h6 class="mb-0">No Chats Found</h6>
+                                </li> -->
                             </ul>
+                           
                         </div>
                         <!-- Sidebar Users end -->
                     </div>
@@ -288,7 +233,6 @@
                             <!--/ Active Chat -->
                         </section>
                         <!--/ Main chat area -->
-
                     </div>
                 </div>
             </div>
@@ -337,7 +281,44 @@
     </script>
 
     <script>
+
+        let adminID = document.getElementById('adminId');
+        adminID = adminID.value;
+        // console.log("🚀 ~ adminID:", adminID)
+        
         var socket = io();
+        socket.emit('connect_user', {userId:adminID });
+        socket.emit('chat_list', {sender_id:adminID });
+        
+        socket.on('chat_list', (data) => {
+            console.log(data,  ">>>>>>>sdhcvsdvcdvhcsdvc>>>>>>>>>");
+
+            let chating = document.getElementById('chatList');
+            chating.innerHTML= "";
+
+            data.forEach(users => {
+                
+                const listitem = document.createElement("li")
+                listitem.innerHTML= `
+
+                <li>              
+                    <span class="avatar"><img src="../../../app-assets/images/portrait/small/avatar-s-3.jpg" height="42" width="42" alt="Generic placeholder image" /> 
+                    </span>
+                    <div class="chat-info flex-grow-1">
+                        <h5 class="mb-0"> ${users.receiver[0].name} </h5>
+                        <p class="card-text text-truncate">
+                            Cake pie jelly jelly beans. Marzipan lemon drops halvah cake. Pudding cookie lemon drops icing
+                        </p>
+                    </div>
+                    <div class="chat-meta text-nowrap">
+                        <small class="float-end mb-25 chat-time">4:14 PM</small>
+                        <span class="badge bg-danger rounded-pill float-end">3</span>
+                    </div>
+                </li> `
+                chating.appendChild(listitem)
+
+            })
+        })
 
     </script>
     

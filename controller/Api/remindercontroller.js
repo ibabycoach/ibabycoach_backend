@@ -8,8 +8,7 @@ var cron = require('node-cron');
 cron.schedule('* * * * *', async () => {
   console.log('running a task every minute');
 
-// const gettime = await reminderModel.findOne({})
-
+  
 });
 
 module.exports = { 
@@ -39,20 +38,6 @@ module.exports = {
           console.log(error);
       }
   }, 
-
-  // reminder_list: async(req, res)=> {
-  // try {
-  //     let userId = req.user._id;
-  //     const reminderList = await reminderModel.find({ userId: userId, deleted: false }).sort ({createdAt: -1}).populate("activityIds")
-  //     if (!reminderList) {
-  //       return helper.failed(res, "No reminder found")
-  //     }
-  //     return helper.success(res, "reminder list", reminderList)
-  // } catch (error) {
-  //     console.log(error);
-  //     return helper.failed(res, "something went wrong") 
-  // }
-  // },
 
   delete_reminder: async(req, res)=> {
     try {
@@ -146,15 +131,6 @@ module.exports = {
     return helper.failed(res, "Something went wrong");
   }
   }
-
-
-
-
-
-
-
-
-
 
 
 
