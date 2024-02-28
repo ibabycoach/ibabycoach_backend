@@ -1,326 +1,331 @@
 <%- include('../common/header') %>
-  <%- include('../common/sidebar') %>
+<%- include('../common/sidebar') %>
 
-  <body class="vertical-layout vertical-menu-modern content-left-sidebar navbar-floating footer-static  " data-open="click" data-menu="vertical-menu-modern" data-col="content-left-sidebar">
-    <input type="hidden" name="adminId" value=" ">
+<body class="vertical-layout vertical-menu-modern content-left-sidebar navbar-floating footer-static  " data-open="click" data-menu="vertical-menu-modern" data-col="content-left-sidebar">
+  <input type="hidden" name="adminId" value=" ">
 
 
-    <!-- BEGIN: Content-->
-    <div class="app-content content chat-application">
-        <div class="content-overlay"></div>
-        <div class="header-navbar-shadow"></div>
-        <div class="content-area-wrapper container-xxl p-0">
-            <div class="sidebar-left">
-                <div class="sidebar">
-                    <!-- Admin user profile area -->
-                    <div class="chat-profile-sidebar">
-                        <header class="chat-profile-header">
-                            <span class="close-icon">
-                                <i data-feather="x"></i>
-                            </span>
-                        </header>
-                    </div>
-                    <!--/ Admin user profile area -->
-                    <!-- Chat Sidebar area -->
-                    <div class="sidebar-content">
-                        <span class="sidebar-close-icon">
-                            <i data-feather="x"></i>
-                        </span>
-                        <!-- Sidebar header start -->
-                        <div class="chat-fixed-search">
-                            <div class="d-flex align-items-center w-100">
-                                <div class="sidebar-profile-toggle">
-                                    <div class="avatar avatar-border">
-                                        <img src="<%=session.image%>" alt="user_avatar" height="45" width="45" />
-                                        <!-- <span class="avatar-status-online"></span> -->
-                                    </div>
-                                </div>
-                                <div class="input-group input-group-merge ms-1 w-100">
-                                    <span class="input-group-text round"><i data-feather="search" class="text-muted"></i></span>
-                                    <input type="text" class="form-control round" id="chat-search" placeholder="Search or start a new chat" aria-label="Search..." aria-describedby="chat-search" />
-                                </div>
-                            </div>
-                        </div>
-                        <!-- Sidebar header end -->
-
-                        <!-- Sidebar Users start -->
-                        <div id="users-list" class="chat-user-list-wrapper list-group">
-
-                            <input type="hidden" id="adminId" name="adminId" value="<%= adminId %>">
-                            <h4 class="chat-list-title">Chats</h4>
-
-                            <ul class="chat-users-list chat-list media-list"  id="chatList">
-                                
-                              
-                                <!-- <li class="no-results">
-                                    <h6 class="mb-0">No Chats Found</h6>
-                                </li> -->
-                            </ul>
-                           
-                        </div>
-                        <!-- Sidebar Users end -->
-                    </div>
-                    <!--/ Chat Sidebar area -->
+  <!-- BEGIN: Content-->
+  <div class="app-content content chat-application">
+    <div class="content-overlay"></div>
+    <div class="header-navbar-shadow"></div>
+    <div class="content-area-wrapper container-xxl p-0">
+      <div class="sidebar-left">
+        <div class="sidebar">
+          <!-- Admin user profile area -->
+          <!-- <div class="chat-profile-sidebar">
+            <header class="chat-profile-header">
+              <span class="close-icon">
+                <i data-feather="x"></i>
+              </span>
+            </header>
+          </div> -->
+          <!--/ Admin user profile area -->
+          <!-- Chat Sidebar area -->
+          <div class="sidebar-content">
+            <!-- <span class="sidebar-close-icon">
+              <i data-feather="x"></i>
+            </span> -->
+            <!-- Sidebar header start -->
+            <div class="chat-fixed-search">
+              <div class="d-flex align-items-center w-100">
+                <div class="sidebar-profile-toggle">
+                  <div class="avatar avatar-border">
+                    <img src="<%=session.image%>" alt="user_avatar" height="45" width="45" aria-readonly="true"/>
+                    <!-- <span class="avatar-status-online"></span> -->
+                  </div>
                 </div>
-            </div>
-            <div class="content-right">
-                <div class="content-wrapper container-xxl p-0">
-                    <div class="content-header row">
-                    </div>
-                    <div class="content-body">
-                        <div class="body-content-overlay"></div>
-                        <!-- Main chat area -->
-                        <section class="chat-app-window">
-                            <!-- To load Conversation -->
-                            <div class="start-chat-area">
-                                <div class="mb-1 start-chat-icon">
-                                    <i data-feather="message-square"></i>
-                                </div>
-                                <h4 class="sidebar-toggle start-chat-text">Start Conversation</h4>
-                            </div>
-                            <!--/ To load Conversation -->
-
-                            <!-- Active Chat -->
-                            <div class="active-chat d-none">
-                                <!-- Chat Header -->
-                                <div class="chat-navbar">
-                                    <header class="chat-header">
-                                        <div class="d-flex align-items-center">
-                                            <div class="sidebar-toggle d-block d-lg-none me-1">
-                                                <i data-feather="menu" class="font-medium-5"></i>
-                                            </div>
-                                            <div class="avatar avatar-border user-profile-toggle m-0 me-1">
-                                                <img src="../../../app-assets/images/portrait/small/avatar-s-7.jpg" alt="avatar" height="36" width="36" />
-                                                <span class="avatar-status-busy"></span>
-                                            </div>
-                                            <h6 class="mb-0">Kristopher Candy</h6>
-                                        </div>
-                                       
-                                    </header>
-                                </div>
-                                <!--/ Chat Header -->
-
-                                <!-- User Chat messages -->
-                                <div class="user-chats">
-                                    <div class="chats">
-                                        <div class="chat">
-                                            <div class="chat-avatar">
-                                                <span class="avatar box-shadow-1 cursor-pointer">
-                                                    <img src="../../../app-assets/images/portrait/small/avatar-s-11.jpg" alt="avatar" height="36" width="36" />
-                                                </span>
-                                            </div>
-                                            <div class="chat-body">
-                                                <div class="chat-content">
-                                                    <p>How can we help? We're here for you! 😄</p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="chat chat-left">
-                                            <div class="chat-avatar">
-                                                <span class="avatar box-shadow-1 cursor-pointer">
-                                                    <img src="../../../app-assets/images/portrait/small/avatar-s-7.jpg" alt="avatar" height="36" width="36" />
-                                                </span>
-                                            </div>
-                                            <div class="chat-body">
-                                                <div class="chat-content">
-                                                    <p>Hey John, I am looking for the best admin template.</p>
-                                                    <p>Could you please help me to find it out? 🤔</p>
-                                                </div>
-                                                <div class="chat-content">
-                                                    <p>It should be Bootstrap 4 compatible.</p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="divider">
-                                            <div class="divider-text">Yesterday</div>
-                                        </div>
-                                        <div class="chat">
-                                            <div class="chat-avatar">
-                                                <span class="avatar box-shadow-1 cursor-pointer">
-                                                    <img src="../../../app-assets/images/portrait/small/avatar-s-11.jpg" alt="avatar" height="36" width="36" />
-                                                </span>
-                                            </div>
-                                            <div class="chat-body">
-                                                <div class="chat-content">
-                                                    <p>Absolutely!</p>
-                                                </div>
-                                                <div class="chat-content">
-                                                    <p>Vuexy admin is the responsive bootstrap 4 admin template.</p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="chat chat-left">
-                                            <div class="chat-avatar">
-                                                <span class="avatar box-shadow-1 cursor-pointer">
-                                                    <img src="../../../app-assets/images/portrait/small/avatar-s-7.jpg" alt="avatar" height="36" width="36" />
-                                                </span>
-                                            </div>
-                                            <div class="chat-body">
-                                                <div class="chat-content">
-                                                    <p>Looks clean and fresh UI. 😃</p>
-                                                </div>
-                                                <div class="chat-content">
-                                                    <p>It's perfect for my next project.</p>
-                                                </div>
-                                                <div class="chat-content">
-                                                    <p>How can I purchase it?</p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="chat">
-                                            <div class="chat-avatar">
-                                                <span class="avatar box-shadow-1 cursor-pointer">
-                                                    <img src="../../../app-assets/images/portrait/small/avatar-s-11.jpg" alt="avatar" height="36" width="36" />
-                                                </span>
-                                            </div>
-                                            <div class="chat-body">
-                                                <div class="chat-content">
-                                                    <p>Thanks, from ThemeForest.</p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="chat chat-left">
-                                            <div class="chat-avatar">
-                                                <span class="avatar box-shadow-1 cursor-pointer">
-                                                    <img src="../../../app-assets/images/portrait/small/avatar-s-7.jpg" alt="avatar" height="36" width="36" />
-                                                </span>
-                                            </div>
-                                            <div class="chat-body">
-                                                <div class="chat-content">
-                                                    <p>I will purchase it for sure. 👍</p>
-                                                </div>
-                                                <div class="chat-content">
-                                                    <p>Thanks.</p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="chat">
-                                            <div class="chat-avatar">
-                                                <span class="avatar box-shadow-1 cursor-pointer">
-                                                    <img src="../../../app-assets/images/portrait/small/avatar-s-11.jpg" alt="avatar" height="36" width="36" />
-                                                </span>
-                                            </div>
-                                            <div class="chat-body">
-                                                <div class="chat-content">
-                                                    <p>Great, Feel free to get in touch on</p>
-                                                </div>
-                                                <div class="chat-content">
-                                                    <p>https://pixinvent.ticksy.com/</p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- User Chat messages -->
-
-                                <!-- Submit Chat form -->
-                                <form class="chat-app-form" action="javascript:void(0);" onsubmit="enterChat();">
-                                    <div class="input-group input-group-merge me-1 form-send-message">
-                                        <span class="speech-to-text input-group-text"><i data-feather="mic" class="cursor-pointer"></i></span>
-                                        <input type="text" class="form-control message" placeholder="Type your message or use speech to text" />
-                                        <span class="input-group-text">
-                                            <label for="attach-doc" class="attachment-icon form-label mb-0">
-                                                <i data-feather="image" class="cursor-pointer text-secondary"></i>
-                                                <input type="file" id="attach-doc" hidden /> </label></span>
-                                    </div>
-                                    <button type="button" class="btn btn-primary send" onclick="enterChat();">
-                                        <i data-feather="send" class="d-lg-none"></i>
-                                        <span class="d-none d-lg-block">Send</span>
-                                    </button>
-                                </form>
-                                <!--/ Submit Chat form -->
-                            </div>
-                            <!--/ Active Chat -->
-                        </section>
-                        <!--/ Main chat area -->
-                    </div>
+                <div class="input-group input-group-merge ms-1 w-100">
+                  <span class="input-group-text round"><i data-feather="search" class="text-muted"></i></span>
+                  <input type="text" class="form-control round" id="chat-search" placeholder="Search or start a new chat" aria-label="Search..." aria-describedby="chat-search" />
                 </div>
+              </div>
             </div>
+            <!-- Sidebar header end -->
+
+            <!-- Sidebar Users start -->
+            <input type="hidden" name="adminId" id="adminId" value="<%= adminId %>">
+            <div id="users-list" class="chat-user-list-wrapper list-group">
+              <h4 class="chat-list-title">Chats</h4>
+              <ul class="chat-users-list chat-list media-list" id="chatList">
+                <!-- <li>    
+                                 
+                </li> -->
+              </ul>
+
+
+            </div>
+            <!-- Sidebar Users end -->
+          </div>
+          <!--/ Chat Sidebar area -->
         </div>
+      </div>
+      <div class="content-right">
+        <div class="content-wrapper container-xxl p-0">
+          <div class="content-header row">
+          </div>
+          <div class="content-body">
+            <!-- <div class="body-content-overlay"></div> -->
+            <!-- Main chat area -->
+            <section class="chat-app-window">
+              <!-- To load Conversation -->
+              <div class="start-chat-area" id="startChat">
+                <div class="mb-1 start-chat-icon">
+                  <i data-feather="message-square"></i>
+                </div>
+                <h4 class="sidebar-toggle start-chat-text">Start Conversation</h4>
+              </div>
+              <!--/ To load Conversation -->
+
+              <!-- Active Chat -->
+              <div class="active-chat ">
+                <!-- Chat Header -->
+                <div class="chat-navbar">
+                  <header class="chat-header">
+                    <div class="d-flex align-items-center">
+                      <div class="sidebar-toggle d-block d-lg-none me-1">
+                        <i data-feather="menu" class="font-medium-5"></i>
+                      </div>
+                      <div class="avatar avatar-border user-profile-toggle m-0 me-1">
+                        <img src="../../../app-assets/images/portrait/small/avatar-s-7.jpg" alt="avatar" height="36" width="36" />
+                        <span class="avatar-status-busy"></span>
+                      </div>
+                      <h6 class="mb-0" id="userName"> </h6>
+                    </div>
+
+                  </header>
+                </div>
+                <!--/ Chat Header -->
+
+                <!-- User Chat messages -->
+                <div class="user-chats">
+                  <div class="chats" id="userChats">
+
+                  </div>
+                </div>
+                <!-- User Chat messages -->
+
+                <!-- Submit Chat form -->
+                <form class="chat-app-form" action="javascript:void(0);" onsubmit="sendMsg();">
+
+                  <input type="hidden" name="receiverId" id="receiverId">
+
+                  <div class="input-group input-group-merge me-1 form-send-message">
+                    <!-- <span class="speech-to-text input-group-text"><i data-feather="mic" class="cursor-pointer"></i></span> -->
+                    <input type="text" class="form-control message" id="chatMsg" value="" />
+                    <!-- <span class="input-group-text">
+                      <label for="attach-doc" class="attachment-icon form-label mb-0">
+                        <i data-feather="image" class="cursor-pointer text-secondary"></i>
+                        <input type="file" id="attach-doc" hidden /> </label></span> -->
+                  </div>
+                  <button type="button" class="btn btn-primary send" onclick="sendMsg();">
+                    <i data-feather="send" class="d-lg-none"></i>
+                    <span class="d-none d-lg-block">Send</span>
+                  </button>
+                </form>
+                <!--/ Submit Chat form -->
+              </div>
+              <!--/ Active Chat -->
+            </section>
+            <!--/ Main chat area -->
+          </div>
+        </div>
+      </div>
     </div>
-    <!-- END: Content-->
+  </div>
+  <!-- END: Content-->
 
-    <div class="sidenav-overlay"></div>
-    <div class="drag-target"></div>
+  <div class="sidenav-overlay"></div>
+  <div class="drag-target"></div>
 
-    <!-- BEGIN: Footer-->
-    <footer class="footer footer-static footer-light">
-        <p class="clearfix mb-0"><span class="float-md-start d-block d-md-inline-block mt-25">COPYRIGHT &copy; 2021<a class="ms-25" href="https://1.envato.market/pixinvent_portfolio" target="_blank">Pixinvent</a><span class="d-none d-sm-inline-block">, All rights Reserved</span></span><span class="float-md-end d-none d-md-block">Hand-crafted & Made with<i data-feather="heart"></i></span></p>
-    </footer>
-    <button class="btn btn-primary btn-icon scroll-top" type="button"><i data-feather="arrow-up"></i></button>
-    
-    <!-- END: Footer-->
+  <!-- BEGIN: Footer-->
+  <footer class="footer footer-static footer-light">
+    <p class="clearfix mb-0"><span class="float-md-start d-block d-md-inline-block mt-25">COPYRIGHT &copy; 2021<a class="ms-25" href="https://1.envato.market/pixinvent_portfolio" target="_blank">Pixinvent</a><span class="d-none d-sm-inline-block">, All rights Reserved</span></span><span class="float-md-end d-none d-md-block">Hand-crafted & Made with<i data-feather="heart"></i></span></p>
+  </footer>
+  <button class="btn btn-primary btn-icon scroll-top" type="button"><i data-feather="arrow-up"></i></button>
 
-    <script src="/socket.io/socket.io.js"></script>
+  <!-- END: Footer-->
 
-    <!-- BEGIN: Vendor JS-->
-    <script src="../../../app-assets/vendors/js/vendors.min.js"></script>
-    <!-- BEGIN Vendor JS-->
+  <script src="/socket.io/socket.io.js"></script>
 
-    <!-- BEGIN: Page Vendor JS-->
-    <!-- END: Page Vendor JS-->
+  <!-- BEGIN: Vendor JS-->
+  <script src="../../../app-assets/vendors/js/vendors.min.js"></script>
+  <!-- BEGIN Vendor JS-->
 
-    <!-- BEGIN: Theme JS-->
-    <script src="../../../app-assets/js/core/app-menu.js"></script>
-    <script src="../../../app-assets/js/core/app.js"></script>
-    <!-- END: Theme JS-->
+  <!-- BEGIN: Page Vendor JS-->
+  <!-- END: Page Vendor JS-->
 
-    <!-- BEGIN: Page JS-->
-    <script src="../../../app-assets/js/scripts/pages/app-chat.js"></script>
-    <!-- END: Page JS-->
+  <!-- BEGIN: Theme JS-->
+  <script src="../../../app-assets/js/core/app-menu.js"></script>
+  <script src="../../../app-assets/js/core/app.js"></script>
+  <!-- END: Theme JS-->
 
-    <script>
-        $(window).on('load', function() {
-            if (feather) {
-                feather.replace({
-                    width: 14,
-                    height: 14
-                });
-            }
-        })
-    </script>
+  <!-- BEGIN: Page JS-->
+  <script src="/app-assets/js/scripts/pages/app-chat.js"></script>
+  <!-- END: Page JS-->
 
-    <script>
+  <script>
+    $(window).on('load', function() {
+      if (feather) {
+        feather.replace({
+          width: 14,
+          height: 14
+        });
+      }
+    })
+  </script>
 
-        let adminID = document.getElementById('adminId');
-        adminID = adminID.value;
-        // console.log("🚀 ~ adminID:", adminID)
-        
-        var socket = io();
-        socket.emit('connect_user', {userId:adminID });
-        socket.emit('chat_list', {sender_id:adminID });
-        
-        socket.on('chat_list', (data) => {
-            console.log(data,  ">>>>>>>sdhcvsdvcdvhcsdvc>>>>>>>>>");
+  <script>
+    let adminID = document.getElementById('adminId');
+    adminID = adminID.value;
+    var socket = io();
 
-            let chating = document.getElementById('chatList');
-            chating.innerHTML= "";
+    socket.emit('connect_user', {
+      userId: adminID
+    });
 
-            data.forEach(users => {
-                
-                const listitem = document.createElement("li")
-                listitem.innerHTML= `
+    socket.emit('chat_list', {
+      sender_id: adminID
+    });
 
-                <li>              
-                    <span class="avatar"><img src="../../../app-assets/images/portrait/small/avatar-s-3.jpg" height="42" width="42" alt="Generic placeholder image" /> 
+    socket.on('chat_list', (data) => {
+
+      let chating = document.getElementById('chatList'); // to get the chat list (ul)
+      chating.innerHTML = "";
+
+      data.forEach(users => {
+
+        let rId = users.receiver[0]._id == adminID ? users.sender[0]._id : users.receiver[0]._id;
+
+        const listitem = document.createElement("div")
+        listitem.innerHTML = `
+                          
+      <li id="userId_${rId}" onclick='showChats("${users.sender[0]._id}", "${users.receiver[0]._id}", "${users.receiver[0]._id == adminID ? users.sender[0].name : users.receiver[0].name}")'>
+          <span class="avatar">
+              <img src="/images/${users.receiver[0].image}" height="42" width="42" alt="Generic placeholder image" />
+          </span>
+          <div class="chat-info flex-grow-1">
+              <h5 class="mb-0"> ${users.receiver[0]._id == adminID ? users.sender[0].name : users.receiver[0].name} </h5>
+              <p class="card-text text-truncate">
+                ${users.message}
+              </p>
+          </div>
+          <div class="chat-meta text-nowrap">
+              <small class="float-end mb-25 chat-time">4:14 PM</small>
+              <span class="badge bg-danger rounded-pill float-end">3</span>
+          </div>
+      </li>
+        `
+        chating.appendChild(listitem)
+      });
+    });
+
+    // On User List click
+    const showChats = (sender_id, receiver_id, listUserName) => {
+
+      let user_li = document.getElementById(`userId_${receiver_id == adminID ? sender_id : receiver_id}`);
+      if (user_li) {
+        document.querySelectorAll('li.active').forEach(element => {
+          element.classList.remove('active');
+        });
+        user_li.classList.add('active');
+      }
+
+
+      let receiverId = document.getElementById('receiverId');
+      receiverId.value = receiver_id == adminID ? sender_id : receiver_id;
+
+      let startChat = document.getElementById('startChat'); //getting div by ID //
+      startChat.classList.add('d-none'); //adding class to div to show the chatting screen
+      let user_name = document.getElementById('userName'); // to get the user name on chat header
+      user_name.innerText = listUserName //pasing the name to header
+
+      socket.emit('get_chat', {
+        sender_id,
+        receiver_id
+      });
+
+    }
+
+    // On Send Button
+    const sendMsg = () => {
+      let receiverId = document.getElementById('receiverId');
+      let receiver_id = receiverId.value;
+
+      let msgText = document.getElementById('chatMsg');
+      msgText = msgText.value;
+
+      socket.emit('send_message', {
+        sender_id: adminID,
+        receiver_id: receiver_id,
+        message: msgText,
+        type: 1
+      });
+
+      msgText = document.getElementById('chatMsg');
+      msgText.value = '';
+
+      socket.emit('get_chat', {
+        sender_id: adminID,
+        receiver_id: receiver_id,
+      });
+
+      socket.emit('chat_list', {
+        sender_id: adminID
+      });
+
+    }
+
+
+    socket.on('my_chat', (data) => {
+      // alert('Hello, I am send msg listener');
+      const userChatsDiv = document.getElementById('userChats');
+      userChatsDiv.innerHTML = '';
+
+      for (d of data) {
+        var chatMsg = document.createElement('div');
+
+        if (adminID == d.sender_id) {
+
+          chatMsg.innerHTML = `
+                      
+            <div class="chat" id="chatRight">
+                <div class="chat-avatar">
+                     <span class="avatar box-shadow-1 cursor-pointer">
+                         <img src="<%=session.image%>" alt="avatar" height="36" width="36" />
                     </span>
-                    <div class="chat-info flex-grow-1">
-                        <h5 class="mb-0"> ${users.receiver[0].name} </h5>
-                        <p class="card-text text-truncate">
-                            Cake pie jelly jelly beans. Marzipan lemon drops halvah cake. Pudding cookie lemon drops icing
-                        </p>
+                </div>
+                <div class="chat-body">
+                    <div class="chat-content">
+                        <p>${d.message}</p>
                     </div>
-                    <div class="chat-meta text-nowrap">
-                        <small class="float-end mb-25 chat-time">4:14 PM</small>
-                        <span class="badge bg-danger rounded-pill float-end">3</span>
-                    </div>
-                </li> `
-                chating.appendChild(listitem)
-
-            })
-        })
-
-    </script>
-    
-</body>
+                </div>
+            </div>
   
+                  `
+        } else {
+          chatMsg.innerHTML = `
+                      
+            <div class="chat chat-left" id="chatLeft">
+                <div class="chat-avatar">
+                    <span class="avatar box-shadow-1 cursor-pointer">
+                    <img src="../../../app-assets/images/portrait/small/avatar-s-7.jpg" alt="avatar" height="36" width="36" />
+                    </span>
+                </div>
+                <div class="chat-body">
+                    <div class="chat-content">
+                    <p>${d.message}</p>
+                    </div>
+                </div>
+            </div>
+            `
+        }
+        userChatsDiv.appendChild(chatMsg);
+      }
+
+    });
+  </script>
+
+</body>
+
+</html>

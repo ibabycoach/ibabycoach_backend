@@ -586,7 +586,6 @@ module.exports = {
 
   send_push_notifications : (payLoad) => {
     try {
-      // console.log(payLoad,'=-=-=-=-=-=-=-=-=-=-=-=-')
       if (payLoad && payLoad.device_token && payLoad.device_token != "") {
         var message = {
           to: payLoad.device_token,
@@ -595,7 +594,6 @@ module.exports = {
             body: payLoad.message,
             content_available: true,
             priority: "high",
-            // jobId:payLoad.jobId,
             notificationType: payLoad.type,
             sender_name: payLoad.sender_name,
             // senderId: payLoad.senderId,
@@ -607,7 +605,6 @@ module.exports = {
             body: payLoad.message,
             content_available: true,
             priority: "high",
-            // jobId:payLoad.jobId,
             notificationType: payLoad.type,
             sender_name: payLoad.sender_name,
             sender_id:payLoad.sender_id  ,

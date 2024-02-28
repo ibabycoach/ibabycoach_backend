@@ -6,12 +6,12 @@ const dailytaskSchema = new mongoose.Schema({
   babyId: {type: mongoose.Schema.Types.ObjectId, ref: "baby"},
   activityIds: { type: mongoose.Schema.Types.ObjectId, ref: "activity" },
   subuserId: { type: mongoose.Schema.Types.ObjectId, ref: "user" },
-  // breast_feeding: { type:  String, 
-  //   enum: ['0', '1'],         // 0 fofr left, 1 for right
-  //   default: '' },
-  // diapers:  { type:  String, 
-  //   enum: ['0', '1'],         //0 for wet, 1 for dry
-  //   default: '' }, 
+  breast_feeding: { type:  String, 
+    enum: ["0", "1"],         // 0 fofr left, 1 for right
+    default: '' },
+  diapers:  { type:  String, 
+    enum: ["0", "1"],         //0 for wet, 1 for dry
+    default: '' }, 
   bottle: { type: String, default: '' },  
   time: { type: Date, default: '' },
   duration: { type: String, default: '' },

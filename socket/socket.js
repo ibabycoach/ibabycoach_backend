@@ -68,8 +68,8 @@ module.exports = function (io) {
     });
 
     socket.on('send_message', async function (get_data) {
-
       try {
+        
         var user_data = await Messages.findOne({
           $or: [
             { sender_id: get_data.sender_id, receiver_id: get_data.receiver_id },
@@ -201,7 +201,7 @@ module.exports = function (io) {
             if (get_user) {
               let payload = {};
               payload = sender_data;
-              payload.title = "Message Sent ";
+              payload.title = "Message Sent";
               payload.message = `${sender_data.firstname} sent you a message`;
 
               let objS = {
