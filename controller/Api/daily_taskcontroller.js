@@ -5,28 +5,35 @@ const { Validator } = require('node-input-validator');
 
 module.exports = {
     
-    bottle_time: async(req, res)=> {
+    add_task: async(req, res)=> {
         try {
-            // console.log(req.body, ">>>>>");return
             let userId = req.user._id;
             const v = new Validator(req.body, {
-               bottle: "required"
+                task_type: "required"
               });
                 
                 const errorResponse = await helper.checkValidation(v);
                 if (errorResponse) {
                   return helper.failed(res, errorResponse);
                 }
+                if (req.files && req.files.image) {
+                    var image = req.files.image;
+                  
+                    if (image) {
+                      req.body.image = helper.imageUpload(image, "images");
+                    }
+                  }
 
-            const bottleTime = await daily_task.create({
-                userId: userId,
-                ...req.body,
-            })
+                const bottleTime = await daily_task.create({
+                    userId: userId,
+                    task_type: req.body.task_type,
+                    ...req.body,
+                })
             
-            return helper.success(res, "bottle task added successfully", bottleTime)
+            return helper.success(res, "Daily task added successfully", bottleTime)
 
         } catch (error) {
-            console.log(error)
+            console.log(error);
         }
     }
 
