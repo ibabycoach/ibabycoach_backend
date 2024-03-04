@@ -31,7 +31,7 @@
               <div class="d-flex align-items-center w-100">
                 <div class="sidebar-profile-toggle">
                   <div class="avatar avatar-border">
-                    <img src="<%=session.image%>" alt="user_avatar" height="45" width="45" aria-readonly="true"/>
+                    <img src="<%=session.image%>" alt="user_avatar" height="45" width="45" aria-readonly="true" />
                     <!-- <span class="avatar-status-online"></span> -->
                   </div>
                 </div>
@@ -273,13 +273,14 @@
       socket.emit('chat_list', {
         sender_id: adminID
       });
+      $('.user-chats').scrollTop($('.user-chats > .chats').height());
 
     }
 
-
+    // user chat 
     socket.on('my_chat', (data) => {
       // alert('Hello, I am send msg listener');
-      const userChatsDiv = document.getElementById('userChats');
+      var userChatsDiv = document.getElementById('userChats');
       userChatsDiv.innerHTML = '';
 
       for (d of data) {
@@ -290,40 +291,74 @@
           chatMsg.innerHTML = `
                       
             <div class="chat" id="chatRight">
-                <div class="chat-avatar">
-                     <span class="avatar box-shadow-1 cursor-pointer">
-                         <img src="<%=session.image%>" alt="avatar" height="36" width="36" />
-                    </span>
+              <div class="chat-avatar">
+                <span class="avatar box-shadow-1 cursor-pointer">
+                  <img src="<%=session.image%>" alt="avatar" height="36" width="36" />
+                </span>
+              </div>
+              <div class="chat-body">
+                <div class="chat-content">
+                  <p>${d.message}</p>
                 </div>
-                <div class="chat-body">
-                    <div class="chat-content">
-                        <p>${d.message}</p>
-                    </div>
-                </div>
+              </div>
             </div>
-  
-                  `
+
+            `
         } else {
           chatMsg.innerHTML = `
                       
             <div class="chat chat-left" id="chatLeft">
-                <div class="chat-avatar">
-                    <span class="avatar box-shadow-1 cursor-pointer">
-                    <img src="../../../app-assets/images/portrait/small/avatar-s-7.jpg" alt="avatar" height="36" width="36" />
-                    </span>
+              <div class="chat-avatar">
+                <span class="avatar box-shadow-1 cursor-pointer">
+                  <img src="../../../app-assets/images/portrait/small/avatar-s-7.jpg" alt="avatar" height="36" width="36" />
+                </span>
+              </div>
+              <div class="chat-body">
+                <div class="chat-content">
+                  <p>${d.message}</p>
                 </div>
-                <div class="chat-body">
-                    <div class="chat-content">
-                    <p>${d.message}</p>
-                    </div>
-                </div>
+              </div>
             </div>
             `
         }
         userChatsDiv.appendChild(chatMsg);
       }
+      $('.user-chats').scrollTop($('.user-chats > .chats').height());
+
 
     });
+
+
+    socket.on('send_message_listener', (data) => {
+      // console.log("🚀 ~ socket.on ~ data:", data);
+
+      userChatsDiv = document.getElementById('userChats');
+
+      chatMsg = document.createElement('div');
+
+      if (data.sender_id != adminID) {
+
+        chatMsg.innerHTML = `
+                      
+          <div class="chat chat-left" id="chatLeft">
+            <div class="chat-avatar">
+              <span class="avatar box-shadow-1 cursor-pointer">
+                <img src="../../../app-assets/images/portrait/small/avatar-s-7.jpg" alt="avatar" height="36" width="36" />
+              </span>
+            </div>
+              <div class="chat-body">
+                <div class="chat-content">
+                  <p>${data.message}</p>
+                </div>
+              </div>
+            </div>
+          `
+      }
+      userChatsDiv.appendChild(chatMsg);
+
+      $('.user-chats').scrollTop($('.user-chats > .chats').height());
+    });
+  
   </script>
 
 </body>

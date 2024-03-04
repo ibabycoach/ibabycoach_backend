@@ -123,18 +123,17 @@ module.exports = function (io) {
             var get_user = await Users.findById( get_data.receiver_id);
             var sender_data = await Users.findById( get_data.sender_id );         
         
-            const { device_token, device_type, firstname, lastname } = get_user;
+            const { device_token, device_type, name } = get_user;
             if (get_user) {
               let payload = {};
               payload = sender_data;
-              payload.title = "Message Sent ";
-              payload.message = `${sender_data.firstname} sent you a message`;
-              // payload.senderId = 
+              payload.title = "Message Sent";
+              payload.message = `${sender_data.name} sent you a message`;
               
               let objS = {
                 device_type: get_user.device_type,
                 device_token: get_user.device_token,
-                sender_name: sender_data.firstname,
+                sender_name: sender_data.name,
                 sender_image: sender_data.image,
                 message : payload.message,
                 type:2,
@@ -197,17 +196,17 @@ module.exports = function (io) {
             });
             var get_user = await Users.findOne({ _id: get_data.receiver_id });
             var sender_data = await Users.findOne({ _id: get_data.sender_id });
-            const { device_token, device_type, firstname, lastname } = get_user;
+            const { device_token, device_type, name } = get_user;
             if (get_user) {
               let payload = {};
               payload = sender_data;
               payload.title = "Message Sent";
-              payload.message = `${sender_data.firstname} sent you a message`;
+              payload.message = `${sender_data.name} sent you a message`;
 
               let objS = {
                 device_type: get_user.device_type,
                 device_token: get_user.device_token,
-                sender_name: sender_data.firstname,
+                sender_name: sender_data.name,
                 sender_image: sender_data.image,
                 message : payload.message,
                 type:2,
