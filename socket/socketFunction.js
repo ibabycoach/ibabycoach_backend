@@ -126,11 +126,11 @@ module.exports = {
           $group: {
             _id: { constant_id: '$constant_id' }, // Group by constant_id using _id
             doc: { $last: '$$ROOT' },
-            // count: {
-            //   $sum: {
-            //     $cond: [{ $eq: ['$messages.is_read', '0'] }, 1, 0],
-            //   },
-            // },
+            count: {
+              $sum: {
+                $cond: [{ $eq: ['$messages.is_read', '0'] }, 1, 0],
+              },
+            },
             senderOnlineStatus: { $first: '$senderSocketUser.onlineStatus' } // Include sender's online status
           },
         },

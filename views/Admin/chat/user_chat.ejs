@@ -189,6 +189,7 @@
     });
 
     socket.on('chat_list', (data) => {
+ console.log(data, ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");        
 
       let chating = document.getElementById('chatList'); // to get the chat list (ul)
       chating.innerHTML = "";
@@ -231,14 +232,13 @@
         user_li.classList.add('active');
       }
 
-
       let receiverId = document.getElementById('receiverId');
       receiverId.value = receiver_id == adminID ? sender_id : receiver_id;
 
       let startChat = document.getElementById('startChat'); //getting div by ID //
       startChat.classList.add('d-none'); //adding class to div to show the chatting screen
       let user_name = document.getElementById('userName'); // to get the user name on chat header
-      user_name.innerText = listUserName //pasing the name to header
+      user_name.innerText = listUserName //passing the name to header
 
       socket.emit('get_chat', {
         sender_id,
