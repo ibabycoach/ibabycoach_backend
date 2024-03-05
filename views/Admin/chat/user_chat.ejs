@@ -188,8 +188,7 @@
       sender_id: adminID
     });
 
-    socket.on('chat_list', (data) => {
- console.log(data, ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");        
+    socket.on('chat_list', (data) => {  
 
       let chating = document.getElementById('chatList'); // to get the chat list (ul)
       chating.innerHTML = "";
@@ -325,12 +324,10 @@
       }
       $('.user-chats').scrollTop($('.user-chats > .chats').height());
 
-
     });
 
 
     socket.on('send_message_listener', (data) => {
-      // console.log("🚀 ~ socket.on ~ data:", data);
 
       userChatsDiv = document.getElementById('userChats');
 

@@ -16,15 +16,16 @@
                   </div>
                   <br>
                   <div class="card-body">
-                    <form class="form form-vertical" id="" action="/contactUsList" method="POST"
+                    <form class="form form-vertical" id="" action="/" method="POST"
                       enctype="multipart/form-data">
                       <div class="mb-1 row">
                         <div class="col-sm-2">
-                          <label class="col-form-label new_lable" for="name">User Name</label>
+                          <label class="col-form-label new_lable" for="name">Parent Name</label>
                         </div>
                         <div class="col-sm-10">
                           <input type="text" id="name" class="form-control" name="name"
-                            value="<%=growthView.userId.name%> " disabled>
+                            value="<%= growthView.userId && growthView.userId.name ? growthView.userId.name : "Parent not found" %>
+                            " disabled>
                         </div>
                       </div>
                       <div class="mb-1 row">
@@ -33,7 +34,7 @@
                         </div>
                         <div class="col-sm-10">
                           <input type="text" id="price" class="form-control" name="price"
-                            value="<%=growthView.babyId.baby_name%> " disabled>
+                            value="<%=growthView.babyId && growthView.babyId.baby_name ? growthView.babyId.baby_name : "Baby not found" %> " disabled>
                         </div>
                       </div>
                       <!-- <div class="mb-1 row">
@@ -63,12 +64,16 @@
                           const birthday = new Date(growthView.babyId.birthday);
                           const currentDate = new Date();
                           const ageInMilliseconds = currentDate - birthday;
-                        
-                          const months = Math.floor(ageInMilliseconds % (365.25 * 24 * 60 * 60 * 1000) / (30.44 * 24 * 60 * 60 * 1000));
-                          const weeks = Math.floor(ageInMilliseconds % (30.44 * 24 * 60 * 60 * 1000) / (7 * 24 * 60 * 60 * 1000));
-                        
-                          const displayAge = `${months} months, ${weeks} weeks`;
+                          const years = Math.floor(ageInMilliseconds / (365.25 * 24 * 60 * 60 * 1000));
+                          
+                          const remainingMilliseconds = ageInMilliseconds % (365.25 * 24 * 60 * 60 * 1000);
+                          const months = Math.floor(remainingMilliseconds / (30.44 * 24 * 60 * 60 * 1000));
+
+                          const remainingMillisecondsAfterMonths = remainingMilliseconds % (30.44 * 24 * 60 * 60 * 1000);
+                          const weeks = Math.floor(remainingMillisecondsAfterMonths / (7 * 24 * 60 * 60 * 1000));
+                          const displayAge = `${years} years, ${months} months, ${weeks} weeks`;
                         %><%= displayAge %>
+                        
                         "
                             disabled>
                         </div>
