@@ -32,7 +32,8 @@ module.exports = {
               ...req.body });
 
               const updatebabydata = await user_model.findByIdAndUpdate(userId, {
-               babyId: addbaby._id
+               babyId: addbaby._id,
+               image: addbaby.image
             });
 
           return helper.success(res, "baby details added", addbaby)
@@ -68,6 +69,10 @@ module.exports = {
         gender: req.body.gender});
      
         const babydetails = await baby_model.find({_id: babyId});
+
+        const updatebabydata = await user_model.findByIdAndUpdate({_id: req.user._id}, 
+          {image: babydata.image
+       });
 
       return helper.success(res, "baby details updated successfully", babydetails)
 

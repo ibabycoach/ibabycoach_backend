@@ -65,7 +65,7 @@
                           const currentDate = new Date();
                           const ageInMilliseconds = currentDate - birthday;
                           const years = Math.floor(ageInMilliseconds / (365.25 * 24 * 60 * 60 * 1000));
-                          
+
                           const remainingMilliseconds = ageInMilliseconds % (365.25 * 24 * 60 * 60 * 1000);
                           const months = Math.floor(remainingMilliseconds / (30.44 * 24 * 60 * 60 * 1000));
 
@@ -73,7 +73,7 @@
                           const weeks = Math.floor(remainingMillisecondsAfterMonths / (7 * 24 * 60 * 60 * 1000));
                           const displayAge = `${years} years, ${months} months, ${weeks} weeks`;
                         %><%= displayAge %>
-                        
+
                         "
                             disabled>
                         </div>

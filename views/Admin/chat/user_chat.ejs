@@ -87,8 +87,8 @@
                         <i data-feather="menu" class="font-medium-5"></i>
                       </div>
                       <div class="avatar avatar-border user-profile-toggle m-0 me-1">
-                        <img src="../../../app-assets/images/portrait/small/avatar-s-7.jpg" alt="avatar" height="36" width="36" />
-                        <span class="avatar-status-busy"></span>
+                        <img id="userHeaderImg" src="" alt="avatar" height="36" width="36" />
+                        <!-- <span class="avatar-status-busy"></span> -->
                       </div>
                       <h6 class="mb-0" id="userName"> </h6>
                     </div>
@@ -188,33 +188,34 @@
       sender_id: adminID
     });
 
-    socket.on('chat_list', (data) => {  
+    socket.on('chat_list', (data) => {
 
+     
       let chating = document.getElementById('chatList'); // to get the chat list (ul)
       chating.innerHTML = "";
-
       data.forEach(users => {
 
-        let rId = users.receiver[0]._id == adminID ? users.sender[0]._id : users.receiver[0]._id;
 
+        let rId = users.receiver[0]._id == adminID ? users.sender[0]._id : users.receiver[0]._id;
+        let userImg = users.receiver[0]._id == adminID ? users.sender[0].image : users.receiver[0].image;
         const listitem = document.createElement("div")
         listitem.innerHTML = `
                           
-      <li id="userId_${rId}" onclick='showChats("${users.sender[0]._id}", "${users.receiver[0]._id}", "${users.receiver[0]._id == adminID ? users.sender[0].name : users.receiver[0].name}")'>
+        <li id="userId_${rId}" onclick='showChats("${users.sender[0]._id}", "${users.receiver[0]._id}", "${users.receiver[0]._id == adminID ? users.sender[0].name : users.receiver[0].name}")'>
           <span class="avatar">
-              <img src="/images/${users.receiver[0].image}" height="42" width="42" alt="Generic placeholder image" />
+            <img src="${userImg}" id="userImage_${rId}" height="42" width="42" alt="Generic placeholder image" />
           </span>
           <div class="chat-info flex-grow-1">
-              <h5 class="mb-0"> ${users.receiver[0]._id == adminID ? users.sender[0].name : users.receiver[0].name} </h5>
-              <p class="card-text text-truncate">
-                ${users.message}
-              </p>
+            <h5 class="mb-0"> ${users.receiver[0]._id == adminID ? users.sender[0].name : users.receiver[0].name} </h5>
+            <p class="card-text text-truncate">
+              ${users.message}
+            </p>
           </div>
           <div class="chat-meta text-nowrap">
-              <small class="float-end mb-25 chat-time">4:14 PM</small>
-              <span class="badge bg-danger rounded-pill float-end">3</span>
+            <small class="float-end mb-25 chat-time">${formatTimestamp(users.createdAt)}</small>
+            ${users.unread_count != 0 ? `<span class="badge bg-danger rounded-pill float-end">${users.unread_count}</span>` : ""}
           </div>
-      </li>
+        </li>
         `
         chating.appendChild(listitem)
       });
@@ -222,6 +223,9 @@
 
     // On User List click
     const showChats = (sender_id, receiver_id, listUserName) => {
+
+      let rId = receiver_id == adminID ? sender_id : receiver_id
+      document.getElementById('userHeaderImg').src = document.getElementById(`userImage_${rId}`).src;
 
       let user_li = document.getElementById(`userId_${receiver_id == adminID ? sender_id : receiver_id}`);
       if (user_li) {
@@ -304,12 +308,14 @@
 
             `
         } else {
+          let userImg = document.getElementById(`userImage_${d.sender_id}`).src;
+
           chatMsg.innerHTML = `
                       
             <div class="chat chat-left" id="chatLeft">
               <div class="chat-avatar">
                 <span class="avatar box-shadow-1 cursor-pointer">
-                  <img src="../../../app-assets/images/portrait/small/avatar-s-7.jpg" alt="avatar" height="36" width="36" />
+                  <img src=${userImg} alt="avatar" height="36" width="36" />
                 </span>
               </div>
               <div class="chat-body">
@@ -330,17 +336,14 @@
     socket.on('send_message_listener', (data) => {
 
       userChatsDiv = document.getElementById('userChats');
-
       chatMsg = document.createElement('div');
 
       if (data.sender_id != adminID) {
-
-        chatMsg.innerHTML = `
-                      
+        chatMsg.innerHTML = `  
           <div class="chat chat-left" id="chatLeft">
             <div class="chat-avatar">
               <span class="avatar box-shadow-1 cursor-pointer">
-                <img src="../../../app-assets/images/portrait/small/avatar-s-7.jpg" alt="avatar" height="36" width="36" />
+                <img src="" alt="avatar" height="36" width="36" />
               </span>
             </div>
               <div class="chat-body">
@@ -348,13 +351,22 @@
                   <p>${data.message}</p>
                 </div>
               </div>
-            </div>
+          </div>
           `
       }
       userChatsDiv.appendChild(chatMsg);
 
       $('.user-chats').scrollTop($('.user-chats > .chats').height());
     });
+
+    // To convert createdAT  to show the readable real-time 
+    function formatTimestamp(timestamp) {
+      const date = new Date(timestamp);
+      return date.toLocaleTimeString('en-US', {
+        hour: 'numeric',
+        minute: 'numeric'
+      });
+    }
   
   </script>
 

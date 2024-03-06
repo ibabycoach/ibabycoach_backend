@@ -520,7 +520,6 @@ module.exports = {
         sender:data.sender,
         receiver:data.receiver,
         message:data.message,
-        jobId:data.jobId,
         type:data.type,
         status:1
       }
@@ -596,10 +595,7 @@ module.exports = {
             priority: "high",
             notificationType: payLoad.type,
             sender_name: payLoad.sender_name,
-            // senderId: payLoad.senderId,
-            // receiverId: payload.receiverId
           },
-  
           data: {
             title: "ibabycoach",
             body: payLoad.message,
@@ -610,7 +606,6 @@ module.exports = {
             sender_id:payLoad.sender_id  ,
             receiver_id:payLoad.receiver_id  ,
           },
-          
         };
 
         var serverKey = "AAAAwS9BkG8:APA91bHy4wzjoLwcYEhnDrbt1D1TavsyfKxsGMc3cRmR2Iciq-gxQlahfKq9B-s7nXVPg_cQnFv7nTy0p_cnx9uayMRbBwO2aG4HOB3gfZ0sDnetGOUYjX8IgwvYko-wf6naHzJJKnjm"; //put

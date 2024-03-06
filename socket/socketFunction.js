@@ -128,7 +128,8 @@ module.exports = {
             doc: { $last: '$$ROOT' },
             count: {
               $sum: {
-                $cond: [{ $eq: ['$messages.is_read', '0'] }, 1, 0],
+                // $cond: [{ $eq: ['$messages.is_read', '0'] }, 1, 0],
+                $cond: [{ $and: [{ $eq: ['$receiver_id', id] }, { $eq: ['$is_read', '0'] }] }, 1, 0],
               },
             },
             senderOnlineStatus: { $first: '$senderSocketUser.onlineStatus' } // Include sender's online status
