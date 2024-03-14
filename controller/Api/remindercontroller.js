@@ -5,11 +5,10 @@ const { Validator } = require('node-input-validator');
 var cron = require('node-cron');
 
 // Schedule a task to run every hour
-cron.schedule('* * * * *', async () => {
-  console.log('running a task every minute');
+// cron.schedule('* * * * *', async () => {
+//   console.log('running a task every minute');
 
-  
-});
+// });
 
 module.exports = { 
 
@@ -79,25 +78,25 @@ module.exports = {
   },
 
   reminder_list: async (req, res) => {
-  try {
-    let userId = req.user._id;
-    const reminderData = await reminderModel.find({ userId: userId, deleted: false }).sort({ createdAt: -1 }).populate("activityIds");
-    if (!reminderData || reminderData.length === 0) {
-        return helper.failed2(res, "No reminder found");
-    }
+    try {
+      let userId = req.user._id;
+      const reminderData = await reminderModel.find({ userId: userId, deleted: false }).sort({ createdAt: -1 }).populate("activityIds");
+      if (!reminderData || reminderData.length === 0) {
+          return helper.failed2(res, "No reminder found");
+      }
 
-    // Map reminderData to include duration and remaining time in time key
-    const reminderList = reminderData.map(reminder => {
+      // Map reminderData to include duration and remaining time in time key
+      const reminderList = reminderData.map(reminder => {
         const reminder_start_time = new Date(reminder.time);
         const duration = parseFloat(reminder.duration); // Convert duration to a number
         const durationType = reminder.duration_type;
-        
+          
         // Calculate total time by adding the duration to the reminder start time
         let totalTime = new Date(reminder_start_time);
         if (durationType === "hours") {
-            totalTime.setHours(totalTime.getHours() + duration);
+          totalTime.setHours(totalTime.getHours() + duration);
         } else if (durationType === "minutes") {
-            totalTime.setMinutes(totalTime.getMinutes() + duration);
+          totalTime.setMinutes(totalTime.getMinutes() + duration);
         }
 
         // Calculate remaining time from the current time until the total time
@@ -111,25 +110,25 @@ module.exports = {
         const formattedRemainingTime = `${remainingDays > 0 ? remainingDays + ' days ' : ''}${remainingHours % 24} hours ${remainingMinutes % 60} minutes`;
 
         return {
-            _id: reminder._id,
-            userId: reminder.userId,
-            activityIds: reminder.activityIds,
-            time: {
-                reminder_start_time: reminder_start_time,
-                duration: reminder.duration + ' ' + reminder.duration_type, // Include duration and type in the "time" key
-                remaining_time: formattedRemainingTime, // Include formatted remaining time
-                reminder_time: totalTime // Include reminder time
-            },
+          _id: reminder._id,
+          userId: reminder.userId,
+          activityIds: reminder.activityIds,
+          time: {
+            reminder_start_time: reminder_start_time,
+            duration: reminder.duration + ' ' + reminder.duration_type, // Include duration and type in the "time" key
+            remaining_time: formattedRemainingTime, // Include formatted remaining time
+            reminder_time: totalTime // Include reminder time
+          },
             createdAt: reminder.createdAt,
             updatedAt: reminder.updatedAt
         };
-    });
+      });
 
-    return helper.success(res, "Reminder list", reminderList);
-  } catch (error) {
-    console.log(error);
-    return helper.failed(res, "Something went wrong");
-  }
+      return helper.success(res, "Reminder list", reminderList);
+    } catch (error) {
+      console.log(error);
+      return helper.failed(res, "Something went wrong");
+    }
   }
 
 

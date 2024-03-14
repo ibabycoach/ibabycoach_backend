@@ -4,7 +4,6 @@
 <body class="vertical-layout vertical-menu-modern content-left-sidebar navbar-floating footer-static  " data-open="click" data-menu="vertical-menu-modern" data-col="content-left-sidebar">
   <input type="hidden" name="adminId" value=" ">
 
-
   <!-- BEGIN: Content-->
   <div class="app-content content chat-application">
     <div class="content-overlay"></div>
@@ -48,13 +47,9 @@
             <div id="users-list" class="chat-user-list-wrapper list-group">
               <h4 class="chat-list-title">Chats</h4>
               <ul class="chat-users-list chat-list media-list" id="chatList">
-                <!-- <li>    
-                                 
-                </li> -->
               </ul>
-
-
             </div>
+            
             <!-- Sidebar Users end -->
           </div>
           <!--/ Chat Sidebar area -->
@@ -190,11 +185,9 @@
 
     socket.on('chat_list', (data) => {
 
-     
       let chating = document.getElementById('chatList'); // to get the chat list (ul)
       chating.innerHTML = "";
       data.forEach(users => {
-
 
         let rId = users.receiver[0]._id == adminID ? users.sender[0]._id : users.receiver[0]._id;
         let userImg = users.receiver[0]._id == adminID ? users.sender[0].image : users.receiver[0].image;
@@ -304,6 +297,9 @@
                   <p>${d.message}</p>
                 </div>
               </div>
+              <div class="chat-meta text-nowrap">
+            <small class="float-end chat-time"> ${formatTimestamp(d.createdAt)}</small>
+          </div>
             </div>
 
             `
@@ -323,6 +319,9 @@
                   <p>${d.message}</p>
                 </div>
               </div>
+              <div class="chat-meta text-nowrap">
+            <small class="float-start chat-time">${formatTimestamp(d.createdAt)}</small>
+          </div>
             </div>
             `
         }
@@ -351,6 +350,7 @@
                   <p>${data.message}</p>
                 </div>
               </div>
+
           </div>
           `
       }
