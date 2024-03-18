@@ -241,6 +241,10 @@
         receiver_id
       });
 
+      socket.emit('read_unread', {
+        sender_id,
+        receiver_id
+      });
     }
 
     // On Send Button
@@ -283,9 +287,7 @@
         var chatMsg = document.createElement('div');
 
         if (adminID == d.sender_id) {
-
-          chatMsg.innerHTML = `
-                      
+          chatMsg.innerHTML = `            
             <div class="chat" id="chatRight">
               <div class="chat-avatar">
                 <span class="avatar box-shadow-1 cursor-pointer">
@@ -298,11 +300,10 @@
                 </div>
               </div>
               <div class="chat-meta text-nowrap">
-            <small class="float-end chat-time"> ${formatTimestamp(d.createdAt)}</small>
-          </div>
+                <small class="float-end chat-time"> ${formatTimestamp(d.createdAt)}</small>
+              </div>
             </div>
-
-            `
+          `
         } else {
           let userImg = document.getElementById(`userImage_${d.sender_id}`).src;
 
@@ -320,15 +321,14 @@
                 </div>
               </div>
               <div class="chat-meta text-nowrap">
-            <small class="float-start chat-time">${formatTimestamp(d.createdAt)}</small>
-          </div>
+                <small class="float-start chat-time">${formatTimestamp(d.createdAt)}</small>
+              </div>
             </div>
-            `
+          `
         }
         userChatsDiv.appendChild(chatMsg);
       }
       $('.user-chats').scrollTop($('.user-chats > .chats').height());
-
     });
 
 
@@ -350,9 +350,8 @@
                   <p>${data.message}</p>
                 </div>
               </div>
-
           </div>
-          `
+        `
       }
       userChatsDiv.appendChild(chatMsg);
 

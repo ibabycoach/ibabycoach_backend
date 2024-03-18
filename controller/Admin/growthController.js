@@ -34,7 +34,6 @@ module.exports = {
     growth_view: async(req, res)=> {
         try {
             let title = "Growth"
-            // console.log(req.params, ">>>>>>>>>>>>>");return
             const growthView = await growthModel.findById({_id: req.params.id}).populate('userId babyId')
             res.render('Admin/Growth/viewGrowth', { title, growthView, session:req.session.user,  msg: req.flash('msg')})
         } catch (error) {

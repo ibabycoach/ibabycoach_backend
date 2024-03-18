@@ -35,16 +35,71 @@ module.exports = {
       }
   },
 
-  task_list: async(req, res)=> {
+  // task_list: async(req, res)=> {
+  //   try {
+  //     let babyId = req.body.babyId;
+  //     const findDailyTask = await daily_task.find({babyId}).populate('activityIds');
+      
+      
+  //     return helper.success(res, "Baby daily task list", findDailyTask)
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // },,
+  
+
+  task_list: async (req, res) => {
     try {
       let babyId = req.body.babyId;
-      const findDailyTask = await daily_task.find({babyId});
+      const findDailyTasks = await daily_task.find({ babyId }).populate('activityIds');
       
-      return helper.success(res, "Baby daily task list", findDailyTask)
+      // Count occurrences of each activity
+      const activityCounts = {};
+      findDailyTasks.forEach(task => {
+        if (Array.isArray(task.activityIds)) {
+          task.activityIds.forEach(activity => {
+            const activityId = activity._id.toString(); // Convert ObjectId to string for comparison
+            if (activityCounts.hasOwnProperty(activityId)) {
+              activityCounts[activityId]++;
+            } else {
+              activityCounts[activityId] = 1;
+            }
+          });
+        } else {
+          const activityId = task.activityIds._id.toString();
+          if (activityCounts.hasOwnProperty(activityId)) {
+            activityCounts[activityId]++;
+          } else {
+            activityCounts[activityId] = 1;
+          }
+        }
+      });
+  
+      // Include activity count with each task
+      const tasksWithCounts = findDailyTasks.map(task => {
+        const activitiesWithCount = Array.isArray(task.activityIds) ? 
+          task.activityIds.map(activity => ({
+            ...activity.toObject(),
+            count: activityCounts[activity._id.toString()] || 0
+          })) :
+          [{
+            ...task.activityIds.toObject(),
+            count: activityCounts[task.activityIds._id.toString()] || 0
+          }];
+  
+        return {
+          ...task.toObject(),
+          activityIds: activitiesWithCount
+        };
+      });
+  
+      return helper.success(res, "Baby daily task list", tasksWithCounts);
     } catch (error) {
       console.log(error);
     }
   }
+  
+  
 
 
 }

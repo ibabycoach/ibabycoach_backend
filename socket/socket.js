@@ -268,21 +268,21 @@ module.exports = function (io) {
 
     socket.on("read_unread", async (get_read_status) => {
       try {
-
+        
         var chatStatus = await my_function.read_unread(get_read_status);
 
         const updateReadStatusResult = await Messages.updateMany(
           {
             sender_id: get_read_status.sender_id,
             receiver_id: get_read_status.receiver_id,
-            readStatus: '0', // Only update unread messages
+            is_read: '0', // Only update unread messages
           },
           {
-            readStatus: '1', // Set messages as read
+            $set: { is_read: 1 } // Set is_read to 1 (assuming 1 means read)
           }
         );
         const response = {
-          readStatus: 1,
+          is_read: 1,
           message: "message readed successfully",
           sender_id: get_read_status.sender_id,
           receiver_id: get_read_status.receiver_id,
@@ -396,6 +396,21 @@ module.exports = function (io) {
         console.error(error);
       }
     });
+
+    // Listen for the 'remove_read_count' event
+    socket.on('remove_read_count', async ({ userId }) => {
+      try {
+        // Update the read count for the clicked user
+        await my_function.remove_read_count(userId);
+
+        // Optionally emit a confirmation event to the client
+        socket.emit('read_count_removed', { userId });
+      } catch (error) {
+        console.error(error);
+        // Handle errors as needed
+      }
+    });
+
     
 
   });

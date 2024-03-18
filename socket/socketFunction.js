@@ -53,7 +53,7 @@ module.exports = {
 
         const update = {
           $set: {
-          readStatus: 1,
+            is_read: 1,
           }
         };
 
