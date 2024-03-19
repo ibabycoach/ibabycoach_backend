@@ -35,23 +35,23 @@ module.exports = {
       }
   },
 
-  // task_list: async(req, res)=> {
-  //   try {
-  //     let babyId = req.body.babyId;
-  //     const findDailyTask = await daily_task.find({babyId}).populate('activityIds');
-      
-      
-  //     return helper.success(res, "Baby daily task list", findDailyTask)
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // },,
-  
-
   task_list: async (req, res) => {
     try {
       let babyId = req.body.babyId;
-      const findDailyTasks = await daily_task.find({ babyId }).populate('activityIds');
+
+      const filter = { babyId: babyId };
+
+    if (req.body.start_time) {
+      let startDate = req.body.start_time;
+      startDate = new Date(startDate);
+
+      var endDate = new Date(startDate);
+      endDate.setDate(endDate.getDate() + 1);
+      filter.start_time = { $gte: startDate, $lt:endDate};
+    }
+
+      const findDailyTasks = await daily_task.find(filter)
+      .populate('activityIds').populate('userId', 'name relation');
       
       // Count occurrences of each activity
       const activityCounts = {};
@@ -97,9 +97,8 @@ module.exports = {
     } catch (error) {
       console.log(error);
     }
-  }
+  },
   
   
-
 
 }
