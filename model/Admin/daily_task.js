@@ -5,7 +5,7 @@ const dailytaskSchema = new mongoose.Schema({
   userId: {type: mongoose.Schema.Types.ObjectId, ref: "User"},
   babyId: {type: mongoose.Schema.Types.ObjectId, ref: "baby", default: null},
   activityIds: { type: mongoose.Schema.Types.ObjectId, ref: "activity", default: null},
-  breast_feeding: {type: String, default: ''},
+  // breast_feeding: {type: String, default: ''},
   diaper: { type: String, default: ""},
   bottle: { type: String, default: '' },  
   duration: { type: String, default: '' },
