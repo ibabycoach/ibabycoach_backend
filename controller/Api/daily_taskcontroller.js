@@ -52,7 +52,8 @@ module.exports = {
 
       const findDailyTasks = await daily_task.find(filter)
       .populate('activityIds', 'activity_name image bg_color')
-      .populate('userId', 'name relation');
+      .populate('userId', 'name relation')
+      .sort({ createdAt: -1 });
       
       // Count occurrences of each activity
       const activityCounts = {};
@@ -99,78 +100,12 @@ module.exports = {
       console.log(error);
     }
   },
-
-  // task_count: async (req, res) => {
-  //   try {
-  //     let babyId = req.body.babyId;
-
-  //     const filter = { babyId: babyId };
-
-  //   if (req.body.start_time) {
-  //     let startDate = req.body.start_time;
-  //     startDate = new Date(startDate);
-
-  //     var endDate = new Date(startDate);
-  //     endDate.setDate(endDate.getDate() + 1);
-  //     filter.start_time = { $gte: startDate, $lt:endDate};
-  //   }
-
-  //     const findDailyTasks = await daily_task.find(filter)
-  //     .populate('activityIds', 'activity_name image bg_color')
-  //     .populate('userId', 'name relation');
-      
-  //     // Count occurrences of each activity
-  //     const activityCounts = {};
-  //     findDailyTasks.forEach(task => {
-  //       if (Array.isArray(task.activityIds)) {
-  //         task.activityIds.forEach(activity => {
-  //           const activityId = activity._id.toString(); // Convert ObjectId to string for comparison
-  //           if (activityCounts.hasOwnProperty(activityId)) {
-  //             activityCounts[activityId]++;
-  //           } else {
-  //             activityCounts[activityId] = 1;
-  //           }
-  //         });
-  //       } else {
-  //         const activityId = task.activityIds._id.toString();
-  //         if (activityCounts.hasOwnProperty(activityId)) {
-  //           activityCounts[activityId]++;
-  //         } else {
-  //           activityCounts[activityId] = 1;
-  //         }
-  //       }
-  //     });
   
-  //     // Include activity count with each task
-  //     const tasksWithCounts = findDailyTasks.map(task => {
-  //       const activitiesWithCount = Array.isArray(task.activityIds) ? 
-  //         task.activityIds.map(activity => ({
-  //           ...activity.toObject(),
-  //           count: activityCounts[activity._id.toString()] || 0
-  //         })) :
-  //         [{
-  //           ...task.activityIds.toObject(),
-  //           count: activityCounts[task.activityIds._id.toString()] || 0
-  //         }];
-  
-  //       return {
-  //         ...task.toObject(),
-  //         activityIds: activitiesWithCount
-  //       };
-  //     });
-  
-  //     return helper.success(res, "Baby daily task list", tasksWithCounts);
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // },
-
   task_count: async (req, res) => {
     try {
       let babyId = req.body.babyId;
   
       const filter = { babyId: babyId };
-  
       if (req.body.start_time) {
         let startDate = req.body.start_time;
         startDate = new Date(startDate);
@@ -179,7 +114,7 @@ module.exports = {
         endDate.setDate(endDate.getDate() + 1);
         filter.start_time = { $gte: startDate, $lt: endDate };
       }
-  
+
       const findDailyTasks = await daily_task.find(filter)
         .populate('activityIds', 'activity_name image bg_color')
         .populate('userId', 'name relation');
@@ -205,18 +140,17 @@ module.exports = {
           }
         }
       });
-  
       // Create a map to store unique activityIds and their total count
       const uniqueActivities = {};
       findDailyTasks.forEach(task => {
         const key = task.activityIds.toString(); // Using the stringified activityIds as key for uniqueness
         if (!uniqueActivities[key]) {
           uniqueActivities[key] = {
-            ...task.activityIds.toObject(),
-            total_count: activityCounts[task.activityIds._id.toString()] || 0
+            taskData: task.toObject(),
+            total_count: 1  // Initialize total count to 1 for each unique activity
           };
         } else {
-          uniqueActivities[key].total_count += activityCounts[task.activityIds._id.toString()] || 0;
+          uniqueActivities[key].total_count++; // Increment count for each occurrence of the same activity
         }
       });
   
@@ -229,9 +163,5 @@ module.exports = {
     }
   }
   
- 
-  
-  
-
 
 }
