@@ -51,7 +51,8 @@ module.exports = {
     }
 
       const findDailyTasks = await daily_task.find(filter)
-      .populate('activityIds').populate('userId', 'name relation');
+      .populate('activityIds', 'activity_name image bg_color')
+      .populate('userId', 'name relation');
       
       // Count occurrences of each activity
       const activityCounts = {};
@@ -99,6 +100,6 @@ module.exports = {
     }
   },
   
-  
+
 
 }
