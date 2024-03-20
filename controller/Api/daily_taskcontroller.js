@@ -180,12 +180,18 @@ module.exports = {
         const lastEntryCreatedAt = findTask.createdAt;
         const currentTime = new Date();
         const timeDifferenceMs = currentTime - lastEntryCreatedAt;
-        
+  
         const daysDifference = Math.floor(timeDifferenceMs / (1000 * 60 * 60 * 24));
         const hoursDifference = Math.floor((timeDifferenceMs % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
         const minutesDifference = Math.floor((timeDifferenceMs % (1000 * 60 * 60)) / (1000 * 60));
-
-        lastEntryTime = `${daysDifference} days ${hoursDifference} hours ${minutesDifference} minutes`;
+  
+        if (daysDifference > 0) {
+          lastEntryTime = `${daysDifference} days ${hoursDifference} hours ${minutesDifference} minutes`;
+        } else if (hoursDifference > 0) {
+          lastEntryTime = `${hoursDifference} hours ${minutesDifference} minutes`;
+        } else {
+          lastEntryTime = `${minutesDifference} minutes`;
+        }
       }
   
       const response = {
@@ -199,6 +205,7 @@ module.exports = {
       return helper.failed(res, "Something went wrong");
     }
   }
+  
   
   
   
