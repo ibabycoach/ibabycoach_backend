@@ -75,6 +75,7 @@ router.post('/delete_activity', authenticateJWT, activitycontroller.delete_activ
 router.post('/add_task', authenticateJWT, daily_taskcontroller.add_task)
 router.post('/task_list', authenticateJWT, daily_taskcontroller.task_list)
 router.post('/task_count', authenticateJWT, daily_taskcontroller.task_count)
+router.post('/admin_activity', authenticateJWT, daily_taskcontroller. admin_activity)
 
 /////////// GOALS ///////////////
 router.post('/get_goals', authenticateJWT, goalcontroller.get_goals)

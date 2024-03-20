@@ -1,5 +1,6 @@
 const user_model = require ('../../model/Admin/user')
 const daily_task = require ('../../model/Admin/daily_task')
+const activity_model = require ('../../model/Admin/activity')
 const helper = require('../../Helper/helper')
 const { Validator } = require('node-input-validator');
 
@@ -35,6 +36,7 @@ module.exports = {
       }
   },
 
+  //task list for home page
   task_list: async (req, res) => {
     try {
       let babyId = req.body.babyId;
@@ -101,6 +103,7 @@ module.exports = {
     }
   },
   
+  //task count for home page
   task_count: async (req, res) => {
     try {
       let babyId = req.body.babyId;
@@ -161,7 +164,45 @@ module.exports = {
     } catch (error) {
       console.log(error);
     }
+  },
+
+  // while creating 
+  admin_activity: async (req, res) => {
+    try {
+      const { activityId, babyId } = req.body;
+  
+      const admin_activity = await activity_model.find({ activity_type: '1', deleted: false });
+  
+      const findTask = await daily_task.findOne({ activityIds: activityId, babyId: babyId }).sort({ createdAt: -1 });
+  
+      let lastEntryTime = null;
+      if (findTask) {
+        const lastEntryCreatedAt = findTask.createdAt;
+        const currentTime = new Date();
+        const timeDifferenceMs = currentTime - lastEntryCreatedAt;
+        
+        const daysDifference = Math.floor(timeDifferenceMs / (1000 * 60 * 60 * 24));
+        const hoursDifference = Math.floor((timeDifferenceMs % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutesDifference = Math.floor((timeDifferenceMs % (1000 * 60 * 60)) / (1000 * 60));
+
+        lastEntryTime = `${daysDifference} days ${hoursDifference} hours ${minutesDifference} minutes`;
+      }
+  
+      const response = {
+        admin_activity: admin_activity,
+        daily_task: findTask ? { ...findTask.toObject(), last_time: lastEntryTime } : null
+      };
+  
+      return helper.success(res, "Activity list", response);
+    } catch (error) {
+      console.log(error);
+      return helper.failed(res, "Something went wrong");
+    }
   }
+  
+  
+  
+  
   
 
 }
