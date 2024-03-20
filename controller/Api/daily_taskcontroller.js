@@ -171,7 +171,7 @@ module.exports = {
     try {
       const { activityId, babyId } = req.body;
   
-      const admin_activity = await activity_model.find({ activity_type: '1', deleted: false });
+      const admin_activity = await activity_model.findOne({ activity_type: '1', deleted: false });
   
       const findTask = await daily_task.findOne({ activityIds: activityId, babyId: babyId }).sort({ createdAt: -1 });
   

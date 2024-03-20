@@ -5069,7 +5069,7 @@ fieldset:disabled .btn {
 
 .card-header {
   padding: 1.0rem 1.5rem;
-  margin-bottom: 0px;
+  margin-bottom: 10px;
   background-color: transparent;
   border-bottom: 0 solid rgba(34, 41, 47, 0.125);
 }
