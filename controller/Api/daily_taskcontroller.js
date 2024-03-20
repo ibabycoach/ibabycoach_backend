@@ -166,7 +166,7 @@ module.exports = {
     }
   },
 
-  // while creating 
+  // to get last_time of task added with the specific activity
   admin_activity: async (req, res) => {
     try {
       const { activityId, babyId } = req.body;
@@ -205,9 +205,6 @@ module.exports = {
       return helper.failed(res, "Something went wrong");
     }
   }
-  
-  
-  
   
   
   
