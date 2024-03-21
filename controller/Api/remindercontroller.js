@@ -77,10 +77,66 @@ module.exports = {
      } 
   },
 
+  // reminder_list: async (req, res) => {
+  //   try {
+  //     let userId = req.user._id;
+  //     const reminderData = await reminderModel.find({ userId: userId, deleted: false }).sort({ createdAt: -1 }).populate("activityIds");
+  //     if (!reminderData || reminderData.length === 0) {
+  //         return helper.failed2(res, "No reminder found");
+  //     }
+
+  //     // Map reminderData to include duration and remaining time in time key
+  //     const reminderList = reminderData.map(reminder => {
+  //       const reminder_start_time = new Date(reminder.time);
+  //       const duration = parseFloat(reminder.duration); // Convert duration to a number
+  //       const durationType = reminder.duration_type;
+          
+  //       // Calculate total time by adding the duration to the reminder start time
+  //       let totalTime = new Date(reminder_start_time);
+  //       if (durationType === "hours") {
+  //         totalTime.setHours(totalTime.getHours() + duration);
+  //       } else if (durationType === "minutes") {
+  //         totalTime.setMinutes(totalTime.getMinutes() + duration);
+  //       }
+
+  //       // Calculate remaining time from the current time until the total time
+  //       const currentTime = new Date();
+  //       const remainingTimeInMillis = totalTime.getTime() - currentTime.getTime();
+  //       const remainingMinutes = Math.ceil(remainingTimeInMillis / (1000 * 60));
+
+  //       // Format remaining time
+  //       const remainingHours = Math.floor(remainingMinutes / 60);
+  //       const remainingDays = Math.floor(remainingHours / 24);
+  //       const formattedRemainingTime = `${remainingDays > 0 ? remainingDays + ' days ' : ''}${remainingHours % 24} hours ${remainingMinutes % 60} minutes`;
+
+  //       return {
+  //         _id: reminder._id,
+  //         userId: reminder.userId,
+  //         activityIds: reminder.activityIds,
+  //         time: {
+  //           reminder_start_time: reminder_start_time,
+  //           duration: reminder.duration + ' ' + reminder.duration_type, // Include duration and type in the "time" key
+  //           remaining_time: formattedRemainingTime, // Include formatted remaining time
+  //           reminder_time: totalTime // Include reminder time
+  //         },
+  //           createdAt: reminder.createdAt,
+  //           updatedAt: reminder.updatedAt
+  //       };
+  //     });
+
+  //     return helper.success(res, "Reminder list", reminderList);
+  //   } catch (error) {
+  //     console.log(error);
+  //     return helper.failed(res, "Something went wrong");
+  //   }
+  // },
+
   reminder_list: async (req, res) => {
     try {
       let userId = req.user._id;
-      const reminderData = await reminderModel.find({ userId: userId, deleted: false }).sort({ createdAt: -1 }).populate("activityIds");
+      const reminderData = await reminderModel.find({ userId: userId, deleted: false }).sort({ createdAt: -1 })
+      .populate("activityIds", 'activity_name image bg_color ');
+
       if (!reminderData || reminderData.length === 0) {
           return helper.failed2(res, "No reminder found");
       }
@@ -119,8 +175,9 @@ module.exports = {
             remaining_time: formattedRemainingTime, // Include formatted remaining time
             reminder_time: totalTime // Include reminder time
           },
-            createdAt: reminder.createdAt,
-            updatedAt: reminder.updatedAt
+          status: reminder.status, 
+          createdAt: reminder.createdAt,
+          updatedAt: reminder.updatedAt
         };
       });
 
@@ -130,6 +187,8 @@ module.exports = {
       return helper.failed(res, "Something went wrong");
     }
   }
+
+
 
 
 
