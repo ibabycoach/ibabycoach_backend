@@ -156,7 +156,6 @@ module.exports = {
           uniqueActivities[key].total_count++; // Increment count for each occurrence of the same activity
         }
       });
-  
       // Convert map values to an array of objects
       const uniqueActivityArray = Object.values(uniqueActivities);
   
