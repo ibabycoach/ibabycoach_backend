@@ -103,187 +103,201 @@ module.exports = {
     }
   },
   
-  //task count for home page
-  task_count: async (req, res) => {
-    try {
-      let babyId = req.body.babyId;
   
-      const filter = { babyId: babyId };
-      if (req.body.start_time) {
-        let startDate = req.body.start_time;
-        startDate = new Date(startDate);
+  // task_count: async (req, res) => {
+  //   try {
+  //     let babyId = req.body.babyId;
   
-        var endDate = new Date(startDate);
-        endDate.setDate(endDate.getDate() + 1);
-        filter.start_time = { $gte: startDate, $lt: endDate };
-      }
+  //     const filter = { babyId: babyId };
+  //     if (req.body.start_time) {
+  //       let startDate = req.body.start_time;
+  //       startDate = new Date(startDate);
+  
+  //       var endDate = new Date(startDate);
+  //       endDate.setDate(endDate.getDate() + 1);
+  //       filter.start_time = { $gte: startDate, $lt: endDate };
+  //     }
 
-      const findDailyTasks = await daily_task.find(filter)
-        .populate('activityIds', 'activity_name image bg_color')
-        .populate('userId', 'name relation');
+  //     const findDailyTasks = await daily_task.find(filter)
+  //       .populate('activityIds', 'activity_name image bg_color')
+  //       .populate('userId', 'name relation');
   
-      // Count occurrences of each activity
-      const activityCounts = {};
-      findDailyTasks.forEach(task => {
-        if (Array.isArray(task.activityIds)) {
-          task.activityIds.forEach(activity => {
-            const activityId = activity._id.toString(); // Convert ObjectId to string for comparison
-            if (activityCounts.hasOwnProperty(activityId)) {
-              activityCounts[activityId]++;
-            } else {
-              activityCounts[activityId] = 1;
-            }
-          });
-        } else {
-          const activityId = task.activityIds._id.toString();
-          if (activityCounts.hasOwnProperty(activityId)) {
-            activityCounts[activityId]++;
-          } else {
-            activityCounts[activityId] = 1;
-          }
-        }
-      });
-      // Create a map to store unique activityIds and their total count
-      const uniqueActivities = {};
-      findDailyTasks.forEach(task => {
-        const key = task.activityIds.toString(); // Using the stringified activityIds as key for uniqueness
-        if (!uniqueActivities[key]) {
-          uniqueActivities[key] = {
-            taskData: task.toObject(),
-            total_count: 1  // Initialize total count to 1 for each unique activity
-          };
-        } else {
-          uniqueActivities[key].total_count++; // Increment count for each occurrence of the same activity
-        }
-      });
-      // Convert map values to an array of objects
-      const uniqueActivityArray = Object.values(uniqueActivities);
+  //     // Count occurrences of each activity
+  //     const activityCounts = {};
+  //     findDailyTasks.forEach(task => {
+  //       if (Array.isArray(task.activityIds)) {
+  //         task.activityIds.forEach(activity => {
+  //           const activityId = activity._id.toString(); // Convert ObjectId to string for comparison
+  //           if (activityCounts.hasOwnProperty(activityId)) {
+  //             activityCounts[activityId]++;
+  //           } else {
+  //             activityCounts[activityId] = 1;
+  //           }
+  //         });
+  //       } else {
+  //         const activityId = task.activityIds._id.toString();
+  //         if (activityCounts.hasOwnProperty(activityId)) {
+  //           activityCounts[activityId]++;
+  //         } else {
+  //           activityCounts[activityId] = 1;
+  //         }
+  //       }
+  //     });
+  //     // Create a map to store unique activityIds and their total count
+  //     const uniqueActivities = {};
+  //     findDailyTasks.forEach(task => {
+  //       const key = task.activityIds.toString(); // Using the stringified activityIds as key for uniqueness
+  //       if (!uniqueActivities[key]) {
+  //         uniqueActivities[key] = {
+  //           taskData: task.toObject(),
+  //           total_count: 1  // Initialize total count to 1 for each unique activity
+  //         };
+  //       } else {
+  //         uniqueActivities[key].total_count++; // Increment count for each occurrence of the same activity
+  //       }
+  //     });
   
-      return helper.success(res, "Unique activities with total count", uniqueActivityArray);
+  //     // Convert map values to an array of objects
+  //     const uniqueActivityArray = Object.values(uniqueActivities);
+  
+  //     return helper.success(res, "Unique activities with total count", uniqueActivityArray);
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // },
+
+  // to get last_time of task added with the specific activity
+  admin_activity: async (req, res) => {
+    try {
+      const { activityId, babyId } = req.body;
+  
+      const admin_activity = await activity_model.findById({ _id: req.body.activityId, activity_type: '1', deleted: false });
+  
+      const findTask = await daily_task.findOne({ activityIds: activityId, babyId: babyId }).sort({ createdAt: -1 });
+  
+      let lastEntryTime = null;
+      if (findTask) {
+        const lastEntryCreatedAt = findTask.createdAt;
+        const currentTime = new Date();
+        const timeDifferenceMs = currentTime - lastEntryCreatedAt;
+  
+        const daysDifference = Math.floor(timeDifferenceMs / (1000 * 60 * 60 * 24));
+        const hoursDifference = Math.floor((timeDifferenceMs % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutesDifference = Math.floor((timeDifferenceMs % (1000 * 60 * 60)) / (1000 * 60));
+  
+        if (daysDifference > 0) {
+          lastEntryTime = `${daysDifference} days ${hoursDifference} hours ${minutesDifference} minutes`;
+        } else if (hoursDifference > 0) {
+          lastEntryTime = `${hoursDifference} hours ${minutesDifference} minutes`;
+        } else {
+          lastEntryTime = `${minutesDifference} minutes`;
+        }
+      }
+  
+      const response = {
+        admin_activity: admin_activity,
+        daily_task: findTask ? { ...findTask.toObject(), last_time: lastEntryTime } : null
+      };
+  
+      return helper.success(res, "Activity list", response);
     } catch (error) {
       console.log(error);
+      return helper.failed(res, "Something went wrong");
     }
   },
 
-  // to get last_time of task added with the specific activity
-  // admin_activity: async (req, res) => {
-  //   try {
-  //     const { activityId, babyId } = req.body;
-  
-  //     const admin_activity = await activity_model.findById({ _id: req.body.activityId, activity_type: '1', deleted: false });
-  
-  //     const findTask = await daily_task.findOne({ activityIds: activityId, babyId: babyId }).sort({ createdAt: -1 });
-  
-  //     let lastEntryTime = null;
-  //     if (findTask) {
-  //       const lastEntryCreatedAt = findTask.createdAt;
-  //       const currentTime = new Date();
-  //       const timeDifferenceMs = currentTime - lastEntryCreatedAt;
-  
-  //       const daysDifference = Math.floor(timeDifferenceMs / (1000 * 60 * 60 * 24));
-  //       const hoursDifference = Math.floor((timeDifferenceMs % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-  //       const minutesDifference = Math.floor((timeDifferenceMs % (1000 * 60 * 60)) / (1000 * 60));
-  
-  //       if (daysDifference > 0) {
-  //         lastEntryTime = `${daysDifference} days ${hoursDifference} hours ${minutesDifference} minutes`;
-  //       } else if (hoursDifference > 0) {
-  //         lastEntryTime = `${hoursDifference} hours ${minutesDifference} minutes`;
-  //       } else {
-  //         lastEntryTime = `${minutesDifference} minutes`;
-  //       }
-  //     }
-  
-  //     const response = {
-  //       admin_activity: admin_activity,
-  //       daily_task: findTask ? { ...findTask.toObject(), last_time: lastEntryTime } : null
-  //     };
-  
-  //     return helper.success(res, "Activity list", response);
-  //   } catch (error) {
-  //     console.log(error);
-  //     return helper.failed(res, "Something went wrong");
-  //   }
-  // },
-  
-  admin_activity: async (req, res) => {
+  //task count for home page and 
+  task_count: async (req, res) => {
     try {
-      const { activityId, babyId, date } = req.body;
-  
-      let admin_activity;
-      if (activityId) {
-        admin_activity = await activity_model.findById({ _id: activityId, activity_type: '1', deleted: false });
-      } else {
-        admin_activity = await activity_model.find({ activity_type: '1', deleted: false });
-      }
-  
-      let responses = [];
-  
-      if (!date) {
-        // If date is not provided, fetch the last entry
-        const lastTask = await daily_task.findOne({ activityIds: activityId, babyId: babyId }).sort({ createdAt: -1 });
-  
-        let lastEntryTime = null;
-        if (lastTask) {
-          const lastEntryCreatedAt = lastTask.createdAt;
-          const currentTime = new Date();
-          const timeDifferenceMs = currentTime - lastEntryCreatedAt;
-  
-          const daysDifference = Math.floor(timeDifferenceMs / (1000 * 60 * 60 * 24));
-          const hoursDifference = Math.floor((timeDifferenceMs % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-          const minutesDifference = Math.floor((timeDifferenceMs % (1000 * 60 * 60)) / (1000 * 60));
-  
-          if (daysDifference > 0) {
-            lastEntryTime = `${daysDifference} days ${hoursDifference} hours ${minutesDifference} minutes`;
-          } else if (hoursDifference > 0) {
-            lastEntryTime = `${hoursDifference} hours ${minutesDifference} minutes`;
-          } else {
-            lastEntryTime = `${minutesDifference} minutes`;
-          }
-  
-          responses.push({ last_task: { ...lastTask.toObject(), last_time: lastEntryTime } });
+        let { babyId, activityId, date, start_time } = req.body;
+        
+        const filter = { babyId: babyId };
+        
+        if (start_time) {
+            let startDate = new Date(start_time);
+            let endDate = new Date(startDate);
+            endDate.setDate(endDate.getDate() + 1);
+            filter.createdAt = { $gte: startDate, $lt: endDate };
+        } else if (!date) {
+            throw new Error("Please provide either 'start_time' or 'date'.");
         }
-      } else {
-        let dateList = date.split(',').map(dateString => new Date(dateString.trim()));
-  
-        for (let i = 0; i < dateList.length; i++) {
-          const selectedDate = dateList[i];
-          const nextDay = new Date(selectedDate);
-          nextDay.setDate(nextDay.getDate() + 1);
-          
-          const findTask = await daily_task.find({ activityIds: activityId, babyId: babyId, createdAt: { $gte: selectedDate, $lt: nextDay } })
-          .sort({ createdAt: -1 })
-          .populate('activityIds', 'activity_name image bg_color');
-          
-          let lastEntryTime = null;
-          if (findTask && findTask.length > 0) {
-            const lastEntryCreatedAt = findTask[0].createdAt; // Considering the first entry as the last one
-            const currentTime = new Date();
-            const timeDifferenceMs = currentTime - lastEntryCreatedAt;
-  
-            const daysDifference = Math.floor(timeDifferenceMs / (1000 * 60 * 60 * 24));
-            const hoursDifference = Math.floor((timeDifferenceMs % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            const minutesDifference = Math.floor((timeDifferenceMs % (1000 * 60 * 60)) / (1000 * 60));
-  
-            if (daysDifference > 0) {
-              lastEntryTime = `${daysDifference} days ${hoursDifference} hours ${minutesDifference} minutes`;
-            } else if (hoursDifference > 0) {
-              lastEntryTime = `${hoursDifference} hours ${minutesDifference} minutes`;
-            } else {
-              lastEntryTime = `${minutesDifference} minutes`;
-            }
-          }
-          
-          responses.push({ date: selectedDate.toISOString().slice(0, 10), tasks: findTask ? findTask.map(task => ({ ...task.toObject(), last_time: lastEntryTime })) : [] });
-        }
-      }
-  
-      return helper.success(res, "Activity list", responses);
-    } catch (error) {
-      console.log(error);
-      return helper.failed(res, "Error occurred while fetching data");
-    }
-  }
 
+        let dateList = [];
+        if (date) {
+            dateList = date.split(',').map(dateString => new Date(dateString.trim()));
+        } else {
+            dateList.push(new Date(start_time));
+        }
+
+        const uniqueActivities = [];
+
+        for (let i = 0; i < dateList.length; i++) {
+            const selectedDate = dateList[i];
+            const nextDay = new Date(selectedDate);
+            nextDay.setDate(nextDay.getDate() + 1);
+
+            const dateFilter = { ...filter, createdAt: { $gte: selectedDate, $lt: nextDay } };
+
+            if (activityId) {
+                dateFilter.activityIds = activityId;
+            }
+
+            const findDailyTasks = await daily_task.find(dateFilter)
+                .populate('activityIds', 'activity_name image bg_color')
+                .populate('userId', 'name relation');
+
+            // Count occurrences of each activity for this date
+            const activityCounts = {};
+            findDailyTasks.forEach(task => {
+                if (Array.isArray(task.activityIds)) {
+                    task.activityIds.forEach(activity => {
+                        const activityId = activity._id.toString(); // Convert ObjectId to string for comparison
+                        if (activityCounts.hasOwnProperty(activityId)) {
+                            activityCounts[activityId]++;
+                        } else {
+                            activityCounts[activityId] = 1;
+                        }
+                    });
+                } else {
+                    const activityId = task.activityIds._id.toString();
+                    if (activityCounts.hasOwnProperty(activityId)) {
+                        activityCounts[activityId]++;
+                    } else {
+                        activityCounts[activityId] = 1;
+                    }
+                }
+            });
+
+            // Create a map to store unique activityIds and their total count for this date
+            const uniqueActivitiesForDate = {};
+            findDailyTasks.forEach(task => {
+                const key = task.activityIds.toString(); // Using the stringified activityIds as key for uniqueness
+                if (!uniqueActivitiesForDate[key]) {
+                    uniqueActivitiesForDate[key] = {
+                        taskData: task.toObject(),
+                        total_count: 1 // Initialize total count to 1 for each unique activity
+                    };
+                } else {
+                    uniqueActivitiesForDate[key].total_count++; // Increment count for each occurrence of the same activity
+                }
+            });
+
+            // Convert map values to an array of objects for this date
+            const uniqueActivityArrayForDate = Object.values(uniqueActivitiesForDate);
+
+            uniqueActivities.push({ date: selectedDate.toISOString().slice(0, 10), activities: uniqueActivityArrayForDate });
+        }
+
+        return helper.success(res, "Unique activities with total count", uniqueActivities);
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+
+  
+  
+  
   
   
 
