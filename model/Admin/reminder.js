@@ -13,7 +13,9 @@ const reminderSchema = new mongoose.Schema({
     enum: ['hours', 'days', 'weeks', 'months', 'years'],
     default: 'hours' // Set the default duration type
 },
-  status: { type: Number, default: "1"},    //  1 for  Active , 0 for Inactive
+  status: { type: Number, 
+    enum: [0, 1],
+    default: "1"},    //  1 for  Active , 0 for Inactive
   deleted: {type: Boolean, default: false},
 }, 
 

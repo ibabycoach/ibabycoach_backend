@@ -166,45 +166,124 @@ module.exports = {
   },
 
   // to get last_time of task added with the specific activity
+  // admin_activity: async (req, res) => {
+  //   try {
+  //     const { activityId, babyId } = req.body;
+  
+  //     const admin_activity = await activity_model.findById({ _id: req.body.activityId, activity_type: '1', deleted: false });
+  
+  //     const findTask = await daily_task.findOne({ activityIds: activityId, babyId: babyId }).sort({ createdAt: -1 });
+  
+  //     let lastEntryTime = null;
+  //     if (findTask) {
+  //       const lastEntryCreatedAt = findTask.createdAt;
+  //       const currentTime = new Date();
+  //       const timeDifferenceMs = currentTime - lastEntryCreatedAt;
+  
+  //       const daysDifference = Math.floor(timeDifferenceMs / (1000 * 60 * 60 * 24));
+  //       const hoursDifference = Math.floor((timeDifferenceMs % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+  //       const minutesDifference = Math.floor((timeDifferenceMs % (1000 * 60 * 60)) / (1000 * 60));
+  
+  //       if (daysDifference > 0) {
+  //         lastEntryTime = `${daysDifference} days ${hoursDifference} hours ${minutesDifference} minutes`;
+  //       } else if (hoursDifference > 0) {
+  //         lastEntryTime = `${hoursDifference} hours ${minutesDifference} minutes`;
+  //       } else {
+  //         lastEntryTime = `${minutesDifference} minutes`;
+  //       }
+  //     }
+  
+  //     const response = {
+  //       admin_activity: admin_activity,
+  //       daily_task: findTask ? { ...findTask.toObject(), last_time: lastEntryTime } : null
+  //     };
+  
+  //     return helper.success(res, "Activity list", response);
+  //   } catch (error) {
+  //     console.log(error);
+  //     return helper.failed(res, "Something went wrong");
+  //   }
+  // },
+  
   admin_activity: async (req, res) => {
     try {
-      const { activityId, babyId } = req.body;
+      const { activityId, babyId, date } = req.body;
   
-      const admin_activity = await activity_model.findById({ _id: req.body.activityId, activity_type: '1', deleted: false });
+      let admin_activity;
+      if (activityId) {
+        admin_activity = await activity_model.findById({ _id: activityId, activity_type: '1', deleted: false });
+      } else {
+        admin_activity = await activity_model.find({ activity_type: '1', deleted: false });
+      }
   
-      const findTask = await daily_task.findOne({ activityIds: activityId, babyId: babyId }).sort({ createdAt: -1 });
+      let responses = [];
   
-      let lastEntryTime = null;
-      if (findTask) {
-        const lastEntryCreatedAt = findTask.createdAt;
-        const currentTime = new Date();
-        const timeDifferenceMs = currentTime - lastEntryCreatedAt;
+      if (!date) {
+        // If date is not provided, fetch the last entry
+        const lastTask = await daily_task.findOne({ activityIds: activityId, babyId: babyId }).sort({ createdAt: -1 });
   
-        const daysDifference = Math.floor(timeDifferenceMs / (1000 * 60 * 60 * 24));
-        const hoursDifference = Math.floor((timeDifferenceMs % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-        const minutesDifference = Math.floor((timeDifferenceMs % (1000 * 60 * 60)) / (1000 * 60));
+        let lastEntryTime = null;
+        if (lastTask) {
+          const lastEntryCreatedAt = lastTask.createdAt;
+          const currentTime = new Date();
+          const timeDifferenceMs = currentTime - lastEntryCreatedAt;
   
-        if (daysDifference > 0) {
-          lastEntryTime = `${daysDifference} days ${hoursDifference} hours ${minutesDifference} minutes`;
-        } else if (hoursDifference > 0) {
-          lastEntryTime = `${hoursDifference} hours ${minutesDifference} minutes`;
-        } else {
-          lastEntryTime = `${minutesDifference} minutes`;
+          const daysDifference = Math.floor(timeDifferenceMs / (1000 * 60 * 60 * 24));
+          const hoursDifference = Math.floor((timeDifferenceMs % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+          const minutesDifference = Math.floor((timeDifferenceMs % (1000 * 60 * 60)) / (1000 * 60));
+  
+          if (daysDifference > 0) {
+            lastEntryTime = `${daysDifference} days ${hoursDifference} hours ${minutesDifference} minutes`;
+          } else if (hoursDifference > 0) {
+            lastEntryTime = `${hoursDifference} hours ${minutesDifference} minutes`;
+          } else {
+            lastEntryTime = `${minutesDifference} minutes`;
+          }
+  
+          responses.push({ last_task: { ...lastTask.toObject(), last_time: lastEntryTime } });
+        }
+      } else {
+        let dateList = date.split(',').map(dateString => new Date(dateString.trim()));
+  
+        for (let i = 0; i < dateList.length; i++) {
+          const selectedDate = dateList[i];
+          const nextDay = new Date(selectedDate);
+          nextDay.setDate(nextDay.getDate() + 1);
+          
+          const findTask = await daily_task.find({ activityIds: activityId, babyId: babyId, createdAt: { $gte: selectedDate, $lt: nextDay } })
+          .sort({ createdAt: -1 })
+          .populate('activityIds', 'activity_name image bg_color');
+          
+          let lastEntryTime = null;
+          if (findTask && findTask.length > 0) {
+            const lastEntryCreatedAt = findTask[0].createdAt; // Considering the first entry as the last one
+            const currentTime = new Date();
+            const timeDifferenceMs = currentTime - lastEntryCreatedAt;
+  
+            const daysDifference = Math.floor(timeDifferenceMs / (1000 * 60 * 60 * 24));
+            const hoursDifference = Math.floor((timeDifferenceMs % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutesDifference = Math.floor((timeDifferenceMs % (1000 * 60 * 60)) / (1000 * 60));
+  
+            if (daysDifference > 0) {
+              lastEntryTime = `${daysDifference} days ${hoursDifference} hours ${minutesDifference} minutes`;
+            } else if (hoursDifference > 0) {
+              lastEntryTime = `${hoursDifference} hours ${minutesDifference} minutes`;
+            } else {
+              lastEntryTime = `${minutesDifference} minutes`;
+            }
+          }
+          
+          responses.push({ date: selectedDate.toISOString().slice(0, 10), tasks: findTask ? findTask.map(task => ({ ...task.toObject(), last_time: lastEntryTime })) : [] });
         }
       }
   
-      const response = {
-        admin_activity: admin_activity,
-        daily_task: findTask ? { ...findTask.toObject(), last_time: lastEntryTime } : null
-      };
-  
-      return helper.success(res, "Activity list", response);
+      return helper.success(res, "Activity list", responses);
     } catch (error) {
       console.log(error);
-      return helper.failed(res, "Something went wrong");
+      return helper.failed(res, "Error occurred while fetching data");
     }
   }
-  
+
   
   
 
