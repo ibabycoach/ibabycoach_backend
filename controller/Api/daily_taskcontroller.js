@@ -103,7 +103,6 @@ module.exports = {
     }
   },
   
-  
   // to get last_time of task added with the specific activity
   admin_activity: async (req, res) => {
     try {
@@ -232,60 +231,59 @@ module.exports = {
   //   }
   // }
 
-
   task_count: async (req, res) => {
     try {
-        let { babyId, activityId, date, start_time } = req.body;
+      let { babyId, activityId, date, start_time } = req.body;
 
-        const filter = { babyId: babyId };
+      const filter = { babyId: babyId };
 
-        if (start_time) {
-            let startDate = new Date(start_time);
-            let endDate = new Date(startDate);
-            endDate.setDate(endDate.getDate() + 1);
-            filter.createdAt = { $gte: startDate, $lt: endDate };
-        } else if (!date) {
-            throw new Error("Please provide either 'start_time' or 'date'.");
-        }
+      if (start_time) {
+        let startDate = new Date(start_time);
+        let endDate = new Date(startDate);
+        endDate.setDate(endDate.getDate() + 1);
+        filter.createdAt = { $gte: startDate, $lt: endDate };
+      } else if (!date) {
+        throw new Error("Please provide either 'start_time' or 'date'.");
+      }
 
-        let dateList = [];
+      let dateList = [];
         if (date) {
-            const dateRange = date.split(',').map(dateString => new Date(dateString.trim()));
-            if (dateRange.length === 2) {
-                const startDate = dateRange[0];
-                const endDate = new Date(dateRange[1]);
-                endDate.setDate(endDate.getDate() + 1); // Increment end date by 1 to include entries up to the end of the day
-                filter.createdAt = { $gte: startDate, $lt: endDate };
-            } else {
-                throw new Error("Invalid date range provided.");
-            }
+          const dateRange = date.split(',').map(dateString => new Date(dateString.trim()));
+          if (dateRange.length === 2) {
+            const startDate = dateRange[0];
+            const endDate = new Date(dateRange[1]);
+            endDate.setDate(endDate.getDate() + 1); // Increment end date by 1 to include entries up to the end of the day
+            filter.createdAt = { $gte: startDate, $lt: endDate };
+          } else {
+            throw new Error("Invalid date range provided.");
+          }
         }
 
         const uniqueActivities = [];
 
         const findDailyTasks = await daily_task.find(filter)
-            .populate('activityIds', 'activity_name image bg_color')
-            .populate('userId', 'name relation');
+          .populate('activityIds', 'activity_name image bg_color')
+          .populate('userId', 'name relation');
 
         // Count occurrences of each activity for this date range
         const activityCounts = {};
         findDailyTasks.forEach(task => {
-            if (Array.isArray(task.activityIds)) {
-                task.activityIds.forEach(activity => {
-                    const activityId = activity._id.toString(); // Convert ObjectId to string for comparison
-                    if (activityCounts.hasOwnProperty(activityId)) {
-                        activityCounts[activityId]++;
-                    } else {
-                        activityCounts[activityId] = 1;
-                    }
-                });
-            } else {
-                const activityId = task.activityIds._id.toString();
+          if (Array.isArray(task.activityIds)) {
+            task.activityIds.forEach(activity => {
+              const activityId = activity._id.toString(); // Convert ObjectId to string for comparison
                 if (activityCounts.hasOwnProperty(activityId)) {
-                    activityCounts[activityId]++;
+                  activityCounts[activityId]++;
                 } else {
-                    activityCounts[activityId] = 1;
+                  activityCounts[activityId] = 1;
                 }
+            });
+            } else {
+              const activityId = task.activityIds._id.toString();
+              if (activityCounts.hasOwnProperty(activityId)) {
+                activityCounts[activityId]++;
+              } else {
+                activityCounts[activityId] = 1;
+              }
             }
         });
 
@@ -295,11 +293,11 @@ module.exports = {
             const key = task.activityIds.toString(); // Using the stringified activityIds as key for uniqueness
             if (!uniqueActivitiesForRange[key]) {
                 uniqueActivitiesForRange[key] = {
-                    taskData: task.toObject(),
-                    total_count: 1 // Initialize total count to 1 for each unique activity
+                  taskData: task.toObject(),
+                  total_count: 1 // Initialize total count to 1 for each unique activity
                 };
             } else {
-                uniqueActivitiesForRange[key].total_count++; // Increment count for each occurrence of the same activity
+              uniqueActivitiesForRange[key].total_count++; // Increment count for each occurrence of the same activity
             }
         });
 
@@ -312,7 +310,7 @@ module.exports = {
     } catch (error) {
         console.log(error);
     }
-}
+  }
 
   
   

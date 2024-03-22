@@ -133,8 +133,8 @@ module.exports = {
 
   reminder_list: async (req, res) => {
     try {
-      let userId = req.user._id;
-      const reminderData = await reminderModel.find({ userId: userId, deleted: false }).sort({ createdAt: -1 })
+      let babyId = req.body.babyId;
+      const reminderData = await reminderModel.find({ babyId: babyId, deleted: false }).sort({ createdAt: -1 })
       .populate("activityIds", 'activity_name image bg_color ');
 
       if (!reminderData || reminderData.length === 0) {
@@ -168,6 +168,7 @@ module.exports = {
         return {
           _id: reminder._id,
           userId: reminder.userId,
+          babyId: reminder.babyId,
           activityIds: reminder.activityIds,
           time: {
             reminder_start_time: reminder_start_time,
