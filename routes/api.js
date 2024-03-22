@@ -94,6 +94,7 @@ router.post('/add_reminder', authenticateJWT, remindercontroller.add_reminder)
 router.post('/reminder_list', authenticateJWT, remindercontroller.reminder_list)
 router.post('/delete_reminder', authenticateJWT, remindercontroller.delete_reminder)
 router.post('/do_not_disturb', authenticateJWT, remindercontroller.do_not_disturb)
+router.post('/change_reminder_status', authenticateJWT, remindercontroller.change_reminder_status)
 
 
 
