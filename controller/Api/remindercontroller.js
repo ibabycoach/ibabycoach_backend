@@ -69,7 +69,7 @@ module.exports = {
         }
         const updatedReminder = await reminderModel.findOne({_id: req.body.id})
         
-        return helper.success(res,  "Reminder off successfully", updatedReminder)
+        return helper.success(res,  "Reminder status changed successfully", updatedReminder)
      } catch (error) {
       console.log(error)
       return helper.failed(res, "Internal server error")
