@@ -150,7 +150,7 @@ module.exports = {
         return helper.error(res, 'Unable to update reminder status');
       }
 
-      return helper.success(res, 'Reminder status updated successfully', {updateReminderStatus});
+      return helper.success(res, 'Reminder status updated successfully', {});
     } catch (error) {
       console.log(error);
       return helper.failed(res, error);

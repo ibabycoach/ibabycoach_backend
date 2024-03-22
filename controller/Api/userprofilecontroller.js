@@ -1,6 +1,7 @@
 const user_model = require('../../model/Admin/user')
 const baby_model = require('../../model/Admin/baby')
 const activity_model = require('../../model/Admin/activity')
+const reminderModel = require('../../model/Admin/reminder')
 const helper = require('../../Helper/helper')
 const { Validator } = require('node-input-validator');
 const bcrypt = require('bcrypt');
@@ -146,6 +147,31 @@ module.exports = {
     }
   },
 
+  switch_user_account: async (req, res) => {
+    try {
+      const v = new Validator(req.body, {
+        userId: "required"
+      });
+      const errorResponse = await helper.checkValidation(v);
+      if (errorResponse) {
+        return helper.failed(res, errorResponse);
+      }
+      const userdata = await user_model.findById({ _id: req.body.userId });
+
+      let userBaby;
+      if (userdata.role == 2) {
+        const parentId = userdata.parentId;
+        userBaby = await baby_model.findOne({ userId: parentId });
+      } else {
+        userBaby = await baby_model.findOne({ userId: req.body.userId });
+      }
+       
+      return helper.success(res, "User details", { userdata, userBaby });
+    } catch (error) {
+      return helper.failed(res, "Something went wrong");
+    }
+  },
+
   profile: async (req, res) => {
     try {
         const userId = req.user._id;
@@ -171,38 +197,25 @@ module.exports = {
         if (!userBaby) {
             return helper.failed(res, "No baby found");
         }
+        
+        // Fetch reminder status from the reminderModel for the userBaby
+        const reminderStatus = await reminderModel.find({ babyId: userBaby._id });
+        
+        let statusValue;
+        if (reminderStatus.length === 0) {
+            statusValue = null; // No data for this baby
+        } else {
+            const anyStatusOne = reminderStatus.some(status => status.status === 1);
+            statusValue = anyStatusOne ? 1 : 0;
+        }
 
-        return helper.success(res, "User profile", { userprofile, userBaby });
+        return helper.success(res, "User profile", { userprofile, userBaby, reminderStatus: statusValue });
     } catch (error) {
         console.log(error);
         return helper.error(res, "Error");
     }
   },
-  
-  switch_user_account: async (req, res) => {
-    try {
-      const v = new Validator(req.body, {
-        userId: "required"
-      });
-      const errorResponse = await helper.checkValidation(v);
-      if (errorResponse) {
-        return helper.failed(res, errorResponse);
-      }
-      const userdata = await user_model.findById({ _id: req.body.userId });
 
-      let userBaby;
-      if (userdata.role == 2) {
-        const parentId = userdata.parentId;
-        userBaby = await baby_model.findOne({ userId: parentId });
-      } else {
-        userBaby = await baby_model.findOne({ userId: req.body.userId });
-      }
-       
-      return helper.success(res, "User details", { userdata, userBaby });
-    } catch (error) {
-      return helper.failed(res, "Something went wrong");
-    }
-  },
 
 
 }
