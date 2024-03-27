@@ -203,7 +203,6 @@ module.exports = {
       if (!userBaby) {
           return helper.failed(res, "No baby found");
       }
-        
       // Fetch reminder status from the reminderModel for the userBaby
       const reminderStatus = await reminderModel.find({ babyId: userBaby._id });
       

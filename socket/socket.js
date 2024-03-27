@@ -218,7 +218,6 @@ module.exports = function (io) {
             if (get_socket_id) {
               io.to(get_socket_id.socketId).emit('send_message_listener', getdata);
             }
-
             // socket.emit('send_message_listener', getdata);
           }
         }
@@ -411,7 +410,6 @@ module.exports = function (io) {
       }
     });
 
-    
 
   });
 };

@@ -18,14 +18,13 @@ module.exports = {
           activityId: "required",
           // time: "required",
           // duration: "required",
-          // upcoming_time: "required"
         });
           
         const errorResponse = await helper.checkValidation(v);
         if (errorResponse) {
           return helper.failed(res, errorResponse);
         }
-          
+         
         let userId = req.user.id;
           const addreminder = await reminderModel.create({ 
             userId,

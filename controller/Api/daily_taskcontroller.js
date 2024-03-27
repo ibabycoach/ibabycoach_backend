@@ -226,15 +226,105 @@ module.exports = {
   // },
 
   
+  // task_count: async (req, res) => {
+  //   try {
+  //       let { babyId, activityId, date, start_time } = req.body;
+
+  //       const filter = { babyId: babyId };
+
+  //       if (!activityId) {
+  //           throw new Error("Please provide 'activityId'.");
+  //       }
+
+  //       if (start_time) {
+  //           let startDate = new Date(start_time);
+  //           let endDate = new Date(startDate);
+  //           endDate.setDate(endDate.getDate() + 1);
+  //           filter.createdAt = { $gte: startDate, $lt: endDate };
+  //       } else if (!date) {
+  //           throw new Error("Please provide either 'start_time' or 'date'.");
+  //       }
+
+  //       let dateList = [];
+  //       if (date) {
+  //           const dateRange = date.split(',').map(dateString => new Date(dateString.trim()));
+  //           if (dateRange.length === 2) {
+  //               const startDate = dateRange[0];
+  //               const endDate = new Date(dateRange[1]);
+  //               endDate.setDate(endDate.getDate() + 1); // Increment end date by 1 to include entries up to the end of the day
+  //               filter.createdAt = { $gte: startDate, $lt: endDate };
+  //           } else {
+  //               throw new Error("Invalid date range provided.");
+  //           }
+  //       }
+
+  //       const uniqueActivities = [];
+
+  //       const findDailyTasks = await daily_task.find(filter)
+  //           .populate('activityIds', 'activity_name image bg_color')
+  //           .populate('userId', 'name relation');
+
+  //       // Filter tasks based on activityId
+  //       const filteredTasks = findDailyTasks.filter(task => {
+  //           if (Array.isArray(task.activityIds)) {
+  //               return task.activityIds.some(activity => activity._id.toString() === activityId);
+  //           } else {
+  //               return task.activityIds._id.toString() === activityId;
+  //           }
+  //       });
+
+  //       // Count occurrences of each activity for this date range
+  //       const activityCounts = {};
+  //       filteredTasks.forEach(task => {
+  //           if (Array.isArray(task.activityIds)) {
+  //               task.activityIds.forEach(activity => {
+  //                   const activityId = activity._id.toString(); // Convert ObjectId to string for comparison
+  //                   if (activityCounts.hasOwnProperty(activityId)) {
+  //                       activityCounts[activityId]++;
+  //                   } else {
+  //                       activityCounts[activityId] = 1;
+  //                   }
+  //               });
+  //           } else {
+  //               const activityId = task.activityIds._id.toString();
+  //               if (activityCounts.hasOwnProperty(activityId)) {
+  //                   activityCounts[activityId]++;
+  //               } else {
+  //                   activityCounts[activityId] = 1;
+  //               }
+  //           }
+  //       });
+
+  //       // Create a map to store unique activityIds and their total count for this date range
+  //       const uniqueActivitiesForRange = {};
+  //       filteredTasks.forEach(task => {
+  //           const key = task.activityIds.toString(); // Using the stringified activityIds as key for uniqueness
+  //           if (!uniqueActivitiesForRange[key]) {
+  //               uniqueActivitiesForRange[key] = {
+  //                   taskData: task.toObject(),
+  //                   total_count: 1 // Initialize total count to 1 for each unique activity
+  //               };
+  //           } else {
+  //               uniqueActivitiesForRange[key].total_count++; // Increment count for each occurrence of the same activity
+  //           }
+  //       });
+
+  //       // Convert map values to an array of objects for this date range
+  //       const uniqueActivityArrayForRange = Object.values(uniqueActivitiesForRange);
+
+  //       uniqueActivities.push({ date_range: date, activities: uniqueActivityArrayForRange });
+
+  //       return helper.success(res, "Unique activities with total count for the specified date range", uniqueActivities);
+  //   } catch (error) {
+  //       console.log(error);
+  //   }
+  // },
+
   task_count: async (req, res) => {
     try {
         let { babyId, activityId, date, start_time } = req.body;
 
         const filter = { babyId: babyId };
-
-        if (!activityId) {
-            throw new Error("Please provide 'activityId'.");
-        }
 
         if (start_time) {
             let startDate = new Date(start_time);
@@ -264,14 +354,14 @@ module.exports = {
             .populate('activityIds', 'activity_name image bg_color')
             .populate('userId', 'name relation');
 
-        // Filter tasks based on activityId
-        const filteredTasks = findDailyTasks.filter(task => {
+        // Filter tasks based on activityId if it's provided
+        const filteredTasks = activityId ? findDailyTasks.filter(task => {
             if (Array.isArray(task.activityIds)) {
                 return task.activityIds.some(activity => activity._id.toString() === activityId);
             } else {
                 return task.activityIds._id.toString() === activityId;
             }
-        });
+        }) : findDailyTasks;
 
         // Count occurrences of each activity for this date range
         const activityCounts = {};
@@ -319,6 +409,7 @@ module.exports = {
         console.log(error);
     }
   }
+
 
   
   
