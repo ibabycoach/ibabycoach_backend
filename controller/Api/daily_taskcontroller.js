@@ -143,94 +143,7 @@ module.exports = {
     }
   },
 
-  //task count for home page and 
-  // task_count: async (req, res) => {
-  //   try {
-  //       let { babyId, activityId, date, start_time } = req.body;
-        
-  //       const filter = { babyId: babyId };
-        
-  //       if (start_time) {
-  //           let startDate = new Date(start_time);
-  //           let endDate = new Date(startDate);
-  //           endDate.setDate(endDate.getDate() + 1);
-  //           filter.createdAt = { $gte: startDate, $lt: endDate };
-  //       } else if (!date) {
-  //           throw new Error("Please provide either 'start_time' or 'date'.");
-  //       }
-
-  //       let dateList = [];
-  //       if (date) {
-  //           dateList = date.split(',').map(dateString => new Date(dateString.trim()));
-  //       } else {
-  //           dateList.push(new Date(start_time));
-  //       }
-
-  //       const uniqueActivities = [];
-
-  //       for (let i = 0; i < dateList.length; i++) {
-  //           const selectedDate = dateList[i];
-  //           const nextDay = new Date(selectedDate);
-  //           nextDay.setDate(nextDay.getDate() + 1);
-
-  //           const dateFilter = { ...filter, createdAt: { $gte: selectedDate, $lt: nextDay } };
-
-  //           if (activityId) {
-  //               dateFilter.activityIds = activityId;
-  //           }
-
-  //           const findDailyTasks = await daily_task.find(dateFilter)
-  //               .populate('activityIds', 'activity_name image bg_color')
-  //               .populate('userId', 'name relation');
-
-  //           // Count occurrences of each activity for this date
-  //           const activityCounts = {};
-  //           findDailyTasks.forEach(task => {
-  //               if (Array.isArray(task.activityIds)) {
-  //                   task.activityIds.forEach(activity => {
-  //                       const activityId = activity._id.toString(); // Convert ObjectId to string for comparison
-  //                       if (activityCounts.hasOwnProperty(activityId)) {
-  //                           activityCounts[activityId]++;
-  //                       } else {
-  //                           activityCounts[activityId] = 1;
-  //                       }
-  //                   });
-  //               } else {
-  //                   const activityId = task.activityIds._id.toString();
-  //                   if (activityCounts.hasOwnProperty(activityId)) {
-  //                       activityCounts[activityId]++;
-  //                   } else {
-  //                       activityCounts[activityId] = 1;
-  //                   }
-  //               }
-  //           });
-
-  //           // Create a map to store unique activityIds and their total count for this date
-  //           const uniqueActivitiesForDate = {};
-  //           findDailyTasks.forEach(task => {
-  //               const key = task.activityIds.toString(); // Using the stringified activityIds as key for uniqueness
-  //               if (!uniqueActivitiesForDate[key]) {
-  //                   uniqueActivitiesForDate[key] = {
-  //                       taskData: task.toObject(),
-  //                       total_count: 1 // Initialize total count to 1 for each unique activity
-  //                   };
-  //               } else {
-  //                   uniqueActivitiesForDate[key].total_count++; // Increment count for each occurrence of the same activity
-  //               }
-  //           });
-
-  //           // Convert map values to an array of objects for this date
-  //           const uniqueActivityArrayForDate = Object.values(uniqueActivitiesForDate);
-
-  //           uniqueActivities.push({ date: selectedDate.toISOString().slice(0, 10), activities: uniqueActivityArrayForDate });
-  //       }
-
-  //       return helper.success(res, "Unique activities with total count", uniqueActivities);
-  //   } catch (error) {
-  //       console.log(error);
-  //   }
-  // }
-
+  
   // task_count: async (req, res) => {
   //   try {
   //     let { babyId, activityId, date, start_time } = req.body;
@@ -312,6 +225,7 @@ module.exports = {
   //   }
   // },
 
+  
   task_count: async (req, res) => {
     try {
         let { babyId, activityId, date, start_time } = req.body;

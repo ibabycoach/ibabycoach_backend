@@ -174,8 +174,16 @@ module.exports = {
 
   profile: async (req, res) => {
     try {
-        const userId = req.user._id;
-        const userprofile = await user_model.findOne({ _id: userId });
+      const v = new Validator(req.body, {
+        babyId: "required",
+      });
+      
+      const errorResponse = await helper.checkValidation(v);
+      if (errorResponse) {
+          return helper.failed(res, errorResponse);
+      }
+      const userId = req.user._id;
+      const userprofile = await user_model.findOne({ _id: userId });
 
         if (!userprofile) {
             return helper.failed(res, "User not found");
@@ -184,16 +192,15 @@ module.exports = {
         let userBaby;
 
         if (req.body.babyId) { // Check if babyId is provided in req.body
-            userBaby = await baby_model.findOne({ userId: userId, _id: req.body.babyId });
+            userBaby = await baby_model.findById({_id: req.body.babyId });
         } else {
             if (req.user.role == 2) {
                 const parentId = req.user.parentId;
-                userBaby = await baby_model.findOne({ userId: parentId });
+                userBaby = await baby_model.findById({_id: req.body.babyId });
             } else {
-                userBaby = await baby_model.findOne({ userId: userId });
+                userBaby = await baby_model.findById({_id: req.body.babyId });
             }
         }
-
         if (!userBaby) {
             return helper.failed(res, "No baby found");
         }
