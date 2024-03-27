@@ -185,41 +185,40 @@ module.exports = {
       const userId = req.user._id;
       const userprofile = await user_model.findOne({ _id: userId });
 
-        if (!userprofile) {
-            return helper.failed(res, "User not found");
-        }
+      if (!userprofile) {
+          return helper.failed(res, "User not found");
+      }
 
-        let userBaby;
-
-        if (req.body.babyId) { // Check if babyId is provided in req.body
-            userBaby = await baby_model.findById({_id: req.body.babyId });
-        } else {
-            if (req.user.role == 2) {
-                const parentId = req.user.parentId;
-                userBaby = await baby_model.findById({_id: req.body.babyId });
-            } else {
-                userBaby = await baby_model.findById({_id: req.body.babyId });
-            }
-        }
-        if (!userBaby) {
-            return helper.failed(res, "No baby found");
-        }
+      let userBaby;
+      if (req.body.babyId) { // Check if babyId is provided in req.body
+          userBaby = await baby_model.findById({_id: req.body.babyId });
+      } else {
+          if (req.user.role == 2) {
+              const parentId = req.user.parentId;
+              userBaby = await baby_model.findById({_id: req.body.babyId });
+          } else {
+              userBaby = await baby_model.findById({_id: req.body.babyId });
+          }
+      }
+      if (!userBaby) {
+          return helper.failed(res, "No baby found");
+      }
         
-        // Fetch reminder status from the reminderModel for the userBaby
-        const reminderStatus = await reminderModel.find({ babyId: userBaby._id });
-        
-        let statusValue;
-        if (reminderStatus.length === 0) {
-            statusValue = null; // No data for this baby
-        } else {
-            const anyStatusOne = reminderStatus.some(status => status.status === 1);
-            statusValue = anyStatusOne ? 1 : 0;
-        }
+      // Fetch reminder status from the reminderModel for the userBaby
+      const reminderStatus = await reminderModel.find({ babyId: userBaby._id });
+      
+      let statusValue;
+      if (reminderStatus.length === 0) {
+          statusValue = null; // No data for this baby
+      } else {
+          const anyStatusOne = reminderStatus.some(status => status.status === 1);
+          statusValue = anyStatusOne ? 1 : 0;
+      }
 
-        return helper.success(res, "User profile", { userprofile, userBaby, reminderStatus: statusValue });
+      return helper.success(res, "User profile", { userprofile, userBaby, reminderStatus: statusValue });
     } catch (error) {
-        console.log(error);
-        return helper.error(res, "Error");
+      console.log(error);
+      return helper.error(res, "Error");
     }
   },
 
