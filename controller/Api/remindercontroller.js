@@ -4,11 +4,11 @@ const helper = require('../../Helper/helper')
 const { Validator } = require('node-input-validator');
 var cron = require('node-cron');
 
-// Schedule a task to run every hour
-// cron.schedule('* * * * *', async () => {
-//   console.log('running a task every minute');
+//Schedule a task to run every hour
+cron.schedule('* * * * *', async () => {
+  console.log('running a task every minute');
 
-// });
+});
 
 module.exports = { 
 
@@ -181,12 +181,11 @@ module.exports = {
             // If currentTime is equal to or greater than reminder_time, add duration to reminder_time
             if (currentTime >= reminder.reminder_time) {
                 if (durationType === "hours") {
-                    reminder.reminder_time.setHours(reminder.reminder_time.getHours() + duration);
+                  reminder.reminder_time.setHours(reminder.reminder_time.getHours() + duration);
                 } else if (durationType === "minutes") {
-                    reminder.reminder_time.setMinutes(reminder.reminder_time.getMinutes() + duration);
+                  reminder.reminder_time.setMinutes(reminder.reminder_time.getMinutes() + duration);
                 }
             }
-
             return {
                 _id: reminder._id,
                 userId: reminder.userId,
@@ -194,8 +193,8 @@ module.exports = {
                 activityIds: reminder.activityIds,
                 time: {
                     reminder_start_time: reminder_start_time,
-                    duration: reminder.duration + ' ' + reminder.duration_type, // Include duration and type in the "time" key
-                    reminder_time: reminder.reminder_time, // Include reminder time
+                    duration: reminder.duration,
+                    reminder_time: reminder.reminder_time,
                     currentTime: currentTime
                 },
                 status: reminder.status,
@@ -209,10 +208,7 @@ module.exports = {
         console.log(error);
         return helper.failed(res, "Something went wrong");
     }
-},
-
-
-
+  },
 
 
 
