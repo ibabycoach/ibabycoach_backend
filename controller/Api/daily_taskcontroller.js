@@ -143,7 +143,6 @@ module.exports = {
     }
   },
 
-  
   // task_count: async (req, res) => {
   //   try {
   //     let { babyId, activityId, date, start_time } = req.body;
@@ -320,6 +319,7 @@ module.exports = {
   //   }
   // },
 
+  
   task_count: async (req, res) => {
     try {
         let { babyId, activityId, date, start_time } = req.body;
