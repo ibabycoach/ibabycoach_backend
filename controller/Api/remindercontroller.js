@@ -5,8 +5,24 @@ const { Validator } = require('node-input-validator');
 var cron = require('node-cron');
 
 //Schedule a task to run every hour
-cron.schedule('* * * * *', async () => {
-  console.log('running a task every minute');
+cron.schedule('*/5 * * * * *', async () => {
+  console.log('running a task every 5 seconds');
+  const currentDateTime = new Date();
+const dateTime = currentDateTime.toISOString();
+formattedCurrentDateTime = dateTime.slice(0, -5) + ".000+00:00";
+  const reminderData = await reminderModel.find({time: dateTime }).sort({ createdAt: -1 })
+  .populate("userId", 'name image')
+  .populate("activityIds", 'activity_name image bg_color ');
+  for(let data of reminderData){
+    let hour = data.duration
+    formattedCurrentDateTime  + hour 
+
+    const reminderData = await reminderModel.update({_id: data._id },
+      { upcoming_time: hour });
+
+    await helper.send_push_notifications();
+
+  }
 
 });
 
