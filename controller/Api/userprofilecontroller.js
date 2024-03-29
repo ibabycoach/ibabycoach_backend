@@ -119,7 +119,7 @@ module.exports = {
   subUser_list: async (req, res) => {
     try {
       const userId = req.user._id
-      let sub_user_Data = await user_model.find({ parentId: userId}).sort({ createdAt: -1 }).populate("parentId", 'name')
+      let sub_user_Data = await user_model.find({ parentId: userId, deleted: false}).sort({ createdAt: -1 }).populate("parentId", 'name')
 
       if (!sub_user_Data) {
         return helper.failed(res, "Sub-user not found");
@@ -238,7 +238,7 @@ module.exports = {
     } catch (error) {
       console.log(error)
     }
-},
+  },
 
 
 

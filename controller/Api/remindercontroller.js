@@ -16,6 +16,7 @@ formattedCurrentDateTime = dateTime.slice(0, -5) + ".000+00:00";
   .populate("activityIds", 'activity_name image bg_color ');
   for(let data of reminderData){
     let hour = data.duration
+    
     formattedCurrentDateTime  + hour 
 
     const reminderData = await reminderModel.update({_id: data._id },
