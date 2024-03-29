@@ -231,16 +231,12 @@ module.exports = {
       if (errorResponse) {
         return helper.failed(res, errorResponse);
       }
-      // let userId = req.body;
       const userdata = await user_model.findByIdAndUpdate({_id: req.body.userId}, 
         {deleted: true})
-
-        const findUpdatedUser = await user_model.findOne({_id: req.body.userId})
             
-        return helper.success(res, "user details updated successfully", findUpdatedUser)
-
+      return helper.success(res, "User deleted successfully", {})
     } catch (error) {
-        console.log(error)
+      console.log(error)
     }
 },
 
