@@ -221,6 +221,29 @@ module.exports = {
     }
   },
 
+  delete_user: async(req, res)=> {
+    try {
+      const v = new Validator(req.body, {
+        userId: "required",
+      });
+      
+      const errorResponse = await helper.checkValidation(v);
+      if (errorResponse) {
+        return helper.failed(res, errorResponse);
+      }
+      // let userId = req.body;
+      const userdata = await user_model.findByIdAndUpdate({_id: req.body.userId}, 
+        {deleted: true})
+
+        const findUpdatedUser = await user_model.findOne({_id: req.body.userId})
+            
+        return helper.success(res, "user details updated successfully", findUpdatedUser)
+
+    } catch (error) {
+        console.log(error)
+    }
+},
+
 
 
 }

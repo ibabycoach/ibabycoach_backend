@@ -10,6 +10,7 @@ cron.schedule('*/5 * * * * *', async () => {
   const currentDateTime = new Date();
 const dateTime = currentDateTime.toISOString();
 formattedCurrentDateTime = dateTime.slice(0, -5) + ".000+00:00";
+
   const reminderData = await reminderModel.find({time: dateTime }).sort({ createdAt: -1 })
   .populate("userId", 'name image')
   .populate("activityIds", 'activity_name image bg_color ');
@@ -20,7 +21,7 @@ formattedCurrentDateTime = dateTime.slice(0, -5) + ".000+00:00";
     const reminderData = await reminderModel.update({_id: data._id },
       { upcoming_time: hour });
 
-    await helper.send_push_notifications();
+    await helper.send_push_notifications(reminderData);
 
   }
 
