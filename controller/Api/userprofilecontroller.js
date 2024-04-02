@@ -57,6 +57,7 @@ module.exports = {
   add_subuser: async(req, res)=> {
     try {
       let parentId = req.user._id;
+      let parentImg = req.user.image;
       const v = new Validator(req.body, {
         name: "required",
         email: "required",
@@ -107,6 +108,9 @@ module.exports = {
       }
   
       let addsubUser = await user_model.create(userData);
+      if (addsubUser) {
+        const update_image = await user_model.findByIdAndUpdate({_id: addsubUser._id },{image: parentImg})
+      }
      
       return helper.success(res, "Sub-user added successfully", addsubUser);
   

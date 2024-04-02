@@ -2,104 +2,146 @@
 <%- include('../common/header') %>
 <%- include('../common/sidebar') %>
 
+<style>
+  .slidecontainer {
+    width: 100%;
+  }
+  
+  .slider {
+    -webkit-appearance: none;
+    width: 100%;
+    height: 25px;
+    background: #d3d3d3;
+    outline: none;
+    opacity: 0.7;
+    -webkit-transition: .2s;
+    transition: opacity .2s;
+  }
+  
+  .slider:hover {
+    opacity: 1;
+  }
+  
+  .slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 25px;
+    height: 25px;
+    background: #023262;
+    cursor: pointer;
+  }
+  
+  .slider::-moz-range-thumb {
+    width: 25px;
+    height: 25px;
+    background: #033362;
+    cursor: pointer;
+  }
+  </style>
+  
 
 <!-- BEGIN: Content-->
 <div class="app-content content ">
-
   <div class="content-wrapper container-xxl p-0">
-  <div class="content-body">
+    <div class="content-body">
       <section id="multiple-column-form">
         <div class="row justify-content-center">
-                  <div class="col-md-10 col-12 ">
-                    <div class="card">
-                      <div class="card-header">
-                        <h4 class="card-title"> Add Goal</h4>
+          <div class="col-md-10 col-12 ">
+            <div class="card">
+              <div class="card-header">
+                <h4 class="card-title"> Add Goal</h4>
+              </div>
+              <br>
+              <div class="card-body">
+                <form class="form form-vertical" id="" action="/saveGoal" method="POST" enctype="multipart/form-data">
+                    <div class="mb-1 row">
+                        <div class="col-sm-2">
+                          <label class="col-form-label new_lable" for="name">Goal Name</label>
+                        </div>
+                        <div class="col-sm-10">
+                          <input type="text" id="name" class="form-control" name="name" value="" required>
+                        </div>
                       </div>
-                      <br>
-                      <div class="card-body">
-                        <form class="form form-vertical" id="" action="/saveGoal" method="POST" enctype="multipart/form-data">
-                            <div class="mb-1 row">
-                                <div class="col-sm-2">
-                                  <label class="col-form-label new_lable" for="name">Goal Name</label>
-                                </div>
-                                <div class="col-sm-10">
-                                  <input type="text" id="name" class="form-control" name="name" value="" required>
-                                </div>
-                              </div>
-                              <div class="mb-1 row">
-                                <div class="col-sm-2">
-                                  <label class="col-form-label new_lable" for="name">Title</label>
-                                </div>
-                                <div class="col-sm-10">
-                                  <input type="text" id="name" class="form-control" name="title" value="" required>
-                                </div>
-                              </div>
-                              <div class="mb-1 row">
-                                <div class="col-sm-2">
-                                    <label class="col-form-label new_label">Days</label>
-                                </div>
-                                <div class="col-sm-10">
-                                        <input class="form-check-input" type="checkbox" id="mon" name="day" value="Mon">
-                                        <label class="form-check-label" for="monday">Mon</label>
-                                    
-                                        <input class="form-check-input" type="checkbox" id="tue" name="day" value="Tue">
-                                        <label class="form-check-label" for="tuesday">Tue</label>
-                                    
-                                        <input class="form-check-input" type="checkbox" id="wed" name="day" value="Wed">
-                                        <label class="form-check-label" for="wednesday">Wed</label>
-                                   
-                                        <input class="form-check-input" type="checkbox" id="thu" name="day" value="Thu">
-                                        <label class="form-check-label" for="thursday">Thu</label>
-                                   
-                                        <input class="form-check-input" type="checkbox" id="fri" name="day" value="Fri">
-                                        <label class="form-check-label" for="friday">Fri</label>
-                                   
-                                        <input class="form-check-input" type="checkbox" id="sat" name="day" value="Sat">
-                                        <label class="form-check-label" for="saturday">Sat</label>
-                                  
-                                        <input class="form-check-input" type="checkbox" id="sun" name="day" value="Sun">
-                                        <label class="form-check-label" for="sunday">Sun</label>
-                                   
-                                </div>
-                            </div>
-                            
-                              <div class="mb-1 row">
-                                <div class="col-sm-2">
-                                  <label class="col-form-label new_lable" for="name">Description</label>
-                                </div>
-                                <div class="col-sm-10">
-                                  <input type="text" id="name" class="form-control" name="description" value="" required>
-                                </div>
-                              </div>
-                              <div class="mb-1 row">
-                                <div class="col-sm-2">
-                                  <label class="col-form-label new_lable" for="name">Date</label>
-                                </div>
-                                <div class="col-sm-10">
-                                  <input type="date" id="name" class="form-control" name="date" value="" required>
-                                </div>
-                              </div>
-                              <div class="mb-1 row">
-                                <div class="col-sm-2">
-                                  <label class="col-form-label new_lable" for="price">Image</label>
-                                </div>
-                                <div class="col-sm-10">
-                                  <input type="file" id="image" class="form-control" name="image" value="" required>
-                                </div>
-                              </div>
-                             
-                           
-                            <div class="col-12">
-                            <div class="col-sm-9 offset-sm-5">
-                                <button type="submit" class="btn btn-primary waves-effect waves-float waves-light">Add</button>
-                                <!-- <a href="/subscriptionList" class="btn btn-primary float-right" title="Edit Profile"> Back </a>   -->
-                            </div>
-                          </div>
-                        </form>
+                      <div class="mb-1 row">
+                        <div class="col-sm-2">
+                          <label class="col-form-label new_lable" for="name">Title</label>
+                        </div>
+                        <div class="col-sm-10">
+                          <input type="text" id="name" class="form-control" name="title" value="" required>
+                        </div>
                       </div>
+                      <div class="slidecontainer mb-1 row">
+                        <div class="col-sm-2">
+                          <label class="col-form-label new_lable" for="name">Age range</label>
+                        </div>
+                        <div class="col-sm-6">
+                          <input type="range" min="1" max="100" value="" class="slider" id="myRange">
+                          <!-- <input type="range" id="age_range" min="1" max="100" class="slider" name="age_range" required> -->
+                        </div>
+                      </div>
+                      
+                      <div class="mb-1 row">
+                        <div class="col-sm-2">
+                            <label class="col-form-label new_label">Days</label>
+                        </div>
+                        <div class="col-sm-10">
+                          <input class="form-check-input" type="checkbox" id="mon" name="day" value="Mon">
+                          <label class="form-check-label" for="monday">Mon</label>
+                      
+                          <input class="form-check-input" type="checkbox" id="tue" name="day" value="Tue">
+                          <label class="form-check-label" for="tuesday">Tue</label>
+                      
+                          <input class="form-check-input" type="checkbox" id="wed" name="day" value="Wed">
+                          <label class="form-check-label" for="wednesday">Wed</label>
+                      
+                          <input class="form-check-input" type="checkbox" id="thu" name="day" value="Thu">
+                          <label class="form-check-label" for="thursday">Thu</label>
+                      
+                          <input class="form-check-input" type="checkbox" id="fri" name="day" value="Fri">
+                          <label class="form-check-label" for="friday">Fri</label>
+                      
+                          <input class="form-check-input" type="checkbox" id="sat" name="day" value="Sat">
+                          <label class="form-check-label" for="saturday">Sat</label>
+                    
+                          <input class="form-check-input" type="checkbox" id="sun" name="day" value="Sun">
+                          <label class="form-check-label" for="sunday">Sun</label>
+                        </div>
+                      </div>
+                      <div class="mb-1 row">
+                        <div class="col-sm-2">
+                          <label class="col-form-label new_lable" for="name">Description</label>
+                        </div>
+                        <div class="col-sm-10">
+                          <input type="text" id="name" class="form-control" name="description" value="" required>
+                        </div>
+                      </div>
+                      <div class="mb-1 row">
+                        <div class="col-sm-2">
+                          <label class="col-form-label new_lable" for="name">Date</label>
+                        </div>
+                        <div class="col-sm-10">
+                          <input type="date" id="dateInput" class="form-control" name="date" required onfocus="this.showPicker()">
+                        </div>
+                      </div>
+                      <div class="mb-1 row">
+                        <div class="col-sm-2">
+                          <label class="col-form-label new_lable" for="price">Image</label>
+                        </div>
+                        <div class="col-sm-10">
+                          <input type="file" id="image" name="image" accept="image/*" class="form-control" name="image" value="" required>
+                        </div>
+                      </div>
+                    <div class="col-12">
+                    <div class="col-sm-9 offset-sm-5">
+                        <button type="submit" class="btn btn-primary waves-effect waves-float waves-light">Add</button>
+                        <!-- <a href="/subscriptionList" class="btn btn-primary float-right" title="Edit Profile"> Back </a>   -->
                     </div>
                   </div>
-                </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
       </section>
     </div>
   </div>
@@ -107,9 +149,5 @@
 <div class="sidenav-overlay"></div>
 <div class="drag-target"></div>
 <%- include('../common/footer') %>
-
-
-
-
 
 

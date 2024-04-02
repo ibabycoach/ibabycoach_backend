@@ -1,4 +1,5 @@
 const userModel = require('../../model/Admin/user')
+const babyModel = require('../../model/Admin/baby')
 const helper = require('../../Helper/helper')
 const bcrypt = require('bcrypt')
 
@@ -103,7 +104,9 @@ module.exports = {
         try {
             let title = "userList"
             const userdetails = await userModel.findById({_id: req.params.id})
-            res.render('Admin/user/viewUser', { title, userdetails, session:req.session.user,  msg: req.flash('msg') })
+            const findSubUser = await userModel.find({parentId: req.params.id})
+            const findbaby = await babyModel.find({userId: req.params.id})
+            res.render('Admin/user/viewUser', { title, userdetails, findSubUser, findbaby, session:req.session.user,  msg: req.flash('msg') })
         } catch (error) {
             console.log(error)
         }

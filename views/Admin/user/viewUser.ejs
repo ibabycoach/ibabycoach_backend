@@ -44,15 +44,58 @@
                             value="<%=userdetails.phone%> " disabled>
                         </div>
                       </div>
+                    </form>
+                  </div>
 
-                      <div class="col-12">
+                  <div class="card-body">
+                      <div class="mb-1 row">
+                        <h3><pre style="margin-left: 150px;">Sub-user details</pre></h3>
+                        <div class="col-sm-2">
+                          <label class="col-form-label new_lable" for="name">Name</label>
+                        </div>
+                        <div class="col-sm-10">
+                          <input type="text" id="name" class="form-control" name="name" value="<%=findSubUser[0].name%> "
+                            disabled>
+                        </div>
+                      </div>
+                      <div class="mb-1 row">
+                        <div class="col-sm-2">
+                          <label class="col-form-label new_lable" for="email">Email</label>
+                        </div>
+                        <div class="col-sm-10">
+                          <input type="text" id="email" class="form-control" name="email"
+                            value="<%=findSubUser[0].email%> " disabled>
+                        </div>
+                      </div>
+                  </div>
+
+                  <div class="card-body">
+                    <div class="mb-1 row">
+                      <h3><pre style="margin-left: 150px;">User baby details</pre></h3>
+                      <div class="col-sm-2">
+                        <label class="col-form-label new_lable" for="name">Name</label>
+                      </div>
+                      <div class="col-sm-10">
+                        <input type="text" id="baby_name" class="form-control" name="baby_name" value="<%=findbaby[0].baby_name%> "
+                          disabled>
+                      </div>
+                    </div>
+                    <!-- <div class="mb-1 row">
+                      <div class="col-sm-2">
+                        <label class="col-form-label new_lable" for="email">Email</label>
+                      </div>
+                      <div class="col-sm-10">
+                        <input type="text" id="email" class="form-control" name="email"
+                          value=" " disabled>
+                      </div>
+                    </div> -->
+                     <div class="col-12">
                         <div class="col-sm-9 offset-sm-5">
                           <a href="/userList" class="btn btn-primary float-right" title="Edit Profile"> Back
                           </a>
                         </div>
                       </div>
-                    </form>
-                  </div>
+                </div>
                 </div>
               </div>
             </div>

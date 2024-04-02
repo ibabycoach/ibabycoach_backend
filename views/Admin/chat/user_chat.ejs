@@ -49,7 +49,7 @@
               <ul class="chat-users-list chat-list media-list" id="chatList">
               </ul>
             </div>
-            
+
             <!-- Sidebar Users end -->
           </div>
           <!--/ Chat Sidebar area -->
@@ -82,7 +82,10 @@
                         <i data-feather="menu" class="font-medium-5"></i>
                       </div>
                       <div class="avatar avatar-border user-profile-toggle m-0 me-1">
-                        <img id="userHeaderImg" src="" alt="avatar" height="36" width="36" />
+                        <img id="userHeaderImg" src="" alt="avatar" height="36" width="36" onclick="userRedirect()" />
+                        <input type="hidden" name="userProfileId" id="userProfileId" value="">
+                        <input type="hidden" name="userProfileRole" id="userProfileRole" value="">
+
                         <!-- <span class="avatar-status-busy"></span> -->
                       </div>
                       <h6 class="mb-0" id="userName"> </h6>
@@ -190,11 +193,12 @@
       data.forEach(users => {
 
         let rId = users.receiver[0]._id == adminID ? users.sender[0]._id : users.receiver[0]._id;
+
         let userImg = users.receiver[0]._id == adminID ? users.sender[0].image : users.receiver[0].image;
         const listitem = document.createElement("div")
         listitem.innerHTML = `
                           
-        <li id="userId_${rId}" onclick='showChats("${users.sender[0]._id}", "${users.receiver[0]._id}", "${users.receiver[0]._id == adminID ? users.sender[0].name : users.receiver[0].name}")'>
+        <li id="userId_${rId}" onclick='showChats("${users.sender[0]._id}", "${users.receiver[0]._id}", "${users.receiver[0]._id == adminID ? users.sender[0].name : users.receiver[0].name}", "${users.receiver[0]._id == adminID ? users.sender[0].role : users.receiver[0].role}")'>
           <span class="avatar">
             <img src="${userImg}" id="userImage_${rId}" height="42" width="42" alt="Generic placeholder image" />
           </span>
@@ -212,13 +216,18 @@
         `
         chating.appendChild(listitem)
       });
+
     });
 
     // On User List click
-    const showChats = (sender_id, receiver_id, listUserName) => {
+    const showChats = (sender_id, receiver_id, listUserName, userRole) => {
 
-      let rId = receiver_id == adminID ? sender_id : receiver_id
+      let rId = receiver_id == adminID ? sender_id : receiver_id;
+      let rRole = userRole;
+
       document.getElementById('userHeaderImg').src = document.getElementById(`userImage_${rId}`).src;
+      document.getElementById('userProfileId').value = rId;
+      document.getElementById('userProfileRole').value = rRole;
 
       let user_li = document.getElementById(`userId_${receiver_id == adminID ? sender_id : receiver_id}`);
       if (user_li) {
@@ -366,7 +375,20 @@
         minute: 'numeric'
       });
     }
-  
+
+
+    //user redirect to the view profile on the click on profile imkage
+    function userRedirect() {
+      let rId = document.getElementById('userProfileId').value;
+      let rRole = document.getElementById('userProfileRole').value;
+
+      if(rRole == 1){
+        window.location.href = `/viewUser/${rId}`;
+      }else{
+        window.location.href = `/viewSubuser/${rId}`;
+      }
+    }
+    
   </script>
 
 </body>

@@ -8,21 +8,24 @@ const pushCroneHandler = async () => {
   try {
     const startDateTime = moment().subtract(1, "second").valueOf();
     const endDateTime = moment().add(1, "second").valueOf();
-    const reminders = await reminderModel
-      .find({ upcoming_time: { $gte: startDateTime, $lte: endDateTime }, })
-      .populate({ path: "userId" });
-      
+    const reminders = await reminderModel.find({ upcoming_time: { $gte: startDateTime, $lte: endDateTime }, })
+      .populate( "userId", 'name relation image device_token' );
+
     for (let i = 0; i < reminders.length; i++) {
-      const { _id, duration, duration_type, userId } = reminders[i];
-      const payLoad = {
-        sender_name: "",
-        device_token: "",
-        message: {},
-        type: 2,
-      };
+      const { _id, duration, duration_type, userId, device_token } = reminders[i];
+
+      if (reminders) {
+        const payLoad = {
+          sender_name: reminders[i].userId.name,
+          device_token: reminders[i].userId.device_token,
+          message: "remainder time",
+          type: 1,
+        };
+
       const upcoming_time = moment().add(duration, duration_type).valueOf();
       await reminderModel.updateOne({ _id }, { $set: { upcoming_time } });
       await helper.send_push_notifications(payLoad);
+    }
     }
   } catch (err) {
     console.log("crone erro =============>", err);
@@ -30,8 +33,8 @@ const pushCroneHandler = async () => {
 };
 
 //Schedule a task to run every hour
-cron.schedule("*/1 * * * * *", async () => {
-  console.log("running a task every minute");
+cron.schedule(" * * * * *", async () => {
+  // console.log("running a task every minute");
   pushCroneHandler();
   return;
   // const currentDateTime = moment().valueOf();
@@ -114,9 +117,7 @@ module.exports = {
   do_not_disturb: async (req, res) => {
     try {
       const reminderStatus = await reminderModel.updateOne(
-        {
-          _id: req.body.id,
-        },
+        {_id: req.body.id},
         { status: req.body.status }
       );
 
@@ -124,12 +125,11 @@ module.exports = {
         return helper.failed(res, "Something went wrong");
       }
       const updatedReminder = await reminderModel.findOne({ _id: req.body.id });
+      if (!updatedReminder) {
+        return helper.failed(res, "reminder not found", {})
+      }
 
-      return helper.success(
-        res,
-        "Reminder status changed successfully",
-        updatedReminder
-      );
+      return helper.success(res, "Reminder status changed successfully",updatedReminder);
     } catch (error) {
       console.log(error);
       return helper.failed(res, "Internal server error");
@@ -141,10 +141,9 @@ module.exports = {
       const { status, babyId } = req.body;
       const userId = req.user._id;
 
-      // Update the reminder status for the user
       const updateReminderStatus = await reminderModel.updateMany(
         { babyId: babyId },
-        { status: status } // Set the new status
+        { status: status }
       );
 
       if (!updateReminderStatus) {

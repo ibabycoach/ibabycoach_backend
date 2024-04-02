@@ -43,7 +43,7 @@
                             <%= (data.gender == 0) ? 'Girl' : (data.gender == 1) ? 'Male' : 'Not specified' %>
                           </td>
                           <td>
-                            <%= new Date(data.birthday).toLocaleDateString('en-US', { day: '2-digit', month: 'long', year: 'numeric' }) %>
+                            <%= new Date(data.birthday).toLocaleDateString('en-US', { day: '2-digit', month: 'short', year: 'numeric' }) %>
                           </td>
                           <td>
                             <img src="<%=data.image%>" width="45px" height="40px" type="submit" style="cursor:pointer;">
@@ -53,8 +53,8 @@
                             <a href="/viewBaby/<%=data._id%>" class="btn btn-sm bg-light-primary"><i
                                 data-feather='eye'></i></a>
                             <!-- <a href="/editBaby/<%=data._id%>" class="btn btn-sm bg-warning"><i data-feather='edit'></i></a> -->
-                            <button onclick="confirmDelete('<%=data._id%>')" class="btn btn-sm bg-danger"> <i
-                                data-feather='trash'></i> </button>
+                            <!-- <button onclick="confirmDelete('<%=data._id%>')" class="btn btn-sm bg-danger"> <i
+                                data-feather='trash'></i> </button> -->
                           </td>
                         </tr>
                         <%} )%>

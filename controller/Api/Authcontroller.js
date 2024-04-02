@@ -55,6 +55,7 @@ module.exports = {
   
       let hash = await bcrypt.hash(req.body.password, 10);
       
+      req.body.email = req.body.email.toLowerCase();
       let dataEnter = await user_model.create({ ...values.inputs, password: hash });
   
       const getUser = await user_model.findOne({ email: dataEnter.email });
@@ -96,7 +97,8 @@ module.exports = {
         if (errorsResponse) {
             return await helper.failed(res, errorsResponse)
         }
-
+        
+        req.body.email = req.body.email.toLowerCase();
         const updateDeviceToken = await user_model.findOneAndUpdate({email: req.body.email},
           {device_token: req.body.device_token,
             device_type: req.body.device_type},
