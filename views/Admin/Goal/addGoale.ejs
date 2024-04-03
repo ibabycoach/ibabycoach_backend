@@ -1,43 +1,6 @@
 
 <%- include('../common/header') %>
 <%- include('../common/sidebar') %>
-
-<style>
-  .slidecontainer {
-    width: 100%;
-  }
-  
-  .slider {
-    -webkit-appearance: none;
-    width: 100%;
-    height: 25px;
-    background: #d3d3d3;
-    outline: none;
-    opacity: 0.7;
-    -webkit-transition: .2s;
-    transition: opacity .2s;
-  }
-  
-  .slider:hover {
-    opacity: 1;
-  }
-  
-  .slider::-webkit-slider-thumb {
-    -webkit-appearance: none;
-    appearance: none;
-    width: 25px;
-    height: 25px;
-    background: #023262;
-    cursor: pointer;
-  }
-  
-  .slider::-moz-range-thumb {
-    width: 25px;
-    height: 25px;
-    background: #033362;
-    cursor: pointer;
-  }
-  </style>
   
 
 <!-- BEGIN: Content-->
@@ -70,15 +33,26 @@
                           <input type="text" id="name" class="form-control" name="title" value="" required>
                         </div>
                       </div>
-                      <div class="slidecontainer mb-1 row">
+                     
+                      <div class="mb-1 row">
                         <div class="col-sm-2">
-                          <label class="col-form-label new_lable" for="name">Age range</label>
+                            <label for="range-1a">Min Age:</label>
                         </div>
-                        <div class="col-sm-6">
-                          <input type="range" min="1" max="100" value="" class="slider" id="myRange">
-                          <!-- <input type="range" id="age_range" min="1" max="100" class="slider" name="age_range" required> -->
+                        <div class="col-sm-10">
+                            <input type="range" name="min_age" id="range-1a" min="0" max="100" value="0" data-popup-enabled="true" data-show-value="true">
+                            <span id="min_age_value"></span> <!-- Display min age value here -->
                         </div>
-                      </div>
+                        <div class="col-sm-2">
+                            <label for="range-1b">Max Age:</label>
+                        </div>
+                        <div class="col-sm-10">
+                            <input type="range" name="max_age" id="range-1b" min="0" max="100" value="0" data-popup-enabled="true" data-show-value="true">
+                            <span id="max_age_value"></span> <!-- Display max age value here -->
+                        </div>
+                    </div>
+                    
+                    
+                    
                       
                       <div class="mb-1 row">
                         <div class="col-sm-2">
@@ -134,7 +108,6 @@
                     <div class="col-12">
                     <div class="col-sm-9 offset-sm-5">
                         <button type="submit" class="btn btn-primary waves-effect waves-float waves-light">Add</button>
-                        <!-- <a href="/subscriptionList" class="btn btn-primary float-right" title="Edit Profile"> Back </a>   -->
                     </div>
                   </div>
                 </form>
@@ -149,5 +122,63 @@
 <div class="sidenav-overlay"></div>
 <div class="drag-target"></div>
 <%- include('../common/footer') %>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
+<script>
+  // JavaScript code to dynamically update age values
 
+  // Function to update max age value display and ensure it's not less than min age
+function updateMaxAge() {
+    var minAgeInput = document.getElementById("range-1a");
+    var maxAgeInput = document.getElementById("range-1b");
+    var maxAgeValueSpan = document.getElementById("max_age_value");
+    var minAge = parseInt(minAgeInput.value);
+    var maxAge = parseInt(maxAgeInput.value);
+
+    // Ensure max age is not less than min age
+    if (maxAge < minAge) {
+        maxAge = minAge;
+        maxAgeInput.value = maxAge;
+    }
+
+    if (maxAge < 12) {
+        maxAgeValueSpan.textContent = maxAge + " weeks";
+    } else if (maxAge >= 12 && maxAge < 52) {
+        maxAgeValueSpan.textContent = Math.floor(maxAge / 4) + " months";
+    } else {
+        maxAgeValueSpan.textContent = Math.floor(maxAge / 52) + " years";
+    }
+}
+
+// Function to update min age value display and synchronize max age input
+function updateMinAge() {
+    var minAgeInput = document.getElementById("range-1a");
+    var maxAgeInput = document.getElementById("range-1b");
+    var minAgeValueSpan = document.getElementById("min_age_value");
+    var minAge = parseInt(minAgeInput.value);
+    var maxAge = parseInt(maxAgeInput.value);
+
+    // Synchronize max age input with min age input
+    if (maxAge < minAge) {
+        maxAgeInput.value = minAge;
+        updateMaxAge();
+    }
+
+    if (minAge < 12) {
+        minAgeValueSpan.textContent = minAge + " weeks";
+    } else if (minAge >= 12 && minAge < 52) {
+        minAgeValueSpan.textContent = Math.floor(minAge / 4) + " months";
+    } else {
+        minAgeValueSpan.textContent = Math.floor(minAge / 52) + " years";
+    }
+}
+
+// Add event listeners to range inputs
+document.getElementById("range-1a").addEventListener("input", updateMinAge);
+document.getElementById("range-1b").addEventListener("input", updateMaxAge);
+
+// Initial update of age values
+updateMinAge();
+updateMaxAge();
+
+</script>

@@ -28,6 +28,8 @@ module.exports = {
                 name: req.body.name,
                 image: req.body.image,
                 day: day,
+                min_age: req.body.min_age,
+                max_age: req.body.max_age,
                 title: req.body.title,
                 description: req.body.description,
                 date: req.body.date
@@ -42,7 +44,7 @@ module.exports = {
     Goal_List: async (req, res) => {
         try {
             let title = "Goal"
-            const GoalData = await goals.find()
+            const GoalData = await goals.find({deleted: false})
 
             res.render('Admin/Goal/goalList', { title, GoalData, session: req.session.user, msg: req.flash('msg') })
         } catch (error) {
@@ -83,6 +85,8 @@ module.exports = {
                     name: req.body.name,
                     image: req.body.image,
                     day: req.body.day,
+                    min_age:  req.body.min_age,
+                    max_age:  req.body.max_age,
                     title: req.body.title,
                     description: req.body.description,
                     date: req.body.date 
@@ -97,7 +101,8 @@ module.exports = {
     delete_goale: async (req, res) => {
         try {
             let growthID = req.body.id
-            const removesubs = await goals.deleteOne({ _id: growthID })
+            const removesubs = await goals.findByIdAndUpdate({ _id: growthID },
+                {deleted: true})
             res.redirect("/Goal_List")
         } catch (error) {
             console.log(error)

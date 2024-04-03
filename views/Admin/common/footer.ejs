@@ -6,7 +6,16 @@
     <button class="btn btn-primary btn-icon scroll-top" type="button"><i data-feather="arrow-up"></i></button>
     <!-- END: Footer-->
 
-
+    <script>
+        $(window).on('load', function() {
+            if (feather) {
+                feather.replace({
+                    width: 14,
+                    height: 14
+                });
+            }
+        })
+    </script>
     <!-- BEGIN: Vendor JS-->
     <script src="../../../app-assets/vendors/js/vendors.min.js"></script>
     <!-- BEGIN Vendor JS-->
@@ -35,16 +44,7 @@
 
     <!-- END: Page JS-->
 
-    <script>
-        $(window).on('load', function() {
-            if (feather) {
-                feather.replace({
-                    width: 14,
-                    height: 14
-                });
-            }
-        })
-    </script>
+    
 </body>
 <!-- END: Body-->
 

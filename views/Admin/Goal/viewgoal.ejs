@@ -24,7 +24,6 @@
                         </div>
                         <div class="col-sm-10 goalImg">
                           <img src="<%=goalView.image%>" class="user_bigimg rounded">
-
                         </div>
                       </div>
                       <div class="mb-1 row">
@@ -43,6 +42,14 @@
                         <div class="col-sm-10">
                           <input type="text" id="name" class="form-control" name="title" value="<%=goalView.title%> "
                             disabled>
+                        </div>
+                      </div>
+                      <div class="mb-1 row">
+                        <div class="col-sm-2">
+                          <label class="col-form-label new_lable" for="age_range">Age range</label>
+                        </div>
+                        <div class="col-sm-10">
+                          <input type="text" id="age_range" class="form-control" name="age_range" value="<%= goalView.min_age %> weeks - <%= goalView.max_age %> weeks" disabled>
                         </div>
                       </div>
                       <div class="mb-1 row">
