@@ -35,6 +35,9 @@ module.exports = {
                babyId: addbaby._id,
                image: addbaby.image
             });
+            const updatebabyimage = await user_model.findOneAndUpdate({parentId: userId._id},
+              {image: addbaby.image}
+           );
 
           return helper.success(res, "baby details added", addbaby)
     } catch (error) {

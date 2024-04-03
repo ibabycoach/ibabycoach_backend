@@ -40,8 +40,8 @@ module.exports = {
     activity_List: async(req, res)=> {
         try {
             let title = "Activity"
-            const activityData = await activityModel.find({activity_type:'1'})
-            const customactivity = await activityModel.find({activity_type:'2'}).populate('userId', 'name')
+            const activityData = await activityModel.find({activity_type:'1', deleted: false})
+            const customactivity = await activityModel.find({activity_type:'2', deleted: false}).populate('userId', 'name')
              
             res.render('Admin/Activity/ActivityList', {title, activityData, customactivity, session:req.session.user,  msg: req.flash('msg')})
         } catch (error) {
@@ -94,7 +94,8 @@ module.exports = {
     delete_activity: async(req, res)=> {
         try {
             let growthID = req.body.id 
-            const removesubs = await activityModel.deleteOne({_id: growthID})
+            const removesubs = await activityModel.findByIdAndUpdate({_id: growthID},
+                {deleted: true})
             res.redirect("/ActivityList") 
         } catch (error) {
                 console.log(error)

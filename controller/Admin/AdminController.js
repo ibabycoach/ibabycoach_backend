@@ -47,13 +47,13 @@ module.exports = {
     dashboard: async (req, res) => {
         try {
             let title = "dashboard"
-            let users = await userModel.count({ role: 1 })
-            let subUser = await userModel.count({ role:2 })
-            let babies = await babyModel.count()
+            let users = await userModel.count({ role: 1, deleted:false })
+            let subUser = await userModel.count({ role:2 , deleted: false})
+            let babies = await babyModel.count({deleted: false})
             let subscription = await subscriptions.count()
-            let activity = await activityModel.count({activity_type:'1'})
+            let activity = await activityModel.count({activity_type:'1', deleted:false})
             let weekly_goals = await weekGoals.count()
-            let customActivity = await activityModel.count({activity_type:'2'})
+            let customActivity = await activityModel.count({activity_type:'2', deleted: false})
             const baby = await babyModel.aggregate([
                 {
                     $project: {

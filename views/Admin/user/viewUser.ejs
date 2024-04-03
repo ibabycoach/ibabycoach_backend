@@ -15,87 +15,141 @@
                     <h4 class="card-title">View user</h4>
                   </div>
                   <br>
+
                   <div class="card-body">
-                    <form class="form form-vertical" id="" action="/" method="POST" enctype="multipart/form-data">
-                      <div class="mb-1 row">
-                        <div class="col-sm-2">
-                          <label class="col-form-label new_lable" for="name">Name</label>
+                    <form class="form form-horizontal">
+                      <div class="row">
+                        <div class="col-md-4">
+                          <div class="profile-widget-header text-center">
+                            <img src="<%= userdetails.image %>" class="img-thumbnail user_bigimg ms-md-0 mx-auto">
+                          </div>
                         </div>
-                        <div class="col-sm-10">
-                          <input type="text" id="name" class="form-control" name="name" value="<%=userdetails.name%> "
-                            disabled>
-                        </div>
-                      </div>
-                      <div class="mb-1 row">
-                        <div class="col-sm-2">
-                          <label class="col-form-label new_lable" for="email">Email</label>
-                        </div>
-                        <div class="col-sm-10">
-                          <input type="text" id="email" class="form-control" name="email"
-                            value="<%=userdetails.email%> " disabled>
-                        </div>
-                      </div>
-                      <div class="mb-1 row">
-                        <div class="col-sm-2">
-                          <label class="col-form-label new_lable" for="phone">Phone</label>
-                        </div>
-                        <div class="col-sm-10">
-                          <input type="text" id="phone" class="form-control" name="phone"
-                            value="<%=userdetails.phone%> " disabled>
+                        <div class="col-md-8" style="margin-top: 10px;">
+                          <div class="mb-1 row">
+                            <div class="col-sm-2">
+                              <label class="col-form-label new_lable" for="first-name">Name</label>
+                            </div>
+                            <div class="col-sm-10">
+                              <input type="text" id="name" class="form-control" name="name" value="<%=userdetails.name%> "
+                                disabled>
+                            </div>
+                          </div>
+                          <div class="mb-1 row">
+                            <div class="col-sm-2">
+                              <label class="col-form-label new_lable" for="first-name">Email</label>
+                            </div>
+                            <div class="col-sm-10">
+                              <input type="text" id="email" class="form-control" name="email"
+                                value="<%=userdetails.email%> " disabled>
+                            </div>
+                          </div>
+                          <div class="mb-1 row">
+                            <div class="col-sm-2">
+                              <label class="col-form-label new_lable" for="first-name">Phone</label>
+                            </div>
+                            <div class="col-sm-10">
+                              <input type="text" id="phone" class="form-control" name="phone"
+                                value="<%=userdetails.phone%> " disabled>
+                            </div>
+                          </div>
+
                         </div>
                       </div>
                     </form>
                   </div>
 
-                  <div class="card-body">
-                      <div class="mb-1 row">
-                        <h3><pre style="margin-left: 150px;">Sub-user details</pre></h3>
-                        <div class="col-sm-2">
-                          <label class="col-form-label new_lable" for="name">Name</label>
-                        </div>
-                        <div class="col-sm-10">
-                          <input type="text" id="name" class="form-control" name="name" value="<%=findSubUser[0].name%> "
-                            disabled>
-                        </div>
-                      </div>
-                      <div class="mb-1 row">
-                        <div class="col-sm-2">
-                          <label class="col-form-label new_lable" for="email">Email</label>
-                        </div>
-                        <div class="col-sm-10">
-                          <input type="text" id="email" class="form-control" name="email"
-                            value="<%=findSubUser[0].email%> " disabled>
-                        </div>
-                      </div>
-                  </div>
+                  <hr>
+                     <!-- sub-user listing -->
+                    <div class="card-header border-bottom">
+                      <h4 class="card-title">Sub-user details</h4>
+                    </div>
+                    <div class="card-DataTable table-responsive">
+                      <table class="table table-hover-animation" style="color: rgb(65, 64, 64);" >
+                        <thead>
+                          <tr>
+                            <th>S NO.</th>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Phone</th>
+                            <th>Image</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <%findSubUser.forEach(function(data,i) {%>
+                            <tr>
+                              <td>
+                                <%=1+i%>
+                              </td>
+                              <td>
+                                <%=data.name ? data.name : "No sub-user found"%>
+                              </td>
+                              <td>
+                                <%=data.email ? data.email : ""%>
+                              </td>
+                              <td>
+                                <%=data.phone ? data.phone : ""%>
+                              </td>
+                              <td>
+                                <img src="<%=data.image%>" width="45px" height="40px" type="submit" style="cursor:pointer;">
+                              </td>
+                            </tr>
+                            <%} )%>
+                        </tbody>
+                      </table>
+                    </div>
 
-                  <div class="card-body">
-                    <div class="mb-1 row">
-                      <h3><pre style="margin-left: 150px;">User baby details</pre></h3>
-                      <div class="col-sm-2">
-                        <label class="col-form-label new_lable" for="name">Name</label>
-                      </div>
-                      <div class="col-sm-10">
-                        <input type="text" id="baby_name" class="form-control" name="baby_name" value="<%=findbaby[0].baby_name%> "
-                          disabled>
+                    <hr>
+                      <!-- Baby listing -->
+                    <div class="card-header border-bottom">
+                      <h4 class="card-title">Baby details</h4>
+                    </div>
+                    <div class="card-DataTable table-responsive">
+                      <table class="table table-hover-animation" style="color: rgb(65, 64, 64);" >
+                        <thead>
+                          <tr>
+                            <th>S NO.</th>
+                            <th>Name</th>
+                            <th>Gender</th>
+                            <th>Birthday</th>
+                            <th>Image</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <%findbaby.forEach(function(data,i) {%>
+                            <tr>
+                              <td>
+                                <%=1+i%>
+                              </td>
+                              <td>
+                                <%=data.baby_name ? data.baby_name : "No baby found"%>
+                              </td>
+                              <td>
+                                <% if (data.gender == 0) { %>
+                                  Female
+                                <% } else if (data.gender == 1) { %>
+                                  Male
+                                <% } else if (data.gender == 2) { %>
+                                  Not specified
+                                <% } %>
+                              </td>
+                              <td>
+                                <%= new Date(data.birthday).toLocaleDateString('en-US', { day: '2-digit', month: 'short', year: 'numeric' }) %>
+                              </td>
+                              <td>
+                                <img src="<%=data.image%>" width="45px" height="40px" type="submit" style="cursor:pointer;">
+                              </td>
+                            </tr>
+                            <%} )%>
+
+                        </tbody>
+                      </table>
+                      <hr>
+                    </div>
+                    <div class="col-12">
+                      <div class="col-sm-9 offset-sm-5">
+                        <a href="/userList" class="btn btn-primary float-right" title="Edit Profile"> Back </a>
                       </div>
                     </div>
-                    <!-- <div class="mb-1 row">
-                      <div class="col-sm-2">
-                        <label class="col-form-label new_lable" for="email">Email</label>
-                      </div>
-                      <div class="col-sm-10">
-                        <input type="text" id="email" class="form-control" name="email"
-                          value=" " disabled>
-                      </div>
-                    </div> -->
-                     <div class="col-12">
-                        <div class="col-sm-9 offset-sm-5">
-                          <a href="/userList" class="btn btn-primary float-right" title="Edit Profile"> Back
-                          </a>
-                        </div>
-                      </div>
-                </div>
                 </div>
               </div>
             </div>
@@ -106,3 +160,8 @@
     <div class="sidenav-overlay"></div>
     <div class="drag-target"></div>
     <%- include('../common/footer') %>
+    <script>
+      $(document).ready(function () {
+        $('.table').DataTable(); // Initialize DataTable for all tables with the 'table' class
+      });
+    </script>

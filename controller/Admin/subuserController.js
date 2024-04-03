@@ -7,7 +7,7 @@ module.exports = {
     subuser_List: async(req, res)=> {
         try {
             let title = "subuser_List"
-            const userData = await userModel.find({role:2})
+            const userData = await userModel.find({role:2, deleted: false})
             res.render('Admin/sub_user/subuser_List', { title, userData, session:req.session.user,  msg: req.flash('msg')})
         } catch (error) {
             console.log(error) 

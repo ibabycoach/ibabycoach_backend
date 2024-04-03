@@ -1,5 +1,6 @@
 const userModel = require('../../model/Admin/user')
 const babyModel = require('../../model/Admin/baby')
+const activityModel = require('../../model/Admin/activity');
 const helper = require('../../Helper/helper')
 const bcrypt = require('bcrypt')
 
@@ -93,7 +94,7 @@ module.exports = {
     userList: async(req, res)=> {
         try {
             let title = "userList"
-            const userData = await userModel.find({role:1})
+            const userData = await userModel.find({role:1, deleted: false})
             res.render('Admin/user/userList', { title, userData, session:req.session.user,  msg: req.flash('msg')})
         } catch (error) {
            console.log(error) 
@@ -104,7 +105,7 @@ module.exports = {
         try {
             let title = "userList"
             const userdetails = await userModel.findById({_id: req.params.id})
-            const findSubUser = await userModel.find({parentId: req.params.id})
+            const findSubUser = await userModel.find({parentId: req.params.id, role: "2"})
             const findbaby = await babyModel.find({userId: req.params.id})
             res.render('Admin/user/viewUser', { title, userdetails, findSubUser, findbaby, session:req.session.user,  msg: req.flash('msg') })
         } catch (error) {
@@ -132,7 +133,16 @@ module.exports = {
     deleteUser: async(req, res)=> {
         try {
             let userId = req.body.id 
-            const removeuser = await userModel.deleteOne({_id: userId})
+            const removeuser = await userModel.findByIdAndUpdate({_id: userId},
+                {deleted:true})
+                if (removeuser) {
+                    const removeSubUser = await userModel.findOneAndUpdate({parentId: userId},
+                    {deleted:true})
+                    const removeBaby = await babyModel.findOneAndUpdate({userId: userId},
+                    {deleted:true})
+                    const removeActivity = await activityModel.updateOne({userId: userId},
+                    {deleted:true})
+                }
             res.redirect("/userList") 
         } catch (error) {
         console.log(error)

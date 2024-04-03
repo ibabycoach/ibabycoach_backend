@@ -51,7 +51,7 @@ module.exports = {
     babyList: async(req, res)=> {
         try {
             let title = "babyList"
-        const babydata = await babyModel.find();
+        const babydata = await babyModel.find({deleted:false});
 
             res.render('Admin/baby/babyList', {title, babydata, session:req.session.user,  msg: req.flash('msg')})
         } catch (error) {
