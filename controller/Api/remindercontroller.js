@@ -6,19 +6,30 @@ var cron = require("node-cron");
 
 const pushCroneHandler = async () => {
   try {
-    const startDateTime = moment().subtract(1, "second").valueOf();
-    const endDateTime = moment().add(1, "second").valueOf();
-    const reminders = await reminderModel.find({ upcoming_time: { $gte: startDateTime, $lte: endDateTime }, })
-      .populate( "userId", 'name relation image device_token' );
+    // const startDateTime = moment().subtract(1, "second").valueOf();
+    // const endDateTime = moment().add(1, "second").valueOf();
+    // const reminders = await reminderModel.find({ upcoming_time: { $gte: startDateTime, $lte: endDateTime }, })
+    //   .populate( "userId", 'name relation image device_token' )
 
-    for (let i = 0; i < reminders.length; i++) {
-      const { _id, duration, duration_type, userId, device_token } = reminders[i];
+    const startDateTime = moment().subtract(1, "second").startOf("second").format("YYYY-MM-DDTHH:mm:ss");
+    const endDateTime = moment().add(1, "second").endOf("second").format("YYYY-MM-DDTHH:mm:ss");
 
+    const reminders = await reminderModel.find({
+      upcoming_time: {
+        $gte: new Date(startDateTime),
+        $lte: new Date(endDateTime)
+      }
+    }).populate("userId", 'name relation image device_token')
+      .populate("activityIds", "activity_name image");
+
+      for (let i = 0; i < reminders.length; i++) {
+        const { _id, duration, duration_type, userId, device_token } = reminders[i];
       if (reminders) {
         const payLoad = {
           sender_name: reminders[i].userId.name,
           device_token: reminders[i].userId.device_token,
-          message: "remainder time",
+          message: `${reminders[i].activityIds.activity_name} Reminder`,
+          activityIds: reminders[i].activityIds._id,
           type: 1,
         };
 
