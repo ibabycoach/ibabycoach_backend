@@ -520,7 +520,10 @@ module.exports = {
         sender:data.sender,
         receiver:data.receiver,
         message:data.message,
-        activityIds: data.activityIds,
+        activityIds: data.activityIds.toString(),
+        activity_name: data.activity_name,
+        image: data.image,
+        bg_color: data.bg_color,
         type:data.type,
         status:1
       }
@@ -538,7 +541,10 @@ module.exports = {
             body: payLoad.message,
             content_available: true,
             priority: "high",
-            activityIds: payLoad.activityIds,
+            activityIds: payLoad.activityIds.toString(),
+            activity_name: payLoad.activity_name,
+            image: payLoad.image,
+            bg_color: payLoad.bg_color,
             notificationType: payLoad.type ,
             sender_name: payLoad.sender_name,
           },
@@ -547,7 +553,10 @@ module.exports = {
             body: payLoad.message,
             content_available: true,
             priority: "high",
-            activityIds: payLoad.activityIds,
+            activityIds: payLoad.activityIds.toString(),
+            activity_name: payLoad.activity_name,
+            image: payLoad.image,
+            bg_color: payLoad.bg_color,
             notificationType: payLoad.type,
             sender_name: payLoad.sender_name,
             sender_id:payLoad.sender_id  ,
@@ -557,7 +566,7 @@ module.exports = {
 
         var serverKey = "AAAA_beXrdk:APA91bFrOU9EuiWw_c1TQeFnoWjcyVIzZxhDj4bge82kLNNVW9nhfTDvu0535a-zECGSc4Dxnm607CmJPDhG4ArLMPeJxmI828J1TG373OCNlQMhQuayzf2il7q0YpHC5gxmpKUeVdXh"; //put
         var fcm = new FCM(serverKey);
-        // console.log(message, ">>>>>>>>>>>>>>>>>>>>>>>>>>>>");
+        console.log(message, ">>>>>>>>>>>>>>>>>>>>>>>>>>>>");
 
         fcm.send(message, function (err, response) {
           console.log("PUSH.....FCM . SEND............!!!");

@@ -16,17 +16,20 @@ const pushCroneHandler = async () => {
 
     for (let i = 0; i < reminders.length; i++) {
       const { _id, duration, duration_type, userId, device_token } = reminders[i];
-      reminders[i].activityIds._id = reminders[i].activityIds?._id?.toString();
+      // reminders[i].activityIds._id = reminders[i].activityIds?._id?.toString();
 
-      const activityData = { ...reminders[i].activityIds?._doc,
-        _id: reminders[i].activityIds?._id?.toString(),
-      };
+      // const activityData = { ...reminders[i].activityIds?._doc,
+      //   _id: reminders[i].activityIds?._id?.toString(),
+      // };
       if (reminders) {
         const payLoad = {
           sender_name: reminders[i].userId.name,
           device_token: reminders[i].userId.device_token,
           message: `${reminders[i].activityIds.activity_name} Reminder`,
-          activityIds: activityData,
+          activityIds: reminders[i].activityIds._id,
+          activity_name: reminders[i].activityIds.activity_name,
+          image: reminders[i].activityIds.image,
+          bg_color: reminders[i].activityIds.bg_color,
           type: 1,
         };
         const upcoming_time = moment().add(duration, duration_type).valueOf();
