@@ -50,9 +50,9 @@ module.exports = {
             let users = await userModel.count({ role: 1, deleted:false })
             let subUser = await userModel.count({ role:2 , deleted: false})
             let babies = await babyModel.count({deleted: false})
-            let subscription = await subscriptions.count()
+            let subscription = await subscriptions.count({deleted: false})
             let activity = await activityModel.count({activity_type:'1', deleted:false})
-            let weekly_goals = await weekGoals.count()
+            let weekly_goals = await weekGoals.count({deleted: false})
             let customActivity = await activityModel.count({activity_type:'2', deleted: false})
             const baby = await babyModel.aggregate([
                 {
