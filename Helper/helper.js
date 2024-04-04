@@ -557,10 +557,10 @@ module.exports = {
 
         var serverKey = "AAAA_beXrdk:APA91bFrOU9EuiWw_c1TQeFnoWjcyVIzZxhDj4bge82kLNNVW9nhfTDvu0535a-zECGSc4Dxnm607CmJPDhG4ArLMPeJxmI828J1TG373OCNlQMhQuayzf2il7q0YpHC5gxmpKUeVdXh"; //put
         var fcm = new FCM(serverKey);
-        console.log(message, "?????????????????????????????????????????????/");
+       
 
         fcm.send(message, function (err, response) {
-          console.log(response, "PUSH.....FCM . SEND............!!!");
+          console.log("PUSH.....FCM . SEND............!!!");
   
           if (err) {
             console.log("Something has gone wrong!", err);
@@ -572,7 +572,53 @@ module.exports = {
     } catch (error) {
       console.log(error)
     }
-    },
+  },
+
+
+  //push for chat
+  send_push_notification : (payLoad) => {
+      try {
+        if (payLoad && payLoad.device_token && payLoad.device_token != "") {
+          var message = {
+            to: payLoad.device_token,
+            notification: {
+              title: "ibabycoach",
+              body: payLoad.message,
+              content_available: true,
+              priority: "high",
+              notificationType: payLoad.type ,
+              sender_name: payLoad.sender_name,
+            },
+            data: {
+              title: "ibabycoach",
+              body: payLoad.message,
+              content_available: true,
+              priority: "high",
+              notificationType: payLoad.type,
+              sender_name: payLoad.sender_name,
+              sender_id:payLoad.sender_id  ,
+              receiver_id:payLoad.receiver_id ? payLoad.receiver_id : ""  ,
+            },
+          };
+  
+          var serverKey = "AAAA_beXrdk:APA91bFrOU9EuiWw_c1TQeFnoWjcyVIzZxhDj4bge82kLNNVW9nhfTDvu0535a-zECGSc4Dxnm607CmJPDhG4ArLMPeJxmI828J1TG373OCNlQMhQuayzf2il7q0YpHC5gxmpKUeVdXh"; //put
+          var fcm = new FCM(serverKey);
+          
+  
+          fcm.send(message, function (err, response) {
+            console.log("PUSH.....FCM . SEND............!!!");
+    
+            if (err) {
+              console.log("Something has gone wrong!", err);
+            } else {
+              console.log("Successfully sent with response: ", response);
+            }
+          });
+        }
+      } catch (error) {
+        console.log(error)
+      }
+  },
 
   
 }
