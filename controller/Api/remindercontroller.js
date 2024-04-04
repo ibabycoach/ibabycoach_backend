@@ -9,30 +9,30 @@ const pushCroneHandler = async () => {
     const startDateTime = moment().subtract(1, "second").startOf("second").format("YYYY-MM-DDTHH:mm:ss");
     const endDateTime = moment().add(1, "second").endOf("second").format("YYYY-MM-DDTHH:mm:ss");
 
-    const reminders = await reminderModel.find({
-      upcoming_time: {
-        $gte: new Date(startDateTime),
-        $lte: new Date(endDateTime)
-      }
-    }).populate("userId", 'name relation image device_token')
+    let reminders = await reminderModel
+      .find({upcoming_time: {$gte: new Date(startDateTime),$lte: new Date(endDateTime)}})
+      .populate("userId", "name relation image device_token")
       .populate("activityIds", "activity_name image bg_color");
 
-      for (let i = 0; i < reminders.length; i++) {
-        const { _id, duration, duration_type, userId, device_token } = reminders[i];
+    for (let i = 0; i < reminders.length; i++) {
+      const { _id, duration, duration_type, userId, device_token } = reminders[i];
+      reminders[i].activityIds._id = reminders[i].activityIds?._id?.toString();
+
+      const activityData = { ...reminders[i].activityIds?._doc,
+        _id: reminders[i].activityIds?._id?.toString(),
+      };
       if (reminders) {
         const payLoad = {
           sender_name: reminders[i].userId.name,
           device_token: reminders[i].userId.device_token,
           message: `${reminders[i].activityIds.activity_name} Reminder`,
-          activityIds: reminders[i].activityIds._id,
-          activityData: reminders[i].activityIds,
+          activityIds: activityData,
           type: 1,
         };
-
-      const upcoming_time = moment().add(duration, duration_type).valueOf();
-      await reminderModel.updateOne({ _id }, { $set: { upcoming_time } });
-      await helper.send_push_notifications(payLoad);
-    }
+        const upcoming_time = moment().add(duration, duration_type).valueOf();
+        await reminderModel.updateOne({ _id }, { $set: { upcoming_time } });
+        await helper.send_push_notifications(payLoad);
+      }
     }
   } catch (err) {
     console.log("crone erro =============>", err);
@@ -40,37 +40,11 @@ const pushCroneHandler = async () => {
 };
 
 //Schedule a task to run every hour
-cron.schedule(" * * * * *", async () => {
+cron.schedule("*/1 * * * * *", async () => {
   // console.log("running a task every minute");
   pushCroneHandler();
   return;
-  // const currentDateTime = moment().valueOf();
-  // const dateTime = currentDateTime.toISOString();
-  // formattedCurrentDateTime = dateTime.slice(0, -5) + ".000+00:00";
-  // // console.log(formattedCurrentDateTime, "reminder found");return
-  // const reminderCount = await reminderModel.count({
-  //   upcoming_time: formattedCurrentDateTime,
-  // });
-
-  // if (reminderCount) {
-  //   const reminderData = await reminderModel
-  //     .find({ upcoming_time: formattedCurrentDateTime })
-  //     .sort({ createdAt: -1 })
-  //     .populate("userId", "name image")
-  //     .populate("activityIds", "activity_name image bg_color ");
-
-  //   for (let data of reminderData) {
-  //     let hour = data.duration;
-  //     let currentDate_hours = formattedCurrentDateTime + hour;
-  //     const updatedTiming = currentDate_hours;
-
-  //     await reminderModel.findByIdAndUpdate(
-  //       { _id: data._id },
-  //       { upcoming_time: updatedTiming }
-  //     );
-  //     await helper.send_push_notifications(reminderData);
-  //   }
-  // }
+  
 });
 
 module.exports = {
@@ -124,7 +98,7 @@ module.exports = {
   do_not_disturb: async (req, res) => {
     try {
       const reminderStatus = await reminderModel.updateOne(
-        {_id: req.body.id},
+        { _id: req.body.id },
         { status: req.body.status }
       );
 
@@ -133,10 +107,14 @@ module.exports = {
       }
       const updatedReminder = await reminderModel.findOne({ _id: req.body.id });
       if (!updatedReminder) {
-        return helper.failed(res, "reminder not found", {})
+        return helper.failed(res, "reminder not found", {});
       }
 
-      return helper.success(res, "Reminder status changed successfully",updatedReminder);
+      return helper.success(
+        res,
+        "Reminder status changed successfully",
+        updatedReminder
+      );
     } catch (error) {
       console.log(error);
       return helper.failed(res, "Internal server error");
@@ -246,7 +224,9 @@ module.exports = {
   reminder_list: async (req, res) => {
     try {
       let babyId = req.body.babyId;
-      const reminderData = await reminderModel.find({ babyId: babyId, deleted: false }).sort({ createdAt: -1 })
+      const reminderData = await reminderModel
+        .find({ babyId: babyId, deleted: false })
+        .sort({ createdAt: -1 })
         .populate("userId", "name image")
         .populate("activityIds", "activity_name image bg_color ");
 
@@ -256,6 +236,4 @@ module.exports = {
       return helper.failed(res, "Something went wrong");
     }
   },
-
-
 };

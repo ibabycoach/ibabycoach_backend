@@ -520,7 +520,7 @@ module.exports = {
         sender:data.sender,
         receiver:data.receiver,
         message:data.message,
-        activityIds: data.activityIds.toString(),
+        activityIds: data.activityIds,
         type:data.type,
         status:1
       }
@@ -538,8 +538,7 @@ module.exports = {
             body: payLoad.message,
             content_available: true,
             priority: "high",
-            activityIds:payLoad.activityIds.toString(),
-            activityData: payLoad.activityData,
+            activityIds: payLoad.activityIds,
             notificationType: payLoad.type ,
             sender_name: payLoad.sender_name,
           },
@@ -548,8 +547,7 @@ module.exports = {
             body: payLoad.message,
             content_available: true,
             priority: "high",
-            activityIds:payLoad.activityIds.toString(),
-            activityData: payLoad.activityData,
+            activityIds: payLoad.activityIds,
             notificationType: payLoad.type,
             sender_name: payLoad.sender_name,
             sender_id:payLoad.sender_id  ,
