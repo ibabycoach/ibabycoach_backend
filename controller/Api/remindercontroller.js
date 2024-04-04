@@ -6,11 +6,6 @@ var cron = require("node-cron");
 
 const pushCroneHandler = async () => {
   try {
-    // const startDateTime = moment().subtract(1, "second").valueOf();
-    // const endDateTime = moment().add(1, "second").valueOf();
-    // const reminders = await reminderModel.find({ upcoming_time: { $gte: startDateTime, $lte: endDateTime }, })
-    //   .populate( "userId", 'name relation image device_token' )
-
     const startDateTime = moment().subtract(1, "second").startOf("second").format("YYYY-MM-DDTHH:mm:ss");
     const endDateTime = moment().add(1, "second").endOf("second").format("YYYY-MM-DDTHH:mm:ss");
 
@@ -20,7 +15,7 @@ const pushCroneHandler = async () => {
         $lte: new Date(endDateTime)
       }
     }).populate("userId", 'name relation image device_token')
-      .populate("activityIds", "activity_name image");
+      .populate("activityIds", "activity_name image bg_color");
 
       for (let i = 0; i < reminders.length; i++) {
         const { _id, duration, duration_type, userId, device_token } = reminders[i];
@@ -30,6 +25,7 @@ const pushCroneHandler = async () => {
           device_token: reminders[i].userId.device_token,
           message: `${reminders[i].activityIds.activity_name} Reminder`,
           activityIds: reminders[i].activityIds._id,
+          activityData: reminders[i].activityIds,
           type: 1,
         };
 
