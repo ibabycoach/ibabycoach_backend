@@ -574,8 +574,7 @@ module.exports = {
     }
   },
 
-
-  //push for chat
+  //push notification for chat
   send_push_notification : (payLoad) => {
       try {
         if (payLoad && payLoad.device_token && payLoad.device_token != "") {
@@ -586,6 +585,7 @@ module.exports = {
               body: payLoad.message,
               content_available: true,
               priority: "high",
+              activityIds:payLoad.activityIds.toString(),
               notificationType: payLoad.type ,
               sender_name: payLoad.sender_name,
             },
@@ -594,6 +594,7 @@ module.exports = {
               body: payLoad.message,
               content_available: true,
               priority: "high",
+              activityIds:payLoad.activityIds.toString(),
               notificationType: payLoad.type,
               sender_name: payLoad.sender_name,
               sender_id:payLoad.sender_id  ,
