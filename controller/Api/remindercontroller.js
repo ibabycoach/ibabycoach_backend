@@ -17,7 +17,6 @@ const pushCroneHandler = async () => {
     for (let i = 0; i < reminders.length; i++) {
       const { _id, duration, duration_type, userId, device_token } = reminders[i];
       // reminders[i].activityIds._id = reminders[i].activityIds?._id?.toString();
-
       // const activityData = { ...reminders[i].activityIds?._doc,
       //   _id: reminders[i].activityIds?._id?.toString(),
       // };
@@ -43,7 +42,7 @@ const pushCroneHandler = async () => {
 };
 
 //Schedule a task to run every hour
-cron.schedule("*/1 * * * * *", async () => {
+cron.schedule("* * * * *", async () => {
   // console.log("running a task every minute");
   pushCroneHandler();
   return;

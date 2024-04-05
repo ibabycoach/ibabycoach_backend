@@ -1,14 +1,14 @@
 let mongoose = require('mongoose')
 
 const push_notification = new mongoose.Schema ({
-    userId: {type: mongoose.Schema.Types.ObjectId, ref: "User"},
-    userId2: {type: mongoose.Schema.Types.ObjectId, ref: "User"},
-    type: {type: Number, default: ''},
-    is_read: {type: Number, default: ''},
+    senderId: {type: mongoose.Schema.Types.ObjectId, ref: "User"},
+    receiverId: {type: mongoose.Schema.Types.ObjectId, ref: "User"},
+    message: {type: String, default: ''},
+    type: {type: Number, default: 0},
+    is_read: {type: Number, default: 0},
     status: {type: Number,
         enum: [0, 1],
         default: 1},
-    message: {type: String, default: ''},
 },
 { timestamps: true })
 
