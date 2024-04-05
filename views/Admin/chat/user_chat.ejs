@@ -210,7 +210,7 @@
           </div>
           <div class="chat-meta text-nowrap">
             <small class="float-end mb-25 chat-time">${formatTimestamp(users.createdAt)}</small>
-            ${users.unread_count != 0 ? `<span class="badge bg-danger rounded-pill float-end">${users.unread_count}</span>` : ""}
+            ${users.unread_count != 0 ? `<span id='msgSpan_${rId}' class="badge bg-danger rounded-pill float-end">${users.unread_count}</span>` : ""}
           </div>
         </li>
         `
@@ -221,7 +221,6 @@
 
     // On User List click
     const showChats = (sender_id, receiver_id, listUserName, userRole) => {
-
       let rId = receiver_id == adminID ? sender_id : receiver_id;
       let rRole = userRole;
 
@@ -244,6 +243,9 @@
       startChat.classList.add('d-none'); //adding class to div to show the chatting screen
       let user_name = document.getElementById('userName'); // to get the user name on chat header
       user_name.innerText = listUserName //passing the name to header
+
+      let spanMsg = document.getElementById(`msgSpan_${receiverId.value}`);
+      spanMsg.style.display = 'none';
 
       socket.emit('get_chat', {
         sender_id,

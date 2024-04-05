@@ -50,10 +50,6 @@
                             <span id="max_age_value"></span> <!-- Display max age value here -->
                         </div>
                     </div>
-                    
-                    
-                    
-                      
                       <div class="mb-1 row">
                         <div class="col-sm-2">
                             <label class="col-form-label new_label">Days</label>
@@ -181,4 +177,54 @@ document.getElementById("range-1b").addEventListener("input", updateMaxAge);
 updateMinAge();
 updateMaxAge();
 
+</script>
+
+<script>
+  $(document).ready(function () {
+
+    jQuery.validator.addMethod("noSpace", function (value, element) {
+      return value == '' || value.trim().length != 0;
+    }, "No space allowed");
+
+    $('#profile').validate({
+      rules: {
+        name: {
+          required: true,
+          noSpace: true,
+          maxlength: 30
+        },
+        title: {
+          required: true,
+          noSpace: true,
+          maxlength: 15
+        },
+        min_age_value: {
+          required: true,
+          noSpace: true,
+          
+        },
+
+      },
+
+      errorElement: "div",
+      errorClass: "jqval-error",
+      errorPlacement: function (error, element) {
+        error.insertAfter(element);
+        error.slideDown(400);
+        error.animate({
+          opacity: 1
+        }, {
+          queue: false,
+          duration: 700
+        });
+      },
+
+      submitHandler: function (form) {
+        var error = $(".assign_error_div").text();
+        if (!error) {
+          form.submit();
+        }
+      }
+    });
+  });
 </script>

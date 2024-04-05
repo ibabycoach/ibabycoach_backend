@@ -143,10 +143,10 @@ module.exports = function (io) {
               }
               const push = await helper.send_push_notifications(objS);
             }
-            console.log(get_socket_id,'get_socket_idget_socket_idget_socket_idget_socket_id');
+            
             socket.emit('send_message_listener', getdata);
             if (get_socket_id) {
-              console.log(get_socket_id,'get_socket_idget_socket_idget_socket_idget_socket_id');
+              // console.log(get_socket_id,'get_socket_idget_socket_idget_socket_idget_socket_id');
               io.to(get_socket_id.socketId).emit('send_message_listener', getdata);
             }
           }
@@ -213,7 +213,7 @@ module.exports = function (io) {
                 receiver_id: get_data.receiver_id
               }              
 
-              const push = await helper.send_push_notifications(objS);
+              const push = await helper.send_push_notificationsAdmin(objS);
             }
             if (get_socket_id) {
               io.to(get_socket_id.socketId).emit('send_message_listener', getdata);

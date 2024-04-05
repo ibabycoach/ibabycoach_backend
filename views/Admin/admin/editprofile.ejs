@@ -152,7 +152,7 @@
 
             jQuery.validator.addMethod("noSpace", function (value, element) {
               return value == '' || value.trim().length != 0;
-            }, "No space please and don't leave it empty");
+            }, "No space allowed");
 
             $('#profile').validate({
               rules: {
@@ -164,6 +164,7 @@
                 phone: {
                   required: true,
                   noSpace: true,
+                  minlength: 10,
                   maxlength: 15
                 },
 
@@ -209,13 +210,6 @@
             var image = document.getElementById(c);
             image.src = URL.createObjectURL(event.target.files[0]);
           }
-
-          // imgInp.onchange = evt => {
-          //   const [file] = imgInp.files
-          //   if (file) {
-          //     profile_image.src = URL.createObjectURL(file)
-          //   }
-          // }
 
 
         </script>
