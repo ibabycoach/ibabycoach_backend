@@ -1,7 +1,6 @@
 <%- include('../common/header') %>
   <%- include('../common/sidebar') %>
 
-
     <!-- BEGIN: Content-->
     <div class="app-content content ">
       <div class="content-wrapper container-xxl p-0">
@@ -46,28 +45,44 @@
                           </div>
                           <div class="mb-1 row">
                             <div class="col-sm-2">
-                              <label class="col-form-label new_lable" for="name">Day</label>
+                                <label for="range-1a">Min Age:</label>
                             </div>
                             <div class="col-sm-10">
-                              <input type="text" id="name" class="form-control" name="day" value="<%=Goaldetail.day%> ">
+                                <input type="range" name="min_age" id="range-1a" min="0" max="100" value="<%=Goaldetail.min_age%>" data-popup-enabled="true" data-show-value="true">
+                                <span id="min_age_value"></span> <!-- Display min age value here -->
                             </div>
-                          </div>
-                          <div class="mb-1 row">
                             <div class="col-sm-2">
-                              <label class="col-form-label new_lable" for="tenure">Date</label>
+                                <label for="range-1b">Max Age:</label>
                             </div>
                             <div class="col-sm-10">
-                              <input type="text" id="tenure" class="form-control" name="date" value="<%= new Date(Goaldetail.date).toLocaleDateString('en-US', { day: '2-digit', month: 'long', year: 'numeric' }) %>">
+                                <input type="range" name="max_age" id="range-1b" min="0" max="100" value="<%=Goaldetail.max_age%>" data-popup-enabled="true" data-show-value="true">
+                                <span id="max_age_value"></span> <!-- Display max age value here -->
                             </div>
+                        </div>
+                        <div class="mb-1 row">
+                          <div class="col-sm-2">
+                            <label class="col-form-label new_lable" for="name">Day</label>
                           </div>
-                          <div class="mb-1 row">
-                            <div class="col-sm-2">
-                              <label class="col-form-label new_lable" for="tenure">Description</label>
-                            </div>
-                            <div class="col-sm-10">
-                              <textarea class="form-control" id="content" rows="5" name="description" required> <%=Goaldetail.description%>  </textarea>
-                            </div>
+                          <div class="col-sm-10">
+                            <input type="text" id="name" class="form-control" name="day" value="<%=Goaldetail.day%> ">
                           </div>
+                        </div>
+                        <!-- <div class="mb-1 row">
+                          <div class="col-sm-2">
+                            <label class="col-form-label new_lable" for="tenure">Date</label>
+                          </div>
+                          <div class="col-sm-10">
+                            <input type="date" id="tenure" class="form-control" name="date" value="<%= new Date(Goaldetail.date).toLocaleDateString('en-US', { day: '2-digit', month: 'long', year: 'numeric' }) %>">
+                          </div>
+                        </div> -->
+                        <div class="mb-1 row">
+                          <div class="col-sm-2">
+                            <label class="col-form-label new_lable" for="tenure">Description</label>
+                          </div>
+                          <div class="col-sm-10">
+                            <textarea class="form-control" id="content" rows="5" name="description" required> <%=Goaldetail.description%>  </textarea>
+                          </div>
+                        </div>
                         </div>
                       </div>
                       <div class="col-12">
@@ -89,3 +104,64 @@
     <div class="sidenav-overlay"></div>
     <div class="drag-target"></div>
     <%- include('../common/footer') %>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<script>
+  // JavaScript code to dynamically update age values
+
+  // Function to update max age value display and ensure it's not less than min age
+function updateMaxAge() {
+    var minAgeInput = document.getElementById("range-1a");
+    var maxAgeInput = document.getElementById("range-1b");
+    var maxAgeValueSpan = document.getElementById("max_age_value");
+    var minAge = parseInt(minAgeInput.value);
+    var maxAge = parseInt(maxAgeInput.value);
+
+    // Ensure max age is not less than min age
+    if (maxAge < minAge) {
+        maxAge = minAge;
+        maxAgeInput.value = maxAge;
+    }
+
+    if (maxAge < 12) {
+        maxAgeValueSpan.textContent = maxAge + " weeks";
+    } else if (maxAge >= 12 && maxAge < 52) {
+        maxAgeValueSpan.textContent = Math.floor(maxAge / 4) + " months";
+    } else {
+        maxAgeValueSpan.textContent = Math.floor(maxAge / 52) + " year";
+    }
+}
+
+// Function to update min age value display and synchronize max age input
+function updateMinAge() {
+    var minAgeInput = document.getElementById("range-1a");
+    var maxAgeInput = document.getElementById("range-1b");
+    var minAgeValueSpan = document.getElementById("min_age_value");
+    var minAge = parseInt(minAgeInput.value);
+    var maxAge = parseInt(maxAgeInput.value);
+
+    // Synchronize max age input with min age input
+    if (maxAge < minAge) {
+        maxAgeInput.value = minAge;
+        updateMaxAge();
+    }
+
+    if (minAge < 12) {
+        minAgeValueSpan.textContent = minAge + " weeks";
+    } else if (minAge >= 12 && minAge < 52) {
+        minAgeValueSpan.textContent = Math.floor(minAge / 4) + " months";
+    } else {
+        minAgeValueSpan.textContent = Math.floor(minAge / 52) + " year";
+    }
+}
+
+// Add event listeners to range inputs
+document.getElementById("range-1a").addEventListener("input", updateMinAge);
+document.getElementById("range-1b").addEventListener("input", updateMaxAge);
+
+// Initial update of age values
+updateMinAge();
+updateMaxAge();
+
+</script>

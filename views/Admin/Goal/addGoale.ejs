@@ -85,14 +85,14 @@
                           <input type="text" id="name" class="form-control" name="description" value="" required>
                         </div>
                       </div>
-                      <div class="mb-1 row">
+                      <!-- <div class="mb-1 row">
                         <div class="col-sm-2">
                           <label class="col-form-label new_lable" for="name">Date</label>
                         </div>
                         <div class="col-sm-10">
                           <input type="date" id="dateInput" class="form-control" name="date" required onfocus="this.showPicker()">
                         </div>
-                      </div>
+                      </div> -->
                       <div class="mb-1 row">
                         <div class="col-sm-2">
                           <label class="col-form-label new_lable" for="price">Image</label>
@@ -142,7 +142,7 @@ function updateMaxAge() {
     } else if (maxAge >= 12 && maxAge < 52) {
         maxAgeValueSpan.textContent = Math.floor(maxAge / 4) + " months";
     } else {
-        maxAgeValueSpan.textContent = Math.floor(maxAge / 52) + " years";
+        maxAgeValueSpan.textContent = Math.floor(maxAge / 52) + " year";
     }
 }
 
@@ -165,7 +165,7 @@ function updateMinAge() {
     } else if (minAge >= 12 && minAge < 52) {
         minAgeValueSpan.textContent = Math.floor(minAge / 4) + " months";
     } else {
-        minAgeValueSpan.textContent = Math.floor(minAge / 52) + " years";
+        minAgeValueSpan.textContent = Math.floor(minAge / 52) + " year";
     }
 }
 

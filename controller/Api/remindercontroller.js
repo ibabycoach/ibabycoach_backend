@@ -12,7 +12,8 @@ const pushCroneHandler = async () => {
     let reminders = await reminderModel
       .find({upcoming_time: {$gte: new Date(startDateTime),$lte: new Date(endDateTime)}})
       .populate("userId", "name relation image device_token")
-      .populate("activityIds", "activity_name image bg_color");
+      .populate("activityIds", "activity_name image bg_color")
+      .populate("babyId", "baby_name");
 
     for (let i = 0; i < reminders.length; i++) {
       const { _id, duration, duration_type, userId, device_token } = reminders[i];
@@ -24,7 +25,7 @@ const pushCroneHandler = async () => {
         const payLoad = {
           sender_name: reminders[i].userId.name,
           device_token: reminders[i].userId.device_token,
-          message: `${reminders[i].activityIds.activity_name} Reminder`,
+          message: `${reminders[i].activityIds.activity_name} reminder for ${reminders[i].babyId.baby_name}`,
           activityIds: reminders[i].activityIds._id,
           activity_name: reminders[i].activityIds.activity_name,
           image: reminders[i].activityIds.image,
@@ -144,85 +145,6 @@ module.exports = {
     }
   },
 
-  // reminder_list: async (req, res) => {
-  //   try {
-  //     let babyId = req.body.babyId;
-  //     const reminderData = await reminderModel
-  //       .find({ babyId: babyId, deleted: false })
-  //       .sort({ createdAt: -1 })
-  //       .populate("userId", "name image")
-  //       .populate("activityIds", "activity_name image bg_color ");
-
-  //     if (!reminderData || reminderData.length === 0) {
-  //       return helper.failed2(res, "No reminder found");
-  //     }
-
-  //     // Map reminderData to include duration and remaining time in time key
-  //     const reminderList = reminderData.map(async (reminder) => {
-  //       const reminder_start_time = new Date(reminder.time);
-  //       const duration = parseFloat(reminder.duration); // Convert duration to a number
-  //       const durationType = reminder.duration_type;
-  //       const currentTime = new Date();
-
-  //       // Calculate total time by adding the duration to the reminder start time
-  //       let totalTime = new Date(reminder_start_time);
-  //       if (durationType === "hours") {
-  //         totalTime.setHours(totalTime.getHours() + duration);
-  //       } else if (durationType === "minutes") {
-  //         totalTime.setMinutes(totalTime.getMinutes() + duration);
-  //       }
-
-  //       if (!reminder.reminder_time) {
-  //         reminder.reminder_time = new Date(reminder_start_time);
-  //       }
-
-  //       // If currentTime is equal to or greater than reminder_time, add duration to reminder_time
-  //       if (currentTime >= reminder.reminder_time) {
-  //         if (durationType === "hours") {
-  //           reminder.reminder_time.setHours(
-  //             reminder.reminder_time.getHours() + duration
-  //           );
-  //         } else if (durationType === "minutes") {
-  //           reminder.reminder_time.setMinutes(
-  //             reminder.reminder_time.getMinutes() + duration
-  //           );
-  //         }
-  //         // Update upcoming_time to reminder_time if currentTime is equal to or greater than reminder_time
-  //         reminder.upcoming_time = new Date(reminder.reminder_time);
-
-  //         // Update the upcoming_time in database
-  //         await reminderModel.findOneAndUpdate(
-  //           { _id: reminder._id },
-  //           { upcoming_time: reminder.upcoming_time }
-  //         );
-  //       }
-  //       return {
-  //         _id: reminder._id,
-  //         userId: reminder.userId,
-  //         babyId: reminder.babyId,
-  //         activityIds: reminder.activityIds,
-  //         time: {
-  //           reminder_start_time: reminder_start_time,
-  //           duration: reminder.duration,
-  //           reminder_time: reminder.reminder_time,
-  //           currentTime: currentTime,
-  //         },
-  //         upcoming_time: reminder.upcoming_time,
-  //         status: reminder.status,
-  //         createdAt: reminder.createdAt,
-  //         updatedAt: reminder.updatedAt,
-  //       };
-  //     });
-
-  //     const reminderListWithUpdatedTime = await Promise.all(reminderList);
-
-  //     return helper.success(res, "Reminder list", reminderListWithUpdatedTime);
-  //   } catch (error) {
-  //     console.log(error);
-  //     return helper.failed(res, "Something went wrong");
-  //   }
-  // },
-
   reminder_list: async (req, res) => {
     try {
       let babyId = req.body.babyId;
@@ -230,6 +152,7 @@ module.exports = {
         .find({ babyId: babyId, deleted: false })
         .sort({ createdAt: -1 })
         .populate("userId", "name image")
+        .populate("babyId", "baby_name image")
         .populate("activityIds", "activity_name image bg_color ");
 
       return helper.success(res, "Reminder list", reminderData);
