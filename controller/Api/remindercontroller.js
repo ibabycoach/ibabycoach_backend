@@ -152,7 +152,6 @@ module.exports = {
         .find({ babyId: babyId, deleted: false })
         .sort({ createdAt: -1 })
         .populate("userId", "name image")
-        .populate("babyId", "baby_name image")
         .populate("activityIds", "activity_name image bg_color ");
 
       return helper.success(res, "Reminder list", reminderData);
