@@ -25,7 +25,7 @@ const pushCroneHandler = async () => {
         const payLoad = {
           sender_name: reminders[i].userId.name,
           device_token: reminders[i].userId.device_token,
-          message: `${reminders[i].activityIds.activity_name} reminder for ${reminders[i].babyId.baby_name}`,
+          message: `${reminders[i].activityIds.image} ${reminders[i].activityIds.activity_name} reminder for ${reminders[i].babyId.baby_name}`,
           activityIds: reminders[i].activityIds._id,
           activity_name: reminders[i].activityIds.activity_name,
           image: reminders[i].activityIds.image,
