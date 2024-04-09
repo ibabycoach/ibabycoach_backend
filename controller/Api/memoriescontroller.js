@@ -29,7 +29,7 @@ module.exports = {
           ...req.body,
         });
     
-        return helper.success(res, "Memories added successfully", addmemories );
+        return helper.success(res, "Memories added successfully", {} );
       } catch (error) {
         console.log(error);
         return helper.failed(res, "Internal Server Error");
