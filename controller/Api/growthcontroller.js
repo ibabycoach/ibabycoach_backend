@@ -24,7 +24,7 @@ module.exports = {
           ...req.body
         });
             
-        return helper.success(res, "growth added successfully", babygrowth)
+        return helper.success(res, "growth added successfully", {})
     } catch (error) {
         console.log(error)
       }

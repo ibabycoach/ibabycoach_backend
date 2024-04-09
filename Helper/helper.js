@@ -565,10 +565,10 @@ module.exports = {
 
         var serverKey = "AAAA_beXrdk:APA91bFrOU9EuiWw_c1TQeFnoWjcyVIzZxhDj4bge82kLNNVW9nhfTDvu0535a-zECGSc4Dxnm607CmJPDhG4ArLMPeJxmI828J1TG373OCNlQMhQuayzf2il7q0YpHC5gxmpKUeVdXh"; //put
         var fcm = new FCM(serverKey);
-        console.log(message, ">>>>>>>>>>>>>>>>>>>>>>>>>>>>");
+        // console.log(message, ">>>>>>>>>>>>>>>>>>>>>>>>>>>>");
 
         fcm.send(message, function (err, response) {
-          console.log(response, "PUSH.....FCM . SEND............!!!");
+          // console.log(response, "PUSH.....FCM . SEND............!!!");
   
           if (err) {
             console.log("Something has gone wrong!", err);
