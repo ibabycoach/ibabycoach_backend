@@ -41,7 +41,8 @@ module.exports = {
       }
 
       let babyId = req.body.babyId;
-      const babygrowth = await growthModel.find({ babyId: babyId }).sort({createdAt:-1});
+      const babygrowth = await growthModel.find({ babyId: babyId }).sort({createdAt:-1})
+      .populate("userId", "name");
 
       return helper.success(res, "baby growth details", babygrowth)
     } catch (error) {
