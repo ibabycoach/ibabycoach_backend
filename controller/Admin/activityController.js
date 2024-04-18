@@ -16,7 +16,7 @@ module.exports = {
 
     postActivity:async(req, res)=>{
         try {
-
+            let includeDayTime = req.body.include_day_time === 'on' ? 1 : 0; // Check if the checkbox is checked
             if (req.files && req.files.image) {
                 var image = req.files.image;
                 if (image) {
@@ -28,7 +28,8 @@ module.exports = {
                 userId: userId,
                 bg_color: req.body.bg_color,
                 activity_name:req.body.activity_name,
-                image:req.body.image
+                image:req.body.image,
+                include_day_time: includeDayTime 
             })
             res.redirect("/ActivityList")
 
