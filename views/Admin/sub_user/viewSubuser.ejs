@@ -22,7 +22,8 @@
                               <label class="col-form-label new_lable" for="name">Parent Name</label>
                             </div>
                             <div class="col-sm-10">
-                              <input type="text" id="name" class="form-control" name="name" value="<%=parentdetail.name%> "
+                              <input type="text" id="name" class="form-control" name="name" value="<%= parentdetail ? parentdetail.name : "Parent not found" %>
+                              "
                                 disabled>
                             </div>
                           </div>
