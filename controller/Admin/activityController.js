@@ -29,7 +29,7 @@ module.exports = {
                 bg_color: req.body.bg_color,
                 activity_name:req.body.activity_name,
                 image:req.body.image,
-                include_day_time: includeDayTime 
+                // include_day_time: includeDayTime 
             })
             res.redirect("/ActivityList")
 

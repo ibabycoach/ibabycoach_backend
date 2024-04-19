@@ -7,7 +7,7 @@ const reminderSchema = new mongoose.Schema({
   activityIds: {type: mongoose.Schema.Types.ObjectId, ref: "activity",  default: null}, 
   time: { type: Date, default: Date.now },  //  Reminder start time 
   upcoming_time: { type: Date, default: '' },
-  duration: {type: String, default: ''},    // time b\w start and next reminder, in hrs or days
+  duration: {type: String, default: '0'},    // time b\w start and next reminder, in hrs or days
   duration_type: {
     type: String,
     enum: ['hours', 'days', 'weeks', 'months', 'years'],

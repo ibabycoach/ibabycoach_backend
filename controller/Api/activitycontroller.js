@@ -1,6 +1,54 @@
 const activity_model = require ('../../model/Admin/activity')
 const helper = require('../../Helper/helper')
 const { Validator } = require('node-input-validator');
+const moment = require("moment");
+var cron = require("node-cron");
+
+const pushCroneHandler = async () => {
+    try {
+      const startDateTime = moment().subtract(1, "second").startOf("second").format("YYYY-MM-DDTHH:mm:ss");
+      const endDateTime = moment().add(1, "second").endOf("second").format("YYYY-MM-DDTHH:mm:ss");
+  
+      let activityReminders = await activity_model
+        .find({upcoming_time: {$gte: new Date(startDateTime),$lte: new Date(endDateTime)}})
+        .populate("userId", "name relation image device_token")
+        // .populate("activityIds", "activity_name image bg_color")
+        .populate("babyId", "baby_name");
+  
+      for (let i = 0; i < activityReminders.length; i++) {
+        const { _id, duration, duration_type, userId, device_token } = activityReminders[i];
+        // activityReminders[i].activityIds._id = activityReminders[i].activityIds?._id?.toString();
+        // const activityData = { ...activityReminders[i].activityIds?._doc,
+        //   _id: activityReminders[i].activityIds?._id?.toString(),
+        // };
+        if (activityReminders) {
+          const payLoad = {
+            sender_name: activityReminders[i].userId.name,
+            device_token: activityReminders[i].userId.device_token,
+            message: `${activityReminders[i].activity_name} reminder for ${activityReminders[i].babyId.baby_name}`,
+            activityIds: activityReminders[i]._id,
+            activity_name: activityReminders[i].activity_name,
+            image: activityReminders[i].image,
+            bg_color: activityReminders[i].bg_color,
+            type: 1,
+          };
+          const upcoming_time = moment().add(duration, duration_type).valueOf();
+          await activity_model.updateOne({ _id }, { $set: { upcoming_time } });
+          await helper.send_push_notifications(payLoad);
+        }
+      }
+    } catch (error) {
+      console.log("crone erro =============>", error);
+    }
+  };
+
+  //Schedule a task to run every hour
+cron.schedule(" * * * * *", async () => {
+    // console.log("running a task every minute");
+    pushCroneHandler();
+    return;
+    
+  });
 
 module.exports = { 
 
@@ -28,6 +76,7 @@ module.exports = {
             let userId = req.user.id;
             const addactivity = await activity_model.create({
                 userId,
+                upcoming_time: req.body.time,
                 ...req.body
             });
 

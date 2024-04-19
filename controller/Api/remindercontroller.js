@@ -37,8 +37,8 @@ const pushCroneHandler = async () => {
         await helper.send_push_notifications(payLoad);
       }
     }
-  } catch (err) {
-    console.log("crone erro =============>", err);
+  } catch (error) {
+    console.log("crone erro =============>", error);
   }
 };
 

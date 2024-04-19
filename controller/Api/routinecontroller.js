@@ -3,6 +3,55 @@ const activity_model = require('../../model/Admin/activity')
 const helper = require('../../Helper/helper')
 const { Validator } = require('node-input-validator');
 const daily_task = require('../../model/Admin/daily_task');
+const moment = require("moment");
+var cron = require("node-cron");
+
+const pushCroneHandler = async () => {
+  try {
+    const startDateTime = moment().subtract(1, "second").startOf("second").format("YYYY-MM-DDTHH:mm:ss");
+    const endDateTime = moment().add(1, "second").endOf("second").format("YYYY-MM-DDTHH:mm:ss");
+
+    let routinereminders = await routinebuilder
+      .find({upcoming_time: {$gte: new Date(startDateTime),$lte: new Date(endDateTime)}})
+      .populate("userId", "name relation image device_token")
+      .populate("activityIds", "activity_name image bg_color")
+      .populate("babyId", "baby_name");
+
+    for (let i = 0; i < routinereminders.length; i++) {
+      const { _id, duration, duration_type, userId, device_token } = routinereminders[i];
+      // routinereminders[i].activityIds._id = routinereminders[i].activityIds?._id?.toString();
+      // const activityData = { ...routinereminders[i].activityIds?._doc,
+      //   _id: routinereminders[i].activityIds?._id?.toString(),
+      // };
+      if (routinereminders) {
+        const payLoad = {
+          sender_name: routinereminders[i].userId.name,
+          device_token: routinereminders[i].userId.device_token,
+          message: `${routinereminders[i].activityIds.activity_name} reminder for ${routinereminders[i].babyId.baby_name}`,
+          activityIds: routinereminders[i].activityIds._id,
+          activity_name: routinereminders[i].activityIds.activity_name,
+          image: routinereminders[i].activityIds.image,
+          bg_color: routinereminders[i].activityIds.bg_color,
+          type: 1,
+        };
+        const upcoming_time = moment().add(duration, duration_type).valueOf();
+        await routinebuilder.updateOne({ _id }, { $set: { upcoming_time } });
+        await helper.send_push_notifications(payLoad);
+      }
+    }
+  } catch (error) {
+    console.log("crone erro =============>", error);
+  }
+};
+
+  //Schedule a task to run every hour
+cron.schedule("* * * * *", async () => {
+    // console.log("running a task every minute");
+    pushCroneHandler();
+    return;
+    
+  });
+
 
 module.exports = {
 
@@ -24,6 +73,7 @@ module.exports = {
         const addroutine = await routinebuilder.create({ 
           userId,
           activityIds: req.body.activityId,
+          upcoming_time: req.body.time,
           ...req.body
         })
         return helper.success(res, "routine added successfully")
