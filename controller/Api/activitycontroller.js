@@ -30,7 +30,7 @@ const pushCroneHandler = async () => {
             activity_name: activityReminders[i].activity_name,
             image: activityReminders[i].image,
             bg_color: activityReminders[i].bg_color,
-            type: 1,
+            type: 3,
           };
           const upcoming_time = moment().add(duration, duration_type).valueOf();
           await activity_model.updateOne({ _id }, { $set: { upcoming_time } });
