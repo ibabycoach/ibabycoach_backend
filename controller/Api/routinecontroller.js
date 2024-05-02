@@ -19,10 +19,7 @@ const pushCroneHandler = async () => {
 
     for (let i = 0; i < routinereminders.length; i++) {
       const { _id, duration, duration_type, userId, device_token } = routinereminders[i];
-      // routinereminders[i].activityIds._id = routinereminders[i].activityIds?._id?.toString();
-      // const activityData = { ...routinereminders[i].activityIds?._doc,
-      //   _id: routinereminders[i].activityIds?._id?.toString(),
-      // };
+     
       if (routinereminders) {
         const payLoad = {
           sender_name: routinereminders[i].userId.name,
