@@ -40,7 +40,7 @@ const pushCroneHandler = async () => {
 };
 
 //Schedule a task to run every hour
-cron.schedule("* * * * *", async () => {
+cron.schedule(" * * * * *", async () => {
   // console.log("running a task every minute");
   pushCroneHandler();
   return;
