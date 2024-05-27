@@ -13,8 +13,8 @@ const userSchema = new mongoose.Schema({
   parentId :{ type: mongoose.Schema.Types.ObjectId, ref: "User", default: null},
   role: {
     type: String,
-    enum: ["0", "1", "2"],
-    default: "1", // 0 for Admin, 1 for user, 2 for sub-user
+    enum: ["0", "1", "2", "3"],
+    default: "1", // 0 for Admin, 1 for user, 2 for sub-user, 3 for sub_admin
   },
   status: {
     type: String,

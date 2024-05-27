@@ -1,22 +1,21 @@
 <%- include('../common/header') %>
   <%- include('../common/sidebar') %>
 
-
     <!-- BEGIN: Content-->
     <div class="app-content content ">
-
       <div class="content-wrapper container-xxl p-0">
         <div class="content-body">
           <section id="multiple-column-form">
             <div class="row">
-              <div class="col-md-10 col-12 mx-auto">
+              <div class="col-md-12 col-12 mx-auto">
                 <div class="card">
                   <div class="card-header">
                     <h4 class="card-title">View user</h4>
+                    <a onclick="history.back()" type="button" class="btn btn-primary float-right" title="Edit Profile">
+                      Back
+                    </a>
                   </div>
-                  <br>
-
-                  <div class="card-body">
+                  <div class="card-body" style="margin-top: 10px;" >
                     <form class="form form-horizontal">
                       <div class="row">
                         <div class="col-md-4">
@@ -52,12 +51,10 @@
                                 value="<%=userdetails.phone%> " disabled>
                             </div>
                           </div>
-
                         </div>
                       </div>
                     </form>
                   </div>
-
                   <hr>
                      <!-- sub-user listing -->
                     <div class="card-header border-bottom">
@@ -112,6 +109,7 @@
                             <th>Gender</th>
                             <th>Birthday</th>
                             <th>Image</th>
+                            <th>Action</th>
                           </tr>
                         </thead>
                         <tbody>
@@ -138,16 +136,17 @@
                               <td>
                                 <img src="<%=data.image%>" width="45px" height="40px" type="submit" style="cursor:pointer;">
                               </td>
+                              <td>
+                                <a href="/viewBaby/<%=data._id%>" class="btn btn-sm bg-light-primary">
+                                  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-eye">
+                                  <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                                  <circle cx="12" cy="12" r="3"></circle></svg></i></a>
+                              </td>
                             </tr>
                             <%} )%>
                         </tbody>
                       </table>
                       <hr>
-                    </div>
-                    <div class="col-12">
-                      <div class="col-sm-9 offset-sm-5">
-                        <a href="/userList" class="btn btn-primary float-right" title="Edit Profile"> Back </a>
-                      </div>
                     </div>
                 </div>
               </div>

@@ -13,12 +13,11 @@
                 <div class="card">
                   <div class="card-header">
                     <h4 class="card-title"> View Baby Profile</h4>
-                    <a href="/babyList" class="btn btn-primary float-right" title="Edit Profile">
+                    <a onclick="history.back()" type="button" class="btn btn-primary float-right" title="Edit Profile">
                       Back
                     </a>
                   </div>
-                  <br>
-                  <div class="card-body">
+                  <div class="card-body" style="margin-top: 10px" >
                     <form class="form form-horizontal">
                       <div class="row">
                         <div class="col-md-4">
@@ -26,7 +25,7 @@
                             <img src="<%= babydata.image %>" class="img-thumbnail user_bigimg ms-md-0 mx-auto">
                           </div>
                         </div>
-                        <div class="col-md-8" style="margin-top: 17px;">
+                        <div class="col-md-8">
                           <div class="mb-1 row">
                             <div class="col-sm-2">
                               <label class="col-form-label new_lable" for="first-name">Name</label>
@@ -55,7 +54,6 @@
                                 " disabled>
                             </div>
                           </div>
-
                         </div>
                       </div>
                     </form>
@@ -69,15 +67,15 @@
                   <h4 class="card-title"> Baby Activity</h4>
                 </div>
                 <div class="row mb-3">
-                  <div class="col-md-6">
-                    <input type="text" class="form-control" disabled>
+                  <div class="col-md-6" style="margin-top: 10px">
+                    <!-- <input type="text" class="form-control" disabled> -->
                     <div class="card card-body h-100">
                       <h3 class="m-b-0">Activity</h3>
                       <div id="chart" class="w-100" ></div>
                     </div>
                   </div>
-                  <div class="col-md-6">
-                    <input type="text" class="form-control" disabled>
+                  <div class="col-md-6" style="margin-top: 10px" >
+                    <!-- <input type="text" class="form-control" disabled> -->
 
                     <div class="card card-body h-100">
                       <h3 class="m-b-0">Growth</h3>
@@ -89,7 +87,7 @@
             </div>
             <div class="row">
               <div class="col-md-12 col-12">
-                <div class="card-header">
+                <div class="card-header border-bottom">
                   <h4 class="card-title"> Baby Growth</h4>
                 </div>
                 <div class="card-DataTable table-responsive">
@@ -139,7 +137,6 @@
                 </div>
               </div>
             </div>
-
           </section>
         </div>
       </div>
@@ -182,7 +179,7 @@
           },
           labels: ['Height', 'Weight', 'Head Size'],
           dataLabels: {
-            enabled: false // This will hide the percentages
+            enabled: true // This will hide the percentages
           },
           legend: {
             position: 'bottom'
@@ -193,3 +190,9 @@
         var chart = new ApexCharts(document.querySelector("#chart01"), options);
         chart.render();
       </script>
+
+<script>
+  $(document).ready(function () {
+    $('.table').DataTable(); // Initialize DataTable for all tables with the 'table' class
+  });
+</script>

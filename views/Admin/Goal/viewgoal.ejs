@@ -2,95 +2,96 @@
   <%- include('../common/sidebar') %>
 
 
-    <!-- BEGIN: Content-->
-    <div class="app-content content ">
-
-      <div class="content-wrapper container-xxl p-0">
-        <div class="content-body">
-          <section id="multiple-column-form">
-            <div class="row justify-content-center">
-              <div class="col-md-10 col-12 ">
-                <div class="card">
-                  <div class="card-header">
-                    <h4 class="card-title"> View Goal</h4>
-                  </div>
-                  <br>
-                  <div class="card-body">
-                    <form class="form form-vertical" id="" action="/contactUsList" method="POST"
-                      enctype="multipart/form-data">
-                      <div class="mb-1 row">
-                        <div class="col-sm-2">
-                          <label class="col-form-label new_lable" for="name">Name</label>
-                        </div>
-                        <div class="col-sm-10 goalImg">
-                          <img src="<%=goalView.image%>" class="user_bigimg rounded">
+  <div class="app-content content ">
+    <div class="content-wrapper container-xxl p-0">
+      <div class="content-body">
+        <section id="multiple-column-form">
+          <div class="row justify-content-center">
+            <div class="col-md-11 col-12 ">
+              <div class="card">
+                <div class="card-header">
+                  <h4 class="card-title">View Goal</h4>
+                </div>
+                <div class="card-body" style="margin-top: 10px" >
+                  <form class="form form-vertical" id="" action="/updateGole" method="POST"
+                    enctype="multipart/form-data">
+                    <div class="row">
+                      <div class="col-md-4">
+                        <div class="profile-widget-header text-center">
+                          <img src="<%=goalView.image%>" id="output2" alt=" "
+                            class="ms-md-0 mx-auto img-thumbnail user_bigimg">  
                         </div>
                       </div>
-                      <div class="mb-1 row">
-                        <div class="col-sm-2">
-                          <label class="col-form-label new_lable" for="name">Name</label>
-                        </div>
-                        <div class="col-sm-10">
-                          <input type="text" id="name" class="form-control" name="name" value="<%=goalView.name%> "
-                            disabled>
-                        </div>
-                      </div>
-                      <div class="mb-1 row">
-                        <div class="col-sm-2">
-                          <label class="col-form-label new_lable" for="name">Title</label>
-                        </div>
-                        <div class="col-sm-10">
-                          <input type="text" id="name" class="form-control" name="title" value="<%=goalView.title%> "
-                            disabled>
-                        </div>
-                      </div>
-                      <div class="mb-1 row">
-                        <div class="col-sm-2">
-                          <label class="col-form-label new_lable" for="age_range">Age range</label>
-                        </div>
-                        <div class="col-sm-10">
-                          <input type="text" id="age_range" class="form-control" name="age_range" value="<%= goalView.min_age %> weeks - <%= goalView.max_age %> weeks" disabled>
-                        </div>
-                      </div>
-                      <div class="mb-1 row">
-                            <div class="col-sm-2">
-                              <label class="col-form-label new_lable" for="name">day</label>
-                            </div>
-                            <div class="col-sm-10">
-                              <input type="text" id="name" class="form-control" name="day" value="<%=goalView.day%> " disabled>
-                            </div>
+                      <div class="col-md-8">
+                        <div class="mb-1 row">
+                          <div class="col-sm-2">
+                            <label class="col-form-label new_lable" for="name">Name</label>
                           </div>
-                          <div class="mb-1 row">
-                            <div class="col-sm-2">
-                              <label class="col-form-label new_lable" for="email">Date</label>
-                            </div>
-                            <div class="col-sm-10">
-                              <input type="text" id="price" class="form-control" name="date" value="<%= new Date(goalView.date).toLocaleDateString('en-US', { day: '2-digit', month: 'long', year: 'numeric' }) %>"
-                                disabled>
-                            </div>
+                          <div class="col-sm-10">
+                            <input type="text" id="name" class="form-control" name="name" value="<%=goalView.name%> "
+                              disabled>
                           </div>
-                      <div class="mb-1 row">
-                        <div class="col-sm-2">
-                          <label class="col-form-label new_lable" for="name">description</label>
                         </div>
-                        <div class="col-sm-10">
-                          <textarea class="form-control" id="content" rows="5" name="description" disabled> <%=goalView.description%>  </textarea>
+                        <div class="mb-1 row">
+                          <div class="col-sm-2">
+                            <label class="col-form-label new_lable" for="name">Title</label>
+                          </div>
+                          <div class="col-sm-10">
+                            <input type="text" id="name" class="form-control" name="title" value="<%=goalView.title%> "
+                              disabled>
+                          </div>
                         </div>
+                        <div class="mb-1 row">
+                          <div class="col-sm-2">
+                            <label class="col-form-label new_lable" for="age_range">Age</label>
+                          </div>
+                          <div class="col-sm-10">
+                            <input type="text" id="age_range" class="form-control" name="age_range" value="<%= goalView.min_age %> weeks - <%= goalView.max_age %> weeks" disabled>
+                          </div>
+                        </div>
+                        <div class="mb-1 row">
+                              <div class="col-sm-2">
+                                <label class="col-form-label new_lable" for="name">day</label>
+                              </div>
+                              <div class="col-sm-10">
+                                <input type="text" id="name" class="form-control" name="day" value="<%=goalView.day%> " disabled>
+                              </div>
+                            </div>
+                            <div class="mb-1 row">
+                              <div class="col-sm-2">
+                                <label class="col-form-label new_lable" for="email">Date</label>
+                              </div>
+                              <div class="col-sm-10">
+                                <input type="text" id="price" class="form-control" name="date" value="<%= new Date(goalView.date).toLocaleDateString('en-US', { day: '2-digit', month: 'long', year: 'numeric' }) %>"
+                                  disabled>
+                              </div>
+                            </div>
+                        <div class="mb-1 row">
+                          <div class="col-sm-2">
+                            <label class="col-form-label new_lable" for="name">description</label>
+                          </div>
+                          <div class="col-sm-10">
+                            <textarea class="form-control" id="content" rows="5" name="description" disabled> <%=goalView.description%>  </textarea>
+                          </div>
+                        </div>
+                      
                       </div>
-                      <div class="col-12">
-                        <div class="col-sm-9 offset-sm-5">
-                          <a href="/Goal_List" class="btn btn-primary float-right" title="Edit Profile"> Back </a>
-                        </div>
+                    </div>
+                    <div class="col-12">
+                      <div class="col-sm-9 offset-sm-5">
+                        <a href="/Goal_List" class="btn btn-primary" title="Edit Profile"> Back </a>
                       </div>
-                    </form>
-                  </div>
+                    </div>
+                  </form>
                 </div>
               </div>
             </div>
-          </section>
-        </div>
+          </div>
+        </section>
       </div>
     </div>
+  </div>
+
     <div class="sidenav-overlay"></div>
     <div class="drag-target"></div>
     <%- include('../common/footer') %>

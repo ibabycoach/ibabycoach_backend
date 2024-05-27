@@ -12,10 +12,10 @@ const goalsController = require('../controller/Admin/goalsController');
 const pushNotificationController = require('../controller/Admin/pushNotificationController');
 const subuserController = require('../controller/Admin/subuserController');
 const chatController = require('../controller/Admin/chatController');
+const subAdminController = require('../controller/Admin/sub-adminController');
 
 
 var router = express.Router();
-
 
 router.get('/loginPage', AdminController.loginPage)
 router.post('/login', AdminController.login)
@@ -28,6 +28,13 @@ router.post('/updatepassword', AdminController.updatepassword)
 router.get('/logout', AdminController.logout)
 router.get('/errorPage', AdminController.errorPage)
 
+//************** SUB_ADMIN *****************
+router.get('/sub_admin_list', session, subAdminController.sub_admin_list)
+router.get('/add_sub_admin', session, subAdminController.add_sub_admin)
+router.post('/create_sub_admin', subAdminController.create_sub_admin)
+router.get('/view_sub_admin/:id', session, subAdminController.view_sub_admin)
+router.get('/edit_sub_admin/:id', session, subAdminController.edit_sub_admin)
+router.post('/update_SubAdmin', subAdminController.update_SubAdmin)
 
 //*************** USER *********************
 router.get('/userList', session, userController.userList)

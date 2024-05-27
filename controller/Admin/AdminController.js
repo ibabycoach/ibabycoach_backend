@@ -19,7 +19,7 @@ module.exports = {
 
     login: async (req, res) => {
         try {
-            var findUser = await userModel.findOne({ email: req.body.email, role: "0" })
+            var findUser = await userModel.findOne({ email: req.body.email,$or: [{ role: "0" }, { role: "3" }] })
             if (findUser) {
                 let checkPassword = await bcrypt.compare(req.body.password, findUser.password);
 
@@ -52,6 +52,7 @@ module.exports = {
             let subscription = await subscriptions.count({deleted: false})
             let activity = await activityModel.count({activity_type:'1', deleted:false})
             let weekly_goals = await weekGoals.count({deleted: false})
+            let sub_admin = await userModel.count({deleted:false, role:3})
             let customActivity = await activityModel.count({activity_type:'2', deleted: false})
             const baby = await babyModel.aggregate([
                 {
@@ -104,7 +105,7 @@ module.exports = {
                 const monthIndex = result._id.month - 1;
                 userCounts[monthIndex] = result.count;
             });
-            res.render('Admin/admin/dashboard', { userCounts, babyCount, title, users, subUser, babies, weekly_goals, customActivity, subscription, activity, session: req.session.user, msg: req.flash('msg') })
+            res.render('Admin/admin/dashboard', { userCounts, babyCount, sub_admin, title, users, subUser, babies, weekly_goals, customActivity, subscription, activity, session: req.session.user, msg: req.flash('msg') })
         } catch (error) {
             console.log(error)
         }

@@ -1,0 +1,150 @@
+<%- include('../common/header') %>
+<%- include('../common/sidebar') %>
+
+<!-- BEGIN: Content-->
+<div class="app-content content ">
+  <div class="content-wrapper container-xxl p-0">
+    <div class="content-body">
+      <section id="basic-horizontal-layouts">
+        <div class="row justify-content-center">
+          <div class="col-md-10 col-12 ">
+            <div class="card">
+              <div class="card-header">
+                <h4 class="card-title">Add Sub-Admin</h4>
+              </div>
+              <div class="card-body">
+                <form class="form form-vertical" id="add_validator" action="/create_sub_admin" method="POST" enctype="multipart/form-data">
+                  <div class="row" style="margin-top: 10px;" >
+                    <div class="col-12">
+                      <div class="mb-1">
+                        <label class="new_lable new_lable" for="title">Name</label>
+                        <input type="text" id="name" class="form-control" name="name"placeholder="Name">
+                      </div>
+                    </div>
+                    <div class="col-12">
+                      <div class="mb-1">
+                        <label class="new_lable new_lable" for="phone">Email</label>
+                        <input type="text" id="email" class="form-control" name="email"placeholder="@example.com">
+                      </div>
+                    </div>
+                    <div class="col-12">
+                      <div class="mb-1">
+                      <label for="password" class="d-block">Password</label>
+                      <input id="password" type="password" class="form-control pwstrength" data-indicator="pwindicator" name="password" placeholder="Password" required>
+                      <div id="pwindicator" class="pwindicator">
+                      </div>
+                    </div>
+                    </div>
+                    <div class="col-2">
+                      <div class="mb-1">
+                        <label class="new_lable" for="country_code">Country code</label>
+                        <input type="number" id="country_code" class="form-control" name="country_code" placeholder="Country code">
+                      </div>
+                    </div>
+                    <div class="col-10">
+                      <div class="mb-1">
+                        <label class="new_lable" for="phone">Phone</label>
+                        <input type="number" id="phone" class="form-control" name="phone" placeholder="Phone">
+                      </div>
+                    </div>
+                    <div class="col-12">
+                      <div class="mb-1">
+                        <label class="new_lable new_lable" for="image">Image</label>
+                        <input type="file" id="image" class="form-control" name="image">
+                      </div>
+                    <div class="col-sm-9 offset-sm-5">
+                      <button type="submit" class="btn btn-primary me-1 waves-effect waves-float waves-light">Submit</button>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
+</div>
+<div class="sidenav-overlay"></div>
+<div class="drag-target"></div>
+<%- include('../common/footer') %>
+
+
+<script>
+$(window).on('load', function() {
+  if (feather) {
+    feather.replace({
+      width: 14,
+      height: 14
+    });
+  }
+})
+</script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js" integrity="sha512-37T7leoNS06R80c8Ulq7cdCDU5MNQBwlYoy1TX/WUsLFC2eYNqtKlV0QjH7r8JpG/S0GUMZwebnVFLPd6SU5yg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+<script>
+$(document).ready(function() {
+
+  jQuery.validator.addMethod("noSpace", function(value, element) {
+    return value == '' || value.trim().length != 0;
+  }, "No space allowed");
+
+  jQuery.validator.addMethod("validImage", function(value, element, param) {
+    return this.optional(element) || /\.(jpe?g|gif|png)$/i.test(value);
+  }, 'Only valid image files (JPEG, GIF, PNG) are allowed.');
+
+  $('#add_validator').validate({
+    rules: {
+
+      name: {
+        required: true,
+        noSpace: true,
+        maxlength: 40
+      },
+      email: {
+        required: true,
+        noSpace: true,
+        maxlength: 40
+      },
+      country_code: {
+        required: true,
+        noSpace: true,
+        maxlength: 3
+      },
+      phone: {
+        required: true,
+        noSpace: true,
+        maxlength: 10
+      },
+      image: {
+        required: true,
+        validImage: true
+      }
+    },
+
+    errorElement: "div",
+    errorClass: "jqval-error",
+    errorPlacement: function(error, element) {
+      error.insertAfter(element);
+      error.slideDown(400);
+      error.animate({
+        opacity: 1
+      }, {
+        queue: false,
+        duration: 700
+      });
+    },
+
+    submitHandler: function(form) {
+      var error = $(".assign_error_div").text();
+      if (!error) {
+        form.submit();
+      }
+    }
+  });
+});
+</script>
+
+
+

@@ -8,7 +8,6 @@ var jwt = require('jsonwebtoken');
 var secretCryptoKey = process.env.jwtSecretKey || "secret_iBabycoachs_@onlyF0r_JWT";
 const nodemailer = require("nodemailer");
 
-
 module.exports = {
 
   signup: async (req, res) => {
