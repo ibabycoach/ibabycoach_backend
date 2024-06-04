@@ -405,7 +405,7 @@ input:focus~.bg-light {
 }
 
 .bg-light-primary {
-  background: rgb(23 133 153 / 92%) !important;;
+  background: #00467c !important;;
   color: #fafdff !important;
 }
 
