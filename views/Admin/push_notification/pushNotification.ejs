@@ -8,7 +8,7 @@
   <div class="content-wrapper container-xxl p-0">
     <div class="content-body">
       <section id="multiple-column-form">
-        <form action="/push-notification" method="post" id="token_form">
+        <form action="/push-notification" method="post" id="add_validator">
           <div class="row">
             <div class="col-md-10 mx-auto">
               <div class="form-group row my-3">
@@ -54,6 +54,12 @@
 
 <script src="../../../javascripts/sendToken.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js" 
+integrity="sha512-37T7leoNS06R80c8Ulq7cdCDU5MNQBwlYoy1TX/WUsLFC2eYNqtKlV0QjH7r8JpG/S0GUMZwebnVFLPd6SU5yg==" 
+crossorigin="anonymous" referrerpolicy="no-referrer">
+</script>
+
 <script>
   $(document).ready(function() {
     $('.js-example-basic-multiple').select2({
@@ -75,5 +81,46 @@
       }
     });
 
+  });
+</script>
+
+<script>
+  $(document).ready(function() {
+    jQuery.validator.addMethod("noSpace", function(value, element) {
+      return value == '' || value.trim().length != 0;
+    }, "No space allowed");
+
+    jQuery.validator.addMethod("validImage", function(value, element, param) {
+      return this.optional(element) || /\.(jpe?g|gif|png)$/i.test(value);
+    }, 'Only valid image files (JPEG, GIF, PNG) are allowed.');
+  
+
+    $('#add_validator').validate({
+      rules: {
+        message:{
+          required: true,
+          noSpace: true,
+          maxlength: 100
+        },
+      },
+      errorElement: "div",
+      errorClass: "jqval-error",
+      errorPlacement: function(error, element) {
+        error.insertAfter(element);
+        error.slideDown(400);
+        error.animate({
+          opacity: 1
+        }, {
+          queue: false,
+          duration: 700
+        });
+      },
+      submitHandler: function(form) {
+        var error = $(".assign_error_div").text();
+        if (!error) {
+          form.submit();
+        }
+      }
+    });
   });
 </script>

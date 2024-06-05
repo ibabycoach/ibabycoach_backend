@@ -14,7 +14,7 @@
                   </div>
                   <br>
                   <div class="card-body">
-                    <form class="form form-vertical" id="" action="/updateGole" method="POST"
+                    <form class="form form-vertical" id="add_validator" action="/updateGole" method="POST"
                       enctype="multipart/form-data">
                       <div class="row">
                         <div class="col-md-4">
@@ -107,6 +107,11 @@
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js" 
+integrity="sha512-37T7leoNS06R80c8Ulq7cdCDU5MNQBwlYoy1TX/WUsLFC2eYNqtKlV0QjH7r8JpG/S0GUMZwebnVFLPd6SU5yg==" 
+crossorigin="anonymous" referrerpolicy="no-referrer">
+</script>
+
 <script>
   // JavaScript code to dynamically update age values
 
@@ -164,4 +169,68 @@ document.getElementById("range-1b").addEventListener("input", updateMaxAge);
 updateMinAge();
 updateMaxAge();
 
+</script>
+
+<script>
+  $(document).ready(function() {
+    jQuery.validator.addMethod("noSpace", function(value, element) {
+      return value == '' || value.trim().length != 0;
+    }, "No space allowed");
+
+    jQuery.validator.addMethod("validImage", function(value, element, param) {
+      return this.optional(element) || /\.(jpe?g|gif|png)$/i.test(value);
+    }, 'Only valid image files (JPEG, GIF, PNG) are allowed.');
+  
+
+    $('#add_validator').validate({
+      rules: {
+        name: {
+          required: true,
+          noSpace: true,
+          maxlength: 20
+        },
+        title:{
+          required: true,
+          noSpace: true,
+          maxlength: 20
+        },
+        min_age: {
+          required: true
+        },
+        max_age: {
+          required: true
+        },
+        description: {
+          required: true,
+          noSpace: true,
+          maxlength: 30
+        },
+        day:{
+          required: true
+        },
+        image: {
+          required: true,
+          validImage: true
+        }
+      },
+      errorElement: "div",
+      errorClass: "jqval-error",
+      errorPlacement: function(error, element) {
+        error.insertAfter(element);
+        error.slideDown(400);
+        error.animate({
+          opacity: 1
+        }, {
+          queue: false,
+          duration: 700
+        });
+      },
+      submitHandler: function(form) {
+        var error = $(".assign_error_div").text();
+        if (!error) {
+          form.submit();
+        }
+      }
+    });
+  });
 </script>
