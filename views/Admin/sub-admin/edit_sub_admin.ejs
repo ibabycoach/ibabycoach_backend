@@ -54,7 +54,6 @@
     <div class="content-overlay"></div>
     <div class="header-navbar-shadow"></div>
     <div class="content-wrapper container-xxl p-0">
-     
       <div class="content-body">
         <section id="multiple-column-form">
           <div class="row">
@@ -65,12 +64,12 @@
                 </div>
                 <br>
                 <div class="card-body">
-                  <form class="form form-horizontal" action="/update_SubAdmin" method="POST" id="profile" enctype="multipart/form-data">
+                  <form class="form form-vertical" id="profile" action="/update_SubAdmin" method="POST" enctype="multipart/form-data">
                     <div class="row">
                       <div class="col-4">
                         <div class="profile-widget-header text-center">
-                          <img src="<%=updatedata.image%>" alt="Image" class="img-thumbnail" name="profile_image" id="profile_image">
-                          <input type="file" id="imgInp" name="image" />
+                          <img src="<%=updatedata.image%>" alt="Image" class="img-thumbnail" accept="image/*" name="image" id="image">
+                          <input type="file" id="image" name="image" accept="image/*" />
                           <label for="imgInp" style="cursor: pointer;">
                             <i class="fe fe-24 camera_icon" data-feather='camera'></i>
                           </label>
@@ -124,33 +123,34 @@
 
   <%- include('../common/footer'); -%>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js" integrity="sha512-37T7leoNS06R80c8Ulq7cdCDU5MNQBwlYoy1TX/WUsLFC2eYNqtKlV0QjH7r8JpG/S0GUMZwebnVFLPd6SU5yg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js"
+integrity="sha512-37T7leoNS06R80c8Ulq7cdCDU5MNQBwlYoy1TX/WUsLFC2eYNqtKlV0QjH7r8JpG/S0GUMZwebnVFLPd6SU5yg=="
+crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
 <script>
   $(document).ready(function() {
 
     jQuery.validator.addMethod("noSpace", function(value, element) {
       return value == '' || value.trim().length != 0;
-    }, "No space please and don't leave it empty");
+    }, "Space not allowed");
 
     $('#profile').validate({
       rules: {
-        firstname: {
+        name: {
           required: true,
           noSpace: true,
           maxlength: 20
         },
-        lastname: {
+        email: {
           required: true,
           noSpace: true,
           maxlength: 20
         },
-        mobile: {
+        phone: {
           required: true,
           noSpace: true,
           maxlength: 12
         },
-
         location: {
           required: true,
           noSpace: true,

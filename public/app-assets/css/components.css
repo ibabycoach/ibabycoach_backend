@@ -4029,3 +4029,19 @@ th,
 td:last-child {
   white-space: nowrap;
 }
+
+.interror{
+  position: relative;
+}
+
+.interror:has(label.error),
+.interror:has(div.jqval-error){
+  margin-bottom: 30px;
+}
+
+.interror label.error, .interror div.jqval-error{
+  position: absolute;
+  bottom: -20px;
+  left: 0;
+  z-index: 1;
+}

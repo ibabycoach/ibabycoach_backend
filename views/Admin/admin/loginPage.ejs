@@ -110,7 +110,7 @@
                   <img src="app-assets/images/ibaby2.png" alt="logo" width="280">
                 </a>
                 <h4 class="card-title mb-1">Sign in</h4>
-                <form class="auth-login-form mt-2" action="/login" method="POST" id="addForm">
+                <form class="need-validation" action="/login" method="POST" id="addForm">
                   <div class="mb-1">
                     <label for="login-email" class="form-label">Email</label>
                     <input type="text" class="form-control" id="email" name="email" placeholder="john@example.com"
@@ -119,11 +119,8 @@
                   <div class="mb-1">
                     <div class="d-flex justify-content-between">
                       <label class="form-label" for="password">Password</label>
-                      <a href="page-auth-forgot-password-v1.html">
-                        <small>Forgot Password?</small>
-                      </a>
                     </div>
-                    <div class="input-group input-group-merge form-password-toggle">
+                    <div class="input-group input-group-merge form-password-toggle interror">
                       <input type="password" class="form-control form-control-merge" id="password" name="password"
                         tabindex="2"
                         placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;"
@@ -182,14 +179,13 @@
 <script>
   $(document).ready(function () {
 
-    jQuery.validator.addMethod("noSpace", function (value, element) {
-      return value == '' || value.trim().length != 0;
-    },
-
       jQuery.validator.addMethod("emailExt", function (value, element, param) {
         return value.match(/^[a-zA-Z0-9_\.%\+\-]+@[a-zA-Z0-9\.\-]+\.[a-zA-Z]{2,}$/);
       }, 'Your e-mail is wrong'),
 
+      jQuery.validator.addMethod("noSpace", function(value, element) {
+      return value == '' || value.trim().length != 0;
+    }, "Space not allowed");
 
       $('form[id="addForm"]').validate({
 
@@ -204,27 +200,32 @@
         rules: {
           email: {
             required: true,
-            emailExt: true
+            emailExt: true,
+            noSpace: true,
           },
           password: {
             required: true,
+            noSpace: true,
             minlength: 5
           },
         },
         messages: {
 
           email: {
-            required: " This filed is required"
+            required: " This filed is required",
+            noSpace: "Space not allowed",
+            emailExt: "Special characters and space not allowed"
           },
           password: {
             required: "This filed is required",
-            minlength: "Password should be minmum 5 charcater"
+            minlength: "Password should be minmum 5 characters",
+            noSpace: "Space not allowed"
           },
 
         },
         submitHandler: function (form) {
           form.submit();
         }
-      }));
+      });
   });
 </script>

@@ -29,16 +29,42 @@
       
       <li class=" <%= title =='dashboard'?'active':'' %>"><a class="d-flex align-items-center" href="/dashboard"><i data-feather="home"></i><span class="menu-title text-truncate" data-i18n="Email">Dashboards</span></a>
       </li>
-      <li class=" <%= title =='sub_admin_list'?'active':'' %>"><a class="d-flex align-items-center" href="/sub_admin_list"><i data-feather="shield"></i><span class="menu-title text-truncate" data-i18n="Email">Sub-Admin</span></a>
+
+      <li class=" <%= title =='sub_admin_list'?'active':'' %>"><a class="d-flex align-items-center" href="/sub_admin_list">
+        <svg version="1.1" baseProfile="tiny" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+          viewBox="0 0 24 24" overflow="visible" xml:space="preserve">
+          <g ><g transform="translate(4.000000, 1.000000)">
+          <path fill="#5a5b5c" d="M8,0l-9,4v6c0,5.6,3.8,10.7,9,12c5.2-1.3,9-6.4,9-12V4L8,0z M8,11h7c-0.5,4.1-3.3,7.8-7,8.9V11l-7,0V5.3 l7-3.1V11z"/>
+          <path fill="#5a5b5c" d="M8,0v22c5.2-1.3,9-6.4,9-12V4L8,0z M15,11c-0.5,4.1-3.3,7.8-7,8.9V11L15,11z"/>
+          <path fill-rule="evenodd" fill="#3367D6" d="M17,11h-2c0,0,0,0.3-0.1,0.6L17,11z"/>
+          <polygon fill-rule="evenodd" fill="#3367D6" points="-1,11 1,11 1,10.4 		"/>
+          </g></g>
+        </svg>
+        <span class="menu-title text-truncate" data-i18n="Email">Sub-Admin</span></a>
       </li>
+
       <li class=" <%= title =='userList'?'active':'' %> "><a class="d-flex align-items-center" href="/userList"><i data-feather="user"></i><span class="menu-title text-truncate" data-i18n="Chat">User</span></a>
       </li>
       <li class=" <%= title =='subuser_List'?'active':'' %> "><a class="d-flex align-items-center" href="/subuser_List"><i data-feather="users"></i><span class="menu-title text-truncate" data-i18n="Subscriptions">Sub user </span></a>
       </li>
-      <li class=" <%= title =='babyList'?'active':'' %> "><a class="d-flex align-items-center" href="/babyList"><i data-feather="smile"></i><span class="menu-title text-truncate" data-i18n="Todo">Baby</span></a>
+
+      <li class=" <%= title =='babyList'?'active':'' %> "><a class="d-flex align-items-center" href="/babyList">
+        <svg fill="#5a5b5c" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path d="M20.492,10.04a8.987,8.987,0,0,0-6.376-5.788A1.583,1.583,0,0,1,15,4a1,1,0,0,0,0-2,3.541,3.541,0,0,0-3.27,2.011A8.979,8.979,0,0,0,3.508,10.04a3,3,0,0,0,0,5.92,8.99,8.99,0,0,0,16.984,0,3,3,0,0,0,0-5.92ZM20.007,14l-.137-.018a1.007,1.007,0,0,0-1.1.747,6.99,6.99,0,0,1-13.55,0,1,1,0,0,0-.968-.754c-.042,0-.084,0-.127.007L4,14a1,1,0,0,1-.008-2l.133.017a1,1,0,0,0,1.1-.745,6.976,6.976,0,0,1,5.847-5.194A6.581,6.581,0,0,0,11,7a1,1,0,0,0,1,1h0a1,1,0,0,0,1-1,5.492,5.492,0,0,1,.1-.91,6.982,6.982,0,0,1,5.676,5.179,1,1,0,0,0,1.1.745L20.006,12a1,1,0,0,1,0,2ZM10.5,13A1.5,1.5,0,1,1,9,11.5,1.5,1.5,0,0,1,10.5,13Zm6,0A1.5,1.5,0,1,1,15,11.5,1.5,1.5,0,0,1,16.5,13Z"/></svg>
+        <span class="menu-title text-truncate" data-i18n="Todo">Baby</span></a>
       </li>
-      <li class=" <%= title =='Activity'?'active':'' %> "><a class="d-flex align-items-center" href="/activityList"><i data-feather="activity"></i><span class="menu-title text-truncate" data-i18n="Subscriptions">Activity </span></a>
+
+      <li class=" <%= title =='Activity'?'active':'' %> "><a class="d-flex align-items-center" href="/activityList">
+        <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect width="48" height="48" fill="white" fill-opacity="0.01"/>
+          <path d="M36 18H12V44H36V18Z" fill="#ffffff" stroke="#5a5b5c" stroke-width="5" stroke-linejoin="round"/>
+          <path fill-rule="evenodd" clip-rule="evenodd" d="M19.8943 11H28.1057C29.8329 11 31.365 12.1086 31.9051 13.7492L33.3045 18H14.6953L16.0949 13.7491C16.635 12.1086 18.1671 11 19.8943 11Z" stroke="#5a5b5c" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M21 11V7C21 5.34315 22.3431 4 24 4C25.6569 4 27 5.34315 27 7V11" stroke="#5a5b5c" stroke-width="4" stroke-linecap="round"/>
+          <path d="M18.5 26V36" stroke="white" stroke-width="4" stroke-linecap="round"/>
+          </svg>
+        <span class="menu-title text-truncate" data-i18n="Subscriptions">Activity </span></a>
       </li>
+
       <li class=" <%= title =='Goal'?'active':'' %> "><a class="d-flex align-items-center" href="/Goal_List"><i data-feather="target"></i><span class="menu-title text-truncate" data-i18n="Subscriptions">Goal</span></a>
       </li>
       <li class=" <%= title =='subscriptionList'?'active':'' %> "><a class="d-flex align-items-center" href="/subscriptionList"><i data-feather="dollar-sign"></i><span class="menu-title text-truncate" data-i18n="Subscriptions">Subscriptions </span></a>
@@ -60,7 +86,6 @@
   </div>
 </div>
 <!-- END: Main Menu-->
-
 
 <div class="sidenav-overlay"></div>
 <div class="drag-target"></div>
