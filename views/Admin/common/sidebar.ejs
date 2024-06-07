@@ -21,8 +21,16 @@
       </li>
       <li class=" <%= title =='userList'?'active':'' %> "><a class="d-flex align-items-center" href="/userList"><i data-feather="user"></i><span class="menu-title text-truncate" data-i18n="Chat">User</span></a>
       </li>
-      <li class=" <%= title =='Goal'?'active':'' %> "><a class="d-flex align-items-center" href="/Goal_List"><i data-feather="target"></i><span class="menu-title text-truncate" data-i18n="Subscriptions">Goal</span></a>
+
+      <li class=" <%= title =='Goal'?'active':'' %> "><a class="d-flex align-items-center" href="/Goal_List">
+        <svg fill="#000000" viewBox="0 0 24 24" id="goal" data-name="Line Color" xmlns="http://www.w3.org/2000/svg" class="icon line-color">
+          <path id="secondary" d="M15,9l-2.5,2.5M15,6V9h3l3-3H18V3Z" style="fill: none; stroke: rgb(105, 103, 103); stroke-linecap: round; stroke-linejoin: round; stroke-width: 2;"></path>
+          <path id="primary" d="M12.33,3H12a9,9,0,1,0,9,9c0-.11,0-.22,0-.33" style="fill: none; stroke: rgb(105, 103, 103); stroke-linecap: round; stroke-linejoin: round; stroke-width: 2;"></path>
+          <path id="primary-2" data-name="primary" d="M16.9,13A5,5,0,1,1,11,7.1" style="fill: none; stroke: rgb(105, 103, 103); stroke-linecap: round; stroke-linejoin: round; stroke-width: 2;"></path>
+        </svg>
+        <span class="menu-title text-truncate" data-i18n="Subscriptions">Goal</span></a>
       </li>
+      
       <li class=" <%= title =='user_chat'?'active':'' %> "><a class="d-flex align-items-center" href="/user_chat"><i data-feather="message-circle"></i><span class="menu-title text-truncate" data-i18n="Subscriptions">Chat</span></a>
       </li>
     <%}else{%>
@@ -65,7 +73,13 @@
         <span class="menu-title text-truncate" data-i18n="Subscriptions">Activity </span></a>
       </li>
 
-      <li class=" <%= title =='Goal'?'active':'' %> "><a class="d-flex align-items-center" href="/Goal_List"><i data-feather="target"></i><span class="menu-title text-truncate" data-i18n="Subscriptions">Goal</span></a>
+      <li class=" <%= title =='Goal'?'active':'' %> "><a class="d-flex align-items-center" href="/Goal_List">
+        <svg fill="#000000" viewBox="0 0 24 24" id="goal" data-name="Line Color" xmlns="http://www.w3.org/2000/svg" class="icon line-color">
+          <path id="secondary" d="M15,9l-2.5,2.5M15,6V9h3l3-3H18V3Z" style="fill: none; stroke: rgb(105, 103, 103); stroke-linecap: round; stroke-linejoin: round; stroke-width: 2;"></path>
+          <path id="primary" d="M12.33,3H12a9,9,0,1,0,9,9c0-.11,0-.22,0-.33" style="fill: none; stroke: rgb(105, 103, 103); stroke-linecap: round; stroke-linejoin: round; stroke-width: 2;"></path>
+          <path id="primary-2" data-name="primary" d="M16.9,13A5,5,0,1,1,11,7.1" style="fill: none; stroke: rgb(105, 103, 103); stroke-linecap: round; stroke-linejoin: round; stroke-width: 2;"></path>
+        </svg>
+        <span class="menu-title text-truncate" data-i18n="Subscriptions">Goal</span></a>
       </li>
       <li class=" <%= title =='subscriptionList'?'active':'' %> "><a class="d-flex align-items-center" href="/subscriptionList"><i data-feather="dollar-sign"></i><span class="menu-title text-truncate" data-i18n="Subscriptions">Subscriptions </span></a>
       </li>
