@@ -63,6 +63,7 @@ router.post('/assign_task', authenticateJWT, routinecontroller.assign_task)
 router.post('/add_memories', authenticateJWT, memoriescontroller.add_memories)
 router.post('/get_memory_images', authenticateJWT, memoriescontroller.get_memory_images)
 router.post('/delete_images', authenticateJWT, memoriescontroller.delete_images)
+router.post('/edit_memories', authenticateJWT, memoriescontroller.edit_memories)
 
 //////// ACTIVITY ///////////////
 router.post('/customizable_activity', authenticateJWT, activitycontroller.customizable_activity)

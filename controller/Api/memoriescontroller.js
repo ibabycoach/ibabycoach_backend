@@ -75,7 +75,39 @@ module.exports = {
     } catch (error) {
       console.log(error)
     }
-  }
+  },
+
+  edit_memories: async (req, res) => {
+    try {
+      const v = new Validator(req.body, {
+        memoryId: "required"
+      })
+      const errorResponse = await helper.checkValidation(v);
+      if (errorResponse) {
+        return helper.failed(res, errorResponse);
+      }
+
+      if (req.files && req.files.image) {
+        var image = req.files.image;
+      
+        if (image) {
+          req.body.image = helper.imageUpload(image, "images");
+        }
+      }
+     let memoryId = req.body.memoryId;
+
+      const babydata = await memories_model.findByIdAndUpdate({_id: memoryId},
+        { image: req.body.image,
+          note: req.body.note,
+        });
+     
+        const updatedImage = await memories_model.findOne({_id: memoryId});
+
+      return helper.success(res, "Memory details updated successfully", updatedImage)
+    } catch (error) {
+      console.log(error)
+    }
+  },
 
 
 }
