@@ -2,11 +2,11 @@ const growthModel = require('../../model/Admin/growth');
 let helper = require('../../Helper/helper')
 const { Validator } = require('node-input-validator');
 
-
 module.exports = {
 
   Add_growth: async(req, res)=> {
     try {
+      let userId = req.user.id
       const v = new Validator(req.body, {
         height: "required",
         weight: "required",
@@ -18,13 +18,21 @@ module.exports = {
           return helper.failed(res, errorResponse);
         }
 
-        let userId= req.user.id
-        let babygrowth = await growthModel.create({
-          userId,
-          ...req.body
-        });
+      let lastEntry = await growthModel.findOne({babyId: req.body.babyId}).sort({createdAt: -1})
+
+      let babygrowthData = {userId,
+        ...req.body,
+      };
+
+      if (lastEntry) {
+          babygrowthData.lastHeight = lastEntry.height;
+          babygrowthData.lastWeight = lastEntry.weight;
+          babygrowthData.lastHeadSize = lastEntry.headSize;
+      }
+
+      let babygrowth = await growthModel.create(babygrowthData);
             
-        return helper.success(res, "growth added successfully", {})
+        return helper.success(res, "growth added successfully", babygrowth)
     } catch (error) {
         console.log(error)
       }
