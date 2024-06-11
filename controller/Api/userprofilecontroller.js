@@ -244,4 +244,18 @@ module.exports = {
     }
   },
 
+  deleted_account: async(req, res) => {
+    try {
+      let userId = req.user._id;
+      const deleteProfile = await user_model.findByIdAndUpdate({_id: userId},
+      {deleted: true});
+  
+      return helper.success(res, "Profile deleted successfully.", {})
+    } catch (error) {
+      console.log(error)
+    }
+    },
+
+
+
 }

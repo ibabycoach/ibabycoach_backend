@@ -59,6 +59,13 @@ module.exports = {
       if (errorResponse) {
         return helper.failed(res, errorResponse)
       }
+      if (req.files && req.files.image) {
+        var image = req.files.image;
+      
+        if (image) {
+          req.body.image = helper.imageUpload(image, "images");
+        }
+      }
 
       let growthId = req.body.growthId;
       const growthdata = await growthModel.findOneAndUpdate({_id: req.body.growthId},

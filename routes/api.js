@@ -36,6 +36,7 @@ router.get('/subUser_list', authenticateJWT, userprofilecontroller.subUser_list)
 router.get('/admin_detail', authenticateJWT, userprofile.admin_detail)
 router.post('/switch_user_account', authenticateJWT, userprofilecontroller.switch_user_account)
 router.post('/delete_user', authenticateJWT, userprofilecontroller. delete_user)
+router.post('/deleted_account', authenticateJWT, userprofilecontroller.deleted_account)
 
 //////////////// BABY ////////
 router.post('/add_baby', authenticateJWT, babycontroller.add_baby)

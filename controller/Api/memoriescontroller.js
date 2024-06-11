@@ -103,7 +103,7 @@ module.exports = {
      
         const updatedImage = await memories_model.findOne({_id: memoryId});
 
-      return helper.success(res, "Memory details updated successfully", updatedImage)
+      return helper.success(res, "Memory details updated successfully", {})
     } catch (error) {
       console.log(error)
     }
