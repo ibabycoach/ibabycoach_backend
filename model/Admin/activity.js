@@ -20,9 +20,6 @@ const activitySchema = new mongoose.Schema({
     enum: ['hours', 'days', 'weeks', 'months', 'years'],
     default: 'hours' // Set the default duration type
 },
-  // include_day_time: {type: String, 
-  //   enum: ["0", "1"],
-  //   default: "0"},
     status: { type: String,
     enum: ["0", "1"],
     default: "1", //  1 for  Active , 0 for Inactive

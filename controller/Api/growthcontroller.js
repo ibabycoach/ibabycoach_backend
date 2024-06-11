@@ -78,9 +78,26 @@ module.exports = {
     } catch (error) {
       console.log(error)
     }
-  }
+  },
 
+  deleteGrowth: async(req, res)=> {
+    try {
+      const v = new Validator(req.body, {
+        growthId: "required"
+      })
+      const errorResponse = await helper.checkValidation(v);
+      if (errorResponse) {
+        return helper.failed(res, errorResponse);
+      }
+      const deleteGrowth = await growthModel.findByIdAndUpdate({_id: req.body.growthId}, 
+        {deleted: true}) 
+      
+      return helper.success(res, "Growth deleted successfully", deleteGrowth)
 
+    } catch (error) {
+      console.log(error)
+    }
+  },
 
 
 }

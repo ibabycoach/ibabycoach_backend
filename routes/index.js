@@ -13,6 +13,7 @@ const pushNotificationController = require('../controller/Admin/pushNotification
 const subuserController = require('../controller/Admin/subuserController');
 const chatController = require('../controller/Admin/chatController');
 const subAdminController = require('../controller/Admin/sub-adminController');
+const iconController = require('../controller/Admin/iconController');
 
 
 var router = express.Router();
@@ -35,6 +36,16 @@ router.post('/create_sub_admin', subAdminController.create_sub_admin)
 router.get('/view_sub_admin/:id', session, subAdminController.view_sub_admin)
 router.get('/edit_sub_admin/:id', session, subAdminController.edit_sub_admin)
 router.post('/update_SubAdmin', subAdminController.update_SubAdmin)
+
+//*************** ICON *********************
+router.get('/add_icon', session, iconController.add_icon)
+router.post('/addIcon', iconController.addIcon)
+router.get('/icon_list', session, iconController.icon_list)
+router.get('/edit_icon/:id', session, iconController.edit_icon)
+router.post('/update_icon', iconController.update_icon)
+router.delete('/delete_icon/:id', iconController.delete_icon)
+
+
 
 //*************** USER *********************
 router.get('/userList', session, userController.userList)
