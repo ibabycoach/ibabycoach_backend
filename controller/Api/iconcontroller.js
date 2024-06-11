@@ -3,7 +3,7 @@ const iconModel = require('../../model/Admin/icon')
 
 module.exports = {
 
-    get_icons : async(req, res)=> {
+    icons_list : async(req, res)=> {
     try {
         const allIcons = await iconModel.find({deleted:false, status:"1"})
         if (!allIcons) {

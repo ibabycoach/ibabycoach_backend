@@ -53,7 +53,7 @@ router.post('/edit_growth', authenticateJWT, growthcontroller.edit_growth)
 router.post('/deleteGrowth', authenticateJWT, growthcontroller.deleteGrowth)
 
 ///////////// ICONS ////////////
-router.get('/get_icons', authenticateJWT, iconcontroller.get_icons)
+router.get('/icons_list', authenticateJWT, iconcontroller.icons_list)
 
 ////// ROUTINE BUILDER /////////
 router.post('/add_routine', authenticateJWT, routinecontroller.add_routine)
