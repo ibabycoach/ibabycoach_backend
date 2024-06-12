@@ -32,7 +32,7 @@ module.exports = {
 
       let babygrowth = await growthModel.create(babygrowthData);
             
-        return helper.success(res, "growth added successfully", babygrowth)
+      return helper.success(res, "Growth added successfully", {})
     } catch (error) {
         console.log(error)
       }
@@ -100,7 +100,7 @@ module.exports = {
       const deleteGrowth = await growthModel.findByIdAndUpdate({_id: req.body.growthId}, 
         {deleted: true}) 
       
-      return helper.success(res, "Growth deleted successfully", deleteGrowth)
+      return helper.success(res, "Growth deleted successfully", {})
 
     } catch (error) {
       console.log(error)

@@ -12,12 +12,6 @@ module.exports = {
             res.redirect('/add_sub_admin');
             // return helper.failed(res,"Email Already Exist")
           }
-          const phoneNumberExist = await userModel.findOne({ phone: req.body.phone });
-          if (phoneNumberExist) {
-            req.flash("msg", "Phone number already existed");
-            res.redirect('/add_sub_admin');
-            // return helper.failed(res,"Phone Number Already Exist")
-        }
         if (req.files && req.files.image) {
             var image = req.files.image;
             if (image) {
@@ -29,8 +23,6 @@ module.exports = {
             role: 3,
             name: req.body.name,
             email: req.body.email,
-            country_code: req.body.country_code,
-            phone: req.body.phone,
             image: req.body.image,
             password: hash,
         
