@@ -54,7 +54,7 @@ module.exports = {
             const v = new Validator(req.body, {
                 activity_name: "required", 
                 babyId: "required",
-                day: "required",
+                // day: "required",
                 // time: "required",
                
             });

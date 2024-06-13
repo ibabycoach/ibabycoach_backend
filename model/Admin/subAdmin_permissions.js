@@ -1,11 +1,17 @@
 let mongoose = require('mongoose')
 
-const permissionSchema = new mongoose.Schema ({
+const subAdminSchema = new mongoose.Schema ({
 
+    adminId :{ type: mongoose.Schema.Types.ObjectId, ref: "User", default: null},
     subadmin_name: { type: String, default: '' },
     email: { type: String, default: '' },
     password: { type: String, default: '' },
     image: { type: String, default: '' },
+
+    users_permission: {type: String,
+        enum: ['1', '2', '3'],
+        default: '1'
+    },
 
     activity_permission: {type: String,
         enum: ['1', '2', '3'],
@@ -14,6 +20,10 @@ const permissionSchema = new mongoose.Schema ({
 
     goal_permission:{type: String,
         enum: ['1', '2', '3'],
+        default: '1'
+    },
+    chat: {type: String,
+        enum: ['1', '2'],
         default: '1'
     },
 
@@ -26,4 +36,4 @@ const permissionSchema = new mongoose.Schema ({
     
     {timestamps: true})
 
-    module.exports = mongoose.model('permission', permissionSchema);
+    module.exports = mongoose.model('subAdmin', subAdminSchema);

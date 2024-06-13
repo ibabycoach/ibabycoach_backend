@@ -20,7 +20,7 @@
                         <label class="col-form-label new_lable" for="name">Name</label>
                       </div>
                       <div class="col-sm-10">
-                        <input type="text" id="name" class="form-control" name="name" required>
+                        <input type="text" id="subadmin_name" class="form-control" name="subadmin_name" required>
                       </div>
                     </div>
                     <div class="mb-1 row">
@@ -45,26 +45,38 @@
                       <div class="col-sm-2">
                         <label class="col-form-label new_lable" for="name">Image</label>
                       </div>
-                      <div class="col-sm-10">
+                      <div class="col-sm-5">
                         <input type="file" id="image" class="form-control" name="image">
                       </div>
                     </div>
+
+                    <div class="form-group row my-3">
+                      <label for="users" class="col-sm-12 col-form-label">Users</label>
+                      <div class="col-10">
+                       
+                      </div>
+                      <div class="custom-control custom-checkbox col-2 mt-1">
+                        <input type="checkbox" class="custom-control-input" id="allUser">
+                        <label class="custom-control-label" for="allUser">All</label>
+                      </div>
+                    </div>
+                    
                     <div class="mb-1 row">
                       <div class="col-sm-2">
                         <label class="col-form-label new_lable" for="readCheckbox">Activity</label>
                       </div>
                       <div class="col-sm-10">
                         <div class="form-check form-check-inline">
-                          <input type="checkbox" class="form-check-input" id="readCheckbox" name="icons" value="Read Checkbox">
-                          <label class="form-check-label" for="readCheckbox">Add</label>
+                          <input type="radio" class="form-check-input" id="restrictedRadio" name="ActivityaccessLevel" value="1">
+                          <label class="form-check-label" for="restrictedRadio">Restricted</label>
                         </div>
                         <div class="form-check form-check-inline">
-                          <input type="checkbox" class="form-check-input" id="readCheckbox" name="icons" value="Read Checkbox">
-                          <label class="form-check-label" for="readCheckbox">Read</label>
+                          <input type="radio" class="form-check-input" id="readOnlyRadio" name="ActivityaccessLevel" value="2">
+                          <label class="form-check-label" for="readOnlyRadio">Read Only</label>
                         </div>
                         <div class="form-check form-check-inline">
-                          <input type="checkbox" class="form-check-input" id="writeCheckbox" name="icons" value="Write Checkbox">
-                          <label class="form-check-label" for="writeCheckbox">Edit</label>
+                          <input type="radio" class="form-check-input" id="fullAccessRadio" name="ActivityaccessLevel" value="3">
+                          <label class="form-check-label" for="fullAccessRadio">Full Access</label>
                         </div>
                       </div>
                     </div>
@@ -75,16 +87,31 @@
                       </div>
                       <div class="col-sm-10">
                         <div class="form-check form-check-inline">
-                          <input type="checkbox" class="form-check-input" id="readCheckbox" name="icons" value="Read Checkbox">
-                          <label class="form-check-label" for="readCheckbox">Add</label>
+                          <input type="radio" class="form-check-input" id="restrictedRadio" name="GoalaccessLevel" value="1">
+                          <label class="form-check-label" for="restrictedRadio">Restricted</label>
                         </div>
                         <div class="form-check form-check-inline">
-                          <input type="checkbox" class="form-check-input" id="readCheckbox" name="icons" value="Read Checkbox">
-                          <label class="form-check-label" for="readCheckbox">Read</label>
+                          <input type="radio" class="form-check-input" id="readOnlyRadio" name="GoalaccessLevel" value="2">
+                          <label class="form-check-label" for="readOnlyRadio">Read Only</label>
                         </div>
                         <div class="form-check form-check-inline">
-                          <input type="checkbox" class="form-check-input" id="writeCheckbox" name="icons" value="Write Checkbox">
-                          <label class="form-check-label" for="writeCheckbox">Edit</label>
+                          <input type="radio" class="form-check-input" id="fullAccessRadio" name="GoalaccessLevel" value="3">
+                          <label class="form-check-label" for="fullAccessRadio">Full Access</label>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="mb-1 row">
+                      <div class="col-sm-2">
+                        <label class="col-form-label new_lable" for="readCheckbox">Chat</label>
+                      </div>
+                      <div class="col-sm-10">
+                        <div class="form-check form-check-inline">
+                          <input type="radio" class="form-check-input" id="restrictedRadio" name="ChataccessLevel" value="1">
+                          <label class="form-check-label" for="restrictedRadio">Restricted</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                          <input type="radio" class="form-check-input" id="fullAccessRadio" name="ChataccessLevel" value="2">
+                          <label class="form-check-label" for="fullAccessRadio">Full Access</label>
                         </div>
                       </div>
                     </div>
@@ -119,6 +146,31 @@ $(window).on('load', function() {
 </script>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js" integrity="sha512-37T7leoNS06R80c8Ulq7cdCDU5MNQBwlYoy1TX/WUsLFC2eYNqtKlV0QjH7r8JpG/S0GUMZwebnVFLPd6SU5yg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+
+<script>
+  $(document).ready(function() {
+    $('.js-example-basic-multiple').select2({
+      placeholder: 'Select an option'
+    });
+
+    $("#allUser").click(function() {
+      if ($("#allUser").is(':checked')) {
+        $("#users > option").prop("selected", true);
+        $("#users").trigger("change");
+      } else {
+        $("#users > option").prop("selected", false);
+        var selected = $("#user_id").val();
+        if (!selected || selected.length == 0) {
+          $("#users").val([]).trigger("change");
+        } else {
+          $("#users").trigger("change");
+        }
+      }
+    });
+
+  });
+</script>
 
 <script>
 $(document).ready(function() {

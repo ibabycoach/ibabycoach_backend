@@ -1,4 +1,5 @@
 const userModel = require('../../model/Admin/user')
+const subadminModel = require('../../model/Admin/subAdmin_permissions')
 const helper = require('../../Helper/helper')
 const bcrypt = require('bcrypt')
 
@@ -6,7 +7,7 @@ module.exports = {
     
     create_sub_admin: async(req, res)=> {
         try {
-            const userExist = await userModel.findOne({ email: req.body.email });
+            const userExist = await subadminModel.findOne({ email: req.body.email });
           if (userExist) {
             req.flash("msg", "Email already existed");
             res.redirect('/add_sub_admin');
@@ -19,13 +20,10 @@ module.exports = {
             }
         }
         let hash = await bcrypt.hash(req.body.password, 10);
-        let createuser = await userModel.create({
-            role: 3,
-            name: req.body.name,
-            email: req.body.email,
-            image: req.body.image,
+        let createuser = await subadminModel.create({
+            adminId: req.session.user._id,
             password: hash,
-        
+            ...req.body
         });
          res.redirect('/sub_admin_list')
         // res.json(createuser)
@@ -49,7 +47,7 @@ module.exports = {
     edit_sub_admin: async(req, res)=> {
         try {
             let title = "sub_admin_list"
-            const updatedata = await userModel.findById({_id: req.params.id})
+            const updatedata = await subadminModel.findById({_id: req.params.id})
             res.render('Admin/sub-admin/edit_sub_admin', { title, updatedata, session:req.session.user,  msg: req.flash('msg') })
         } catch (error) {
            console.log(error) 
@@ -65,13 +63,8 @@ module.exports = {
                     req.body.image = helper.imageUpload(image, "images")
                 }
             }
-            const updateData = await userModel.updateOne({_id: req.body.id},
-                {   role: req.body.role,
-                    name: req.body.name,
-                    phone: req.body.phone,
-                    email: req.body.email,
-                    image: req.body.image
-                })
+            const updateData = await subadminModel.updateOne({_id: req.body.id},
+                {  ...req.body })
             res.redirect("/sub_admin_list")
         } catch (error) {
            console.log(error) 
@@ -81,7 +74,7 @@ module.exports = {
     sub_admin_list: async(req, res)=> {
         try {
             let title = "sub_admin_list"
-            const userData = await userModel.find({role:3, deleted: false})
+            const userData = await subadminModel.find({deleted: false})
             res.render('Admin/sub-admin/sub_admin_list', { title, userData, session:req.session.user,  msg: req.flash('msg')})
         } catch (error) {
            console.log(error) 
@@ -91,7 +84,7 @@ module.exports = {
     view_sub_admin: async(req, res)=> {
         try {
             let title = "sub_admin_list"
-            const userdetails = await userModel.findById({_id: req.params.id})
+            const userdetails = await subadminModel.findById({_id: req.params.id})
             res.render('Admin/sub-admin/view_sub_admin', { title, userdetails, session:req.session.user,  msg: req.flash('msg') })
         } catch (error) {
             console.log(error)
