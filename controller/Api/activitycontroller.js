@@ -180,7 +180,7 @@ module.exports = {
               query.day = new RegExp(req.body.day_name, 'i'); // 'i' for case-insensitive
             }
             
-            const baby_customized_activity = await activity_model.find({deleted:false}).populate('userId', 'name relation')
+            const baby_customized_activity = await activity_model.find({babyId: req.body.babyId, deleted:false}).populate('userId', 'name relation')
             
             if (!req.body.day_name) {
               return helper.success(res, "Baby customized activity", baby_customized_activity);
