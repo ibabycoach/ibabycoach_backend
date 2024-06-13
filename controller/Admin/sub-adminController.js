@@ -6,6 +6,8 @@ const bcrypt = require("bcrypt");
 module.exports = {
   create_sub_admin: async (req, res) => {
     try {
+      let { activity_permission, goal_permission } = req.body;
+
       const userExist = await subadminModel.findOne({ email: req.body.email });
       if (userExist) {
         req.flash("msg", "Email already existed");
@@ -18,22 +20,18 @@ module.exports = {
           req.body.image = helper.imageUpload(image, "images");
         }
       }
-      // console.log(req.body, ">>>>>>>>>>>>>>>>");return
+
       let hash = await bcrypt.hash(req.body.password, 10);
       req.body.password = hash;
 
-      req.body.activity_permission = ActivityaccessLevel;
-      req.body.goal_permission = GoalaccessLevel;
-    //   req.body.goal_permission = GoalaccessLevel;
-
-
       let createuser = await subadminModel.create({
         adminId: req.session.user._id,
+        activity_permission,
+        goal_permission,
+        usersId: req.body.usersId,
         ...req.body,
       });
 
-      console.log(createuser, ">>>>>>>>>>");
-      return;
       res.redirect("/sub_admin_list");
       // res.json(createuser)
       console.log("signup successfully");

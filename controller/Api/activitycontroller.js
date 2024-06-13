@@ -87,11 +87,12 @@ module.exports = {
     get_activity: async(req, res)=> {
         try {
             let userId = req.user._id;
-             adminActivities = await activity_model.find({ activity_type: '1', deleted: false});
-             userActivities = await activity_model.find({ userId: userId, deleted: false});
+             let adminActivities = await activity_model.find({ activity_type: '1', deleted: false});
+             let userActivities = await activity_model.find({ userId: userId, activity_type: '2', deleted: false});
 
              //we can use the spread operator to merge the multiple arrays
              let getactivity = [...adminActivities, ...userActivities];
+           
 
             return helper.success(res, "activity list", getactivity )
         } catch (error) {
