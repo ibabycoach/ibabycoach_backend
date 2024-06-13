@@ -81,7 +81,7 @@ module.exports = {
 
         const updatedgrowth = await growthModel.findOne({_id: req.body.growthId})
 
-        return helper.success(res, "growth updated successfully", updatedgrowth)
+        return helper.success(res, "growth updated successfully", {})
 
     } catch (error) {
       console.log(error)

@@ -3,15 +3,11 @@ let mongoose = require('mongoose')
 const subAdminSchema = new mongoose.Schema ({
 
     adminId :{ type: mongoose.Schema.Types.ObjectId, ref: "User", default: null},
+    usersId: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User', default: [] }],
     subadmin_name: { type: String, default: '' },
     email: { type: String, default: '' },
     password: { type: String, default: '' },
     image: { type: String, default: '' },
-
-    users_permission: {type: String,
-        enum: ['1', '2', '3'],
-        default: '1'
-    },
 
     activity_permission: {type: String,
         enum: ['1', '2', '3'],

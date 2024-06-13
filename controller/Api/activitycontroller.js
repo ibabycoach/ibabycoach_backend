@@ -70,10 +70,11 @@ module.exports = {
                     req.body.image = helper.imageUpload(image, "images");
                 }
             }
+            const upcomingTime = new Date();
             let userId = req.user.id;
             const addactivity = await activity_model.create({
                 userId,
-                upcoming_time: req.body.time,
+                upcoming_time: upcomingTime,
                 ...req.body
             });
 
@@ -85,7 +86,13 @@ module.exports = {
 
     get_activity: async(req, res)=> {
         try {
-            const getactivity = await activity_model.find({activity_type: '1', deleted: false})
+            let userId = req.user._id;
+             adminActivities = await activity_model.find({ activity_type: '1', deleted: false});
+             userActivities = await activity_model.find({ userId: userId, deleted: false});
+
+             //we can use the spread operator to merge the multiple arrays
+             let getactivity = [...adminActivities, ...userActivities];
+
             return helper.success(res, "activity list", getactivity )
         } catch (error) {
             console.log(error)
@@ -156,7 +163,7 @@ module.exports = {
         try {
             const v = new Validator(req.body, {
                 babyId: "required",
-                day_name: "string",
+                // day_name: "string",
             });
             
             const errorResponse = await helper.checkValidation(v);
@@ -172,7 +179,7 @@ module.exports = {
               query.day = new RegExp(req.body.day_name, 'i'); // 'i' for case-insensitive
             }
             
-            const baby_customized_activity = await activity_model.find(query).populate('userId', 'name relation')
+            const baby_customized_activity = await activity_model.find({deleted:false}).populate('userId', 'name relation')
             
             if (!req.body.day_name) {
               return helper.success(res, "Baby customized activity", baby_customized_activity);
