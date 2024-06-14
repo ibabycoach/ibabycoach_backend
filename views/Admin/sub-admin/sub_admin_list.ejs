@@ -37,7 +37,7 @@
                               <%=1+i%>
                             </td>
                             <td>
-                              <%=data.subadmin_name%>
+                              <%=data.name%>
                             </td>
                             <td>
                               <%=data.email%>
@@ -137,7 +137,7 @@
             if (isConfirm.isConfirmed) {
               // alert('asd')
               $.ajax({
-                url: "/deleteUser/:id",
+                url: "/delete_subadmin/:id",
                 type: 'delete',
                 data: {
                   id: id
@@ -173,7 +173,7 @@
 
           $.ajax({
             type: "post",
-            url: "/userStatus",
+            url: "/subadmin_status",
             data: {
               id: id,
               value: value

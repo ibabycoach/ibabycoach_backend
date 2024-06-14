@@ -20,7 +20,7 @@
                         <label class="col-form-label new_lable" for="name">Name</label>
                       </div>
                       <div class="col-sm-8">
-                        <input type="text" id="subadmin_name" class="form-control" name="subadmin_name" required>
+                        <input type="text" id="name" class="form-control" name="name" required>
                       </div>
                     </div>
                     <div class="mb-1 row">
@@ -88,6 +88,7 @@
                         </div>
                       </div>
                     </div>
+
                     <div class="mb-1 row">
                       <div class="col-sm-2">
                         <label class="col-form-label new_lable" for="readCheckbox">Goal</label>
@@ -103,6 +104,65 @@
                         </div>
                         <div class="form-check form-check-inline">
                           <input type="radio" class="form-check-input" id="fullAccessRadio" name="goal_permission" value="3">
+                          <label class="form-check-label" for="fullAccessRadio">Full Access</label>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="mb-1 row">
+                      <div class="col-sm-2">
+                        <label class="col-form-label new_lable" for="readCheckbox">Contact us</label>
+                      </div>
+                      <div class="col-sm-10">
+                        <div class="form-check form-check-inline">
+                          <input type="radio" class="form-check-input" id="restrictedRadio" name="contactus_permission" value="1">
+                          <label class="form-check-label" for="restrictedRadio">Restricted</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                          <input type="radio" class="form-check-input" id="readOnlyRadio" name="contactus_permission" value="2">
+                          <label class="form-check-label" for="readOnlyRadio">Read Only</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                          <input type="radio" class="form-check-input" id="fullAccessRadio" name="contactus_permission" value="3">
+                          <label class="form-check-label" for="fullAccessRadio">Full Access</label>
+                        </div>
+                      </div>
+                    </div>
+                    
+                    <div class="mb-1 row">
+                      <div class="col-sm-2">
+                        <label class="col-form-label new_lable" for="readCheckbox"> CMS </label>
+                      </div>
+                      <div class="col-sm-10">
+                        <div class="form-check form-check-inline">
+                          <input type="radio" class="form-check-input" id="restrictedRadio" name="CMS_permission" value="1">
+                          <label class="form-check-label" for="restrictedRadio">Restricted</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                          <input type="radio" class="form-check-input" id="readOnlyRadio" name="CMS_permission" value="2">
+                          <label class="form-check-label" for="readOnlyRadio">Read Only</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                          <input type="radio" class="form-check-input" id="fullAccessRadio" name="CMS_permission" value="3">
+                          <label class="form-check-label" for="fullAccessRadio">Full Access</label>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="mb-1 row">
+                      <div class="col-sm-2">
+                        <label class="col-form-label new_lable" for="readCheckbox">Push Notification</label>
+                      </div>
+                      <div class="col-sm-10">
+                        <div class="form-check form-check-inline">
+                          <input type="radio" class="form-check-input" id="restrictedRadio" name="push_notification_permission" value="1">
+                          <label class="form-check-label" for="restrictedRadio">Restricted</label>
+                        </div>
+                        <!-- <div class="form-check form-check-inline">
+                          <input type="radio" class="form-check-input" id="readOnlyRadio" name="push_notification_permission" value="2">
+                          <label class="form-check-label" for="readOnlyRadio">Read Only</label>
+                        </div> -->
+                        <div class="form-check form-check-inline">
+                          <input type="radio" class="form-check-input" id="fullAccessRadio" name="push_notification_permission" value="3">
                           <label class="form-check-label" for="fullAccessRadio">Full Access</label>
                         </div>
                       </div>

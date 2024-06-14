@@ -4,6 +4,7 @@ const helper = require("../../Helper/helper");
 const bcrypt = require("bcrypt");
 
 module.exports = {
+  
   create_sub_admin: async (req, res) => {
     try {
       let { activity_permission, goal_permission } = req.body;
@@ -44,11 +45,7 @@ module.exports = {
   add_sub_admin: async (req, res) => {
     try {
       let title = "sub_admin_list";
-      const getUser = await userModel.find({
-        role: 1,
-        status: 1,
-        deleted: false,
-      });
+      const getUser = await userModel.find({ role: 1, status: 1, deleted: false});  //user list assign to the subadmin
 
       res.render("Admin/sub-admin/add_sub_admin", {
         title,
@@ -124,4 +121,35 @@ module.exports = {
       console.log(error);
     }
   },
+
+  subadmin_status: async (req, res) => {
+    try {
+      
+        var check = await subadminModel.updateOne(
+        { _id: req.body.id },
+        { status: req.body.value }
+        );
+        req.flash("msg", "Status updated successfully");
+        
+        if (req.body.value == 0) res.send(false);
+        if (req.body.value == 1) res.send(true);
+    
+        } catch (error) {
+        console.log(error)
+        }
+  },
+
+  delete_subadmin: async(req, res)=> {
+    try {
+        let userId = req.body.id 
+        const removeuser = await subadminModel.findByIdAndUpdate({_id: userId},
+            {deleted:true})
+           
+        res.redirect("/userList") 
+    } catch (error) {
+    console.log(error)
+    }
+  }
+
+
 };

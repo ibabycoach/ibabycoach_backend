@@ -1,4 +1,5 @@
 const userModel = require('../../model/Admin/user')
+const subadminModel = require("../../model/Admin/subAdmin_permissions")
 const babyModel = require('../../model/Admin/baby')
 const subscriptions = require('../../model/Admin/subscriptions')
 const activityModel = require('../../model/Admin/activity')
@@ -19,7 +20,17 @@ module.exports = {
 
     login: async (req, res) => {
         try {
-            var findUser = await userModel.findOne({ email: req.body.email,$or: [{ role: "0" }, { role: "3" }] })
+            let findUser = await userModel.findOne({ email: req.body.email, role: "0"});
+        
+            if (!findUser) {
+                findUser = await subadminModel.findOne({ email: req.body.email });
+    
+                if (!findUser) {
+                    req.flash('msg', 'Invalid email');
+                    return res.redirect("/loginPage");
+                }
+            }            
+            
             if (findUser) {
                 let checkPassword = await bcrypt.compare(req.body.password, findUser.password);
 
@@ -52,7 +63,7 @@ module.exports = {
             let subscription = await subscriptions.count({deleted: false})
             let activity = await activityModel.count({activity_type:'1', deleted:false})
             let weekly_goals = await weekGoals.count({deleted: false})
-            let sub_admin = await userModel.count({deleted:false, role:3})
+            let sub_admin = await subadminModel.count({deleted:false})
             let customActivity = await activityModel.count({activity_type:'2', deleted: false})
             const baby = await babyModel.aggregate([
                 {

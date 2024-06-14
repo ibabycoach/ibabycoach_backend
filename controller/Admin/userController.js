@@ -1,5 +1,6 @@
 const userModel = require('../../model/Admin/user')
 const babyModel = require('../../model/Admin/baby')
+const subadminModel = require("../../model/Admin/subAdmin_permissions");
 const activityModel = require('../../model/Admin/activity');
 const helper = require('../../Helper/helper')
 const bcrypt = require('bcrypt')
@@ -94,7 +95,13 @@ module.exports = {
     userList: async(req, res)=> {
         try {
             let title = "userList"
-            const userData = await userModel.find({role:1, deleted: false})
+            let condition = {role:1, deleted: false}
+            if (req.session.user.role == 3) {
+                condition._id = {
+                    $in: req.session.user.usersId
+                }
+            }
+            const userData = await userModel.find(condition)
             res.render('Admin/user/userList', { title, userData, session:req.session.user,  msg: req.flash('msg')})
         } catch (error) {
            console.log(error) 
@@ -146,6 +153,23 @@ module.exports = {
             res.redirect("/userList") 
         } catch (error) {
         console.log(error)
+        }
+    },
+
+    subAdmin_user_list: async(req, res) => {
+        try {
+            try {
+                let title = "userList"
+                const subadminData = await subadminModel.findOne({_id: '666ad616969dbbfa74f09271', deleted: false})
+                const userData = await userModel.find({_id: subadminData.usersId, deleted: false})
+                
+                // res.render('Admin/user/userList', { title, userData, session:req.session.user,  msg: req.flash('msg')})
+                res.json(userData)
+            } catch (error) {
+               console.log(error) 
+            }
+        } catch (error) {
+            
         }
     }
 
