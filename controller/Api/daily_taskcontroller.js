@@ -10,7 +10,7 @@ module.exports = {
     try {
       let userId = req.user._id;
       const v = new Validator(req.body, {
-        task_type: "required"
+        // task_type: "required"
       });
               
       const errorResponse = await helper.checkValidation(v);
@@ -26,7 +26,7 @@ module.exports = {
       }
       const bottleTime = await daily_task.create({
         userId: userId,
-        task_type: req.body.task_type,
+        // task_type: req.body.task_type,
         ...req.body,
       })
           

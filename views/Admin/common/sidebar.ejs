@@ -15,7 +15,6 @@
   <div class="shadow-bottom"></div>
   <div class="main-menu-content">
     <ul class="navigation navigation-main" id="main-menu-navigation" data-menu="menu-navigation">
-      <% console.log(session, ">>>>>>>>>>>>>>>>") %> 
    <% if (session.role == '3') {%>
       <li class=" <%= title =='dashboard'?'active':'' %>"><a class="d-flex align-items-center" href="/dashboard"><i data-feather="home"></i><span class="menu-title text-truncate" data-i18n="Email">Dashboards</span></a>
       </li>
@@ -43,6 +42,8 @@
           <span class="menu-title text-truncate" data-i18n="Subscriptions">Activity </span></a>
         </li>
       <%}%>
+      <li class=" <%= title =='user_chat'?'active':'' %> "><a class="d-flex align-items-center" href="/user_chat"><i data-feather="message-circle"></i><span class="menu-title text-truncate" data-i18n="Subscriptions">Chat</span></a>
+      </li>
       <%if(session.push_notification_permission != 1){%>
         <li class=" <%= title =='push-notification'?'active':'' %> "><a class="d-flex align-items-center" href="/push-notification"><i data-feather="bell"></i><span class="menu-title text-truncate" data-i18n="Subscriptions">Push-notification </span></a>
         </li>
@@ -60,11 +61,11 @@
       </li>
       <%}%>
       
+      
     <%}else{%>
       
       <li class=" <%= title =='dashboard'?'active':'' %>"><a class="d-flex align-items-center" href="/dashboard"><i data-feather="home"></i><span class="menu-title text-truncate" data-i18n="Email">Dashboards</span></a>
       </li>
-
       <li class=" <%= title =='sub_admin_list'?'active':'' %>"><a class="d-flex align-items-center" href="/sub_admin_list">
         <svg version="1.1" baseProfile="tiny" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
           viewBox="0 0 24 24" overflow="visible" xml:space="preserve">
@@ -77,12 +78,10 @@
         </svg>
         <span class="menu-title text-truncate" data-i18n="Email">Sub-Admin</span></a>
       </li>
-
       <li class=" <%= title =='userList'?'active':'' %> "><a class="d-flex align-items-center" href="/userList"><i data-feather="user"></i><span class="menu-title text-truncate" data-i18n="Chat">User</span></a>
       </li>
       <li class=" <%= title =='subuser_List'?'active':'' %> "><a class="d-flex align-items-center" href="/subuser_List"><i data-feather="users"></i><span class="menu-title text-truncate" data-i18n="Subscriptions">Sub user </span></a>
       </li>
-
       <li class=" <%= title =='babyList'?'active':'' %> "><a class="d-flex align-items-center" href="/babyList">
         <svg fill="#5a5b5c" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
           <path d="M20.492,10.04a8.987,8.987,0,0,0-6.376-5.788A1.583,1.583,0,0,1,15,4a1,1,0,0,0,0-2,3.541,3.541,0,0,0-3.27,2.011A8.979,8.979,0,0,0,3.508,10.04a3,3,0,0,0,0,5.92,8.99,8.99,0,0,0,16.984,0,3,3,0,0,0,0-5.92ZM20.007,14l-.137-.018a1.007,1.007,0,0,0-1.1.747,6.99,6.99,0,0,1-13.55,0,1,1,0,0,0-.968-.754c-.042,0-.084,0-.127.007L4,14a1,1,0,0,1-.008-2l.133.017a1,1,0,0,0,1.1-.745,6.976,6.976,0,0,1,5.847-5.194A6.581,6.581,0,0,0,11,7a1,1,0,0,0,1,1h0a1,1,0,0,0,1-1,5.492,5.492,0,0,1,.1-.91,6.982,6.982,0,0,1,5.676,5.179,1,1,0,0,0,1.1.745L20.006,12a1,1,0,0,1,0,2ZM10.5,13A1.5,1.5,0,1,1,9,11.5,1.5,1.5,0,0,1,10.5,13Zm6,0A1.5,1.5,0,1,1,15,11.5,1.5,1.5,0,0,1,16.5,13Z"/></svg>
