@@ -62,58 +62,81 @@
           <div class="content-body">
             <section id="multiple-column-form">
               <div class="row">
-                <div class="col-md-12 col-12">
-                  <div class="card">
-                    <div class="card-header">
-                      <h4 class="card-title">Activity detail</h4>
-                    </div>
-                    <br>
-                    <div class="card-body">
-                      <form class="form form-horizontal" action="/updateActivity" method="POST" id="profile"
-                        enctype="multipart/form-data">
-                        <div class="row">
-                          <div class="col-md-4">
-                            <div class="profile-widget-header text-center">
-                              <img src="<%=activitydetail.image%>" id="output2" alt="Profile Edit"
-                                class="ms-md-0 mx-auto img-thumbnail user_bigimg">
-
-                              <input onchange="loadFile(event,'output2')" type="file" id="imgInp" name="image" />
-                              <label for="imgInp" style="cursor: pointer;">
-                                <!-- <span class="fe fe-24 fe-camera"></span> -->
-                                <i class="fe fe-24 camera_icon" data-feather='camera'></i>
-                              </label>
-                            </div>
+                <div class="card">
+                  <div class="card-header">
+                    <h4 class="card-title">Activity detail</h4>
+                  </div>
+                  <div class="card-body">
+                    <form class="form form-horizontal" action="/updateActivity" method="POST" id="profile"
+                      enctype="multipart/form-data">
+                      <div class="row">
+                        <div class="col-md-4">
+                          <div class="profile-widget-header text-center">
+                            <img src="<%=activitydetail.image%>" id="output2" alt=""
+                              class="ms-md-0 mx-auto img-thumbnail user_bigimg">
+                            <input onchange="loadFile(event,'output2')" type="file" id="imgInp" name="image" />
+                            <label for="imgInp" style="cursor: pointer;">
+                              <!-- <span class="fe fe-24 fe-camera"></span> -->
+                              <i class="fe fe-24 camera_icon" data-feather='camera'></i>
+                            </label>
                           </div>
-                          <div class="col-md-8" style="margin-top: 17px;">
-                            <div class="mb-1 row">
-                              <div class="col-sm-2">
-                                <label class="col-form-label new_lable" for="name">Name</label>
-                              </div>
-                              <div class="col-sm-10">
-                                <input type="text" id="name" class="form-control" name="activity_name" value="<%=activitydetail.activity_name%>"
-                                  maxlength="60">
-                                <input type="hidden" name="id" value="<%=activitydetail.id%>">
-                              </div>
-                            </div>       
-                            <div class="mb-1 row">
-                              <div class="col-sm-2">
-                                <label class="col-form-label new_lable" for="name">Background color</label>
-                              </div>
-                              <div class="col-sm-4">
-                                <input type="color" id="name" class="form-control" style="padding: revert" name="bg_color" value="<%=activitydetail.bg_color%>"
-                                  maxlength="60">
-                              </div>
-                            </div>   
-                           <div class="col-12">
-                              <div class="col-sm-9 offset-sm-5">
-                                <button type="submit"
-                                  class="btn btn-primary waves-effect waves-float waves-light">Update</button>
-                              </div>
+                        </div>
+                        <div class="col-md-8" style="margin-top: 17px;">
+                          <div class="mb-1 row">
+                            <div class="col-sm-2">
+                              <label class="col-form-label new_lable" for="name">Name</label>
+                            </div>
+                            <div class="col-sm-10">
+                              <input type="text" id="name" class="form-control" name="activity_name" value="<%=activitydetail.activity_name%>"
+                                maxlength="60">
+                              <input type="hidden" name="id" value="<%=activitydetail.id%>">
+                            </div>
+                          </div>       
+                          <div class="mb-1 row">
+                            <div class="col-sm-2">
+                              <label class="col-form-label new_lable" for="name">Background color</label>
+                            </div>
+                            <div class="col-sm-4">
+                              <input type="color" id="name" class="form-control" style="padding: revert" name="bg_color" value="<%=activitydetail.bg_color%>"
+                                maxlength="60">
+                            </div>
+                          </div>   
+
+                          <div class="mb-1 row">
+                            <div class="col-sm-2">
+                                <label class="col-form-label new_lable" for="is_amount">Amount</label>
+                            </div>
+                            <div class="col-sm-10">
+                                <div class="form-check form-switch">
+                                    <label class="switch">
+                                        <input type="checkbox" id="is_amount" class="form-check-input" name="is_amount">
+                                        <span class="slider round"></span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mb-1 row">
+                            <div class="col-sm-2">
+                                <label class="col-form-label new_lable" for="is_duration">Duration</label>
+                            </div>
+                            <div class="col-sm-10">
+                                <div class="form-check form-switch">
+                                    <label class="switch">
+                                        <input type="checkbox" id="is_duration" class="form-check-input" name="is_duration">
+                                        <span class="slider round"></span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                          <div class="col-12">
+                            <div class="col-sm-9 offset-sm-5">
+                              <button type="submit"
+                                class="btn btn-primary waves-effect waves-float waves-light">Update</button>
                             </div>
                           </div>
                         </div>
-                      </form>
-                    </div>
+                      </div>
+                    </form>
                   </div>
                 </div>
               </div>
@@ -126,82 +149,82 @@
 
       <%- include('../common/footer'); -%>
 
-      <script>
-        setTimeout(function () {
-          $("div.msg").fadeOut();
-        }, 2000);
-      </script>
+    <script>
+      setTimeout(function () {
+        $("div.msg").fadeOut();
+      }, 2000);
+    </script>
 
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js"
-          integrity="sha512-37T7leoNS06R80c8Ulq7cdCDU5MNQBwlYoy1TX/WUsLFC2eYNqtKlV0QjH7r8JpG/S0GUMZwebnVFLPd6SU5yg=="
-          crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js"
+      integrity="sha512-37T7leoNS06R80c8Ulq7cdCDU5MNQBwlYoy1TX/WUsLFC2eYNqtKlV0QjH7r8JpG/S0GUMZwebnVFLPd6SU5yg=="
+      crossorigin="anonymous" referrerpolicy="no-referrer">
+    </script>
 
-        <script>
-          $(document).ready(function () {
+    <script>
+      $(document).ready(function () {
 
-            jQuery.validator.addMethod("noSpace", function (value, element) {
-              return value == '' || value.trim().length != 0;
-            }, "No space allowed");
+        jQuery.validator.addMethod("noSpace", function (value, element) {
+          return value == '' || value.trim().length != 0;
+        }, "No space allowed");
 
-            $('#profile').validate({
-              rules: {
-                activity_name: {
-                  required: true,
-                  noSpace: true,
-                  maxlength: 60
-                },
-               
+        $('#profile').validate({
+          rules: {
+            activity_name: {
+              required: true,
+              noSpace: true,
+              maxlength: 60
+            },
+            
+          },
 
-              },
-
-              errorElement: "div",
-              errorClass: "jqval-error",
-              errorPlacement: function (error, element) {
-                error.insertAfter(element);
-                error.slideDown(400);
-                error.animate({
-                  opacity: 1
-                }, {
-                  queue: false,
-                  duration: 700
-                });
-              },
-
-              submitHandler: function (form) {
-                var error = $(".assign_error_div").text();
-                if (!error) {
-                  form.submit();
-                }
-              }
+          errorElement: "div",
+          errorClass: "jqval-error",
+          errorPlacement: function (error, element) {
+            error.insertAfter(element);
+            error.slideDown(400);
+            error.animate({
+              opacity: 1
+            }, {
+              queue: false,
+              duration: 700
             });
-          });
-        </script>
+          },
 
-        <script>
-          $(window).on('load', function () {
-            if (feather) {
-              feather.replace({
-                width: 14,
-                height: 14
-              });
+          submitHandler: function (form) {
+            var error = $(".assign_error_div").text();
+            if (!error) {
+              form.submit();
             }
-          })
-        </script>
-
-        <script>
-          // for preview of image
-          function loadFile(event, c) {
-            var image = document.getElementById(c);
-            image.src = URL.createObjectURL(event.target.files[0]);
           }
+        });
+      });
+    </script>
 
-          // imgInp.onchange = evt => {
-          //   const [file] = imgInp.files
-          //   if (file) {
-          //     profile_image.src = URL.createObjectURL(file)
-          //   }
-          // }
+    <script>
+      $(window).on('load', function () {
+        if (feather) {
+          feather.replace({
+            width: 14,
+            height: 14
+          });
+        }
+      })
+    </script>
+
+    <script>
+      // for preview of image
+      function loadFile(event, c) {
+        var image = document.getElementById(c);
+        image.src = URL.createObjectURL(event.target.files[0]);
+      }
+
+      // imgInp.onchange = evt => {
+      //   const [file] = imgInp.files
+      //   if (file) {
+      //     profile_image.src = URL.createObjectURL(file)
+      //   }
+      // }
 
 
-        </script>
+    </script>
 
