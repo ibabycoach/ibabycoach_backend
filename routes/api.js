@@ -74,7 +74,7 @@ router.post('/edit_memories', authenticateJWT, memoriescontroller.edit_memories)
 //////// ACTIVITY ///////////////
 router.post('/customizable_activity', authenticateJWT, activitycontroller.customizable_activity)
 router.post('/edit_activity', authenticateJWT, activitycontroller.edit_activity)
-router.get('/get_activity', authenticateJWT, activitycontroller.get_activity)
+router.post('/get_activity', authenticateJWT, activitycontroller.get_activity)
 router.post('/get_day_activity', authenticateJWT, activitycontroller.get_day_activity)
 router.post('/get_customized_activity', authenticateJWT, activitycontroller.get_customized_activity)
 router.post('/delete_activity', authenticateJWT, activitycontroller.delete_activity)

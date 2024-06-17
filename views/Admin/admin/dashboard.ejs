@@ -36,6 +36,7 @@
                   </div>
                 </div>
               </div>
+              <%if(session.goal_permission != 1){%>
               <div class="col-lg-3 col-md-5 col-sm-5 col-12">
                 <div class="card" onclick="location.href='/Goal_List' " style="cursor: pointer;">
                   <div class="card-header">
@@ -57,6 +58,55 @@
                   </div>
                 </div>
               </div>
+              <%}%>
+              <%if(session.activity_permission != 1){%>
+              <div class="col-lg-3 col-md-5 col-sm-5 col-12">
+                <div class="card" onclick="location.href='/activityList'" style="cursor: pointer;">
+                  <div class="card-header">
+                    <div>
+                      <h2 class="fw-bolder mb-0">
+                        <%=activity%>
+                      </h2>
+                      <p class="card-text">Activities</p>
+                    </div>
+                    <div class="avatar bg-light-primary p-50 m-0">
+                      <div class="avatar-content">
+                        <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                          <rect width="48" height="48" fill="white" fill-opacity="0.01"/>
+                          <path d="M36 18H12V44H36V18Z" fill="#ffffff" stroke="#ffffff" stroke-width="4" stroke-linejoin="round"/>
+                          <path fill-rule="evenodd" clip-rule="evenodd" d="M19.8943 11H28.1057C29.8329 11 31.365 12.1086 31.9051 13.7492L33.3045 18H14.6953L16.0949 13.7491C16.635 12.1086 18.1671 11 19.8943 11Z" 
+                          stroke="#ffffff" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+                          <path d="M21 11V7C21 5.34315 22.3431 4 24 4C25.6569 4 27 5.34315 27 7V11" stroke="#ffffff" stroke-width="4" stroke-linecap="round"/>
+                          <path d="M18.5 26V36" stroke="white" stroke-width="4" stroke-linecap="round"/>
+                          </svg>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <%}%>
+
+              <%if(session.contactus_permission != 1){%>
+              <div class="col-lg-3 col-md-5 col-sm-5 col-12">
+                <div class="card" onclick="location.href='/contactUsList'" style="cursor: pointer;">
+                  <div class="card-header">
+                    <div>
+                      <h2 class="fw-bolder mb-0">
+                        <%=contactus%>
+                      </h2>
+                      <p class="card-text">Contact us</p>
+                    </div>
+                    <div class="avatar bg-light-primary p-50 m-0">
+                      <div class="avatar-content">
+                          <svg fill="rgb(233, 230, 230)"  viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg" ><title>mail</title>
+                            <path d="M64 128Q64 113 73 105 81 96 96 96L416 96Q431 96 440 105 448 113 448 128L448 144 256 272 64 144 64 128ZM256 328L448 200 448 384Q448 416 416 416L96 416Q64 416 64 384L64 200 256 328Z" /></svg>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <%}%>
+
               <div class="row mb-3">
                 <div class="col-md-6">
                   <div class="card card-body h-100">
@@ -251,6 +301,7 @@
                   </div>
                 </div>
               </div>
+
               <div class="row mb-3">
                 <div class="col-md-6">
                   <div class="card card-body h-100">

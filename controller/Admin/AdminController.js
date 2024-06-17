@@ -2,6 +2,7 @@ const userModel = require('../../model/Admin/user')
 const subadminModel = require("../../model/Admin/subAdmin_permissions")
 const babyModel = require('../../model/Admin/baby')
 const subscriptions = require('../../model/Admin/subscriptions')
+const contactSupport = require('../../model/Admin/contactSupport')
 const activityModel = require('../../model/Admin/activity')
 const weekGoals = require('../../model/Admin/goals')
 const bcrypt = require('bcrypt')
@@ -65,6 +66,7 @@ module.exports = {
             let weekly_goals = await weekGoals.count({deleted: false})
             let sub_admin = await subadminModel.count({deleted:false})
             let customActivity = await activityModel.count({activity_type:'2', deleted: false})
+            let contactus = await contactSupport.count({deleted: false})
             const baby = await babyModel.aggregate([
                 {
                     $project: {
@@ -116,7 +118,7 @@ module.exports = {
                 const monthIndex = result._id.month - 1;
                 userCounts[monthIndex] = result.count;
             });
-            res.render('Admin/admin/dashboard', { userCounts, babyCount, sub_admin, title, users, subUser, babies, weekly_goals, customActivity, subscription, activity, session: req.session.user, msg: req.flash('msg') })
+            res.render('Admin/admin/dashboard', { userCounts, babyCount, sub_admin, contactus, title, users, subUser, babies, weekly_goals, customActivity, subscription, activity, session: req.session.user, msg: req.flash('msg') })
         } catch (error) {
             console.log(error)
         }
