@@ -49,7 +49,6 @@ module.exports = {
     try {
       const v = new Validator(req.body, {
         babyId: "required"
-       
       })
       const errorResponse = await helper.checkValidation(v);
       if (errorResponse) {
