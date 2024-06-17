@@ -49,86 +49,188 @@
   }
 </style>
 
-  <!-- BEGIN: Content-->
-  <div class="app-content content ">
-    <div class="content-overlay"></div>
-    <div class="header-navbar-shadow"></div>
-    <div class="content-wrapper container-xxl p-0">
-      <div class="content-body">
-        <section id="multiple-column-form">
-          <div class="row">
-            <div class="col-md-12 col-12">
-              <div class="card">
-                <div class="card-header">
-                  <h4 class="card-title">Edit Profile </h4>
-                </div>
-                <br>
-                <div class="card-body">
-                  <form class="form form-vertical" id="profile" action="/update_SubAdmin" method="POST" enctype="multipart/form-data">
-                    <div class="row">
-                      <div class="col-md-4">
-                        <div class="profile-widget-header text-center">
-                          <img src="<%=updatedata.image%>" id="output2" alt="Profile Edit"
-                            class="ms-md-0 mx-auto img-thumbnail user_bigimg">
-
-                          <input onchange="loadFile(event,'output2')" type="file" id="imgInp" name="image" />
-                          <label for="imgInp" style="cursor: pointer;">
-                            <!-- <span class="fe fe-24 fe-camera"></span> -->
-                            <i class="fe fe-24 camera_icon" data-feather='camera'></i>
-                          </label>
-                        </div>
+<!-- BEGIN: Content-->
+<div class="app-content content ">
+  <div class="content-overlay"></div>
+  <div class="header-navbar-shadow"></div>
+  <div class="content-wrapper container-xxl p-0">
+    <div class="content-body">
+      <section id="multiple-column-form">
+        <div class="row">
+          <div class="card">
+            <div class="card-header">
+              <h4 class="card-title">Edit Profile </h4>
+            </div>
+            <div class="card-body">
+              <form class="form form-vertical" id="profile" action="/update_SubAdmin" method="POST" enctype="multipart/form-data">
+                <div class="row">
+                  <div class="col-md-4">
+                    <div class="profile-widget-header text-center">
+                      <img src="<%=updatedata.image%>" id="output2" alt=""
+                        class="ms-md-0 mx-auto img-thumbnail user_bigimg">
+                      <input onchange="loadFile(event,'output2')" type="file" id="imgInp" name="image" />
+                      <label for="imgInp" style="cursor: pointer;">
+                        <!-- <span class="fe fe-24 fe-camera"></span> -->
+                        <i class="fe fe-24 camera_icon" data-feather='camera'></i>
+                      </label>
+                    </div>
+                  </div>
+                  <div class="col-8" style="margin-top: 17px;">
+                    <div class="mb-1 row">
+                      <div class="col-sm-2">
+                        <label class="col-form-label new_lable" for="firstname">Name</label>
                       </div>
-                      <div class="col-8" style="margin-top: 17px;">
-                        <div class="mb-1 row">
-                          <div class="col-sm-2">
-                            <label class="col-form-label new_lable" for="firstname">Name</label>
-                          </div>
-                          <div class="col-sm-10">
-                            <input type="text" id="name" class="form-control" name="name" value="<%=updatedata.name%>" maxlength="60">
-                            <input type="hidden" name="id" value="<%=updatedata.id%>">
-                        </div>
-                        </div>
-                        <div class="mb-1 row">
-                          <div class="col-sm-2">
-                            <label class="col-form-label new_lable" for="email">Email</label>
-                          </div>
-                          <div class="col-sm-10">
-                            <input type="email" id="email" class="form-control" name="email" value="<%=updatedata.email%>" disabled>
-                          </div>
-                        </div>
+                      <div class="col-sm-10">
+                        <input type="text" id="name" class="form-control" name="name" value="<%=updatedata.name%>" maxlength="60">
+                        <input type="hidden" name="id" value="<%=updatedata.id%>">
+                      </div>
+                    </div>
+                    <div class="mb-1 row">
+                      <div class="col-sm-2">
+                        <label class="col-form-label new_lable" for="email">Email</label>
+                      </div>
+                      <div class="col-sm-10">
+                        <input type="email" id="email" class="form-control" name="email" value="<%=updatedata.email%>" disabled>
+                      </div>
+                    </div>
 
-                        <!-- <div class="mb-1 row">
-                          <div class="col-sm-2">
-                            <label class="col-form-label new_lable" for="mobile">Phone</label>
-                          </div>
-                          <div class="col-sm-10">
-                            <input type="number" id="phone" class="form-control" name="phone" value="<%=updatedata.phone%>" maxlength="15">
-                          </div>
-                        </div> -->
-                        <div class="mb-1 row justify-content-center">
-                          <div class="col-sm-4 text-end">
-                            <button type="submit" class="btn btn-primary waves-effect waves-float waves-light">Update</button>
-                          </div>
+                    <div class="mb-1 row">
+                      <div class="col-sm-2">
+                        <label class="col-form-label new_lable" for="readCheckbox">Activity</label>
+                      </div>
+                      <div class="col-sm-10">
+                        <div class="form-check form-check-inline">
+                          <input type="radio" class="form-check-input" id="restrictedRadio" name="activity_permission" value="1"
+                          <%= updatedata.activity_permission == 1 ? 'checked' : '' %>>
+                          <label class="form-check-label" for="restrictedRadio">Restricted</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                          <input type="radio" class="form-check-input" id="readOnlyRadio" name="activity_permission" value="2"
+                          <%= updatedata.activity_permission == 2 ? 'checked' : '' %>>
+                          <label class="form-check-label" for="readOnlyRadio">Read Only</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                          <input type="radio" class="form-check-input" id="fullAccessRadio" name="activity_permission" value="3"
+                          <%= updatedata.activity_permission == 3 ? 'checked' : '' %>>
+                          <label class="form-check-label" for="fullAccessRadio">Full Access</label>
                         </div>
                       </div>
                     </div>
-                  </form>
+
+                    <div class="mb-1 row">
+                      <div class="col-sm-2">
+                        <label class="col-form-label new_lable" for="readCheckbox">Goal</label>
+                      </div>
+                      <div class="col-sm-10">
+                        <div class="form-check form-check-inline">
+                          <input type="radio" class="form-check-input" id="restrictedRadio" name="goal_permission" value="1"
+                          <%= updatedata.goal_permission == 1 ? 'checked' : '' %>>
+                          <label class="form-check-label" for="restrictedRadio">Restricted</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                          <input type="radio" class="form-check-input" id="readOnlyRadio" name="goal_permission" value="2"
+                          <%= updatedata.goal_permission == 2 ? 'checked' : '' %>>
+                          <label class="form-check-label" for="readOnlyRadio">Read Only</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                          <input type="radio" class="form-check-input" id="fullAccessRadio" name="goal_permission" value="3"
+                          <%= updatedata.goal_permission == 3 ? 'checked' : '' %>>
+                          <label class="form-check-label" for="fullAccessRadio">Full Access</label>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="mb-1 row">
+                      <div class="col-sm-2">
+                        <label class="col-form-label new_lable" for="readCheckbox">Contact us</label>
+                      </div>
+                      <div class="col-sm-10">
+                        <div class="form-check form-check-inline">
+                          <input type="radio" class="form-check-input" id="restrictedRadio" name="contactus_permission" value="1"
+                          <%= updatedata.contactus_permission == 1 ? 'checked' : '' %>>
+                          <label class="form-check-label" for="restrictedRadio">Restricted</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                          <input type="radio" class="form-check-input" id="readOnlyRadio" name="contactus_permission" value="2"
+                          <%= updatedata.contactus_permission == 2 ? 'checked' : '' %>>
+                          <label class="form-check-label" for="readOnlyRadio">Read Only</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                          <input type="radio" class="form-check-input" id="fullAccessRadio" name="contactus_permission" value="3"
+                          <%= updatedata.contactus_permission == 3 ? 'checked' : '' %>>
+                          <label class="form-check-label" for="fullAccessRadio">Full Access</label>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="mb-1 row">
+                      <div class="col-sm-2">
+                        <label class="col-form-label new_lable" for="readCheckbox"> CMS </label>
+                      </div>
+                      <div class="col-sm-10">
+                        <div class="form-check form-check-inline">
+                          <input type="radio" class="form-check-input" id="restrictedRadio" name="CMS_permission" value="1"
+                          <%= updatedata.CMS_permission == 1 ? 'checked' : '' %>>
+                          <label class="form-check-label" for="restrictedRadio">Restricted</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                          <input type="radio" class="form-check-input" id="readOnlyRadio" name="CMS_permission" value="2"
+                          <%= updatedata.CMS_permission == 2 ? 'checked' : '' %>>
+                          <label class="form-check-label" for="readOnlyRadio">Read Only</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                          <input type="radio" class="form-check-input" id="fullAccessRadio" name="CMS_permission" value="3"
+                          <%= updatedata.CMS_permission == 3 ? 'checked' : '' %>>
+                          <label class="form-check-label" for="fullAccessRadio">Full Access</label>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="mb-1 row">
+                      <div class="col-sm-2">
+                        <label class="col-form-label new_lable" for="readCheckbox">Push Notification</label>
+                      </div>
+                      <div class="col-sm-10">
+                        <div class="form-check form-check-inline">
+                          <input type="radio" class="form-check-input" id="restrictedRadio" name="push_notification_permission" value="1"
+                          <%= updatedata.push_notification_permission == 1 ? 'checked' : '' %>>
+                          <label class="form-check-label" for="restrictedRadio">Restricted</label>
+                        </div>
+                        <!-- <div class="form-check form-check-inline">
+                          <input type="radio" class="form-check-input" id="readOnlyRadio" name="push_notification_permission" value="2">
+                          <label class="form-check-label" for="readOnlyRadio">Read Only</label>
+                        </div> -->
+                        <div class="form-check form-check-inline">
+                          <input type="radio" class="form-check-input" id="fullAccessRadio" name="push_notification_permission" value="3"
+                          <%= updatedata.push_notification_permission == 3 ? 'checked' : '' %>>
+                          <label class="form-check-label" for="fullAccessRadio">Full Access</label>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="mb-1 row justify-content-center">
+                      <div class="col-sm-4 text-end">
+                        <button type="submit" class="btn btn-primary waves-effect waves-float waves-light">Update</button>
+                      </div>
+                    </div>
+                  </div>
                 </div>
-              </div>
+              </form>
             </div>
           </div>
-        </section>
-      </div>
+        </div>
+      </section>
     </div>
   </div>
-  <div class="sidenav-overlay"></div>
-  <div class="drag-target"></div>
+</div>
+<div class="sidenav-overlay"></div>
+<div class="drag-target"></div>
 
-  <%- include('../common/footer'); -%>
+<%- include('../common/footer'); -%>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js"
 integrity="sha512-37T7leoNS06R80c8Ulq7cdCDU5MNQBwlYoy1TX/WUsLFC2eYNqtKlV0QjH7r8JpG/S0GUMZwebnVFLPd6SU5yg=="
-crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+crossorigin="anonymous" referrerpolicy="no-referrer">
+</script>
 
 <script>
   $(document).ready(function() {
@@ -183,7 +285,6 @@ crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     });
   });
 </script>
-
 
 <script>
   $(window).on('load', function () {
