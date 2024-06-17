@@ -18,7 +18,7 @@ module.exports = {
           return helper.failed(res, errorResponse);
         }
 
-      let lastEntry = await growthModel.findOne({babyId: req.body.babyId}).sort({createdAt: -1})
+      let lastEntry = await growthModel.findOne({babyId: req.body.babyId, deleted:false}).sort({createdAt: -1})
 
       let babygrowthData = {userId,
         ...req.body,
