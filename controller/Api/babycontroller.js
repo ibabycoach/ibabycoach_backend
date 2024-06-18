@@ -76,11 +76,11 @@ module.exports = {
      
         const babydetails = await baby_model.find({_id: babyId});
 
-        const updatebabydata = await user_model.findByIdAndUpdate({_id: req.user._id}, 
-          {image: babydata.image
-       });
+      //   const updatebabydata = await user_model.findByIdAndUpdate({_id: req.user._id}, 
+      //     {image: babydata.image
+      //  });
 
-      return helper.success(res, "baby details updated successfully", babydetails)
+      return helper.success(res, "baby details updated successfully")
 
     } catch (error) {
       console.log(error)
