@@ -13,15 +13,7 @@ module.exports = {
  
   edit_profile: async(req, res)=> {
       try {
-          const v = new Validator(req.body, {
-              // babyId: "required",
-          });
-          
-          const errorResponse = await helper.checkValidation(v);
-          if (errorResponse) {
-              return helper.failed(res, errorResponse);
-          }
-
+        
           if (req.files && req.files.image) {
             var image = req.files.image;
           
@@ -36,20 +28,11 @@ module.exports = {
               phone: req.body.phone,
               country_code: req.body.country_code,
               image: req.body.image});
-              
-              const babydata = await baby_model.findByIdAndUpdate({_id: req.body.babyId},
-                {baby_name: req.body.baby_name,
-                birthday: req.body.birthday,
-                gender: req.body.gender,
-                // image: req.body.image
-              });
 
               const findUpdatedUser = await user_model.findOne({_id: userId})
-              const findUpdatedbaby = await baby_model.findOne({_id: req.body.babyId})
               
           return helper.success(res, "user details updated successfully", 
-          { user_data: findUpdatedUser, 
-            baby_data: findUpdatedbaby })
+          { user_data: findUpdatedUser})
 
       } catch (error) {
           console.log(error)

@@ -3,20 +3,20 @@ const mongoose = require('mongoose');
 const unitSchema = new mongoose.Schema({
 
   userId: {type: mongoose.Schema.Types.ObjectId, ref: "User"},
-  height_unit: {
+  current_height_unit: {
     type: String,
-    enum: ['inches', 'cm'], 
-    default: 'inches'
+    enum: ['in', 'cm'], 
+    default: 'in'
   },
-  weight_unit: {
+  current_weight_unit: {
     type: String,
-    enum: ['kg', 'pound'], 
-    default: 'pound'
+    enum: ['kg', 'lb'], 
+    default: 'lb'
   },
-  headSize_unit: {
+  current_headSize_unit: {
     type: String,
-    enum: ['inches', 'cm'], 
-    default: 'inches'
+    enum: ['in', 'cm'], 
+    default: 'in'
   },
   deleted: {type: Boolean, default: false},
 }, 

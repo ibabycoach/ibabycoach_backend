@@ -65,9 +65,9 @@ module.exports = {
       // Adding unit preferences to each baby_growth record
       const babygrowth = baby_growth.map(growth => ({
         ...growth.toObject(),
-        height_unit: findUserUnit.height_unit,
-        weight_unit: findUserUnit.weight_unit,
-        headSize_unit: findUserUnit.headSize_unit
+        current_height_unit: findUserUnit.current_height_unit,
+        current_weight_unit: findUserUnit.current_weight_unit,
+        current_headSize_unit: findUserUnit.current_headSize_unit
       }));
   
       return helper.success(res, "baby growth details", babygrowth);
