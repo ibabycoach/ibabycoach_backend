@@ -14,7 +14,7 @@ module.exports = {
   edit_profile: async(req, res)=> {
       try {
           const v = new Validator(req.body, {
-              babyId: "required",
+              // babyId: "required",
           });
           
           const errorResponse = await helper.checkValidation(v);
@@ -22,25 +22,27 @@ module.exports = {
               return helper.failed(res, errorResponse);
           }
 
+          if (req.files && req.files.image) {
+            var image = req.files.image;
+          
+            if (image) {
+              req.body.image = helper.imageUpload(image, "images");
+            }
+          }
+
           let userId = req.user._id;
           const userdata = await user_model.findByIdAndUpdate({_id: userId},
               {name: req.body.name,
               phone: req.body.phone,
-              country_code: req.body.country_code});
-
-              if (req.files && req.files.image) {
-                var image = req.files.image;
-              
-                if (image) {
-                  req.body.image = helper.imageUpload(image, "images");
-                }
-              }
+              country_code: req.body.country_code,
+              image: req.body.image});
               
               const babydata = await baby_model.findByIdAndUpdate({_id: req.body.babyId},
                 {baby_name: req.body.baby_name,
                 birthday: req.body.birthday,
                 gender: req.body.gender,
-                image: req.body.image});
+                // image: req.body.image
+              });
 
               const findUpdatedUser = await user_model.findOne({_id: userId})
               const findUpdatedbaby = await baby_model.findOne({_id: req.body.babyId})

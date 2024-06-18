@@ -39,29 +39,41 @@ module.exports = {
       }
   },
 
-  track_growth: async(req, res)=> {
+  track_growth: async(req, res) => {
     try {
       let userId = req.user._id;
   
-      const v = new Validator( req.body, {
+      const v = new Validator(req.body, {
         babyId: "required"
-      })
+      });
       const errorResponse = await helper.checkValidation(v);
       if (errorResponse) {
-        return helper.failed(res, "something went wrong")
+        return helper.failed(res, "something went wrong");
       }
-
+  
       let babyId = req.body.babyId;
-      const baby_growth = await growthModel.find({ babyId: babyId, deleted: false }).sort({createdAt:-1})
-      .populate("userId", "name");
-
-      const findUserUnit = await unitModel.findOne({userId})
-
-      let babygrowth = [...baby_growth, ...findUserUnit];
-
-      return helper.success(res, "baby growth details", babygrowth)
+      const baby_growth = await growthModel.find({ babyId: babyId, deleted: false })
+        .sort({ createdAt: -1 })
+        .populate("userId", "name");
+  
+      const findUserUnit = await unitModel.findOne({ userId });
+  
+      if (!findUserUnit) {
+        return helper.failed(res, "User unit preferences not found");
+      }
+  
+      // Adding unit preferences to each baby_growth record
+      const babygrowth = baby_growth.map(growth => ({
+        ...growth.toObject(),
+        height_unit: findUserUnit.height_unit,
+        weight_unit: findUserUnit.weight_unit,
+        headSize_unit: findUserUnit.headSize_unit
+      }));
+  
+      return helper.success(res, "baby growth details", babygrowth);
     } catch (error) {
-      console.log(error)
+      console.log(error);
+      return helper.failed(res, "Internal server error");
     }
   },
 
