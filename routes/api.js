@@ -43,7 +43,7 @@ router.post('/deleted_account', authenticateJWT, userprofilecontroller.deleted_a
 //////////////// BABY ////////
 router.post('/add_baby', authenticateJWT, babycontroller.add_baby)
 router.post('/edit_baby', authenticateJWT, babycontroller.edit_baby)
-router.delete('/delete_baby', authenticateJWT, babycontroller.delete_baby)
+router.post('/delete_baby', authenticateJWT, babycontroller.delete_baby)
 router.get('/baby_list', authenticateJWT, babycontroller.baby_list)
 router.post('/switch_baby_account', authenticateJWT, babycontroller.switch_baby_account)
 
@@ -55,7 +55,6 @@ router.post('/deleteGrowth', authenticateJWT, growthcontroller.deleteGrowth)
 
 ///////////// ICONS ////////////
 router.get('/icons_list', authenticateJWT, iconcontroller.icons_list)
-
 
 ////////////// UNITS ///////////// 
 router.post('/update_unit', authenticateJWT, unitcontroller.update_unit)

@@ -1,5 +1,6 @@
 const growthModel = require('../../model/Admin/growth');
 let helper = require('../../Helper/helper')
+const unitModel = require('../../model/Admin/units')
 const { Validator } = require('node-input-validator');
 
 module.exports = {
@@ -40,6 +41,8 @@ module.exports = {
 
   track_growth: async(req, res)=> {
     try {
+      let userId = req.user._id;
+  
       const v = new Validator( req.body, {
         babyId: "required"
       })
@@ -49,8 +52,12 @@ module.exports = {
       }
 
       let babyId = req.body.babyId;
-      const babygrowth = await growthModel.find({ babyId: babyId, deleted: false }).sort({createdAt:-1})
+      const baby_growth = await growthModel.find({ babyId: babyId, deleted: false }).sort({createdAt:-1})
       .populate("userId", "name");
+
+      const findUserUnit = await unitModel.findOne({userId})
+
+      let babygrowth = [...baby_growth, ...findUserUnit];
 
       return helper.success(res, "baby growth details", babygrowth)
     } catch (error) {

@@ -96,9 +96,10 @@ module.exports = {
       if (errorResponse) {
         return helper.failed(res, errorResponse);
       }
-      const removebaby = await baby_model.deleteOne({_id:req.body.babyId}) 
+      const removebaby = await baby_model.findByIdAndUpdate({_id:req.body.babyId},
+        {deleted:true}); 
       
-      return helper.success(res, "baby details deleted successfully", removebaby)
+      return helper.success(res, "Baby details deleted successfully")
 
     } catch (error) {
       console.log(error)
@@ -111,9 +112,9 @@ module.exports = {
 
         if (req.user.role == 2) {
           const parentId = req.user.parentId;
-          getbabydetails = await baby_model.find({ userId: parentId });
+          getbabydetails = await baby_model.find({ userId: parentId, deleted:false});
         } else {
-          getbabydetails = await baby_model.find({ userId: userId });
+          getbabydetails = await baby_model.find({ userId: userId, deleted:false});
         }
         
         return helper.success(res, "baby list", getbabydetails )
@@ -135,9 +136,9 @@ module.exports = {
         }
 
       if (req.user.role == 2) {
-        getBabyData = await baby_model.findById({ _id: req.body.babyId });
+        getBabyData = await baby_model.findById({ _id: req.body.babyId,  deleted:false });
       } else {
-        getBabyData = await baby_model.findById({ _id: req.body.babyId });
+        getBabyData = await baby_model.findById({ _id: req.body.babyId, deleted:false });
       }
 
       const getroutine = await routinebuilder.find({babyId: req.body.babyId})
