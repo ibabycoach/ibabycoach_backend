@@ -3,6 +3,7 @@ const baby_model = require ('../../model/Admin/baby')
 const helper = require('../../Helper/helper')
 const { Validator } = require('node-input-validator');
 const routinebuilder = require('../../model/Admin/routinebuilder');
+const unitModel = require('../../model/Admin/units');
 
 module.exports = {
 
@@ -35,9 +36,12 @@ module.exports = {
                babyId: addbaby._id,
               //  image: addbaby.image
             });
-          //   const updatebabyimage = await user_model.findOneAndUpdate({parentId: userId._id},
-          //     {image: addbaby.image}
-          //  );
+
+           // Check if a unit already exists for the user before creating a new one
+            const existingUnit = await unitModel.findOne({ userId });
+            if (!existingUnit) {
+              await unitModel.create({ userId });
+            }
 
           return helper.success(res, "baby details added", addbaby)
     } catch (error) {
@@ -145,7 +149,5 @@ module.exports = {
       return helper.failed(res, "Something went wrong");
   }
   },
-
-
     
 }

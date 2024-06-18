@@ -15,6 +15,7 @@ const contactSupportcontroller = require('../controller/Api/contactSupportcontro
 const remindercontroller = require('../controller/Api/remindercontroller');
 const daily_taskcontroller = require('../controller/Api/daily_taskcontroller');
 const iconcontroller = require('../controller/Api/iconcontroller');
+const unitcontroller = require('../controller/Api/unitcontroller');
 const authenticateJWT = require("../Helper/helper").authenticateJWT;
 const authenticateHeader = require("../Helper/helper").authenticateHeader;
 
@@ -54,6 +55,10 @@ router.post('/deleteGrowth', authenticateJWT, growthcontroller.deleteGrowth)
 
 ///////////// ICONS ////////////
 router.get('/icons_list', authenticateJWT, iconcontroller.icons_list)
+
+
+////////////// UNITS ///////////// 
+router.post('/update_unit', authenticateJWT, unitcontroller.update_unit)
 
 ////// ROUTINE BUILDER /////////
 router.post('/add_routine', authenticateJWT, routinecontroller.add_routine)
