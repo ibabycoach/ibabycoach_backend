@@ -6,17 +6,17 @@ const unitSchema = new mongoose.Schema({
   current_height_unit: {
     type: String,
     enum: ['in', 'cm'], 
-    default: 'in'
+    default: 'cm'
   },
   current_weight_unit: {
     type: String,
     enum: ['kg', 'lb'], 
-    default: 'lb'
+    default: 'kg'
   },
   current_headSize_unit: {
     type: String,
     enum: ['in', 'cm'], 
-    default: 'in'
+    default: 'cm'
   },
   deleted: {type: Boolean, default: false},
 }, 

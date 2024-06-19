@@ -44,7 +44,6 @@ cron.schedule("* * * * *", async () => {
     // console.log("running a task every minute");
     pushCroneHandler();
     return;
-    
   });
 
 module.exports = { 

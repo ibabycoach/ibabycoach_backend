@@ -1,53 +1,77 @@
-
 <%- include('../common/header') %>
 <%- include('../common/sidebar') %>
 
 
-    <!-- BEGIN: Content-->
-    <div class="app-content content ">
+<!-- BEGIN: Content-->
+<div class="app-content content ">
 
-      <div class="content-wrapper container-xxl p-0">
-        <div class="content-body">
-          <section id="multiple-column-form">
-            <div class="card">
-              <div class="card-header">
-                <h4 class="card-title"> About Us</h4>
-              </div>
+  <div class="content-wrapper container-xxl p-0">
+    <div class="content-body">
+      <section id="multiple-column-form">
+        <div class="card">
+          <div class="card-header">
+            <h4 class="card-title"> About Us</h4>
+          </div>
 
-              <div class="card-body">
-                <form action="/updatecms" method="post">
-                  <div class="form-group row mb-2">
-                    <label class="col-form-label text-md-left col-10 col-md-1 col-lg-1">Title </label>
-                    <div class="col-sm-12 col-md-12">
-                      <input type="text" name="title" value="<%= aboutUsData?.title %> " class="form-control" disabled>
-                    </div>
-                  </div>
-                  <div class="form-group row mb-2">
-                    <label class="col-form-label col-12 col-md-3 col-lg-3">Description</label>
-                    <div class="col-sm-12 col-md-12">
-                      <textarea class="content" id="content" name="description" class="form-control"
-                        required> <%=aboutUsData?.description%> </textarea>
-                     
-                      <input type="hidden" name="id" value="<%=aboutUsData?.id%>"> <br>
-                      <br>
-                      <button type="submit" class="btn btn-primary">Submit <i
-                          class="icon-arrow-right14 position-right"></i></button>
-                    </div>
-                  </div>
-                </form>
-              </div>
-            </div>
-          </section>
-        </div>
-      </div>
+          <div class="card-body">
+           <form action="/updatecms" method="post">
+  <div class="form-group row mb-2">
+    <label class="col-form-label text-md-left col-10 col-md-1 col-lg-1">Title</label>
+    <div class="col-sm-12 col-md-12">
+      <input type="text" name="title" value="<%= aboutUsData?.title %>" class="form-control" disabled>
     </div>
-    <div class="sidenav-overlay"></div>
-    <div class="drag-target"></div>
+  </div>
+  <div class="form-group row mb-2">
+    <label class="col-form-label col-12 col-md-3 col-lg-3">Description</label>
+    <div class="col-sm-12 col-md-12">
+      <% if (session.role == 3) { %>
+        <% if (session.CMS_permission == 3) { %>
+          <textarea class="content form-control" id="content" name="description"><%= aboutUsData?.description %></textarea>
+          <input type="hidden" name="id" value="<%= aboutUsData?.id %>">
+          <br>
+          <br>
+          <button type="submit" class="btn btn-primary">Submit <i class="icon-arrow-right14 position-right"></i></button>
+        <% } else if (session.CMS_permission == 2) { %>
+          <textarea class="content form-control" id="content" name="description" disabled><%= aboutUsData?.description %></textarea>
+          <input type="hidden" name="id" value="<%= aboutUsData?.id %>">
+          <br>
+          <!-- <button type="submit" class="btn btn-primary" disabled>Submit <i class="icon-arrow-right14 position-right"></i></button> -->
+        <% } else { %>
+          <textarea class="content form-control" id="content" name="description"><%= aboutUsData?.description %></textarea>
+          <input type="hidden" name="id" value="<%= aboutUsData?.id %>">
+          <br>
+          <br>
+          <button type="submit" class="btn btn-primary">Submit <i class="icon-arrow-right14 position-right"></i></button>
+        <% } %>
+      <% } else if (session.role == 0) { %>
+        <textarea class="content form-control" id="content" name="description"><%= aboutUsData?.description %></textarea>
+        <input type="hidden" name="id" value="<%= aboutUsData?.id %>">
+        <br>
+        <br>
+        <button type="submit" class="btn btn-primary">Submit <i class="icon-arrow-right14 position-right"></i></button>
+      <% } else { %>
+        <textarea class="content form-control" id="content" name="description" disabled><%= aboutUsData?.description %></textarea>
+        <input type="hidden" name="id" value="<%= aboutUsData?.id %>">
+        <br>
+        <!-- <button type="submit" class="btn btn-primary" disabled>Submit <i class="icon-arrow-right14 position-right"></i></button> -->
+      <% } %>
+      
+    </div>
+  </div>
+</form>
 
-    <%- include('../common/footer') %>
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
+</div>
+<div class="sidenav-overlay"></div>
+<div class="drag-target"></div>
 
-    <script src="https://cdn.ckeditor.com/4.20.2/standard/ckeditor.js"></script>
-    <script>
-      CKEDITOR.replace('content');
-    </script>
-    
+<%- include('../common/footer') %>
+
+<script src="https://cdn.ckeditor.com/4.20.2/standard/ckeditor.js"></script>
+<script>
+  CKEDITOR.replace('content');
+</script>

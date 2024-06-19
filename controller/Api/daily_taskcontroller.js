@@ -103,7 +103,7 @@ module.exports = {
     }
   },
   
-  // to get last_time of task added with the specific activity
+  // To get last_time of task added with the specific activity
   admin_activity: async (req, res) => {
     try {
       const { activityId, babyId } = req.body;

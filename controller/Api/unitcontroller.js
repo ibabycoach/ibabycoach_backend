@@ -12,7 +12,7 @@ module.exports = {
 
             const updatedunits = await unitModel.findOneAndUpdate({ userId})
          
-          return helper.success(res, "baby details updated successfully", updatedunits)
+          return helper.success(res, "Units updated successfully", updatedunits)
     
         } catch (error) {
           console.log(error)

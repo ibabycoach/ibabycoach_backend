@@ -28,11 +28,39 @@
                   <div class="form-group row mb-2">
                     <label class="col-form-label col-12 col-md-3 col-lg-3">Description</label>
                     <div class="col-sm-12 col-md-12">
-                      <textarea class="content" id="content" name="description" class="form-control"
-                        required> <%=policyData?.description%> </textarea>
-                      <input type="hidden" name="id" value="<%=policyData?.id%>"> <br>
-                      <button type="submit" class="btn btn-primary">Submit <i
-                          class="icon-arrow-right14 position-right"></i></button>
+
+                      <% if (session.role == 3) { %>
+                        <% if (session.CMS_permission == 3) { %>
+                          <textarea class="content form-control" id="content" name="description"><%= policyData?.description %></textarea>
+                          <input type="hidden" name="id" value="<%= policyData?.id %>">
+                          <br>
+                          <br>
+                          <button type="submit" class="btn btn-primary">Submit <i class="icon-arrow-right14 position-right"></i></button>
+                        <% } else if (session.CMS_permission == 2) { %>
+                          <textarea class="content form-control" id="content" name="description" disabled><%= policyData?.description %></textarea>
+                          <input type="hidden" name="id" value="<%= policyData?.id %>">
+                          <br>
+                          <!-- <button type="submit" class="btn btn-primary" disabled>Submit <i class="icon-arrow-right14 position-right"></i></button> -->
+                        <% } else { %>
+                          <textarea class="content form-control" id="content" name="description"><%= policyData?.description %></textarea>
+                          <input type="hidden" name="id" value="<%= policyData?.id %>">
+                          <br>
+                          <br>
+                          <button type="submit" class="btn btn-primary">Submit <i class="icon-arrow-right14 position-right"></i></button>
+                        <% } %>
+                      <% } else if (session.role == 0) { %>
+                        <textarea class="content form-control" id="content" name="description"><%= policyData?.description %></textarea>
+                        <input type="hidden" name="id" value="<%= policyData?.id %>">
+                        <br>
+                        <br>
+                        <button type="submit" class="btn btn-primary">Submit <i class="icon-arrow-right14 position-right"></i></button>
+                      <% } else { %>
+                        <textarea class="content form-control" id="content" name="description" disabled><%= policyData?.description %></textarea>
+                        <input type="hidden" name="id" value="<%= policyData?.id %>">
+                        <br>
+                        <!-- <button type="submit" class="btn btn-primary" disabled>Submit <i class="icon-arrow-right14 position-right"></i></button> -->
+                      <% } %>
+
                     </div>
                   </div>
                 </form>

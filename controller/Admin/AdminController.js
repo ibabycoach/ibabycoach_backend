@@ -59,6 +59,9 @@ module.exports = {
         try {
             let title = "dashboard"
             let users = await userModel.count({ role: 1, deleted:false })
+            let userIDs = [];
+            let subadminCount = await subadminModel.findById({_id: req.session.user._id });
+            let subadmin_users = subadminCount?.usersId?.length;
             let subUser = await userModel.count({ role:2 , deleted: false})
             let babies = await babyModel.count({deleted: false})
             let subscription = await subscriptions.count({deleted: false})
@@ -118,7 +121,7 @@ module.exports = {
                 const monthIndex = result._id.month - 1;
                 userCounts[monthIndex] = result.count;
             });
-            res.render('Admin/admin/dashboard', { userCounts, babyCount, sub_admin, contactus, title, users, subUser, babies, weekly_goals, customActivity, subscription, activity, session: req.session.user, msg: req.flash('msg') })
+            res.render('Admin/admin/dashboard', { userCounts, babyCount, subadmin_users, sub_admin, contactus, title, users, subUser, babies, weekly_goals, customActivity, subscription, activity, session: req.session.user, msg: req.flash('msg') })
         } catch (error) {
             console.log(error)
         }
