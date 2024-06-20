@@ -30,7 +30,6 @@ module.exports = {
           babygrowthData.lastWeight = lastEntry.weight;
           babygrowthData.lastHeadSize = lastEntry.headSize;
       }
-
       let babygrowth = await growthModel.create(babygrowthData);
             
       return helper.success(res, "Growth added successfully", {})
