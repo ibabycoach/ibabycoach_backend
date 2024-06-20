@@ -28,6 +28,7 @@ module.exports = {
       if (lastEntry) {
           babygrowthData.lastHeight = lastEntry.height;
           babygrowthData.lastWeight = lastEntry.weight;
+          babygrowthData.last_oz = lastEntry.last_oz;
           babygrowthData.lastHeadSize = lastEntry.headSize;
       }
       let babygrowth = await growthModel.create(babygrowthData);

@@ -4,11 +4,13 @@ const growthSchema = new mongoose.Schema({
   userId: {type: mongoose.Schema.Types.ObjectId, ref: "User"},
   babyId: {type: mongoose.Schema.Types.ObjectId, ref: "baby"},
   time: { type: Date, default: '' },
-  height: { type: String, default: '' },
-  weight: { type: String, default: '' },
-  headSize: { type: String, default: '' },
+  height: { type: String, default: '0' },
+  weight: { type: String, default: '0' },
+  oz: { type: String, default: '0' },
+  headSize: { type: String, default: '0' },
   lastHeight: { type: String, default: '0' },
   lastWeight: { type: String, default: '0' },
+  last_oz: { type: String, default: '0' },
   lastHeadSize: { type: String, default: '0' },
   image: { type: String, default: '' },
   height_unit: {
@@ -21,6 +23,7 @@ const growthSchema = new mongoose.Schema({
     enum: ['kg', 'lb, oz'], 
     default: 'lb, oz'
   },
+  oz_unit: {type: String, default: 'in'},
   headSize_unit: {
     type: String,
     enum: ['in', 'cm'], 
