@@ -8,11 +8,6 @@ const growthSchema = new mongoose.Schema({
   weight: { type: String, default: '0' },
   oz: { type: String, default: '0' },
   headSize: { type: String, default: '0' },
-  lastHeight: { type: String, default: '0' },
-  lastWeight: { type: String, default: '0' },
-  last_oz: { type: String, default: '0' },
-  lastHeadSize: { type: String, default: '0' },
-  image: { type: String, default: '' },
   height_unit: {
     type: String,
     enum: ['in', 'cm'], 
@@ -21,7 +16,7 @@ const growthSchema = new mongoose.Schema({
   weight_unit: {
     type: String,
     enum: ['kg', 'lb'], 
-    default: 'lb, oz'
+    default: 'lb'
   },
   oz_unit: {type: String, default: '0'},
   headSize_unit: {
@@ -29,6 +24,17 @@ const growthSchema = new mongoose.Schema({
     enum: ['in', 'cm'], 
     default: 'in'
   },
+  lastHeight: { type: String, default: '0' },
+  lastWeight: { type: String, default: '0' },
+  last_oz: { type: String, default: '0' },
+  lastHeadSize: { type: String, default: '0' },
+
+  lastHeight_unit: { type: String, default: '0' },
+  lastWeight_unit: { type: String, default: '0' },
+  lastHeadSize_unit: { type: String, default: '0' },
+
+  image: { type: String, default: '' },
+ 
   deleted: {type: Boolean, default: false},
 }, 
   {timestamps: true });
