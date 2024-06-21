@@ -13,7 +13,11 @@ const unitSchema = new mongoose.Schema({
     enum: ['kg', 'lb'], 
     default: 'kg'
   },
-  current__oz_unit: {type: String, default: '0'},
+  current__oz_unit: {
+    type: String,
+    enum: ['kg', 'lb, oz'], 
+    default: 'lb, oz'
+  },
   current_headSize_unit: {
     type: String,
     enum: ['in', 'cm'], 
