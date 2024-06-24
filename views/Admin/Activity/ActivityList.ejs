@@ -15,59 +15,57 @@
                   <a href="/addActivity" class="btn btn-primary float-right" title="Edit Profile"> Add Activity </a>
                 </div>
               </div>
-                <br>
+              
               <div class="card-DataTable table-responsive">
                 <% if (session.role == '3') {%>
-                <table class="table table-hover-animation" style="color: rgb(65, 64, 64);" >
-                  <thead>
-                    <tr>
-                      <th>S NO.</th>
-                      <th>Activity Name</th>
-                      <th>Image</th>
-                      <th>Status</th>
-                        <%if(session.activity_permission == '3'){%>
-                      <th>Action</th>
-                      <%}%>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <%activityData.forEach(function(data,i) {%>
+                  <table class="table table-hover-animation" style="color: rgb(65, 64, 64);" >
+                    <thead>
                       <tr>
-                        <td> <%=1+i%> </td>
-                        <td> <%=data.activity_name%> </td>
-                        <td> <img src="<%=data.image%>" width="45px" height="40px" type="submit" style="cursor:pointer;"> </td>
-                      
-                        <td>
-                          <% if(data.status==1) { %>
-                            <button <%=(session?.activity_permission == 2) ?  'disabled' : ''%> onclick="changeStatus(this)" id="userId_<%-data.id%>" class=" btn btn-sm btn-success status " data-id="<%=data._id%>"
-                              value="0">Active
-                            </button>
-                            <% } else { %>
-                              <button <%=(session?.activity_permission == 2) ? 'disabled' : ''%> onclick="changeStatus(this)" id="userId_<%-data.id%>" class="btn btn-sm btn-danger status" data-id="<%=data._id%>" value="1"
-                                style="display: flex;">In-active </button>
-                          <% } %>
-                        </td>
-                        <%if(session.activity_permission == '3'){%>
-                        <td>
-                          <!-- <a href="/activity_view/<%=data._id%>" class="btn btn-sm bg-light-primary"><i data-feather='eye'></i></a> -->
-                          <a href="/editActivity/<%=data._id%>" class="btn btn-sm bg-warning">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-edit"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
-                              <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
-                          </a>
-                          <button onclick="confirmDelete('<%=data._id%>')" class="btn btn-sm bg-danger"> 
-                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-trash">
-                              <polyline points="3 6 5 6 21 6"></polyline>
-                              <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
-                          </button>
-                        </td>
+                        <th>S NO.</th>
+                        <th>Activity Name</th>
+                        <th>Image</th>
+                        <th>Status</th>
+                          <%if(session.activity_permission == '3'){%>
+                        <th>Action</th>
                         <%}%>
                       </tr>
-                      <%} )%>
-                  </tbody>
-                </table>
-                             
+                    </thead>
+                    <tbody>
+                      <%activityData.forEach(function(data,i) {%>
+                        <tr>
+                          <td> <%=1+i%> </td>
+                          <td> <%=data.activity_name%> </td>
+                          <td> <img src="<%=data.image%>" width="45px" height="40px" type="submit" style="cursor:pointer;"> </td>
+                        
+                          <td>
+                            <% if(data.status==1) { %>
+                              <button <%=(session?.activity_permission == 2) ?  'disabled' : ''%> onclick="changeStatus(this)" id="userId_<%-data.id%>" class=" btn btn-sm btn-success status " data-id="<%=data._id%>"
+                                value="0">Active
+                              </button>
+                              <% } else { %>
+                                <button <%=(session?.activity_permission == 2) ? 'disabled' : ''%> onclick="changeStatus(this)" id="userId_<%-data.id%>" class="btn btn-sm btn-danger status" data-id="<%=data._id%>" value="1"
+                                  style="display: flex;">In-active </button>
+                            <% } %>
+                          </td>
+                          <%if(session.activity_permission == '3'){%>
+                          <td>
+                            <!-- <a href="/activity_view/<%=data._id%>" class="btn btn-sm bg-light-primary"><i data-feather='eye'></i></a> -->
+                            <a href="/editActivity/<%=data._id%>" class="btn btn-sm bg-warning">
+                              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-edit"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                                <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
+                            </a>
+                            <button onclick="confirmDelete('<%=data._id%>')" class="btn btn-sm bg-danger"> 
+                              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-trash">
+                                <polyline points="3 6 5 6 21 6"></polyline>
+                                <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
+                            </button>
+                          </td>
+                          <%}%>
+                        </tr>
+                        <%} )%>
+                    </tbody>
+                  </table>           
                 <%}else{%>
-
                   <table class="table table-hover-animation" style="color: rgb(65, 64, 64);" >
                     <thead>
                       <tr>
@@ -84,7 +82,6 @@
                           <td> <%=1+i%> </td>
                           <td> <%=data.activity_name%> </td>
                           <td> <img src="<%=data.image%>" width="45px" height="40px" type="submit" style="cursor:pointer;"> </td>
-                        
                           <td>
                             <% if(data.status==1) { %>
                               <button onclick="changeStatus(this)" id="userId_<%-data.id%>" class=" btn btn-sm btn-success status " data-id="<%=data._id%>"
@@ -96,7 +93,6 @@
                             <% } %>
                           </td>
                           <td>
-                           
                             <a href="/editActivity/<%=data._id%>" class="btn btn-sm bg-warning">
                               <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-edit"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
                                 <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
@@ -108,24 +104,23 @@
                             </button>
                           </td>
                         </tr>
-                        <%} )%>
+                      <%} )%>
                     </tbody>
                   </table>
-
-                  <%} %>
-
+                <%} %>
               </div>
+
               <section id="responsive-datatable">
                 <div class="row">
                   <div class="card">
                     <div class="card-header border-bottom">
-                      <h4 class="card-title">Customised Activity List </h4>
+                      <h4 class="card-title">Customised Activities List </h4>
                       <!-- <div class="section-header-breadcrumb-right">
                         <a href="/addActivity" class="btn btn-primary float-right" title="Edit Profile"> Add Activity </a>
                       </div> -->
                     </div>
-                    <br>
                     <div class="card-DataTable table-responsive">
+                      <% if (session.role == '3') {%>
                       <table class="table table-hover-animation" style="color: rgb(65, 64, 64);" >
                         <thead>
                           <tr>
@@ -148,14 +143,13 @@
                               </td>
                               <td>
                                 <% if(data.status==1) { %>
-                                  <button onclick="changeStatus(this)" id="userId_<%-data.id%>"
-                                    class=" btn btn-sm btn-success status " data-id="<%=data._id%>"
-                                    value="0">Active</button>
+                                  <button <%=(session?.activity_permission == 2) ?  'disabled' : ''%> onclick="changeStatus(this)" id="userId_<%-data.id%>" class=" btn btn-sm btn-success status " data-id="<%=data._id%>"
+                                    value="0">Active
+                                  </button>
                                   <% } else { %>
-                                    <button onclick="changeStatus(this)" id="userId_<%-data.id%>"
-                                      class="btn btn-sm btn-danger status" data-id="<%=data._id%>" value="1"
-                                      style="display: flex;">In-active</button>
-                                    <% } %>
+                                    <button <%=(session?.activity_permission == 2) ? 'disabled' : ''%> onclick="changeStatus(this)" id="userId_<%-data.id%>" class="btn btn-sm btn-danger status" data-id="<%=data._id%>" value="1"
+                                      style="display: flex;">In-active </button>
+                                <% } %>
                               </td>
                               <td>
                                 <a href="/viewCustomizedActivity/<%=data._id%>" class="btn btn-sm bg-light-primary">
@@ -174,6 +168,55 @@
                           <%} )%>
                         </tbody>
                       </table>
+                      <%}else{%>
+                        <table class="table table-hover-animation" style="color: rgb(65, 64, 64);" >
+                          <thead>
+                            <tr>
+                              <th>S NO.</th>
+                              <th>User Name </th>
+                              <th>Activity Name</th>
+                              <th>Image</th>
+                              <th>Status</th>
+                              <th>Action</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <%customactivity.forEach(function(data,i) {%>
+                              <tr>
+                                <td> <%=1+i%> </td>
+                                <td> <%=data.userId ? data.userId.name : "User not available" %></td>
+                                <td> <%=data.activity_name%> </td>
+                                <td>
+                                  <img src="<%=data.image%>" width="45px" height="40px" type="submit" style="cursor:pointer;">
+                                </td>
+                                <td>
+                                  <% if(data.status==1) { %>
+                                    <button onclick="changeStatus(this)" id="userId_<%-data.id%>" class=" btn btn-sm btn-success status " data-id="<%=data._id%>"
+                                      value="0">Active
+                                    </button>
+                                    <% } else { %>
+                                      <button onclick="changeStatus(this)" id="userId_<%-data.id%>" class="btn btn-sm btn-danger status" data-id="<%=data._id%>" value="1"
+                                        style="display: flex;">In-active </button>
+                                  <% } %>
+                                </td>
+                                <td>
+                                  <a href="/viewCustomizedActivity/<%=data._id%>" class="btn btn-sm bg-light-primary">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-eye">
+                                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                                    <circle cx="12" cy="12" r="3"></circle></svg>
+                                  </a>
+                                  <!-- <a href="/editActivity/<%=data._id%>" class="btn btn-sm bg-warning"><i data-feather='edit'></i></a> -->
+                                  <!-- <button onclick="confirmDelete('<%=data._id%>')" class="btn btn-sm bg-danger"> 
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-trash">
+                                      <polyline points="3 6 5 6 21 6"></polyline>
+                                      <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
+                                  </button> -->
+                                </td>
+                              </tr>
+                            <%} )%>
+                          </tbody>
+                        </table>
+                        <%} %>
                     </div>
                   </div>
                 </div>

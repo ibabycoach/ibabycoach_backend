@@ -40,7 +40,6 @@ module.exports = {
   task_list: async (req, res) => {
     try {
       let babyId = req.body.babyId;
-
       const filter = { babyId: babyId };
 
     if (req.body.start_time) {
@@ -70,7 +69,8 @@ module.exports = {
             }
           });
         } else {
-          const activityId = task.activityIds._id.toString();
+
+          const activityId = task.activityIds?._id.toString();
           if (activityCounts.hasOwnProperty(activityId)) {
             activityCounts[activityId]++;
           } else {
@@ -87,8 +87,8 @@ module.exports = {
             count: activityCounts[activity._id.toString()] || 0
           })) :
           [{
-            ...task.activityIds.toObject(),
-            count: activityCounts[task.activityIds._id.toString()] || 0
+            ...task.activityIds?.toObject(),
+            count: activityCounts[task.activityIds?._id.toString()] || 0
           }];
   
         return {

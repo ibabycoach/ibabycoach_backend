@@ -22,7 +22,7 @@
                                 <label class="col-form-label new_lable" for="name">User Name</label>
                             </div>
                             <div class="col-sm-10">
-                                <input type="text" id="" class="form-control" name="name" value="<%=activitydetail.userId.name%>" disabled>
+                                <input type="text" id="" class="form-control" name="name" value="<%=activitydetail?.userId ? activitydetail?.userId?.name : 'User not available'%>" disabled>
                             </div>
                         </div>
                         <div class="mb-1 row">
@@ -30,7 +30,7 @@
                                 <label class="col-form-label new_lable" for="activity_name"> Activity Name</label>
                             </div>
                             <div class="col-sm-10">
-                                 <input type="text" id="" class="form-control" name="activity_name" value="<%=activitydetail.activity_name%>" disabled>
+                                 <input type="text" id="" class="form-control" name="activity_name" value="<%=activitydetail ? activitydetail?.activity_name: 'activity not found'%>" disabled>
                             </div>
                         </div>
                         <div class="mb-1 row">
@@ -38,7 +38,7 @@
                             <label class="col-form-label new_lable" for="name">Background color</label>
                           </div>
                           <div class="col-sm-4">
-                            <input type="color" id="name" class="form-control" style="padding: revert" name="bg_color" value="<%=activitydetail.bg_color%>"
+                            <input type="color" id="name" class="form-control" style="padding: revert" name="bg_color" value="<%=activitydetail?.bg_color%>"
                               maxlength="60" disabled>
                           </div>
                         </div>   

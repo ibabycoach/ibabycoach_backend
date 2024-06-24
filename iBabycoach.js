@@ -13,11 +13,16 @@ const { Validator } = require('node-input-validator');
 var flash = require('express-flash');
 var FCM = require('fcm-node');
 var jwt = require('jsonwebtoken');
-
+const admin = require('firebase-admin');
+const serviceAccount = require('./ibabycoach-7dbec-firebase-adminsdk-czdnc-4a0f5ae501.json'); // Downloaded from Firebase Console
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var apiRouter = require('./routes/api');
+
+admin.initializeApp({
+  credential: admin.credential.cert(serviceAccount),
+});
 
 require('dotenv').config();
 
