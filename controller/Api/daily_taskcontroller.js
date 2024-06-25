@@ -40,7 +40,7 @@ module.exports = {
   task_list: async (req, res) => {
     try {
       let babyId = req.body.babyId;
-      const filter = { babyId: babyId };
+      const filter = { babyId: babyId, deleted: false };
 
     if (req.body.start_time) {
       let startDate = req.body.start_time;

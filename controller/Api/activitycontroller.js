@@ -1,4 +1,5 @@
 const activity_model = require ('../../model/Admin/activity')
+const dailytaskModel = require('../../model/Admin/daily_task')
 const helper = require('../../Helper/helper')
 const { Validator } = require('node-input-validator');
 const moment = require("moment");
@@ -55,7 +56,6 @@ module.exports = {
                 babyId: "required",
                 // day: "required",
                 // time: "required",
-
             });
             
             const errorResponse = await helper.checkValidation(v);
@@ -199,63 +199,31 @@ module.exports = {
         try {
             const v = new Validator(req.body, {
                 activityId: "required",
-                dayToRemove: "required|string" // New parameter for the day to remove
             });
             const errorResponse = await helper.checkValidation(v);
             if (errorResponse) {
                 return helper.failed(res, errorResponse);
             }
             let activityId = req.body.activityId;
-            let dayToRemove = req.body.dayToRemove.trim(); // Get the day to remove from the request body
     
-            // Find the activity by ID
-            const activity = await activity_model.findById(activityId);
-            if (!activity) {
-                return helper.failed(res, "activity not found");
+            const deleteactivity = await activity_model.findByIdAndUpdate(
+                activityId,
+                { deleted: true },
+                { new: true }
+            );
+            if (deleteactivity) {
+                await dailytaskModel.updateMany({activityIds: activityId},
+                    {deleted:true});
             }
-    
-            // Split the days string into an array
-            let daysArray = activity.day.split(",").map(day => day.trim());
-    
-            if (daysArray.every(day => day == '')) {
-                // Update the routine to set deleted to true
-                await activity_model.findByIdAndUpdate(
-                    activityId,
-                    { deleted: true },
-                    { new: true }
-                );
-                return helper.success(res, "Routine deleted successfully");
-            }
+            // const delete_daily_task = await dailytaskModel.findOneAndUpdate({activityIds: activityId},
+            //     {deleted:true});
 
-            // Find the index of the day to remove
-            let index = daysArray.indexOf(dayToRemove);
-
-            
-            if (index !== -1) {
-                // Remove the day from the array
-                daysArray.splice(index, 1);
-    
-                // Join the array back into a string
-                const updatedDayString = daysArray.join(", ");
-                // console.log( updatedDayString, ">>>>>");return
-    
-                // Update the activity with the modified days string
-                const updateactivity = await activity_model.findByIdAndUpdate(
-                    activityId,
-                    { day: updatedDayString },
-                    { new: true }
-                );
-    
-                return helper.success(res, `${dayToRemove} removed from activity successfully`);
-            } else {
-                return helper.failed(res, `${dayToRemove} not found in activity`);
-            }
+            return helper.success(res, "Activity deleted successfully");
+          
         } catch (error) {
             console.log(error);
-            
         }
     },
-
 
 
 }

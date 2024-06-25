@@ -98,13 +98,13 @@ module.exports = {
         }
         
         req.body.email = req.body.email.toLowerCase();
-        const updateDeviceToken = await user_model.findOneAndUpdate({email: req.body.email},
+        const updateDeviceToken = await user_model.findOneAndUpdate({email: req.body.email, deleted: false},
           {device_token: req.body.device_token,
             device_type: req.body.device_type},
             {new: true}
             ); 
 
-        var findUser = await user_model.findOne({ email: req.body.email})
+        var findUser = await user_model.findOne({ email: req.body.email, deleted: false})
 
         if (findUser) {
             let checkPassword = await bcrypt.compare(req.body.password, findUser.password);

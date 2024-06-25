@@ -33,7 +33,6 @@ module.exports = {
         babygrowthData.lastHeight_unit = lastEntry.height_unit;
         babygrowthData.lastWeight_unit = lastEntry.weight_unit;
         babygrowthData.lastHeadSize_unit = lastEntry.headSize_unit;
-        
       }
       let babygrowth = await growthModel.create(babygrowthData);
             
