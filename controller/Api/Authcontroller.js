@@ -119,7 +119,7 @@ module.exports = {
                 },
               },
               secretCryptoKey,
-              { expiresIn: "365d" }
+              { expiresIn: "365d"}
             );
             findUser = JSON.stringify(findUser);
             findUser = JSON.parse(findUser);
@@ -157,13 +157,12 @@ module.exports = {
         otp: "required",
         phone: "required",
         country_code: "required",
-
       });
       let errorsResponse = await helper.checkValidation(v);
       if (errorsResponse) {
         return helper.failed(res, errorsResponse);
       }
-      let isUserExist = await user_model.findOne({ phone: req.body.phone, country_code: req.body.country_code });
+      let isUserExist = await user_model.findOne({ phone: req.body.phone, country_code: req.body.country_code, deleted:false });
 
       if (isUserExist) {
         if (req.body.otp == isUserExist.otp) {

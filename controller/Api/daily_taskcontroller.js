@@ -61,7 +61,7 @@ module.exports = {
       findDailyTasks.forEach(task => {
         if (Array.isArray(task.activityIds)) {
           task.activityIds.forEach(activity => {
-            const activityId = activity._id.toString(); // Convert ObjectId to string for comparison
+            const activityId = activity?._id.toString(); // Convert ObjectId to string for comparison
             if (activityCounts.hasOwnProperty(activityId)) {
               activityCounts[activityId]++;
             } else {
@@ -84,7 +84,7 @@ module.exports = {
         const activitiesWithCount = Array.isArray(task.activityIds) ? 
           task.activityIds.map(activity => ({
             ...activity.toObject(),
-            count: activityCounts[activity._id.toString()] || 0
+            count: activityCounts[activity?._id.toString()] || 0
           })) :
           [{
             ...task.activityIds?.toObject(),
@@ -324,7 +324,7 @@ module.exports = {
     try {
         let { babyId, activityId, date, start_time } = req.body;
 
-        const filter = { babyId: babyId };
+        const filter = { babyId: babyId, deleted: false };
 
         if (start_time) {
             let startDate = new Date(start_time);
@@ -357,9 +357,9 @@ module.exports = {
         // Filter tasks based on activityId if it's provided
         const filteredTasks = activityId ? findDailyTasks.filter(task => {
             if (Array.isArray(task.activityIds)) {
-                return task.activityIds.some(activity => activity._id.toString() === activityId);
+                return task.activityIds?.some(activity => activity?._id.toString() === activityId);
             } else {
-                return task.activityIds._id.toString() === activityId;
+                return task.activityIds?._id.toString() === activityId;
             }
         }) : findDailyTasks;
 
@@ -368,7 +368,7 @@ module.exports = {
         filteredTasks.forEach(task => {
             if (Array.isArray(task.activityIds)) {
                 task.activityIds.forEach(activity => {
-                    const activityId = activity._id.toString(); // Convert ObjectId to string for comparison
+                    const activityId = activity?._id.toString(); // Convert ObjectId to string for comparison
                     if (activityCounts.hasOwnProperty(activityId)) {
                         activityCounts[activityId]++;
                     } else {
@@ -376,7 +376,7 @@ module.exports = {
                     }
                 });
             } else {
-                const activityId = task.activityIds._id.toString();
+                const activityId = task.activityIds?._id.toString();
                 if (activityCounts.hasOwnProperty(activityId)) {
                     activityCounts[activityId]++;
                 } else {
@@ -388,7 +388,7 @@ module.exports = {
         // Create a map to store unique activityIds and their total count for this date range
         const uniqueActivitiesForRange = {};
         filteredTasks.forEach(task => {
-            const key = task.activityIds.toString(); // Using the stringified activityIds as key for uniqueness
+            const key = task.activityIds?.toString(); // Using the stringified activityIds as key for uniqueness
             if (!uniqueActivitiesForRange[key]) {
                 uniqueActivitiesForRange[key] = {
                     taskData: task.toObject(),
