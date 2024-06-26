@@ -243,7 +243,17 @@ module.exports = {
         } catch (error) {
             console.log(error)
         }
-    }
+    },
+
+    // saveAdminToken: async(req, res) => {
+    //     try {
+    //         const admin_token = await userModel.findOne({role:0})
+    //         log
+            
+    //     } catch (error) {
+    //         console.log("🚀 ~ saveToken:async ~ error:", error)
+    //     }
+    // }
 
 
 }

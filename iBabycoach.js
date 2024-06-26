@@ -20,10 +20,6 @@ var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var apiRouter = require('./routes/api');
 
-admin.initializeApp({
-  credential: admin.credential.cert(serviceAccount),
-});
-
 require('dotenv').config();
 
 var app = express();
@@ -33,6 +29,12 @@ var io = require("socket.io")(http);
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
+
+admin.initializeApp({
+  credential: admin.credential.cert(serviceAccount),
+  databaseURL: process.env.MONGO_URI
+});
+
 
 app.use(logger('dev'));
 app.use(express.json());

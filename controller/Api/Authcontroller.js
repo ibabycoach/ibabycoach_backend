@@ -26,13 +26,13 @@ module.exports = {
         return helper.failed(res, errorsResponse);
       }
       
-      const isemailExist = await user_model.findOne({ email: req.body.email });
+      const isemailExist = await user_model.findOne({ email: req.body.email, deleted:false });
   
       if (isemailExist) {
         return helper.failed(res, "Email already exists");
       }
   
-      const ismobileExist = await user_model.findOne({ phone: req.body.phone });
+      const ismobileExist = await user_model.findOne({ phone: req.body.phone, deleted: false });
   
       if (ismobileExist) {
         return helper.failed(res, "Mobile already exists");

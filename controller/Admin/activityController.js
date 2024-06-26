@@ -16,8 +16,11 @@ module.exports = {
 
     postActivity:async(req, res)=>{
         try {
-            // console.log(req.body, ">>>>>>>>>>>");return
-            
+            const isactivityExist = await activityModel.findOne({activity_name: req.body.activity_name})
+            if (isactivityExist) {
+                req.flash("msg", "Activity already existed");
+                res.redirect("/addActivity");
+            }
             if (req.files && req.files.image) {
                 var image = req.files.image;
                 if (image) {

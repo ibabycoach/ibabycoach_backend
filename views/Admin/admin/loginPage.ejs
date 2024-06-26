@@ -5,10 +5,8 @@
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=0,minimal-ui">
-  <meta name="description"
-    content="Vuexy admin is super flexible, powerful, clean &amp; modern responsive bootstrap 4 admin template with unlimited possibilities.">
-  <meta name="keywords"
-    content="admin template, Vuexy admin template, dashboard template, flat admin template, responsive admin template, web app">
+  <meta name="description" content="Vuexy admin is super flexible, powerful, clean &amp; modern responsive bootstrap 4 admin template with unlimited possibilities.">
+  <meta name="keywords" content="admin template, Vuexy admin template, dashboard template, flat admin template, responsive admin template, web app">
   <meta name="author" content="PIXINVENT">
   <title>Login Page</title>
   <link rel="icon" type="image/x-icon" href="/app-assets/images/fav.png">
@@ -37,12 +35,12 @@
 </head>
 
 <% if(msg !='' ) { %>
-  <div class="alert alert-success msg" style="position: absolute; z-index: 9999; right: 100px; top: 10px;">
+<div class="alert alert-success msg" style="position: absolute; z-index: 9999; right: 100px; top: 10px;">
   <span style="font-size: 18px; padding: 10px; border-radius: 5px; color: rgb(232, 232, 240);  background-color: #1e4f99;">
-  <%= msg %>
+    <%= msg %>
   </span>
-  </div>
-  <% } %>
+</div>
+<% } %>
 
 <style>
   .error {
@@ -94,8 +92,7 @@
 
 <!-- BEGIN: Body-->
 
-<body class="vertical-layout vertical-menu-modern blank-page navbar-floating footer-static  " data-open="click"
-  data-menu="vertical-menu-modern" data-col="blank-page">
+<body class="vertical-layout vertical-menu-modern blank-page navbar-floating footer-static  " data-open="click" data-menu="vertical-menu-modern" data-col="blank-page">
   <!-- BEGIN: Content-->
   <div class="app-content content ">
     <div class="content-overlay"></div>
@@ -113,18 +110,14 @@
                 <form class="need-validation" action="/login" method="POST" id="addForm">
                   <div class="mb-1">
                     <label for="login-email" class="form-label">Email</label>
-                    <input type="text" class="form-control" id="email" name="email" placeholder="john@example.com"
-                      aria-describedby="login-email" tabindex="1" autofocus />
+                    <input type="text" class="form-control" id="email" name="email" placeholder="john@example.com" aria-describedby="login-email" tabindex="1" autofocus />
                   </div>
                   <div class="mb-1">
                     <div class="d-flex justify-content-between">
                       <label class="form-label" for="password">Password</label>
                     </div>
                     <div class="input-group input-group-merge form-password-toggle interror">
-                      <input type="password" class="form-control form-control-merge" id="password" name="password"
-                        tabindex="2"
-                        placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;"
-                        aria-describedby="login-password" />
+                      <input type="password" class="form-control form-control-merge" id="password" name="password" tabindex="2" placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;" aria-describedby="login-password" />
                       <span class="input-group-text cursor-pointer"><i data-feather="eye"></i></span>
                     </div>
                   </div>
@@ -145,8 +138,7 @@
 
   <!-- Firebase Configuration and Initialization -->
   <script>
-    document.addEventListener("DOMContentLoaded", function () {
-      // Your Firebase configuration object
+    document.addEventListener("DOMContentLoaded", function() {
       const firebaseConfig = {
         apiKey: "AIzaSyAgeA7iw_JBUklQQLNqBM-iHeDEOqUSn1Q",
         authDomain: "ibabycoach-7dbec.firebaseapp.com",
@@ -157,38 +149,47 @@
         measurementId: "G-8GTPMTPKV8"
       };
 
-      // Initialize Firebase
       firebase.initializeApp(firebaseConfig);
-
-      // Retrieve Firebase Messaging object
       const messaging = firebase.messaging();
-      console.log(messaging, ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>");return
+
+      // Register the service worker
+      navigator.serviceWorker.register('/firebase-messaging-sw.js')
+        .then((registration) => {
+          messaging.useServiceWorker(registration);
+
+          messaging.requestPermission()
+            .then(() => messaging.getToken())
+            .then((token) => {
+              console.log('Token received:', token);
+
+              // Send the token to your server and save it
+              // fetch('/save-token', {
+              //     method: 'POST',
+              //     headers: {
+              //       'Content-Type': 'application/json'
+              //     },
+              //     body: JSON.stringify({
+              //       token
+              //     })
+              //   }).then(response => response.json())
+              //   .then(data => console.log(data))
+              //   .catch(error => console.error('Error saving token:', error));
+            })
+            .catch((err) => {
+              console.log('Permission denied', err);
+            });
+        })
+        .catch((err) => {
+          console.error('Service Worker registration failed:', err);
+        });
 
       messaging.onMessage((payload) => {
         console.log('Message received. ', payload);
         // Display the notification in your admin panel
+        alert(`Notification: ${payload.notification.title}\n${payload.notification.body}`);
       });
-
-      // Request permission and get token
-      messaging.requestPermission()
-        .then(() => messaging.getToken())
-        .then((token) => {
-          console.log('Token received: ', token);
-          // Send the token to your server and save it
-          fetch('/save-token', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ token })
-          });
-        })
-        .catch((err) => {
-          console.log('Permission denied', err);
-        });
     });
   </script>
-
 
   <!-- BEGIN: Vendor JS-->
   <script src="../../../app-assets/vendors/js/vendors.min.js"></script>
@@ -206,13 +207,13 @@
   <!-- END: Theme JS-->
 
   <!-- BEGIN: Page JS-->
-  
+
   <script src="../../../app-assets/js/scripts/pages/page-auth-login.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.20.0/dist/jquery.validate.min.js" integrity="sha256-ic6hxNWCB3IBDsXq0z5KpKHmcJc1anmnh0xGOi0C5Dw=" crossorigin="anonymous"></script>
   <!-- END: Page JS-->
 
   <script>
-    $(window).on('load', function () {
+    $(window).on('load', function() {
       if (feather) {
         feather.replace({
           width: 14,
@@ -223,58 +224,59 @@
   </script>
 
 </body>
+
 </html>
 
 <script>
-  $(document).ready(function () {
+  $(document).ready(function() {
 
-      jQuery.validator.addMethod("emailExt", function (value, element, param) {
+    jQuery.validator.addMethod("emailExt", function(value, element, param) {
         return value.match(/^[a-zA-Z0-9_\.%\+\-]+@[a-zA-Z0-9\.\-]+\.[a-zA-Z]{2,}$/);
       }, 'Your e-mail is wrong'),
 
       jQuery.validator.addMethod("noSpace", function(value, element) {
-      return value == '' || value.trim().length != 0;
-    }, "Space not allowed");
+        return value == '' || value.trim().length != 0;
+      }, "Space not allowed");
 
-      $('form[id="addForm"]').validate({
+    $('form[id="addForm"]').validate({
 
-        keypress: function (element) {
+      keypress: function(element) {
 
-          var element_id = $(element).attr('id');
-          if (this.settings.rules[element_id].keypress !== false) {
-            $(element).valid();
-          }
-        },
-
-        rules: {
-          email: {
-            required: true,
-            emailExt: true,
-            noSpace: true,
-          },
-          password: {
-            required: true,
-            noSpace: true,
-            minlength: 5
-          },
-        },
-        messages: {
-
-          email: {
-            required: " This filed is required",
-            noSpace: "Space not allowed",
-            emailExt: "Special characters and space not allowed"
-          },
-          password: {
-            required: "This filed is required",
-            minlength: "Password should be minmum 5 characters",
-            noSpace: "Space not allowed"
-          },
-
-        },
-        submitHandler: function (form) {
-          form.submit();
+        var element_id = $(element).attr('id');
+        if (this.settings.rules[element_id].keypress !== false) {
+          $(element).valid();
         }
-      });
+      },
+
+      rules: {
+        email: {
+          required: true,
+          emailExt: true,
+          noSpace: true,
+        },
+        password: {
+          required: true,
+          noSpace: true,
+          minlength: 5
+        },
+      },
+      messages: {
+
+        email: {
+          required: " This filed is required",
+          noSpace: "Space not allowed",
+          emailExt: "Special characters and space not allowed"
+        },
+        password: {
+          required: "This filed is required",
+          minlength: "Password should be minmum 5 characters",
+          noSpace: "Space not allowed"
+        },
+
+      },
+      submitHandler: function(form) {
+        form.submit();
+      }
+    });
   });
 </script>
