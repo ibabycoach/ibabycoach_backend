@@ -97,6 +97,7 @@ module.exports = {
             return await helper.failed(res, errorsResponse)
         }
         
+        
         req.body.email = req.body.email.toLowerCase();
         const updateDeviceToken = await user_model.findOneAndUpdate({email: req.body.email, deleted: false},
           {device_token: req.body.device_token,

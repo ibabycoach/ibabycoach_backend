@@ -16,12 +16,12 @@
   <div class="main-menu-content">
     <ul class="navigation navigation-main" id="main-menu-navigation" data-menu="menu-navigation">
    <% if (session.role == '3') {%>
-      <li class=" <%= title =='dashboard'?'active':'' %>"><a class="d-flex align-items-center" href="/dashboard"><i data-feather="home"></i><span class="menu-title text-truncate" data-i18n="Email">Dashboards</span></a>
+      <li class="nav-item <%= title =='dashboard'?'active':'' %>"><a class="d-flex align-items-center" href="/dashboard"><i data-feather="home"></i><span class="menu-title text-truncate" data-i18n="Email">Dashboards</span></a>
       </li>
-      <li class=" <%= title =='userList'?'active':'' %> "><a class="d-flex align-items-center" href="/userList"><i data-feather="user"></i><span class="menu-title text-truncate" data-i18n="Chat">User</span></a>
+      <li class="nav-item <%= title =='userList'?'active':'' %> "><a class="d-flex align-items-center" href="/userList"><i data-feather="user"></i><span class="menu-title text-truncate" data-i18n="Chat">User</span></a>
       </li>
       <%if(session.goal_permission != 1){%>
-      <li class=" <%= title =='Goal'?'active':'' %> "><a class="d-flex align-items-center" href="/Goal_List">
+      <li class="nav-item <%= title =='Goal'?'active':'' %> "><a class="d-flex align-items-center" href="/Goal_List">
         <svg fill="#000000" viewBox="0 0 24 24" id="goal" data-name="Line Color" xmlns="http://www.w3.org/2000/svg" class="icon line-color">
           <path id="secondary" d="M15,9l-2.5,2.5M15,6V9h3l3-3H18V3Z" style="fill: none; stroke: rgb(105, 103, 103); stroke-linecap: round; stroke-linejoin: round; stroke-width: 2;"></path>
           <path id="primary" d="M12.33,3H12a9,9,0,1,0,9,9c0-.11,0-.22,0-.33" style="fill: none; stroke: rgb(105, 103, 103); stroke-linecap: round; stroke-linejoin: round; stroke-width: 2;"></path>
@@ -31,7 +31,7 @@
       </li>
       <%}%>
       <%if(session.activity_permission != 1){%>
-        <li class=" <%= title =='Activity'?'active':'' %> "><a class="d-flex align-items-center" href="/activityList">
+        <li class="nav-item <%= title =='Activity'?'active':'' %> "><a class="d-flex align-items-center" href="/activityList">
           <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
             <rect width="48" height="48" fill="white" fill-opacity="0.01"/>
             <path d="M36 18H12V44H36V18Z" fill="#ffffff" stroke="#5a5b5c" stroke-width="5" stroke-linejoin="round"/>
@@ -42,31 +42,31 @@
           <span class="menu-title text-truncate" data-i18n="Subscriptions">Activity </span></a>
         </li>
       <%}%>
-      <li class=" <%= title =='user_chat'?'active':'' %> "><a class="d-flex align-items-center" href="/user_chat"><i data-feather="message-circle"></i><span class="menu-title text-truncate" data-i18n="Subscriptions">Chat</span></a>
+      <li class="nav-item <%= title =='user_chat'?'active':'' %> "><a class="d-flex align-items-center" href="/user_chat"><i data-feather="message-circle"></i><span class="menu-title text-truncate" data-i18n="Subscriptions">Chat</span></a>
       </li>
       <%if(session.push_notification_permission != 1){%>
-        <li class=" <%= title =='push-notification'?'active':'' %> "><a class="d-flex align-items-center" href="/push-notification"><i data-feather="bell"></i><span class="menu-title text-truncate" data-i18n="Subscriptions">Push-notification </span></a>
+        <li class="nav-item <%= title =='push-notification'?'active':'' %> "><a class="d-flex align-items-center" href="/push-notification"><i data-feather="bell"></i><span class="menu-title text-truncate" data-i18n="Subscriptions">Push-notification </span></a>
         </li>
       <%}%>
       <%if(session.CMS_permission != 1){%>
-      <li class=" <%= title =='aboutUs'?'active':'' %> "><a class="d-flex align-items-center" href="/aboutUs"><i data-feather="info"></i><span class="menu-title text-truncate" data-i18n="aboutUs">About Us</span></a>
+      <li class="nav-item <%= title =='aboutUs'?'active':'' %> "><a class="d-flex align-items-center" href="/aboutUs"><i data-feather="info"></i><span class="menu-title text-truncate" data-i18n="aboutUs">About Us</span></a>
       </li>
-      <li class=" <%= title =='privacyPolicy'?'active':'' %> "><a class="d-flex align-items-center" href="/privacyPolicy"><i data-feather="eye"></i><span class="menu-title text-truncate" data-i18n="privacyPolicy">Privacy Policy</span></a>
+      <li class="nav-item <%= title =='privacyPolicy'?'active':'' %> "><a class="d-flex align-items-center" href="/privacyPolicy"><i data-feather="eye"></i><span class="menu-title text-truncate" data-i18n="privacyPolicy">Privacy Policy</span></a>
       </li>
-      <li class=" <%= title =='termsConditions'?'active':'' %> "><a class="d-flex align-items-center" href="/termsConditions"><i data-feather="check-square"></i><span class="menu-title text-truncate" data-i18n="termsConditions">Terms & Conditions</span></a>
+      <li class="nav-item <%= title =='termsConditions'?'active':'' %> "><a class="d-flex align-items-center" href="/termsConditions"><i data-feather="check-square"></i><span class="menu-title text-truncate" data-i18n="termsConditions">Terms & Conditions</span></a>
       </li>
       <%}%>
       <%if(session.contactus_permission != 1){%>
-      <li class=" <%= title =='contactUsList'?'active':'' %> "><a class="d-flex align-items-center" href="/contactUsList"><i data-feather="mail"></i><span class="menu-title text-truncate" data-i18n="termsConditions">Contact Us </span></a>
+      <li class="nav-item <%= title =='contactUsList'?'active':'' %> "><a class="d-flex align-items-center" href="/contactUsList"><i data-feather="mail"></i><span class="menu-title text-truncate" data-i18n="termsConditions">Contact Us </span></a>
       </li>
       <%}%>
       
       
     <%}else{%>
       
-      <li class=" <%= title =='dashboard'?'active':'' %>"><a class="d-flex align-items-center" href="/dashboard"><i data-feather="home"></i><span class="menu-title text-truncate" data-i18n="Email">Dashboards</span></a>
+      <li class="nav-item <%= title =='dashboard'?'active':'' %>"><a class="d-flex align-items-center" href="/dashboard"><i data-feather="home"></i><span class="menu-title text-truncate" data-i18n="Email">Dashboards</span></a>
       </li>
-      <li class=" <%= title =='sub_admin_list'?'active':'' %>"><a class="d-flex align-items-center" href="/sub_admin_list">
+      <li class="nav-item <%= title =='sub_admin_list'?'active':'' %>"><a class="d-flex align-items-center" href="/sub_admin_list">
         <svg version="1.1" baseProfile="tiny" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
           viewBox="0 0 24 24" overflow="visible" xml:space="preserve">
           <g ><g transform="translate(4.000000, 1.000000)">
@@ -78,17 +78,17 @@
         </svg>
         <span class="menu-title text-truncate" data-i18n="Email">Sub-Admin</span></a>
       </li>
-      <li class=" <%= title =='userList'?'active':'' %> "><a class="d-flex align-items-center" href="/userList"><i data-feather="user"></i><span class="menu-title text-truncate" data-i18n="Chat">User</span></a>
+      <li class="nav-item <%= title =='userList'?'active':'' %> "><a class="d-flex align-items-center" href="/userList"><i data-feather="user"></i><span class="menu-title text-truncate" data-i18n="Chat">User</span></a>
       </li>
-      <li class=" <%= title =='subuser_List'?'active':'' %> "><a class="d-flex align-items-center" href="/subuser_List"><i data-feather="users"></i><span class="menu-title text-truncate" data-i18n="Subscriptions">Sub user </span></a>
+      <li class="nav-item <%= title =='subuser_List'?'active':'' %> "><a class="d-flex align-items-center" href="/subuser_List"><i data-feather="users"></i><span class="menu-title text-truncate" data-i18n="Subscriptions">Sub user </span></a>
       </li>
-      <li class=" <%= title =='babyList'?'active':'' %> "><a class="d-flex align-items-center" href="/babyList">
+      <li class="nav-item <%= title =='babyList'?'active':'' %> "><a class="d-flex align-items-center" href="/babyList">
         <svg fill="#5a5b5c" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
           <path d="M20.492,10.04a8.987,8.987,0,0,0-6.376-5.788A1.583,1.583,0,0,1,15,4a1,1,0,0,0,0-2,3.541,3.541,0,0,0-3.27,2.011A8.979,8.979,0,0,0,3.508,10.04a3,3,0,0,0,0,5.92,8.99,8.99,0,0,0,16.984,0,3,3,0,0,0,0-5.92ZM20.007,14l-.137-.018a1.007,1.007,0,0,0-1.1.747,6.99,6.99,0,0,1-13.55,0,1,1,0,0,0-.968-.754c-.042,0-.084,0-.127.007L4,14a1,1,0,0,1-.008-2l.133.017a1,1,0,0,0,1.1-.745,6.976,6.976,0,0,1,5.847-5.194A6.581,6.581,0,0,0,11,7a1,1,0,0,0,1,1h0a1,1,0,0,0,1-1,5.492,5.492,0,0,1,.1-.91,6.982,6.982,0,0,1,5.676,5.179,1,1,0,0,0,1.1.745L20.006,12a1,1,0,0,1,0,2ZM10.5,13A1.5,1.5,0,1,1,9,11.5,1.5,1.5,0,0,1,10.5,13Zm6,0A1.5,1.5,0,1,1,15,11.5,1.5,1.5,0,0,1,16.5,13Z"/></svg>
         <span class="menu-title text-truncate" data-i18n="Todo">Baby</span></a>
       </li>
 
-      <li class=" <%= title =='Activity'?'active':'' %> "><a class="d-flex align-items-center" href="/activityList">
+      <li class="nav-item <%= title =='Activity'?'active':'' %> "><a class="d-flex align-items-center" href="/activityList">
         <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
           <rect width="48" height="48" fill="white" fill-opacity="0.01"/>
           <path d="M36 18H12V44H36V18Z" fill="#ffffff" stroke="#5a5b5c" stroke-width="5" stroke-linejoin="round"/>
@@ -99,7 +99,7 @@
         <span class="menu-title text-truncate" data-i18n="Subscriptions">Activity </span></a>
       </li>
 
-      <!-- <li class=" <%= title =='icon_list'?'active':'' %> "><a class="d-flex align-items-center" href="/icon_list">
+      <!-- <li class="nav-item <%= title =='icon_list'?'active':'' %> "><a class="d-flex align-items-center" href="/icon_list">
         <svg  viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" version="1.1">
           <defs>
             <radialGradient
@@ -120,7 +120,7 @@
         <span class="menu-title text-truncate" data-i18n="Subscriptions">Icon </span></a>
       </li> -->
 
-      <li class=" <%= title =='Goal'?'active':'' %> "><a class="d-flex align-items-center" href="/Goal_List">
+      <li class="nav-item <%= title =='Goal'?'active':'' %> "><a class="d-flex align-items-center" href="/Goal_List">
         <svg fill="#000000" viewBox="0 0 24 24" id="goal" data-name="Line Color" xmlns="http://www.w3.org/2000/svg" class="icon line-color">
           <path id="secondary" d="M15,9l-2.5,2.5M15,6V9h3l3-3H18V3Z" style="fill: none; stroke: rgb(105, 103, 103); stroke-linecap: round; stroke-linejoin: round; stroke-width: 2;"></path>
           <path id="primary" d="M12.33,3H12a9,9,0,1,0,9,9c0-.11,0-.22,0-.33" style="fill: none; stroke: rgb(105, 103, 103); stroke-linecap: round; stroke-linejoin: round; stroke-width: 2;"></path>
@@ -128,21 +128,30 @@
         </svg>
         <span class="menu-title text-truncate" data-i18n="Subscriptions">Goal</span></a>
       </li>
-      <li class=" <%= title =='subscriptionList'?'active':'' %> "><a class="d-flex align-items-center" href="/subscriptionList"><i data-feather="dollar-sign"></i><span class="menu-title text-truncate" data-i18n="Subscriptions">Subscriptions </span></a>
+      <li class="nav-item <%= title =='subscriptionList'?'active':'' %> "><a class="d-flex align-items-center" href="/subscriptionList"><i data-feather="dollar-sign"></i><span class="menu-title text-truncate" data-i18n="Subscriptions">Subscriptions </span></a>
       </li>
-      <li class=" <%= title =='push-notification'?'active':'' %> "><a class="d-flex align-items-center" href="/push-notification"><i data-feather="bell"></i><span class="menu-title text-truncate" data-i18n="Subscriptions">Push-notification </span></a>
+      <li class="nav-item <%= title =='push-notification'?'active':'' %> "><a class="d-flex align-items-center" href="/push-notification"><i data-feather="bell"></i><span class="menu-title text-truncate" data-i18n="Subscriptions">Push-notification </span></a>
       </li>
-      <li class=" <%= title =='user_chat'?'active':'' %> "><a class="d-flex align-items-center" href="/user_chat"><i data-feather="message-circle"></i><span class="menu-title text-truncate" data-i18n="Subscriptions">Chat</span></a>
+      <li class=" nav-item <%= title =='user_chat'?'active':'' %> "><a class="d-flex align-items-center" href="/user_chat"><i data-feather="message-circle"></i><span class="menu-title text-truncate" data-i18n="Subscriptions">Chat</span></a>
       </li>
-      <li class=" <%= title =='aboutUs'?'active':'' %> "><a class="d-flex align-items-center" href="/aboutUs"><i data-feather="info"></i><span class="menu-title text-truncate" data-i18n="aboutUs">About Us</span></a>
+      <li class=" nav-item"><a class="d-flex align-items-center" href="index.html"><i data-feather="info"></i><span class="menu-title text-truncate" data-i18n="Dashboards">CMS</span><span class="badge badge-light-warning rounded-pill ms-auto me-1"></span></a>
+        <ul class="menu-content">
+          <li class=" <%= title =='aboutUs'?'active':'' %> "><a class="d-flex align-items-center" href="/aboutUs"><i data-feather="info"></i><span class="menu-title text-truncate" data-i18n="aboutUs">About Us</span></a>
+          </li>
+          <li class=" <%= title =='privacyPolicy'?'active':'' %> "><a class="d-flex align-items-center" href="/privacyPolicy"><i data-feather="eye"></i><span class="menu-title text-truncate" data-i18n="privacyPolicy">Privacy Policy</span></a>
+          </li>
+          <li class=" <%= title =='termsConditions'?'active':'' %> "><a class="d-flex align-items-center" href="/termsConditions"><i data-feather="check-square"></i><span class="menu-title text-truncate" data-i18n="termsConditions">Terms & Conditions</span></a>
+          </li>
+        </ul>
       </li>
-      <li class=" <%= title =='privacyPolicy'?'active':'' %> "><a class="d-flex align-items-center" href="/privacyPolicy"><i data-feather="eye"></i><span class="menu-title text-truncate" data-i18n="privacyPolicy">Privacy Policy</span></a>
+      <li class="nav-item <%= title =='changelog_list'?'active':'' %> "><a class="d-flex align-items-center" href="/changelog_list">
+        <svg viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M10 2a8 8 0 100 16 8 8 0 000-16zm-7.071.929A10 10 0 1117.07 17.07 10 10 0 012.93 2.93z" fill="#5C5F62"/>
+          <path d="M11.126 13.002H8.99V11.86c.01-1.966.492-2.254 1.374-2.782.093-.056.19-.114.293-.178.73-.459 1.292-1.038 1.292-1.883 0-.948-.743-1.564-1.666-1.564-.852 0-1.657.398-1.712 1.533H6.305c.06-2.294 1.877-3.487 3.99-3.487 2.306 0 3.894 1.447 3.894 3.488 0 1.382-.695 2.288-1.806 2.952l-.237.144c-.79.475-1.009.607-1.02 1.777v1.142zm.17 2.012a1.344 1.344 0 01-1.327 1.328 1.32 1.32 0 01-1.227-1.834 1.318 1.318 0 011.227-.81c.712 0 1.322.592 1.328 1.316h-.001z" fill="#5C5F62"/></svg>
+        <span class="menu-title text-truncate" data-i18n="termsConditions">Change log </span></a>
       </li>
-      <li class=" <%= title =='termsConditions'?'active':'' %> "><a class="d-flex align-items-center" href="/termsConditions"><i data-feather="check-square"></i><span class="menu-title text-truncate" data-i18n="termsConditions">Terms & Conditions</span></a>
+      <li class="nav-item <%= title =='contactUsList'?'active':'' %> "><a class="d-flex align-items-center" href="/contactUsList"><i data-feather="mail"></i><span class="menu-title text-truncate" data-i18n="termsConditions">Contact Us </span></a>
       </li>
-      <li class=" <%= title =='contactUsList'?'active':'' %> "><a class="d-flex align-items-center" href="/contactUsList"><i data-feather="mail"></i><span class="menu-title text-truncate" data-i18n="termsConditions">Contact Us </span></a>
-      </li>
-      <%}%>
+    <%}%>
     </ul>
   </div>
 </div>

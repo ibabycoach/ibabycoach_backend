@@ -21,6 +21,7 @@ module.exports = {
 
     login: async (req, res) => {
         try {
+        
             let findUser = await userModel.findOne({ email: req.body.email, role: "0"});
         
             if (!findUser) {
@@ -37,6 +38,11 @@ module.exports = {
 
                 if (checkPassword == true) {
                     req.session.user = findUser;
+
+                    await userModel.updateOne(
+                        {_id: findUser._id},
+                        {device_token: req.body.deviceToken}
+                    )
 
                     req.flash('msg', 'Login successfully');
                     res.redirect("/dashboard")

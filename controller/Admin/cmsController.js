@@ -57,9 +57,28 @@ module.exports = {
         } catch (error) {
             console.log(error)
         }
-    }
+    },
 
+    changelog: async(req, res)=> {
+        try {
+            let title = "changelog"
+            const changelogData = await cmsModel.findOne({role:4})
+            res.render('Admin/change_Log/changelog', {title, changelogData, session:req.session.user,  msg: req.flash('msg')})
+        } catch (error) {
+            console.log(error)
+        }
+    },
 
+    changelog_list: async(req, res)=> {
+        try {
+            let title = "changelog_list"
+            const logList = await cmsModel.find({role: 4})
+             
+            res.render('Admin/change_Log/changelog_list', {title, logList, session:req.session.user,  msg: req.flash('msg')})
+        } catch (error) {
+            console.log(error)
+        }
+    },
 
 
 

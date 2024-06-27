@@ -141,7 +141,7 @@ module.exports = function (io) {
                 sender_id: get_data.sender_id,
                 receiver_id: get_data.receiver_id
               }
-              const push = await helper.send_push_notifications(objS);
+              const push = await helper.send_push_notificationsAdmin(objS);
             }
             
             socket.emit('send_message_listener', getdata);

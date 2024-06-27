@@ -73,13 +73,14 @@ router.delete('/deleteBaby/:id', babyController.deleteBaby)
 //************* CHAT ******************
 router.get('/user_chat', session, chatController.user_chat)
 
-
 //*************** CMS *************************
 router.post('/addCms', cmsController.addCms)
 router.get('/aboutUs', session, cmsController.aboutUs)
 router.get('/privacyPolicy', session, cmsController.privacyPolicy)
 router.get('/termsConditions', session, cmsController.termsConditions)
 router.post('/updatecms', cmsController.updatecms)
+router.get('/changelog', session, cmsController.changelog)
+router.get('/changelog_list', session, cmsController.changelog_list)
 
 //***************** Contact US SUPPORT *********************
 router.post('/createContactUs', contactUsController.createContactUs)
