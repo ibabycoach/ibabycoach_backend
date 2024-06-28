@@ -97,6 +97,7 @@ router.post('/goal_details', authenticateJWT, goalcontroller.goal_details)
 router.get('/aboutUs', authenticateJWT, cmscontroller.aboutUs)
 router.get('/privacyPolicy', authenticateJWT, cmscontroller.privacyPolicy)
 router.get('/termsConditions', authenticateJWT, cmscontroller.termsConditions)
+router.get('/change_log', authenticateJWT, cmscontroller.change_log)
 
 //////////////////////////////////////////////
 router.post('/contactsupport', authenticateJWT, contactSupportcontroller.contactsupport)

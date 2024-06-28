@@ -79,8 +79,9 @@ router.get('/aboutUs', session, cmsController.aboutUs)
 router.get('/privacyPolicy', session, cmsController.privacyPolicy)
 router.get('/termsConditions', session, cmsController.termsConditions)
 router.post('/updatecms', cmsController.updatecms)
-router.get('/changelog', session, cmsController.changelog)
+router.get('/edit_changelog/:id', session, cmsController.edit_changelog)
 router.get('/changelog_list', session, cmsController.changelog_list)
+router.get('/add_log', session, cmsController.add_log)
 
 //***************** Contact US SUPPORT *********************
 router.post('/createContactUs', contactUsController.createContactUs)

@@ -188,6 +188,29 @@
 
                     <div class="mb-1 row">
                       <div class="col-sm-2">
+                        <label class="col-form-label new_lable" for="readCheckbox">Change log</label>
+                      </div>
+                      <div class="col-sm-10">
+                        <div class="form-check form-check-inline">
+                          <input type="radio" class="form-check-input" id="restrictedRadio" name="changelog_permission" value="1"
+                          <%= updatedata.changelog_permission == 1 ? 'checked' : '' %>>
+                          <label class="form-check-label" for="restrictedRadio">Restricted</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                          <input type="radio" class="form-check-input" id="readOnlyRadio" name="changelog_permission" value="2"
+                          <%= updatedata.changelog_permission == 2 ? 'checked' : '' %>>
+                          <label class="form-check-label" for="readOnlyRadio">Read Only</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                          <input type="radio" class="form-check-input" id="fullAccessRadio" name="changelog_permission" value="3"
+                          <%= updatedata.changelog_permission == 3 ? 'checked' : '' %>>
+                          <label class="form-check-label" for="fullAccessRadio">Full Access</label>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="mb-1 row">
+                      <div class="col-sm-2">
                         <label class="col-form-label new_lable" for="readCheckbox">Push Notification</label>
                       </div>
                       <div class="col-sm-10">

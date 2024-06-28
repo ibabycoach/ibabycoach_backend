@@ -9,9 +9,11 @@ module.exports = {
             const createcms = await cmsModel.create({
                 title: req.body.title,
                 description: req.body.description,
-                role: req.body.role
+                version: req.body.version,
+                role: 4
             })
-            return helper.success(res, "CMS added successfully")
+            res.redirect("/changelog_list");
+            // return helper.success(res, "CMS added successfully")
         } catch (error) {
             console.log(error)
         }
@@ -52,6 +54,7 @@ module.exports = {
             const updatedata = await cmsModel.updateOne({ _id: req.body.id },
                 {role: req.body.role,
                   description: req.body.description,
+                  version:req.body.version
                 });
             res.redirect("back")
         } catch (error) {
@@ -59,11 +62,20 @@ module.exports = {
         }
     },
 
-    changelog: async(req, res)=> {
+    add_log: async(req, res) => {
         try {
-            let title = "changelog"
-            const changelogData = await cmsModel.findOne({role:4})
-            res.render('Admin/change_Log/changelog', {title, changelogData, session:req.session.user,  msg: req.flash('msg')})
+            let title = "changelog_list"
+            res.render('Admin/change_Log/add_log', {title, session:req.session.user,  msg: req.flash('msg')})
+        } catch (error) {
+            console.log(error)
+        }
+    },
+
+    edit_changelog: async(req, res)=> {
+        try {
+            let title = "changelog_list"
+            const changelogData = await cmsModel.findById({_id: req.params.id})
+            res.render('Admin/change_Log/edit_changelog', {title, changelogData, session:req.session.user,  msg: req.flash('msg')})
         } catch (error) {
             console.log(error)
         }

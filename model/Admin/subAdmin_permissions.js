@@ -28,6 +28,10 @@ const subAdminSchema = new mongoose.Schema ({
         enum: ['1', '2', '3'],
         default: '1'
     },
+    changelog_permission:{type: String,
+        enum: ['1', '2', '3'],
+        default: '1'
+    },
     chat: {type: String,
         enum: ['1', '2'],
         default: '1'
