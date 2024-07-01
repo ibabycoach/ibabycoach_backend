@@ -73,10 +73,9 @@
                         <div class="col-md-4">
                           <div class="profile-widget-header text-center">
                             <img src="<%=activitydetail.image%>" id="output2" alt=""
-                              class="ms-md-0 mx-auto img-thumbnail user_bigimg">
+                                class="ms-md-0 mx-auto img-thumbnail user_bigimg">
                             <input onchange="loadFile(event,'output2')" type="file" id="imgInp" name="image" />
                             <label for="imgInp" style="cursor: pointer;">
-                              <!-- <span class="fe fe-24 fe-camera"></span> -->
                               <i class="fe fe-24 camera_icon" data-feather='camera'></i>
                             </label>
                           </div>
@@ -88,28 +87,27 @@
                             </div>
                             <div class="col-sm-10">
                               <input type="text" id="name" class="form-control" name="activity_name" value="<%=activitydetail.activity_name%>"
-                                maxlength="60">
+                                    maxlength="60">
                               <input type="hidden" name="id" value="<%=activitydetail.id%>">
                             </div>
-                          </div>       
+                          </div>
                           <div class="mb-1 row">
                             <div class="col-sm-2">
-                              <label class="col-form-label new_lable" for="name">Background color</label>
+                              <label class="col-form-label new_lable" for="bg_color">Background color</label>
                             </div>
                             <div class="col-sm-4">
-                              <input type="color" id="name" class="form-control" style="padding: revert" name="bg_color" value="<%=activitydetail.bg_color%>"
-                                maxlength="60">
+                              <input type="color" id="bg_color" class="form-control" style="padding: revert" name="bg_color" value="<%=activitydetail.bg_color%>"
+                                    maxlength="60">
                             </div>
-                          </div>   
-
+                          </div>
                           <div class="mb-1 row">
                             <div class="col-sm-2">
-                                <label class="col-form-label new_lable" for="is_amount">Amount</label>
+                                <label class="col-form-label new_label" for="is_amount">Amount</label>
                             </div>
                             <div class="col-sm-10">
                                 <div class="form-check form-switch">
                                     <label class="switch">
-                                        <input type="checkbox" id="is_amount" class="form-check-input" name="is_amount">
+                                        <input type="checkbox" id="is_amount" class="form-check-input" name="is_amount" <%= activitydetail.is_amount == '1' ? 'checked' : '0' %>>
                                         <span class="slider round"></span>
                                     </label>
                                 </div>
@@ -117,12 +115,12 @@
                         </div>
                         <div class="mb-1 row">
                             <div class="col-sm-2">
-                                <label class="col-form-label new_lable" for="is_duration">Duration</label>
+                                <label class="col-form-label new_label" for="is_duration">Duration</label>
                             </div>
                             <div class="col-sm-10">
                                 <div class="form-check form-switch">
                                     <label class="switch">
-                                        <input type="checkbox" id="is_duration" class="form-check-input" name="is_duration">
+                                        <input type="checkbox" id="is_duration" class="form-check-input" name="is_duration" <%= activitydetail.is_duration == '1' ? 'checked' : '0' %>>
                                         <span class="slider round"></span>
                                     </label>
                                 </div>
@@ -227,4 +225,6 @@
 
 
     </script>
+
+
 

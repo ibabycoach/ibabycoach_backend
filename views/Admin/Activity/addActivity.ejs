@@ -100,7 +100,7 @@
                       <input type="color" id="bg_color" style="padding: revert" class="form-control" name="bg_color" value="" required>
                     </div>
                   </div>
-                  <div class="mb-1 row">
+                  <!-- <div class="mb-1 row">
                     <div class="col-sm-2">
                         <label class="col-form-label new_lable" for="is_amount">Amount</label>
                     </div>
@@ -125,7 +125,35 @@
                         </label>
                       </div>
                     </div>
-                  </div>
+                  </div> -->
+
+                  <div class="mb-1 row">
+                    <div class="col-sm-2">
+                        <label class="col-form-label new_lable" for="is_amount">Amount</label>
+                    </div>
+                    <div class="col-sm-10">
+                        <div class="form-check form-switch">
+                            <label class="switch">
+                                <input type="checkbox" id="is_amount" class="form-check-input" name="is_amount">
+                                <span class="slider round"></span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="mb-1 row">
+                    <div class="col-sm-2">
+                        <label class="col-form-label new_lable" for="is_duration">Duration</label>
+                    </div>
+                    <div class="col-sm-10">
+                        <div class="form-check form-switch">
+                            <label class="switch">
+                                <input type="checkbox" id="is_duration" class="form-check-input" name="is_duration">
+                                <span class="slider round"></span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                
                   <div class="col-12">
                     <div class="col-sm-9 offset-sm-5">
                       <button type="submit"
@@ -205,31 +233,30 @@
   }
 </style>
 
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script>
     $(document).ready(function() {
-        function handleToggleChange() {
-            let amountChecked = $('#is_amount').is(':checked') ? 1 : 0;
-            let durationChecked = $('#is_duration').is(':checked') ? 1 : 0;
+        $('#is_amount, #is_duration').change(function() {
+            let data = {};
+            if (this.checked) {
+                data[this.id] = 1;
+            } else {
+                data[this.id] = 0; // You can also handle the uncheck event if needed
+            }
 
             $.ajax({
-                url: '/save-toggle-values', // Update with your server endpoint
                 type: 'POST',
-                data: JSON.stringify({
-                    is_amount: amountChecked,
-                    is_duration: durationChecked
-                }),
+                url: '/save_switch_state',  // Your endpoint to save data
+                data: JSON.stringify(data),
                 contentType: 'application/json',
                 success: function(response) {
-                    console.log('Values saved successfully:', response);
+                    console.log('Saved successfully');
                 },
-                error: function(xhr, status, error) {
-                    console.error('Error saving values:', error);
+                error: function(error) {
+                    console.error('Error saving data', error);
                 }
             });
-        }
-
-        $('#is_amount, #is_duration').on('change', handleToggleChange);
+        });
     });
 </script>
 

@@ -84,14 +84,21 @@ module.exports = {
                     req.body.image = helper.imageUpload(image, "images");
                 }
             }
+
+             // Handle checkboxes: set to true if present, otherwise false
+                req.body.is_amount = req.body.is_amount === 'on' ? 1 : 0;
+                req.body.is_duration = req.body.is_duration === 'on' ? 1 : 0;
+
             const updateData = await activityModel.updateOne({_id: req.body.id},
                 
                 {   activity_name: req.body.activity_name,
                     bg_color: req.body.bg_color,
                     image: req.body.image,
+                    is_amount: req.body.is_amount,
+                    is_duration: req.body.is_duration
                 })
             req.flash("msg", "Activity updated successfully");
-            res.redirect("/ActivityList")
+            res.redirect("back")
         } catch (error) {
            console.log(error) 
         }

@@ -136,7 +136,4 @@ router.post('/push-notification', pushNotificationController.pushNotificationPos
 //////////////  CHAT  ///////////////
 
 
-
-
-
 module.exports = router;

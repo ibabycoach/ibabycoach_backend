@@ -26,7 +26,6 @@ module.exports = {
       }
       const bottleTime = await daily_task.create({
         userId: userId,
-        // task_type: req.body.task_type,
         ...req.body,
       })
           
@@ -232,9 +231,5 @@ module.exports = {
         console.log(error);
     }
   }
-
-
-  
-  
 
 }

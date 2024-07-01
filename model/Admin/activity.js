@@ -12,11 +12,11 @@ const activitySchema = new mongoose.Schema({
   image: { type: String, default: '' },
   bg_color: {type: String, default: ''},
   amount: { type: String, default: '' },
-  is_amount: { type: String, default: '' },
-  is_duration : { type: String, default: '' },
+  is_amount: { type: String, default: '0' },
+  is_duration : { type: String, default: '0' },
   activity_type: {type: String,
     enum: ['1', '2'],
-    default: '1',  // 1 for  by admin , 2 for by user
+    default: '1',  // 1 for by admin , 2 for by user
   },
   duration_type: {
     type: String,
