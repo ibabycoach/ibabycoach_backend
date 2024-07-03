@@ -82,6 +82,8 @@ router.post('/updatecms', cmsController.updatecms)
 router.get('/edit_changelog/:id', session, cmsController.edit_changelog)
 router.get('/changelog_list', session, cmsController.changelog_list)
 router.get('/add_log', session, cmsController.add_log)
+router.delete('/delete_log/:id', cmsController.delete_log)
+
 
 //***************** Contact US SUPPORT *********************
 router.post('/createContactUs', contactUsController.createContactUs)

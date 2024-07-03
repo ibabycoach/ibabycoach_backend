@@ -84,11 +84,22 @@ module.exports = {
     changelog_list: async(req, res)=> {
         try {
             let title = "changelog_list"
-            const logList = await cmsModel.find({role: 4})
+            const logList = await cmsModel.find({role: 4, deleted: false})
              
             res.render('Admin/change_Log/changelog_list', {title, logList, session:req.session.user,  msg: req.flash('msg')})
         } catch (error) {
             console.log(error)
+        }
+    },
+
+    delete_log: async(req, res)=> {
+        try {
+            let logID = req.body.id 
+            const removelog = await cmsModel.findByIdAndUpdate({_id: logID},
+                {deleted: true})
+            res.redirect("/changelog_list") 
+        } catch (error) {
+                console.log(error)
         }
     },
 
