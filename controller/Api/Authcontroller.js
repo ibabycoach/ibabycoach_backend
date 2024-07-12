@@ -97,7 +97,6 @@ module.exports = {
             return await helper.failed(res, errorsResponse)
         }
         
-        
         req.body.email = req.body.email.toLowerCase();
         const updateDeviceToken = await user_model.findOneAndUpdate({email: req.body.email, deleted: false},
           {device_token: req.body.device_token,
@@ -130,22 +129,22 @@ module.exports = {
               return await helper.success(res, "login successful", findUser)
           } else {
              
-              const findbaby = await babyModel.findOne({
-                  userId: findUser._id,
-              });
-              findUser.hasBabyAdded = findbaby ? 1 : 0;
+            const findbaby = await babyModel.findOne({
+              userId: findUser._id,
+            });
+            findUser.hasBabyAdded = findbaby ? 1 : 0;
           }
         
             if (checkPassword == true) {
-                req.session.user = findUser;
-                return await helper.success(res, "Login successful", findUser)
+              req.session.user = findUser;
+              return await helper.success(res, "Login successful", findUser)
             } else {
-                console.log("incorrect password")
-                return helper.failed(res, "Incorrect password")
+              console.log("incorrect password")
+              return helper.failed(res, "Incorrect password")
             }
         } else {
-            console.log("incorrect email")
-            return helper.failed(res, "Incorrect email")
+          console.log("incorrect email")
+          return helper.failed(res, "Incorrect email")
         }
     } catch (error) {
         console.log(error)

@@ -16,7 +16,7 @@ module.exports = {
 
     postActivity:async(req, res)=> {
         try {
-            const isactivityExist = await activityModel.findOne({activity_name: req.body.activity_name})
+            const isactivityExist = await activityModel.findOne({activity_name: req.body.activity_name, deleted: false})
             if (isactivityExist) {
                 req.flash("msg", "Activity already existed");
                  return res.redirect("/addActivity");
