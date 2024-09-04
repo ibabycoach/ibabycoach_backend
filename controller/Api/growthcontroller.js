@@ -49,9 +49,9 @@ module.exports = {
       const v = new Validator(req.body, {
         babyId: "required"
       });
-      const errorResponse = await helper.checkValidation(v);
-      if (errorResponse) {
-        return helper.failed(res, "something went wrong");
+      let errorsResponse = await helper.checkValidation(v);
+      if (errorsResponse) {
+        return helper.failed(res, errorsResponse);
       }
   
       let babyId = req.body.babyId;

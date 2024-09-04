@@ -31,31 +31,31 @@
 
                       <% if (session.role == 3) { %>
                         <% if (session.CMS_permission == 3) { %>
-                          <textarea class="content form-control" id="content" name="description"><%= policyData?.description %></textarea>
+                          <textarea class="content form-control" id="editor" name="description"><%= policyData?.description %></textarea>
                           <input type="hidden" name="id" value="<%= policyData?.id %>">
                           <br>
                           <br>
                           <button type="submit" class="btn btn-primary">Submit <i class="icon-arrow-right14 position-right"></i></button>
                         <% } else if (session.CMS_permission == 2) { %>
-                          <textarea class="content form-control" id="content" name="description" disabled><%= policyData?.description %></textarea>
+                          <textarea class="content form-control" id="editor" name="description" disabled><%= policyData?.description %></textarea>
                           <input type="hidden" name="id" value="<%= policyData?.id %>">
                           <br>
                           <!-- <button type="submit" class="btn btn-primary" disabled>Submit <i class="icon-arrow-right14 position-right"></i></button> -->
                         <% } else { %>
-                          <textarea class="content form-control" id="content" name="description"><%= policyData?.description %></textarea>
+                          <textarea class="content form-control" id="editor" name="description"><%= policyData?.description %></textarea>
                           <input type="hidden" name="id" value="<%= policyData?.id %>">
                           <br>
                           <br>
                           <button type="submit" class="btn btn-primary">Submit <i class="icon-arrow-right14 position-right"></i></button>
                         <% } %>
                       <% } else if (session.role == 0) { %>
-                        <textarea class="content form-control" id="content" name="description"><%= policyData?.description %></textarea>
+                        <textarea class="content form-control" id="editor" name="description"><%= policyData?.description %></textarea>
                         <input type="hidden" name="id" value="<%= policyData?.id %>">
                         <br>
                         <br>
                         <button type="submit" class="btn btn-primary">Submit <i class="icon-arrow-right14 position-right"></i></button>
                       <% } else { %>
-                        <textarea class="content form-control" id="content" name="description" disabled><%= policyData?.description %></textarea>
+                        <textarea class="content form-control" id="editor" name="description" disabled><%= policyData?.description %></textarea>
                         <input type="hidden" name="id" value="<%= policyData?.id %>">
                         <br>
                         <!-- <button type="submit" class="btn btn-primary" disabled>Submit <i class="icon-arrow-right14 position-right"></i></button> -->
@@ -75,7 +75,15 @@
  
     <%- include('../common/footer') %>
 
-    <script src="https://cdn.ckeditor.com/4.20.2/standard/ckeditor.js"></script>
+    <script src="https://cdn.ckeditor.com/ckeditor5/35.2.0/classic/ckeditor.js"></script>
+
     <script>
-      CKEDITOR.replace('content');
+      ClassicEditor
+          .create(document.querySelector('#editor'))
+          .then(editor => {
+              console.log(editor);
+          })
+          .catch(error => {
+              console.error(error);
+          });
     </script>

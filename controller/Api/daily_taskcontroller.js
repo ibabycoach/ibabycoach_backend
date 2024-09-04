@@ -230,6 +230,65 @@ module.exports = {
     } catch (error) {
         console.log(error);
     }
-  }
+  },
+
+  view_dailyTask: async(req, res) => {
+    try {
+      // let userId = req.user._id;
+  
+      const v = new Validator(req.body, {
+        dailyTask_id: "required"
+      });
+      let errorsResponse = await helper.checkValidation(v);
+  
+      if (errorsResponse) {
+        return helper.failed(res, errorsResponse);
+      }
+  
+      const task_details = await daily_task.findOne({ _id: req.body.dailyTask_id, deleted: false })
+      .populate("userId", "name image relation")
+      .populate("babyId", "baby_name image gender")
+      .populate("activityIds", "activity_name image bg_color time upcoming_time duration day amount");
+  
+      if (!daily_task) {
+        return helper.failed(res, "Data not found");
+      }
+
+      return helper.success(res, "daily task details", task_details);
+    } catch (error) {
+      console.log(error);
+      return helper.failed(res, "Internal server error");
+    }
+  },
+
+  edit_dailyTask: async(req, res)=> {
+    try {
+      const v = new Validator(req.body, {
+        dailyTask_id: "required"
+      })
+      const errorResponse = await helper.checkValidation(v);
+      if (errorResponse) {
+        return helper.failed(res, errorResponse);
+      }
+
+      if (req.files && req.files.image) {
+        var image = req.files.image;
+      
+        if (image) {
+          req.body.image = helper.imageUpload(image, "images");
+        }
+      }
+
+      const updateData = await daily_task.updateOne({_id: req.body.dailyTask_id},
+        { ...req.body });
+     
+        const updatedData = await daily_task.findOne({_id: req.body.dailyTask_id});
+
+      return helper.success(res, "Daily task updated successfully", updatedData)
+
+    } catch (error) {
+      console.log(error)
+    }
+  },
 
 }

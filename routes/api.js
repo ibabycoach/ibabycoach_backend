@@ -88,6 +88,9 @@ router.post('/add_task', authenticateJWT, daily_taskcontroller.add_task)
 router.post('/task_list', authenticateJWT, daily_taskcontroller.task_list)
 router.post('/task_count', authenticateJWT, daily_taskcontroller.task_count)
 router.post('/admin_activity', authenticateJWT, daily_taskcontroller. admin_activity)
+router.post('/view_dailyTask', daily_taskcontroller.view_dailyTask)
+router.post('/edit_dailyTask', daily_taskcontroller.edit_dailyTask)
+
 
 /////////// GOALS ///////////////
 router.post('/get_goals', authenticateJWT, goalcontroller.get_goals)
