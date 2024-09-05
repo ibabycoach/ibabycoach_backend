@@ -72,6 +72,7 @@ module.exports = {
         {baby_name: req.body.baby_name,
         image: req.body.image,
         birthday: req.body.birthday,
+        bg_color: req.body.bg_color,
         gender: req.body.gender});
      
         const babydetails = await baby_model.find({_id: babyId});
