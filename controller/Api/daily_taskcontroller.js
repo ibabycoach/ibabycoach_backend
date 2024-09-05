@@ -302,8 +302,10 @@ module.exports = {
       }
       const removeTask = await daily_task.findByIdAndUpdate({_id:req.body.dailyTask_id},
         {deleted:true}); 
+
+        const removedTask = await daily_task.findOne({_id:req.body.dailyTask_id})
       
-      return helper.success(res, "Daily task deleted successfully")
+      return helper.success(res, "Daily task deleted successfully", removedTask)
 
     } catch (error) {
       console.log(error)
