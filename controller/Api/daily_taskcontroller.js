@@ -246,8 +246,6 @@ module.exports = {
       }
   
       const task_details = await daily_task.findOne({ _id: req.body.dailyTask_id, deleted: false })
-      // .populate("userId", "name image relation")
-      // .populate("babyId", "baby_name image gender")
       .populate("activityIds", "activity_name image bg_color time upcoming_time duration day amount");
   
       if (!daily_task) {
@@ -282,9 +280,7 @@ module.exports = {
       const updateData = await daily_task.updateOne({_id: req.body.dailyTask_id},
         { ...req.body });
      
-        const updatedData = await daily_task.findOne({_id: req.body.dailyTask_id});
-
-      return helper.success(res, "Daily task updated successfully", updatedData)
+      return helper.success(res, "Daily task updated successfully")
 
     } catch (error) {
       console.log(error)
@@ -302,10 +298,8 @@ module.exports = {
       }
       const removeTask = await daily_task.findByIdAndUpdate({_id:req.body.dailyTask_id},
         {deleted:true}); 
-
-        const removedTask = await daily_task.findOne({_id:req.body.dailyTask_id})
       
-      return helper.success(res, "Daily task deleted successfully", removedTask)
+      return helper.success(res, "Daily task deleted successfully")
     } catch (error) {
       console.log(error)
     }
