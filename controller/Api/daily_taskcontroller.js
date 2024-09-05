@@ -291,4 +291,23 @@ module.exports = {
     }
   },
 
+  delete_task: async(req, res)=> {
+    try {
+      const v = new Validator(req.body, {
+        dailyTask_id: "required"
+      })
+      const errorResponse = await helper.checkValidation(v);
+      if (errorResponse) {
+        return helper.failed(res, errorResponse);
+      }
+      const removeTask = await daily_task.findByIdAndUpdate({_id:req.body.dailyTask_id},
+        {deleted:true}); 
+      
+      return helper.success(res, "Daily task deleted successfully")
+
+    } catch (error) {
+      console.log(error)
+    }
+  },
+
 }
