@@ -82,6 +82,8 @@ router.post('/get_activity', authenticateJWT, activitycontroller.get_activity)
 router.post('/get_day_activity', authenticateJWT, activitycontroller.get_day_activity)
 router.post('/get_customized_activity', authenticateJWT, activitycontroller.get_customized_activity)
 router.post('/delete_activity', authenticateJWT, activitycontroller.delete_activity)
+router.post('/get_custom_activity_detail', authenticateJWT, activitycontroller.get_custom_activity_detail)
+
 
 //////////// DAILY TASK ///////////
 router.post('/add_task', authenticateJWT, daily_taskcontroller.add_task)

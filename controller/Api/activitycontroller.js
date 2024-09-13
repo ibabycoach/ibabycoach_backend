@@ -41,7 +41,7 @@ const pushCroneHandler = async () => {
   };
 
   //Schedule a task to run every hour
-cron.schedule("* * * * *", async () => {
+cron.schedule(" * * * * *", async () => {
     // console.log("running a task every minute");
     pushCroneHandler();
     return;
@@ -49,89 +49,126 @@ cron.schedule("* * * * *", async () => {
 
 module.exports = { 
 
-    customizable_activity: async(req, res)=> {
-        try {
-            const v = new Validator(req.body, {
-                activity_name: "required", 
-                babyId: "required",
-                // day: "required",
-                // time: "required",
-            });
-            
-            const errorResponse = await helper.checkValidation(v);
-            if (errorResponse) {
-                return helper.failed(res, errorResponse);
-            }
-
-            if (req.files && req.files.image) {
-                var image = req.files.image;
-                if (image) {
-                    req.body.image = helper.imageUpload(image, "images");
-                }
-            }
-            const upcomingTime = new Date();
-            let userId = req.user.id;
-            const addactivity = await activity_model.create({
-                userId,
-                upcoming_time: upcomingTime,
-                ...req.body
-            });
-
-            return helper.success(res, "customized activity added successfully")
-        } catch (error) {
-            console.log(error);
-        }
-    },
-
-    get_activity: async(req, res)=> {
-        try {
-            let userId = req.user._id;
-             let adminActivities = await activity_model.find({ activity_type: '1', deleted: false});
-             let userActivities = await activity_model.find({ babyId: req.body.babyId, activity_type: '2', deleted: false});
-
-             //we can use the spread operator to merge the multiple arrays
-             let getactivity = [...adminActivities, ...userActivities];
-           
-
-            return helper.success(res, "activity list", getactivity )
-        } catch (error) {
-            console.log(error)
-            return helper.failed(res, "Something went wrong");
-        }
-    },
-
-    edit_activity: async(req, res)=> {
-        try {
-            const v = new Validator(req.body, {
-                activityId: "required",
-            }) 
-            const errorResponse = await helper.checkValidation(v);
-            if (errorResponse) {
-                return helper.failed(res, errorResponse);
-            }
-
-            let activityId = req.body.activityId;
-            const editActivity = await activity_model.findOneAndUpdate({_id: req.body.activityId},
-                {   ...req.body });
-
-                const findactivity = await activity_model.findOne({_id:req.body.activityId})
-            return helper.success(res, "activity updated successfully", findactivity)
-
-        } catch (error) {
-            console.log(error)
-        }
-    },
-
-    get_day_activity: async (req, res) => {
-        try {
+  customizable_activity: async(req, res)=> {
+      try {
           const v = new Validator(req.body, {
-            babyId: "required",
-            day_name: "string",
+              activity_name: "required", 
+              babyId: "required",
+              // day: "required",
+              // time: "required",
           });
-      
+          
           const errorResponse = await helper.checkValidation(v);
           if (errorResponse) {
-            return helper.failed(res, "Something went wrong");
+              return helper.failed(res, errorResponse);
+          }
+
+          if (req.files && req.files.image) {
+              var image = req.files.image;
+              if (image) {
+                  req.body.image = helper.imageUpload(image, "images");
+              }
+          }
+          const upcomingTime = new Date();
+          let userId = req.user.id;
+          const addactivity = await activity_model.create({
+              userId,
+              upcoming_time: upcomingTime,
+              ...req.body
+          });
+
+          return helper.success(res, "customized activity added successfully")
+      } catch (error) {
+          console.log(error);
+      }
+  },
+
+  get_activity: async(req, res)=> {
+      try {
+          let userId = req.user._id;
+            let adminActivities = await activity_model.find({ activity_type: '1', deleted: false});
+            let userActivities = await activity_model.find({ babyId: req.body.babyId, activity_type: '2', deleted: false});
+
+            //we can use the spread operator to merge the multiple arrays
+            let getactivity = [...adminActivities, ...userActivities];
+          
+
+          return helper.success(res, "activity list", getactivity )
+      } catch (error) {
+          console.log(error)
+          return helper.failed(res, "Something went wrong");
+      }
+  },
+
+  edit_activity: async(req, res)=> {
+      try {
+          const v = new Validator(req.body, {
+              activityId: "required",
+          }) 
+          const errorResponse = await helper.checkValidation(v);
+          if (errorResponse) {
+              return helper.failed(res, errorResponse);
+          }
+
+          let activityId = req.body.activityId;
+          const editActivity = await activity_model.findOneAndUpdate({_id: req.body.activityId},
+              {   ...req.body });
+
+              const findactivity = await activity_model.findOne({_id:req.body.activityId})
+          return helper.success(res, "activity updated successfully", findactivity)
+
+      } catch (error) {
+          console.log(error)
+      }
+  },
+
+  get_day_activity: async (req, res) => {
+      try {
+        const v = new Validator(req.body, {
+          babyId: "required",
+          day_name: "string",
+        });
+    
+        const errorResponse = await helper.checkValidation(v);
+        if (errorResponse) {
+          return helper.failed(res, "Something went wrong");
+        }
+    
+        let babyId = req.body.babyId;
+        let query = { babyId: babyId, deleted: false};
+        
+        if (req.body.day_name) {
+          // If the day is specified, add it to the query using regex
+          query.day = new RegExp(req.body.day_name, 'i'); // 'i' for case-insensitive
+        }
+        
+        const get_baby_activity = await activity_model.find(query).populate('userId', 'name relation')
+        
+        if (!req.body.day_name) {
+          return helper.success(res, "Baby activity", get_baby_activity);
+        }
+  
+        // If day_name is provided, filter the routine based on the day_name
+        let datas = get_baby_activity.filter(element => element.day.includes(req.body.day_name));
+    
+        return helper.success(res, "Baby activity", datas);
+      } catch (error) {
+        console.log(error);
+        return helper.failed(res, "Something went wrong");
+      }
+  },
+
+    // customized activity by user
+  get_customized_activity: async(req, res)=> {
+      try {
+          const v = new Validator(req.body, {
+              babyId: "required",
+              // day_name: "string",
+          });
+          
+          const errorResponse = await helper.checkValidation(v);
+          if (errorResponse) {
+              return helper.failed(res, "Something went wrong");
           }
       
           let babyId = req.body.babyId;
@@ -142,88 +179,75 @@ module.exports = {
             query.day = new RegExp(req.body.day_name, 'i'); // 'i' for case-insensitive
           }
           
-          const get_baby_activity = await activity_model.find(query).populate('userId', 'name relation')
+          const baby_customized_activity = await activity_model.find({babyId: req.body.babyId, deleted:false}).populate('userId', 'name relation')
           
           if (!req.body.day_name) {
-            return helper.success(res, "Baby activity", get_baby_activity);
+            return helper.success(res, "Baby customized activity", baby_customized_activity);
           }
     
           // If day_name is provided, filter the routine based on the day_name
-          let datas = get_baby_activity.filter(element => element.day.includes(req.body.day_name));
+          let datas = baby_customized_activity.filter(element => element.day.includes(req.body.day_name));
       
-          return helper.success(res, "Baby activity", datas);
-        } catch (error) {
+          return helper.success(res, "Baby customized activity", datas);
+      } catch (error) {
           console.log(error);
           return helper.failed(res, "Something went wrong");
-        }
-    },
+      }
+  },
 
-    // customized activity by user
-    get_customized_activity: async(req, res)=> {
-        try {
-            const v = new Validator(req.body, {
-                babyId: "required",
-                // day_name: "string",
-            });
-            
-            const errorResponse = await helper.checkValidation(v);
-            if (errorResponse) {
-                return helper.failed(res, "Something went wrong");
-            }
-        
-            let babyId = req.body.babyId;
-            let query = { babyId: babyId, deleted: false};
-            
-            if (req.body.day_name) {
-              // If the day is specified, add it to the query using regex
-              query.day = new RegExp(req.body.day_name, 'i'); // 'i' for case-insensitive
-            }
-            
-            const baby_customized_activity = await activity_model.find({babyId: req.body.babyId, deleted:false}).populate('userId', 'name relation')
-            
-            if (!req.body.day_name) {
-              return helper.success(res, "Baby customized activity", baby_customized_activity);
-            }
-      
-            // If day_name is provided, filter the routine based on the day_name
-            let datas = baby_customized_activity.filter(element => element.day.includes(req.body.day_name));
-        
-            return helper.success(res, "Baby customized activity", datas);
-        } catch (error) {
-            console.log(error);
-            return helper.failed(res, "Something went wrong");
-        }
-    },
-
-    delete_activity: async (req, res) => {
-        try {
-            const v = new Validator(req.body, {
-                activityId: "required",
-            });
-            const errorResponse = await helper.checkValidation(v);
-            if (errorResponse) {
-                return helper.failed(res, errorResponse);
-            }
-            let activityId = req.body.activityId;
-    
-            const deleteactivity = await activity_model.findByIdAndUpdate(
-                activityId,
-                { deleted: true },
-                { new: true }
-            );
-            if (deleteactivity) {
-                await dailytaskModel.updateMany({activityIds: activityId},
-                    {deleted:true});
-            }
-            // const delete_daily_task = await dailytaskModel.findOneAndUpdate({activityIds: activityId},
-            //     {deleted:true});
-
-            return helper.success(res, "Activity deleted successfully");
+  get_custom_activity_detail: async(req, res)=> {
+      try {
+          const v = new Validator(req.body, {
+              customized_ActivityId: "required",
+          });
           
-        } catch (error) {
-            console.log(error);
+          const errorResponse = await helper.checkValidation(v);
+          if (errorResponse) {
+            return helper.failed(res, errorResponse);
         }
-    },
+      
+          let customized_ActivityId = req.body.customized_ActivityId;
+         
+          const customized_activity = await activity_model.find({_id: customized_ActivityId, deleted:false})
+          .populate('userId', 'name relation')
+          .populate('babyId', 'baby_name birthday bg_color image gender')
+                
+          return helper.success(res, "Baby customized activity", customized_activity);
+      } catch (error) {
+          console.log(error);
+          return helper.failed(res, "Something went wrong");
+      }
+  },
+
+  delete_activity: async (req, res) => {
+      try {
+          const v = new Validator(req.body, {
+              activityId: "required",
+          });
+          const errorResponse = await helper.checkValidation(v);
+          if (errorResponse) {
+              return helper.failed(res, errorResponse);
+          }
+          let activityId = req.body.activityId;
+  
+          const deleteactivity = await activity_model.findByIdAndUpdate(
+              activityId,
+              { deleted: true },
+              { new: true }
+          );
+          if (deleteactivity) {
+              await dailytaskModel.updateMany({activityIds: activityId},
+                  {deleted:true});
+          }
+          // const delete_daily_task = await dailytaskModel.findOneAndUpdate({activityIds: activityId},
+          //     {deleted:true});
+
+          return helper.success(res, "Activity deleted successfully");
+        
+      } catch (error) {
+          console.log(error);
+      }
+  },
 
 
 }
