@@ -11,6 +11,7 @@ const activitySchema = new mongoose.Schema({
   day: { type: String, default: '' },
   image: { type: String, default: '' },
   bg_color: {type: String, default: ''},
+  image_theme: {type: String, default: ''},
   amount: { type: String, default: '' },
   is_amount: { type: String, default: '0' },
   is_duration : { type: String, default: '0' },
