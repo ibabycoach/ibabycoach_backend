@@ -115,7 +115,7 @@ module.exports = {
           {   ...req.body });
 
           const findactivity = await activity_model.findOne({_id:req.body.activityId})
-      return helper.success(res, "activity updated successfully", findactivity)
+      return helper.success(res, "activity updated successfully")
 
     } catch (error) {
         console.log(error)
