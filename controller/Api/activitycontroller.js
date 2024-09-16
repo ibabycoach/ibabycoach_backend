@@ -41,7 +41,7 @@ const pushCroneHandler = async () => {
   };
 
   //Schedule a task to run every hour
-cron.schedule(" * * * * *", async () => {
+  cron.schedule(" * * * * *", async () => {
     // console.log("running a task every minute");
     pushCroneHandler();
     return;
@@ -101,25 +101,25 @@ module.exports = {
   },
 
   edit_activity: async(req, res)=> {
-      try {
-          const v = new Validator(req.body, {
-              activityId: "required",
-          }) 
-          const errorResponse = await helper.checkValidation(v);
-          if (errorResponse) {
-              return helper.failed(res, errorResponse);
-          }
-
-          let activityId = req.body.activityId;
-          const editActivity = await activity_model.findOneAndUpdate({_id: req.body.activityId},
-              {   ...req.body });
-
-              const findactivity = await activity_model.findOne({_id:req.body.activityId})
-          return helper.success(res, "activity updated successfully", findactivity)
-
-      } catch (error) {
-          console.log(error)
+    try {
+      const v = new Validator(req.body, {
+        activityId: "required",
+      }) 
+      const errorResponse = await helper.checkValidation(v);
+      if (errorResponse) {
+          return helper.failed(res, errorResponse);
       }
+
+      let activityId = req.body.activityId;
+      const editActivity = await activity_model.findOneAndUpdate({_id: req.body.activityId},
+          {   ...req.body });
+
+          const findactivity = await activity_model.findOne({_id:req.body.activityId})
+      return helper.success(res, "activity updated successfully", findactivity)
+
+    } catch (error) {
+        console.log(error)
+    }
   },
 
   get_day_activity: async (req, res) => {
@@ -208,7 +208,7 @@ module.exports = {
       
           let customized_ActivityId = req.body.customized_ActivityId;
          
-          const customized_activity = await activity_model.find({_id: customized_ActivityId, deleted:false})
+          const customized_activity = await activity_model.findOne({_id: customized_ActivityId, deleted:false})
           .populate('userId', 'name relation')
           .populate('babyId', 'baby_name birthday bg_color image gender')
                 
