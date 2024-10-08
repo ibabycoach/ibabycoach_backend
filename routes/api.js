@@ -59,7 +59,7 @@ router.get('/icons_list', authenticateJWT, iconcontroller.icons_list)
 ////////////// UNITS ///////////// 
 router.post('/update_unit', authenticateJWT, unitcontroller.update_unit)
 
-////// ROUTINE BUILDER /////////
+////// ROUTINE BUILDER ///////////
 router.post('/add_routine', authenticateJWT, routinecontroller.add_routine)
 router.post('/get_routine', authenticateJWT, routinecontroller.get_routine)
 router.post('/edit_routine', authenticateJWT, routinecontroller.edit_routine)
@@ -68,6 +68,8 @@ router.get('/get_activityByAdmin', authenticateJWT, routinecontroller.get_activi
 router.post('/get_day_routine', authenticateJWT, routinecontroller.get_day_routine)
 router.post('/get_customized_routine', authenticateJWT, routinecontroller.get_customized_routine)
 router.post('/assign_task', authenticateJWT, routinecontroller.assign_task)
+router.post('/routine_detail', authenticateJWT, routinecontroller.routine_detail)
+
 
 ///////////  MEMORIES ///////////
 router.post('/add_memories', authenticateJWT, memoriescontroller.add_memories)
