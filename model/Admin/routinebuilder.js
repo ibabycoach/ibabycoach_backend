@@ -12,7 +12,7 @@ const routineSchema = new mongoose.Schema ({
     type: String,
     enum: ['hours', 'days', 'weeks', 'months', 'years'],
     default: 'hours' // Set the default duration type
-}, 
+  }, 
   status: {type: String, default: '1'},
   routine_type: {type: String,
     enum: ["1", "2"],

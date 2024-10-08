@@ -285,7 +285,7 @@ module.exports = {
       }
 
       let routineId = req.body.routineId
-    const routineDetails = await routinebuilder.find({_id: routineId, deleted:false})
+    const routineDetails = await routinebuilder.findOne({_id: routineId, deleted:false})
     .populate('userId', 'name image relation')
     .populate('babyId')
     .populate('activityIds', 'activity_name image bg_color image_theme')
