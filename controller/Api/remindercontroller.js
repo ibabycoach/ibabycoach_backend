@@ -170,9 +170,9 @@ module.exports = {
 
       let reminderId = req.body.reminderId
     const reminderDetails = await reminderModel.findOne({_id: reminderId, deleted:false})
-    // .populate('userId', 'name image relation')
-    // .populate('babyId')
-    // .populate('activityIds', 'activity_name image bg_color image_theme')
+    .populate('userId', 'name image relation')
+    .populate('babyId')
+    .populate('activityIds', 'activity_name image bg_color image_theme')
 
     return helper.success(res, "Reminder details", reminderDetails)
     } catch (error) {
@@ -197,9 +197,10 @@ module.exports = {
       });
       
       return helper.success(res, "Reminder updated successfully" )
-
     } catch (error) {
       console.log(error);
     }
 },
+
+
 };
