@@ -126,6 +126,19 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="mb-1 row">
+                          <div class="col-sm-2">
+                              <label class="col-form-label new_label" for="is_reaction">Reaction</label>
+                          </div>
+                          <div class="col-sm-10">
+                              <div class="form-check form-switch">
+                                  <label class="switch">
+                                      <input type="checkbox" id="is_reaction" class="form-check-input" name="is_reaction" <%= activitydetail.is_reaction == '1' ? 'checked' : '0' %>>
+                                      <span class="slider round"></span>
+                                  </label>
+                              </div>
+                          </div>
+                      </div>
                           <div class="col-12">
                             <div class="col-sm-9 offset-sm-5">
                               <button type="submit"

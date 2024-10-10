@@ -240,14 +240,13 @@ module.exports = {
           return helper.failed(res, errorResponse);
         }
         
-        let routineId = req.body.routineId;
+        // let routineId = req.body.routineId;
         const updateroutine = await routinebuilder.findByIdAndUpdate({_id: req.body.routineId},
         {
           ...req.body
         });
         
-        const updatedroutine = await routinebuilder.findOne({_id: req.body.routineId})
-        return helper.success(res, "routine updated successfully", updatedroutine )
+        return helper.success(res, "routine updated successfully" )
 
       } catch (error) {
         console.log(error);
@@ -290,10 +289,7 @@ module.exports = {
     .populate('babyId')
     .populate('activityIds', 'activity_name image bg_color image_theme')
 
-    
-
     return helper.success(res, "Routine details", routineDetails)
-
     } catch (error) {
       console.log(error);
     }

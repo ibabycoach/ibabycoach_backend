@@ -100,32 +100,7 @@
                       <input type="color" id="bg_color" style="padding: revert" class="form-control" name="bg_color" value="" required>
                     </div>
                   </div>
-                  <!-- <div class="mb-1 row">
-                    <div class="col-sm-2">
-                        <label class="col-form-label new_lable" for="is_amount">Amount</label>
-                    </div>
-                    <div class="col-sm-10">
-                      <div class="form-check form-switch">
-                        <label class="switch">
-                          <input type="checkbox" id="is_amount" class="form-check-input" name="is_amount">
-                          <span class="slider round"></span>
-                        </label>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="mb-1 row">
-                    <div class="col-sm-2">
-                        <label class="col-form-label new_lable" for="is_duration">Duration</label>
-                    </div>
-                    <div class="col-sm-10">
-                      <div class="form-check form-switch">
-                        <label class="switch">
-                          <input type="checkbox" id="is_duration" class="form-check-input" name="is_duration">
-                          <span class="slider round"></span>
-                        </label>
-                      </div>
-                    </div>
-                  </div> -->
+                 
 
                   <div class="mb-1 row">
                     <div class="col-sm-2">
@@ -153,6 +128,19 @@
                         </div>
                     </div>
                 </div>
+                <div class="mb-1 row">
+                  <div class="col-sm-2">
+                      <label class="col-form-label new_lable" for="is_reaction">Reaction</label>
+                  </div>
+                  <div class="col-sm-10">
+                      <div class="form-check form-switch">
+                          <label class="switch">
+                              <input type="checkbox" id="is_reaction" class="form-check-input" name="is_reaction">
+                              <span class="slider round"></span>
+                          </label>
+                      </div>
+                  </div>
+              </div>
                 
                   <div class="col-12">
                     <div class="col-sm-9 offset-sm-5">
@@ -173,12 +161,16 @@
 <div class="drag-target"></div>
 <%- include('../common/footer') %>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js"
+          integrity="sha512-37T7leoNS06R80c8Ulq7cdCDU5MNQBwlYoy1TX/WUsLFC2eYNqtKlV0QjH7r8JpG/S0GUMZwebnVFLPd6SU5yg=="
+          crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
 <script>
   $(document).ready(function () {
 
     jQuery.validator.addMethod("noSpace", function (value, element) {
       return value == '' || value.trim().length != 0;
-    }, "No space please and don't leave it empty");
+    }, "No space allowed");
 
     $('#profile').validate({
       rules: {
@@ -187,6 +179,13 @@
           noSpace: true,
           maxlength: 60
         },
+        phone: {
+          required: true,
+          noSpace: true,
+          minlength: 10,
+          maxlength: 15
+        },
+
       },
 
       errorElement: "div",

@@ -33,6 +33,7 @@ module.exports = {
                 bg_color: req.body.bg_color,
                 activity_name:req.body.activity_name,
                 image:req.body.image,
+                is_reaction: req.body.is_reaction == 'on' ? 1 :0 ,
                 is_amount: req.body.is_amount == 'on' ? 1 :0 ,
                 is_duration: req.body.is_duration == 'on' ? 1 :0
             })
@@ -88,6 +89,7 @@ module.exports = {
              // Handle checkboxes: set to true if present, otherwise false
                 req.body.is_amount = req.body.is_amount === 'on' ? 1 : 0;
                 req.body.is_duration = req.body.is_duration === 'on' ? 1 : 0;
+                req.body.is_reaction = req.body.is_reaction === 'on' ? 1 : 0;
 
             const updateData = await activityModel.updateOne({_id: req.body.id},
                 
@@ -95,6 +97,7 @@ module.exports = {
                     bg_color: req.body.bg_color,
                     image: req.body.image,
                     is_amount: req.body.is_amount,
+                    is_reaction: req.body.is_reaction,
                     is_duration: req.body.is_duration
                 })
             req.flash("msg", "Activity updated successfully");

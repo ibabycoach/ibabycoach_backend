@@ -15,6 +15,7 @@ const activitySchema = new mongoose.Schema({
   amount: { type: String, default: '' },
   is_amount: { type: String, default: '0' },
   is_duration : { type: String, default: '0' },
+  is_reaction: { type: String, default: '0' },
   activity_type: {type: String,
     enum: ['1', '2'],
     default: '1',  // 1 for by admin , 2 for by user

@@ -157,4 +157,49 @@ module.exports = {
       return helper.failed(res, "Something went wrong");
     }
   },
+
+  reminder_detail: async(req, res)=> {
+    try {
+      const v = new Validator(req.body, {
+        reminderId: "required"
+      })
+      const errorResponse = await helper.checkValidation(v);
+      if (errorResponse) {
+        return helper.failed(res, errorResponse);
+      }
+
+      let reminderId = req.body.reminderId
+    const reminderDetails = await reminderModel.findOne({_id: reminderId, deleted:false})
+    // .populate('userId', 'name image relation')
+    // .populate('babyId')
+    // .populate('activityIds', 'activity_name image bg_color image_theme')
+
+    return helper.success(res, "Reminder details", reminderDetails)
+    } catch (error) {
+      console.log(error);
+    }
+  },
+
+  edit_reminder: async(req, res)=> {
+    try {
+      const v = new Validator(req.body, {
+        reminderId: "required"
+      })
+      const errorResponse = await helper.checkValidation(v);
+      if (errorResponse) {
+        return helper.failed(res, errorResponse);
+      }
+      
+      // let routineId = req.body.routineId;
+      const updatedreminder = await reminderModel.findByIdAndUpdate({_id: req.body.reminderId},
+      {
+        ...req.body
+      });
+      
+      return helper.success(res, "Reminder updated successfully" )
+
+    } catch (error) {
+      console.log(error);
+    }
+},
 };
