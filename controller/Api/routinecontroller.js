@@ -223,7 +223,6 @@ module.exports = {
     const get_baby_memories = await routinebuilder.find({babyId: babyId, deleted:false});
 
     return helper.success(res, "baby routine", get_baby_memories)
-
     } catch (error) {
       console.log(error);
     }
@@ -246,8 +245,7 @@ module.exports = {
           ...req.body
         });
         
-        return helper.success(res, "routine updated successfully" )
-
+        return helper.success(res, "routine updated successfully", updateroutine)
       } catch (error) {
         console.log(error);
       }
@@ -294,7 +292,5 @@ module.exports = {
       console.log(error);
     }
   },
-
-
 
 }

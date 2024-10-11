@@ -16,6 +16,7 @@ const remindercontroller = require('../controller/Api/remindercontroller');
 const daily_taskcontroller = require('../controller/Api/daily_taskcontroller');
 const iconcontroller = require('../controller/Api/iconcontroller');
 const unitcontroller = require('../controller/Api/unitcontroller');
+const compareGrowthcontroller = require('../controller/Api/compareGrowthcontroller');
 const authenticateJWT = require("../Helper/helper").authenticateJWT;
 const authenticateHeader = require("../Helper/helper").authenticateHeader;
 
@@ -52,6 +53,9 @@ router.post('/Add_growth', authenticateJWT, growthcontroller.Add_growth)
 router.post('/track_growth', authenticateJWT, growthcontroller.track_growth)
 router.post('/edit_growth', authenticateJWT, growthcontroller.edit_growth)
 router.post('/deleteGrowth', authenticateJWT, growthcontroller.deleteGrowth)
+router.post('/compareGrowths', compareGrowthcontroller.compareGrowths)
+
+
 
 ///////////// ICONS ////////////
 router.get('/icons_list', authenticateJWT, iconcontroller.icons_list)

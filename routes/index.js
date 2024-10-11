@@ -14,6 +14,7 @@ const subuserController = require('../controller/Admin/subuserController');
 const chatController = require('../controller/Admin/chatController');
 const subAdminController = require('../controller/Admin/sub-adminController');
 const iconController = require('../controller/Admin/iconController');
+const compareGrowthController = require('../controller/Admin/compareGrowthController');
 
 
 var router = express.Router();
@@ -107,6 +108,13 @@ router.get('/growth_view/:id', session, growthController.growth_view)
 router.get('/editGrowth/:id', session, growthController.editGrowth)
 router.post('/updateGrowth', growthController.updateGrowth)
 router.delete('/delete_growth/:id', growthController.delete_growth)
+
+//**************** Compare growth *********************************
+router.get('/addgrowth', compareGrowthController.addgrowth)
+router.post('/CreateGrowths', compareGrowthController.CreateGrowths)
+router.get('/growthListing', session, compareGrowthController.growthListing)
+
+
 
 //*****************  Activity  *************************************    
 router.post('/postActivity', session, activityController.postActivity)

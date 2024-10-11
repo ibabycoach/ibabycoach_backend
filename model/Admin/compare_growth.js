@@ -9,22 +9,24 @@ const compareGrowthSchema = new mongoose.Schema({
   height: { type: String, default: '0' },
   weight: { type: String, default: '0' },
   headSize: { type: String, default: '0' },
+  health_type: { type: String, default: '0' },
 
-//   height_unit: {
-//     type: String,
-//     enum: ['in', 'cm'], 
-//     default: 'in'
-//   },
-//   weight_unit: {
-//     type: String,
-//     enum: ['kg', 'lb, oz'], 
-//     default: 'lb, oz'
-//   },
-//   headSize_unit: {
-//     type: String,
-//     enum: ['in', 'cm'], 
-//     default: 'in'
-//   }, 
+  height_unit: {
+    type: String,
+    enum: ['in', 'cm'], 
+    default: 'in'
+  },
+  weight_unit: {
+    type: String,
+    enum: ['kg', 'lb'], 
+    default: 'lb'
+  },
+  headSize_unit: {
+    type: String,
+    enum: ['in', 'cm'], 
+    default: 'in'
+  }, 
+
   deleted: {type: Boolean, default: false},
 }, 
   {timestamps: true });

@@ -1,0 +1,229 @@
+
+<%- include('../common/header') %>
+<%- include('../common/sidebar') %>
+  
+
+<!-- BEGIN: Content-->
+<div class="app-content content ">
+  <div class="content-wrapper container-xxl p-0">
+    <div class="content-body">
+      <section id="multiple-column-form">
+        <div class="row justify-content-center">
+          <div class="col-md-10 col-12 ">
+            <div class="card">
+              <div class="card-header">
+                <h4 class="card-title"> Add Growth</h4>
+              </div>
+           
+              <div class="card-body" style="margin-top: 20px" >
+                <form class="form form-vertical" id="add_validator" action="/CreateGrowths" method="POST" enctype="multipart/form-data">
+                  
+                  <!-- //START DURATION// -->
+                  <div class="mb-2 row">
+                    <div class="col-sm-2">
+                      <label class="col-form-label new_lable" for="end-duration">Start Duration</label>
+                    </div>
+                    <div class="col-sm-3">
+                      <select id="start_duration" class="form-control" name="start_duration" required>
+                        <option value="">Select Start Duration</option>
+                        <option value="0">0 </option>
+                        <option value="1">1 </option>
+                        <option value="2">2 </option>
+                        <option value="3">3 </option>
+                        <option value="4">4 </option>
+                        <option value="5">5 </option>
+                        <option value="6">6 </option>
+                        <option value="7">7 </option>
+                        <option value="8">8 </option>
+                        <option value="9">9 </option>
+                        <!-- Add more options as needed -->
+                      </select>
+                    </div>
+                    
+                    <div class="col-sm-2">
+                      <label class="col-form-label new_lable" for="start_duration_type"> Duration Type</label>
+                    </div>
+                    <div class="col-sm-5">
+                      <select id="start_duration_type" class="form-control" name="start_duration_type" required>
+                        <option value="">Select Duration Type</option>
+                        <option value="Week">Week</option>
+                        <option value="Month">Month</option>
+                        <option value="Year">Year</option>
+                      </select>
+                    </div>
+                  </div>
+
+                  <!-- //END DURATION// -->
+                  <div class="mb-2 row">
+                    <div class="col-sm-2">
+                      <!-- <label class="col-form-label new_lable" for="name">Title</label> -->
+                      <label class="col-form-label new_lable" for="end-duration">End Duration</label>
+                    </div>
+                    <div class="col-sm-3">
+                      <select id="end_duration" class="form-control" name="end_duration" required>
+                        <option value="">Select End Duration</option>
+                        <option value="1">1 </option>
+                        <option value="2">2 </option>
+                        <option value="3">3 </option>
+                        <option value="4">4 </option>
+                        <option value="5">5 </option>
+                        <option value="6">6 </option>
+                        <option value="7">7 </option>
+                        <option value="8">8 </option>
+                        <option value="9">9 </option>
+                        <!-- Add more options as needed -->
+                      </select>
+                    </div>
+                    <div class="col-sm-2">
+                      <label class="col-form-label new_lable" for="end-duration">Duration Type</label>
+                    </div>
+                    <div class="col-sm-5">
+                      <select id="end_duration_type" class="form-control" name="end_duration_type" required>
+                        <option value="">Select Duration Type</option>
+                        <option value="Week">Week</option>
+                        <option value="Month">Month</option>
+                        <option value="Year">Year</option>
+                      </select>
+                    </div>
+                  </div>
+
+                  <!-- //HEIGHT// -->
+                  <div class="mb-2 row">
+                    <div class="col-sm-2">
+                      <label class="col-form-label new_lable" for="end-duration">Height</label>
+                    </div>
+                    <div class="col-sm-3">
+                      <input type="text" id="height" class="form-control" name="height" value="" required>
+                    </div>
+                    <div class="col-sm-2">
+                      <label class="col-form-label new_lable" for="">Height Type</label>
+                    </div>
+                    <div class="col-sm-5">
+                      <select id="height_unit" class="form-control" name="height_unit" required>
+                        <option value="">Select Height Type</option>
+                        <option value="in">Inches</option>
+                        <option value="cm">Centimetres</option>
+                      </select>
+                    </div>
+                  </div>
+
+
+                  <!-- WEIGHT -->
+                  <div class="mb-2 row">
+                    <div class="col-sm-2">
+                      <label class="col-form-label new_lable" for="end-duration">Weight</label>
+                    </div>
+                    <div class="col-sm-3">
+                      <input type="text" id="weight" class="form-control" name="weight" value="" required>
+                    </div>
+                    <div class="col-sm-2">
+                      <label class="col-form-label new_lable" for="end-duration">Weight Type</label>
+                    </div>
+                    <div class="col-sm-5">
+                      <select id="weight_unit" class="form-control" name="weight_unit" required>
+                        <option value="">Select Weight Type</option>
+                        <option value="kg">Kilograms</option>
+                        <option value="lb">Lbs</option>
+                        <!-- <option value="custom">Year</option> -->
+                      </select>
+                    </div>
+                  </div>
+
+                   <!-- HEAD SIZE -->
+                   <div class="mb-2 row">
+                    <div class="col-sm-2">
+                      <label class="col-form-label new_lable" for="headSize">Head Size</label>
+                    </div>
+                    <div class="col-sm-3">
+                      <input type="text" id="headSize" class="form-control" name="headSize" value="" required>
+                    </div>
+                    <div class="col-sm-2">
+                      <label class="col-form-label new_lable" for="end-duration">Head Size Type</label>
+                    </div>
+                    <div class="col-sm-5">
+                      <select id="headSize_unit" class="form-control" name="headSize_unit" required>
+                        <option value="">Select Head Size Type</option>
+                        <option value="in">Inches</option>
+                        <option value="cm">Centimetres</option>
+                        <!-- <option value="custom">Year</option> -->
+                      </select>
+                    </div>
+                  </div>
+                  <br>
+                    <div class="col-12">
+                    <div class="col-sm-9 offset-sm-6">
+                      <button type="submit" class="btn btn-primary waves-effect waves-float waves-light">Add</button>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
+</div>
+<div class="sidenav-overlay"></div>
+<div class="drag-target"></div>
+<%- include('../common/footer') %>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js" 
+integrity="sha512-37T7leoNS06R80c8Ulq7cdCDU5MNQBwlYoy1TX/WUsLFC2eYNqtKlV0QjH7r8JpG/S0GUMZwebnVFLPd6SU5yg==" 
+crossorigin="anonymous" referrerpolicy="no-referrer">
+</script>
+
+
+<script>
+  $(document).ready(function() {
+    jQuery.validator.addMethod("noSpace", function(value, element) {
+      return value == '' || value.trim().length != 0;
+    }, "No space allowed");
+
+    jQuery.validator.addMethod("validImage", function(value, element, param) {
+      return this.optional(element) || /\.(jpe?g|gif|png)$/i.test(value);
+    }, 'Only valid image files (JPEG, GIF, PNG) are allowed.');
+  
+
+    $('#add_validator').validate({
+      rules: {
+        name: {
+          required: true,
+          noSpace: true,
+          maxlength: 20
+        },
+        headSize: {
+          required: true,
+          noSpace: true,
+        },
+        height:{
+          required: true,
+          noSpace: true,
+        },
+        weight: {
+          required: true,
+          noSpace: true,
+        }
+      },
+      errorElement: "div",
+      errorClass: "jqval-error",
+      errorPlacement: function(error, element) {
+        error.insertAfter(element);
+        error.slideDown(400);
+        error.animate({
+          opacity: 1
+        }, {
+          queue: false,
+          duration: 700
+        });
+      },
+      submitHandler: function(form) {
+        var error = $(".assign_error_div").text();
+        if (!error) {
+          form.submit();
+        }
+      }
+    });
+  });
+</script>

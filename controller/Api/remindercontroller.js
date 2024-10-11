@@ -48,6 +48,7 @@ cron.schedule(" * * * * *", async () => {
 });
 
 module.exports = {
+  
   add_reminder: async (req, res) => {
     try {
       const v = new Validator(req.body, {
@@ -200,7 +201,7 @@ module.exports = {
     } catch (error) {
       console.log(error);
     }
-},
+  },
 
 
 };
