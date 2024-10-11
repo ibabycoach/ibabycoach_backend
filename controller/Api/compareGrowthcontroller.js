@@ -21,8 +21,6 @@ module.exports = {
             const comparedata = await comparegrowth.findOne({_id: req.body.compareId})
             console.log(comparedata, ">>>>>>>>>>>>>comparedata>>>>");return
 
-
-            
         } catch (error) {
             return helper.failed(error);
         }
