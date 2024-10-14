@@ -2,14 +2,18 @@ const mongoose = require('mongoose');
 
 const compareGrowthSchema = new mongoose.Schema({
 
-  start_duration: { type: String, default: '' },
+  start_duration: { type: String, default: '0' },
   start_duration_type: { type: String, default: '' },
   end_duration: { type: String, default: '' },
   end_duration_type: { type: String, default: '' },
-  height: { type: String, default: '0' },
-  weight: { type: String, default: '0' },
-  headSize: { type: String, default: '0' },
-  health_type: { type: String, default: '0' },
+  height_in_inch: { type: String, default: '' },
+  height_in_cm: { type: String, default: '' },
+  weight_in_kg: { type: String, default: '' },
+  weight_in_lbs: { type: String, default: '' },
+  headSize_in_inch: { type: String, default: '' },
+  headSize_in_cm: { type: String, default: '' },
+
+  health_type: { type: String, default: '' },
 
   height_unit: {
     type: String,

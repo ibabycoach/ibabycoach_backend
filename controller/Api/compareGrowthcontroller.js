@@ -15,8 +15,11 @@ module.exports = {
                 if (errorResponse) {
                 return helper.failed(res, errorResponse);
             }    
-            const growthdata = await growthModel.findOne({_id: req.body.growthId})
+            const growthdata = await growthModel.findOne({_id: req.body.growthId}).populate('babyId', 'age')
+            babyId = growthdata.babyId
             console.log(growthdata, ">>>>>>>>>>>growthdata>>>>>>");
+
+            console.log(babyId, ">>>>>>>>>>>babyId>>>>>>");
             
             const comparedata = await comparegrowth.findOne({_id: req.body.compareId})
             console.log(comparedata, ">>>>>>>>>>>>>comparedata>>>>");return

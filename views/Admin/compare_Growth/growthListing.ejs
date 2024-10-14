@@ -23,7 +23,7 @@
                     <thead>
                       <tr>
                         <th>S NO.</th>
-                        <th>Start Duration</th>
+                        <th>Age Duration</th>
                         <th>Height</th>
                         <th>Weight</th>
                         <th>Head Size</th>
@@ -35,9 +35,9 @@
                           <tr>
                             <td> <%=1+i%> </td>
                             <td> <%=data?.start_duration%> - <%=data?.end_duration%> <%=data?.start_duration_type%> </td>
-                            <td> <%=data?.height%> <%=data?.height_unit%></td>
-                            <td> <%=data?.weight%> <%=data?.weight_unit%></td>
-                            <td> <%=data?.headSize%> <%=data?.headSize_unit%></td>
+                            <td> <%=data?.height_in_cm%> <%=data?.height_unit%></td>
+                            <td> <%=data?.weight_in_lbs%> <%=data?.weight_unit%></td>
+                            <td> <%=data?.headSize_in_cm%> <%=data?.headSize_unit%></td>
                             <td>
                               <!-- <a href="/activity_view/<%=data._id%>" class="btn btn-sm bg-light-primary"><i data-feather='eye'></i></a> -->
                               <a href="" class="btn btn-sm bg-warning">

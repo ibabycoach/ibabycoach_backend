@@ -5,6 +5,7 @@ const babySchema = new mongoose.Schema({
   userId: {type: mongoose.Schema.Types.ObjectId, ref: "User"},
   baby_name: { type: String, default: '' },
   birthday: { type: Date, default: '' },
+  age: { type: String, default: '' },
   bg_color: {type: String, default: ''},
   image: { type: String, default: '' },
   gender: {

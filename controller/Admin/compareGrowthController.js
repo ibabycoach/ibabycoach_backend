@@ -12,17 +12,39 @@ module.exports = {
         }
     },
 
-    CreateGrowths: async(req, res)=> {
+    CreateGrowths: async (req, res) => {
         try {
+            let { height_in_cm, headSize_in_cm, weight_in_lbs,} = req.body;
+    
+            // Convert height_in_cm to inches and save as height_in_inch
+            let height_in_inch = height_in_cm ? (parseFloat(height_in_cm) / 2.54).toFixed(2) : null;
+    
+            // Convert headSize_in_cm to inches and save as headSize_in_inch
+            let headSize_in_inch = headSize_in_cm ? (parseFloat(headSize_in_cm) / 2.54).toFixed(2) : null;
+    
+            // Convert weight_in_lbs to kilograms and save as weight_in_kg
+            let weight_in_kg = weight_in_lbs ? (parseFloat(weight_in_lbs) * 0.453592).toFixed(2) : null;
+    
+            // Create a new growth entry with the converted values
             let addGrowth = await growthModel.create({
-             ...req.body
+               
+                height_in_cm,
+                height_in_inch,
+                headSize_in_cm,
+                headSize_in_inch,
+                weight_in_lbs, 
+                weight_in_kg,
             });
-            res.redirect("/growthListing")
-            // res.json(addGrowth)
+    
+            res.redirect("/growthListing");
         } catch (error) {
-            console.log(error)
+            console.log("Error occurred while creating growth:", error);
+            res.status(500).send("Internal server error"); 
         }
     },
+    
+    
+    
 
     growthListing: async (req, res) => {
         try {
