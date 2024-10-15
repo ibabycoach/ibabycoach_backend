@@ -15,8 +15,8 @@ const growthSchema = new mongoose.Schema({
   },
   weight_unit: {
     type: String,
-    enum: ['kg', 'lb, oz'], 
-    default: 'lb, oz'
+    enum: ['kg', 'lb, oz', 'lbs'], 
+    default: 'lbs'
   },
   oz_unit: {type: String, default: '0'},
   headSize_unit: {

@@ -5,42 +5,42 @@ const { Validator } = require('node-input-validator');
 
 module.exports = {
 
-  Add_growth: async(req, res)=> {
-    try {
-      let userId = req.user.id
-      const v = new Validator(req.body, {
-        height: "required",
-        weight: "required",
-        headSize: "required",
-        time: "required",
-      });       
-      const errorResponse = await helper.checkValidation(v);
-        if (errorResponse) {
-          return helper.failed(res, errorResponse);
-        }
+  // Add_growth: async(req, res)=> {
+  //   try {
+  //     let userId = req.user.id
+  //     const v = new Validator(req.body, {
+  //       height: "required",
+  //       weight: "required",
+  //       headSize: "required",
+  //       time: "required",
+  //     });       
+  //     const errorResponse = await helper.checkValidation(v);
+  //       if (errorResponse) {
+  //         return helper.failed(res, errorResponse);
+  //       }
 
-      let lastEntry = await growthModel.findOne({babyId: req.body.babyId, deleted:false}).sort({createdAt: -1})
+  //     let lastEntry = await growthModel.findOne({babyId: req.body.babyId, deleted:false}).sort({createdAt: -1})
 
-      let babygrowthData = {userId,
-        ...req.body,
-      };
+  //     let babygrowthData = {userId,
+  //       ...req.body,
+  //     };
 
-      if (lastEntry) {
-        babygrowthData.lastHeight = lastEntry.height;
-        babygrowthData.lastWeight = lastEntry.weight;
-        babygrowthData.last_oz = lastEntry.last_oz;
-        babygrowthData.lastHeadSize = lastEntry.headSize;
-        babygrowthData.lastHeight_unit = lastEntry.height_unit;
-        babygrowthData.lastWeight_unit = lastEntry.weight_unit;
-        babygrowthData.lastHeadSize_unit = lastEntry.headSize_unit;
-      }
-      let babygrowth = await growthModel.create(babygrowthData);
+  //     if (lastEntry) {
+  //       babygrowthData.lastHeight = lastEntry.height;
+  //       babygrowthData.lastWeight = lastEntry.weight;
+  //       babygrowthData.last_oz = lastEntry.last_oz;
+  //       babygrowthData.lastHeadSize = lastEntry.headSize;
+  //       babygrowthData.lastHeight_unit = lastEntry.height_unit;
+  //       babygrowthData.lastWeight_unit = lastEntry.weight_unit;
+  //       babygrowthData.lastHeadSize_unit = lastEntry.headSize_unit;
+  //     }
+  //     let babygrowth = await growthModel.create(babygrowthData);
             
-      return helper.success(res, "Growth added successfully", {})
-    } catch (error) {
-        console.log(error)
-      }
-  },
+  //     return helper.success(res, "Growth added successfully", {})
+  //   } catch (error) {
+  //       console.log(error)
+  //     }
+  // },
 
   track_growth: async(req, res) => {
     try {
@@ -129,6 +129,81 @@ module.exports = {
       console.log(error)
     }
   },
+
+  Add_growth: async (req, res) => {
+    try {
+        let userId = req.user.id;
+      
+        const v = new Validator(req.body, {
+            height: "required",
+            weight: "required",
+            headSize: "required",
+            time: "required",
+        });
+        const errorResponse = await helper.checkValidation(v);
+        if (errorResponse) {
+            return helper.failed(res, errorResponse);
+        }
+
+        let lastEntry = await growthModel.findOne({ babyId: req.body.babyId, deleted: false }).sort({ createdAt: -1 });
+
+        // Convert height to cm (if it's not already in cm)
+        let height_in_cm = req.body.height;
+        if (req.body.height_unit === "in") {
+            height_in_cm = (parseFloat(req.body.height) * 2.54).toFixed(2); // Convert inches to cm
+        }
+
+        // Convert weight to lbs (if it's not already in lbs)
+        let weight_in_lbs = req.body.weight;
+        if (req.body.weight_unit === "kg") {
+            weight_in_lbs = (parseFloat(req.body.weight) / 0.45359237).toFixed(2); // Convert kg to lbs
+            // Use 'lb, oz' in the database instead of 'lbs' since it's closest to the schema
+            weight_unit = "lb, oz"; // Correct unit for pounds
+        } else if (req.body.weight_unit === "lbs" || req.body.weight_unit === "lb, oz") {
+            // If it's already in lbs or lb, oz, we store as it is
+            weight_in_lbs = parseFloat(req.body.weight).toFixed(2);
+            weight_unit = "lb, oz";
+        }
+
+        // Convert head size to cm (if it's not already in cm)
+        let headSize_in_cm = req.body.headSize;
+        if (req.body.headSize_unit === "in") {
+            headSize_in_cm = (parseFloat(req.body.headSize) * 2.54).toFixed(2);
+        }
+
+        // Prepare the growth data object
+        let babygrowthData = {
+            userId,
+            babyId: req.body.babyId,
+            height: height_in_cm, 
+            weight: weight_in_lbs,
+            headSize: headSize_in_cm,
+            time: req.body.time,
+            height_unit: "cm", 
+            weight_unit: "lb, oz", 
+            headSize_unit: "cm",
+        };
+
+       
+        if (lastEntry) {
+            babygrowthData.lastHeight = lastEntry.height;
+            babygrowthData.lastWeight = lastEntry.weight;
+            babygrowthData.last_oz = lastEntry.last_oz;
+            babygrowthData.lastHeadSize = lastEntry.headSize;
+            babygrowthData.lastHeight_unit = lastEntry.height_unit;
+            babygrowthData.lastWeight_unit = lastEntry.weight_unit;
+            babygrowthData.lastHeadSize_unit = lastEntry.headSize_unit;
+        }
+
+        let babygrowth = await growthModel.create(babygrowthData);
+
+        return helper.success(res, "Growth added successfully", { babygrowth });
+    } catch (error) {
+        console.log(error);
+        return helper.failed(res, "Error occurred while adding growth.");
+    }
+}
+
 
 
 }

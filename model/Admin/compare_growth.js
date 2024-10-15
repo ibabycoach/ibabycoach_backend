@@ -3,9 +3,10 @@ const mongoose = require('mongoose');
 const compareGrowthSchema = new mongoose.Schema({
 
   start_duration: { type: String, default: '0' },
-  start_duration_type: { type: String, default: '' },
+  start_duration_type: { type: String, default: '' }, //1 for week, 2 for month, 3 for year
   end_duration: { type: String, default: '' },
-  end_duration_type: { type: String, default: '' },
+  end_duration_type: { type: String, default: '' },  //1 for week, 2 for month, 3 for year
+  total_duration_weeks: { type: String, default: '' },
   height_in_inch: { type: String, default: '' },
   height_in_cm: { type: String, default: '' },
   weight_in_kg: { type: String, default: '' },

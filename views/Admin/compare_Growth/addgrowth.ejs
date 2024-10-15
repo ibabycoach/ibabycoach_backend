@@ -92,10 +92,10 @@
                       </select>
                     </div> -->
                     <div class="col-sm-2">
-                      <label class="col-form-label new_lable" for="start_duration_type"> Duration Type</label>
+                      <label class="col-form-label new_lable" for="end_duration_type"> Duration Type</label>
                     </div>
                     <div class="col-sm-4">
-                      <select id="start_duration_type" class="form-control" name="start_duration_type" required>
+                      <select id="end_duration_type" class="form-control" name="end_duration_type" required>
                         <option value="">Select Duration Type</option>
                         <option value="Week">Week</option>
                         <option value="Month">Month</option>
@@ -106,7 +106,7 @@
                       <label class="col-form-label new_lable" for="weight_in_lbs">Weight (in lbs)</label>
                     </div>
                     <div class="col-sm-4">
-                      <input type="text" id="weight_in_lbs" class="form-control" name="weight_in_lbs"  placeholder="Weight in lbs" value="" required>
+                      <input type="text" id="weight_in_lbs" class="form-control" name="weight_in_lbs"  oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" maxlength="4" placeholder="Weight in lbs" value="" required>
                     </div>
                     <!-- <div class="col-sm-2">
                       <label class="col-form-label new_lable" for="end-duration">Duration Type</label>
@@ -127,13 +127,13 @@
                       <label class="col-form-label new_lable" for="height_in_cm">Height (in cm)</label>
                     </div>
                     <div class="col-sm-4">
-                      <input type="text" id="height_in_cm" class="form-control" name="height_in_cm" placeholder="Height in centimetres" value="" required>
+                      <input type="text" id="height_in_cm" class="form-control" name="height_in_cm" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" maxlength="4"  placeholder="Height in centimetres" value="" required>
                     </div>
                     <div class="col-sm-2">
                       <label class="col-form-label new_lable" for="headSize_in_cm">Head Size (in cm)</label>
                     </div>
                     <div class="col-sm-4">
-                      <input type="text" id="headSize_in_cm" class="form-control" name="headSize_in_cm"  placeholder="Head size in centimetres" value="" required>
+                      <input type="text" id="headSize_in_cm" class="form-control" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" maxlength="4"  name="headSize_in_cm"  placeholder="Head size in centimetres" value="" required>
                     </div>
                     <!-- <div class="col-sm-2">
                       <label class="col-form-label new_lable" for="">Height Type</label>
