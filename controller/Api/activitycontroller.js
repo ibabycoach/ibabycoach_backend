@@ -179,16 +179,18 @@ module.exports = {
             query.day = new RegExp(req.body.day_name, 'i'); // 'i' for case-insensitive
           }
           
-          const baby_customized_activity = await activity_model.find({babyId: req.body.babyId, deleted:false}).populate('userId', 'name relation')
-          
+          const baby_customized_activity = await activity_model.find({babyId: req.body.babyId, status:1, deleted:false}).populate('userId', 'name relation')
+          const baby_inactive_activity = await activity_model.find({babyId: req.body.babyId, status:0, deleted:false}).populate('userId', 'name relation')
+
           if (!req.body.day_name) {
-            return helper.success(res, "Baby customized activity", baby_customized_activity);
+            return helper.success(res, "Baby customized activity", {baby_customized_activity, baby_inactive_activity});
           }
     
           // If day_name is provided, filter the routine based on the day_name
           let datas = baby_customized_activity.filter(element => element.day.includes(req.body.day_name));
-      
-          return helper.success(res, "Baby customized activity", datas);
+          let datas2 = baby_inactive_activity.filter(element => element.day.includes(req.body.day_name));
+
+          return helper.success(res, "Baby customized activity", {datas, datas2});
       } catch (error) {
           console.log(error);
           return helper.failed(res, "Something went wrong");
