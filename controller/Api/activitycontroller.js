@@ -86,8 +86,8 @@ module.exports = {
   get_activity: async(req, res)=> {
       try {
           let userId = req.user._id;
-            let adminActivities = await activity_model.find({ activity_type: '1', deleted: false});
-            let userActivities = await activity_model.find({ babyId: req.body.babyId, activity_type: '2', deleted: false});
+            let adminActivities = await activity_model.find({ activity_type: '1', status: 1, deleted: false});
+            let userActivities = await activity_model.find({ babyId: req.body.babyId, activity_type: '2', status:1, deleted: false});
 
             //we can use the spread operator to merge the multiple arrays
             let getactivity = [...adminActivities, ...userActivities];
