@@ -93,80 +93,6 @@ module.exports = {
     }
   },
 
-  // Add_growth: async (req, res) => {
-  //   try {
-  //       let userId = req.user.id;
-      
-  //       const v = new Validator(req.body, {
-  //           height: "required",
-  //           weight: "required",
-  //           headSize: "required",
-  //           time: "required",
-  //       });
-  //       const errorResponse = await helper.checkValidation(v);
-  //       if (errorResponse) {
-  //           return helper.failed(res, errorResponse);
-  //       }
-
-  //       let lastEntry = await growthModel.findOne({ babyId: req.body.babyId, deleted: false }).sort({ createdAt: -1 });
-
-  //       // Convert height to cm (if it's not already in cm)
-  //       let height_in_cm = req.body.height;
-  //       if (req.body.height_unit === "in") {
-  //           height_in_cm = (parseFloat(req.body.height) * 2.54).toFixed(2); // Convert inches to cm
-  //       }
-
-  //       // Convert weight to lbs (if it's not already in lbs)
-  //       let weight_in_lbs = req.body.weight;
-  //       if (req.body.weight_unit === "kg") {
-  //           weight_in_lbs = (parseFloat(req.body.weight) / 0.45359237).toFixed(2); // Convert kg to lbs
-  //           // Use 'lb, oz' in the database instead of 'lbs' since it's closest to the schema
-  //           weight_unit = "lb, oz"; // Correct unit for pounds
-  //       } else if (req.body.weight_unit === "lbs" || req.body.weight_unit === "lb, oz") {
-  //           // If it's already in lbs or lb, oz, we store as it is
-  //           weight_in_lbs = parseFloat(req.body.weight).toFixed(2);
-  //           weight_unit = "lb, oz";
-  //       }
-
-  //       // Convert head size to cm (if it's not already in cm)
-  //       let headSize_in_cm = req.body.headSize;
-  //       if (req.body.headSize_unit === "in") {
-  //           headSize_in_cm = (parseFloat(req.body.headSize) * 2.54).toFixed(2);
-  //       }
-
-  //       // Prepare the growth data object
-  //       let babygrowthData = {
-  //           userId,
-  //           babyId: req.body.babyId,
-  //           height: height_in_cm, 
-  //           weight: weight_in_lbs,
-  //           headSize: headSize_in_cm,
-  //           time: req.body.time,
-  //           height_unit: "cm", 
-  //           weight_unit: "lb, oz", 
-  //           headSize_unit: "cm",
-  //       };
-
-       
-  //       if (lastEntry) {
-  //           babygrowthData.lastHeight = lastEntry.height;
-  //           babygrowthData.lastWeight = lastEntry.weight;
-  //           babygrowthData.last_oz = lastEntry.last_oz;
-  //           babygrowthData.lastHeadSize = lastEntry.headSize;
-  //           babygrowthData.lastHeight_unit = lastEntry.height_unit;
-  //           babygrowthData.lastWeight_unit = lastEntry.weight_unit;
-  //           babygrowthData.lastHeadSize_unit = lastEntry.headSize_unit;
-  //       }
-
-  //       let babygrowth = await growthModel.create(babygrowthData);
-
-  //       return helper.success(res, "Growth added successfully", { babygrowth });
-  //   } catch (error) {
-  //       console.log(error);
-  //       return helper.failed(res, "Error occurred while adding growth.");
-  //   }
-  // },
-
   Add_growth: async (req, res) => {
     try {
         let userId = req.user.id;
@@ -197,56 +123,135 @@ module.exports = {
     }
   },
 
+  // compare_growth: async (req, res) => {
+  //   try {
+  //     const userId = req.user._id;
+  
+  //     const v = new Validator(req.body, {
+  //       babyId: "required"
+  //     });
+      
+  //     const errorsResponse = await helper.checkValidation(v);
+  //     if (errorsResponse) {
+  //       return helper.failed(res, errorsResponse);
+  //     }
+  
+  //     const babyId = req.body.babyId;
+  //     const baby_growth = await growthModel.find({ babyId, deleted: false })
+  //       .sort({ createdAt: -1 })
+  //       .limit(2) // Fetch only the last two entries
+  //       .populate("userId", "name");
+  
+  //     const findUserUnit = await unitModel.findOne({ userId });
+  
+  //     if (!findUserUnit) {
+  //       return helper.failed(res, "Please set the measuring unit preference");
+  //     }
+  
+  //     // Check if we have at least two entries
+  //     if (baby_growth.length < 2) {
+  //       return helper.failed(res, "Not enough growth data to compare");
+  //     }
+  
+  //     const lastEntry = baby_growth[0];
+  //     const secondLastEntry = baby_growth[1];
+  
+  //     // Calculate differences
+  //     lastEntry.height_difference_in_inch = lastEntry.height_in_inch - secondLastEntry.height_in_inch;
+  //     lastEntry.height_difference_in_cm = lastEntry.height_in_cm - secondLastEntry.height_in_cm;
+  //     lastEntry.weight_difference_in_kg = lastEntry.weight_in_kg - secondLastEntry.weight_in_kg;
+  //     lastEntry.weight_difference_in_lbs = lastEntry.weight_in_lbs - secondLastEntry.weight_in_lbs;
+  //     lastEntry.headSize_difference_in_inch = lastEntry.headSize_in_inch - secondLastEntry.headSize_in_inch;
+  //     lastEntry.headSize_difference_in_cm = lastEntry.headSize_in_cm - secondLastEntry.headSize_in_cm;
+  
+  //     // Save the updated last entry
+  //     await lastEntry.save();
+  
+  //     return helper.success(res, "Growth data compared and updated successfully", lastEntry);
+  //   } catch (error) {
+  //     console.error(error); // Log the error for debugging
+  //     return helper.failed(res, "Something went wrong");
+  //   }
+  // },
+
+
   compare_growth: async (req, res) => {
     try {
-      const userId = req.user._id;
-  
-      const v = new Validator(req.body, {
-        babyId: "required"
-      });
-      
-      const errorsResponse = await helper.checkValidation(v);
-      if (errorsResponse) {
-        return helper.failed(res, errorsResponse);
-      }
-  
-      const babyId = req.body.babyId;
-      const baby_growth = await growthModel.find({ babyId, deleted: false })
-        .sort({ createdAt: -1 })
-        .limit(2) // Fetch only the last two entries
-        .populate("userId", "name");
-  
-      const findUserUnit = await unitModel.findOne({ userId });
-  
-      if (!findUserUnit) {
-        return helper.failed(res, "Please set the measuring unit preference");
-      }
-  
-      // Check if we have at least two entries
-      if (baby_growth.length < 2) {
-        return helper.failed(res, "Not enough growth data to compare");
-      }
-  
-      const lastEntry = baby_growth[0];
-      const secondLastEntry = baby_growth[1];
-  
-      // Calculate differences
-      lastEntry.height_difference_in_inch = lastEntry.height_in_inch - secondLastEntry.height_in_inch;
-      lastEntry.height_difference_in_cm = lastEntry.height_in_cm - secondLastEntry.height_in_cm;
-      lastEntry.weight_difference_in_kg = lastEntry.weight_in_kg - secondLastEntry.weight_in_kg;
-      lastEntry.weight_difference_in_lbs = lastEntry.weight_in_lbs - secondLastEntry.weight_in_lbs;
-      lastEntry.headSize_difference_in_inch = lastEntry.headSize_in_inch - secondLastEntry.headSize_in_inch;
-      lastEntry.headSize_difference_in_cm = lastEntry.headSize_in_cm - secondLastEntry.headSize_in_cm;
-  
-      // Save the updated last entry
-      await lastEntry.save();
-  
-      return helper.success(res, "Growth data compared and updated successfully", lastEntry);
+        const userId = req.user._id;
+
+        const v = new Validator(req.body, {
+            babyId: "required"
+        });
+
+        const errorsResponse = await helper.checkValidation(v);
+        if (errorsResponse) {
+            return helper.failed(res, errorsResponse);
+        }
+
+        const babyId = req.body.babyId;
+        const baby_growth = await growthModel.find({ babyId, deleted: false })
+            .sort({ createdAt: -1 })
+            .limit(2) // Fetch only the last two entries
+            .populate("userId", "name");
+
+        const findUserUnit = await unitModel.findOne({ userId });
+
+        if (!findUserUnit) {
+            return helper.failed(res, "Please set the measuring unit preference");
+        }
+
+        // Check if we have at least two entries
+        if (baby_growth.length < 2) {
+            return helper.failed(res, "Not enough growth data to compare");
+        }
+
+        const lastEntry = baby_growth[0];
+        const secondLastEntry = baby_growth[1];
+
+        // Calculate differences
+        lastEntry.height_difference_in_inch = lastEntry.height_in_inch - secondLastEntry.height_in_inch;
+        lastEntry.height_difference_in_cm = lastEntry.height_in_cm - secondLastEntry.height_in_cm;
+        lastEntry.weight_difference_in_kg = lastEntry.weight_in_kg - secondLastEntry.weight_in_kg;
+        lastEntry.weight_difference_in_lbs = lastEntry.weight_in_lbs - secondLastEntry.weight_in_lbs;
+        lastEntry.headSize_difference_in_inch = lastEntry.headSize_in_inch - secondLastEntry.headSize_in_inch;
+        lastEntry.headSize_difference_in_cm = lastEntry.headSize_in_cm - secondLastEntry.headSize_in_cm;
+
+        // Format differences with > or <
+        lastEntry.height_difference_in_inch = lastEntry.height_difference_in_inch > 0 
+            ? `>${Math.abs(lastEntry.height_difference_in_inch)}` 
+            : `<${Math.abs(lastEntry.height_difference_in_inch)}`;
+
+        lastEntry.height_difference_in_cm = lastEntry.height_difference_in_cm > 0 
+            ? `>${Math.abs(lastEntry.height_difference_in_cm)}` 
+            : `<${Math.abs(lastEntry.height_difference_in_cm)}`;
+
+        lastEntry.weight_difference_in_kg = lastEntry.weight_difference_in_kg > 0 
+            ? `>${Math.abs(lastEntry.weight_difference_in_kg)}` 
+            : `<${Math.abs(lastEntry.weight_difference_in_kg)}`;
+
+        lastEntry.weight_difference_in_lbs = lastEntry.weight_difference_in_lbs > 0 
+            ? `>${Math.abs(lastEntry.weight_difference_in_lbs)}` 
+            : `<${Math.abs(lastEntry.weight_difference_in_lbs)}`;
+
+        lastEntry.headSize_difference_in_inch = lastEntry.headSize_difference_in_inch > 0 
+            ? `>${Math.abs(lastEntry.headSize_difference_in_inch)}` 
+            : `<${Math.abs(lastEntry.headSize_difference_in_inch)}`;
+
+        lastEntry.headSize_difference_in_cm = lastEntry.headSize_difference_in_cm > 0 
+            ? `>${Math.abs(lastEntry.headSize_difference_in_cm)}` 
+            : `<${Math.abs(lastEntry.headSize_difference_in_cm)}`;
+
+        // Save the updated last entry
+        await lastEntry.save();
+
+        // Return the updated last entry in the response
+        return helper.success(res, "Growth data compared and updated successfully", lastEntry);
     } catch (error) {
-      console.error(error); // Log the error for debugging
-      return helper.failed(res, "Something went wrong");
+        console.error(error); // Log the error for debugging
+        return helper.failed(res, "Something went wrong");
     }
-  }
+}
+
   
 
 }

@@ -6,7 +6,7 @@ const { Validator } = require('node-input-validator');
 
 module.exports = {
 
-    compareGrowths: async (req, res) => {
+    compare_growth_graph: async (req, res) => {
     try {
         const v = new Validator(req.body, {
             growthId: "required",
@@ -24,7 +24,6 @@ module.exports = {
 
         // Calculate baby's age in weeks
         const babyAgeInWeeks = Math.floor((new Date() - new Date(babyDOB)) / (7 * 24 * 60 * 60 * 1000));
-        console.log(babyAgeInWeeks, ">>>>>>>>>>>>>>>>>>>>>babyAgeInWeeks");
 
         const compareDataWith = await comparegrowth.findOne({ _id: req.body.compareId });
         
@@ -40,7 +39,7 @@ module.exports = {
         
         const compareHeight = parseFloat(compareDataWith.height_in_cm);  // Ensure height is a number
         const compareWeight = parseFloat(compareDataWith.weight_in_lbs);  // Ensure weight is a number
-        
+
         const compareHeadSize = parseFloat(compareDataWith.headSize_in_cm);  // Ensure headSize is a number
         const compareAgeInWeeks = parseFloat(compareDataWith.total_duration_weeks);  // Ensure age in weeks is a number
 

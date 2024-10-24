@@ -53,11 +53,8 @@ router.post('/Add_growth', authenticateJWT, growthcontroller.Add_growth)
 router.post('/track_growth', authenticateJWT, growthcontroller.track_growth)
 router.post('/edit_growth', authenticateJWT, growthcontroller.edit_growth)
 router.post('/deleteGrowth', authenticateJWT, growthcontroller.deleteGrowth)
-router.post('/compareGrowths', compareGrowthcontroller.compareGrowths)
+router.post('/compare_growth_graph', compareGrowthcontroller.compare_growth_graph)
 router.post('/compare_growth', authenticateJWT, growthcontroller.compare_growth)
-
-
-
 
 
 ///////////// ICONS ////////////
@@ -126,8 +123,6 @@ router.post('/do_not_disturb', authenticateJWT, remindercontroller.do_not_distur
 router.post('/change_reminder_status', authenticateJWT, remindercontroller.change_reminder_status)
 router.post('/reminder_detail', authenticateJWT, remindercontroller.reminder_detail)
 router.post('/edit_reminder', authenticateJWT, remindercontroller.edit_reminder)
-
-
 
 
 module.exports = router;
