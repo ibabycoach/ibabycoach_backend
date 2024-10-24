@@ -202,8 +202,8 @@ module.exports = {
 
         // Check if we have at least two entries
         if (baby_growth.length < 2) {
-            return helper.failed(res, "Not enough growth data to compare");
-        }
+          return helper.success(res, "Only one entry available, no comparison made.");
+      }
 
         const lastEntry = baby_growth[0];
         const secondLastEntry = baby_growth[1];
