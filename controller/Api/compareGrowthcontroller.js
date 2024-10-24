@@ -21,19 +21,26 @@ module.exports = {
         const babyId = babyGrowthData.babyId;
         const babyData = await babyModel.findOne({ _id: babyId });
         const babyDOB = babyData.birthday;
-        
+
         // Calculate baby's age in weeks
         const babyAgeInWeeks = Math.floor((new Date() - new Date(babyDOB)) / (7 * 24 * 60 * 60 * 1000));
+        console.log(babyAgeInWeeks, ">>>>>>>>>>>>>>>>>>>>>babyAgeInWeeks");
 
         const compareDataWith = await comparegrowth.findOne({ _id: req.body.compareId });
-
+        
         // Extract growth data for comparison
-        const babyHeight = parseFloat(babyGrowthData.height);  // Ensure height is a number
-        const babyWeight = parseFloat(babyGrowthData.weight);  // Ensure weight is a number
-        const babyHeadSize = parseFloat(babyGrowthData.headSize);  // Ensure headSize is a number
+        const babyHeightInInch = parseFloat(babyGrowthData.height_in_inch);  // Ensure height is a number
+        const babyHeightInCm = parseFloat(babyGrowthData.height_in_cm);  // Ensure height is a number
 
+        const babyWeightInKg = parseFloat(babyGrowthData.weight_in_kg);  // Ensure weight is a number
+        const babyWeightInLbs = parseFloat(babyGrowthData.weight_in_lbs);  // Ensure weight is a number
+
+        const babyHeadSizeInInch = parseFloat(babyGrowthData.headSize_in_inch);  // Ensure headSize is a number
+        const babyHeadSizeInCm = parseFloat(babyGrowthData.headSize_in_cm);  // Ensure headSize is a number
+        
         const compareHeight = parseFloat(compareDataWith.height_in_cm);  // Ensure height is a number
         const compareWeight = parseFloat(compareDataWith.weight_in_lbs);  // Ensure weight is a number
+        
         const compareHeadSize = parseFloat(compareDataWith.headSize_in_cm);  // Ensure headSize is a number
         const compareAgeInWeeks = parseFloat(compareDataWith.total_duration_weeks);  // Ensure age in weeks is a number
 
@@ -62,22 +69,22 @@ module.exports = {
         let ageChange = 'no change';
 
         // Height comparison percentage and direction
-        if (!isNaN(babyHeight) && !isNaN(compareHeight) && compareHeight !== 0) {
-            const heightDiff = ((babyHeight - compareHeight) / compareHeight) * 100;
+        if (!isNaN(babyHeightInCm) && !isNaN(compareHeight) && compareHeight !== 0) {
+            const heightDiff = ((babyHeightInCm - compareHeight) / compareHeight) * 100;
             heightPercentageDiff = normalizePercentage(heightDiff);
             heightChange = getChangeDirection(heightDiff);
         }
 
         // Weight comparison percentage and direction (convert lbs to kg)
-        if (!isNaN(babyWeight) && !isNaN(weightInKgsForComparison) && weightInKgsForComparison !== 0) {
-            const weightDiff = ((babyWeight - weightInKgsForComparison) / weightInKgsForComparison) * 100;
+        if (!isNaN(babyWeightInLbs) && !isNaN(weightInKgsForComparison) && weightInKgsForComparison !== 0) {
+            const weightDiff = ((babyWeightInLbs - weightInKgsForComparison) / weightInKgsForComparison) * 100;
             weightPercentageDiff = normalizePercentage(weightDiff);
             weightChange = getChangeDirection(weightDiff);
         }
 
         // Head size comparison percentage and direction
-        if (!isNaN(babyHeadSize) && !isNaN(compareHeadSize) && compareHeadSize !== 0) {
-            const headSizeDiff = ((babyHeadSize - compareHeadSize) / compareHeadSize) * 100;
+        if (!isNaN(babyHeadSizeInCm) && !isNaN(compareHeadSize) && compareHeadSize !== 0) {
+            const headSizeDiff = ((babyHeadSizeInCm - compareHeadSize) / compareHeadSize) * 100;
             headSizePercentageDiff = normalizePercentage(headSizeDiff);
             headSizeChange = getChangeDirection(headSizeDiff);
         }
@@ -97,9 +104,9 @@ module.exports = {
                 _id: babyGrowthData._id,
                 userId: babyGrowthData.userId,
                 babyId: babyGrowthData.babyId._id,  // Just showing babyId
-                height: babyGrowthData.height,
-                weight: babyGrowthData.weight,
-                headSize: babyGrowthData.headSize
+                height: babyGrowthData.height_in_cm,
+                weight: babyGrowthData.weight_in_lbs,
+                headSize: babyGrowthData.headSize_in_cm
             },
             compareDataWith: {
                 _id: compareDataWith._id,
@@ -120,7 +127,7 @@ module.exports = {
             }
         });
     } catch (error) {
-        return helper.failed(error);
+        return helper.failed(res, "internal server error");
     }
     }
 
