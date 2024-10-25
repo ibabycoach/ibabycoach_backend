@@ -25,7 +25,7 @@ module.exports = {
 
     CreateGrowths: async (req, res) => {
         try {
-            let { height_in_cm, headSize_in_cm, weight_in_lbs, start_duration, end_duration, end_duration_type } = req.body;
+            let { height_in_cm, headSize_in_cm, weight_in_lbs, start_duration, end_duration, end_duration_type, title } = req.body;
             
             // Convert height_in_cm to inches and save as height_in_inch
             let height_in_inch = height_in_cm ? (parseFloat(height_in_cm) / 2.54).toFixed(2) : null;
@@ -54,6 +54,7 @@ module.exports = {
             }
     
             let addGrowth = await growthModel.create({
+                title,
                 height_in_cm,
                 height_in_inch,
                 headSize_in_cm,

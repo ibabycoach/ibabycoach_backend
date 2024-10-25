@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 
 const compareGrowthSchema = new mongoose.Schema({
 
+  title: { type: String, default: '' },
   start_duration: { type: String, default: '0' },
   start_duration_type: { type: String, default: '' }, //1 for week, 2 for month, 3 for year
   end_duration: { type: String, default: '' },
@@ -13,8 +14,6 @@ const compareGrowthSchema = new mongoose.Schema({
   weight_in_lbs: { type: String, default: '' },
   headSize_in_inch: { type: String, default: '' },
   headSize_in_cm: { type: String, default: '' },
-
-  health_type: { type: String, default: '' },
 
   height_unit: {
     type: String,

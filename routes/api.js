@@ -55,7 +55,6 @@ router.post('/edit_growth', authenticateJWT, growthcontroller.edit_growth)
 router.post('/deleteGrowth', authenticateJWT, growthcontroller.deleteGrowth)
 router.post('/compare_growth_graph', compareGrowthcontroller.compare_growth_graph)
 router.get('/list_to_compare_growth', compareGrowthcontroller.list_to_compare_growth)
-
 router.post('/compare_growth', authenticateJWT, growthcontroller.compare_growth)
 
 
