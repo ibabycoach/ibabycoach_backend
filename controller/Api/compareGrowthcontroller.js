@@ -128,8 +128,19 @@ module.exports = {
     } catch (error) {
         return helper.failed(res, "internal server error");
     }
+    },
+
+    list_to_compare_growth: async(req, res) => {
+        try {
+            const growthData = await comparegrowth.find({deleted:false });
+            if (!growthData) {
+                return helper.success(res, "No data found")
+            }
+
+            return helper.success(res, "Growth list to compare", growthData)
+        } catch (error) {
+            return helper.failed(res, "internal server error");
+        }
     }
-
-
 
 }
