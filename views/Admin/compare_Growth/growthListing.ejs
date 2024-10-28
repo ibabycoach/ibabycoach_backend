@@ -23,6 +23,7 @@
                     <thead>
                       <tr>
                         <th>S NO.</th>
+                        <th>Title</th>
                         <th>Age Duration</th>
                         <th>Height</th>
                         <th>Weight</th>
@@ -34,6 +35,7 @@
                         <%growthdata.forEach(function(data,i) {%>
                           <tr>
                             <td> <%=1+i%> </td>
+                            <td> <%=data?.title%> </td>
                             <td> <%=data?.start_duration%> - <%=data?.end_duration%> <%=data?.end_duration_type%> </td>
                             <td> <%=data?.height_in_cm%> cm</td>
                             <td> <%=data?.weight_in_lbs%> lbs</td>
@@ -81,7 +83,6 @@
         });
 
         function confirmDelete(id) {
-          console.log(">>>>>>>>done>>>>>>>>>>", id)
 
           const swalWithBootstrapButtons = Swal.mixin({
             customClass: {
@@ -91,8 +92,6 @@
             buttonsStyling: true
 
           })
-
-          // console.log("------------------------------result------", id);
 
           swalWithBootstrapButtons.fire({
             title: 'Are you sure?',
@@ -108,8 +107,8 @@
             if (isConfirm.isConfirmed) {
               // alert('asd')
               $.ajax({
-                url: "/delete_growth/:id",
-                type: 'delete',
+                url: "/delete_Growth/:id",
+                type: 'post',
                 data: {
                   id: id
                 },

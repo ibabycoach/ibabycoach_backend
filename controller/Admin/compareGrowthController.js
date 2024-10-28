@@ -73,5 +73,16 @@ module.exports = {
             res.status(500).send("Internal server error");
         }
     },
+
+    delete_Growth: async(req, res)=> {
+        try {
+            let growthID = req.body.id
+            const removesubs = await growthModel.findByIdAndUpdate({ _id: growthID },
+                {deleted:true})
+            res.redirect("/growthListing")
+        } catch (error) {
+                console.log(error)
+        }
+    },
     
 }

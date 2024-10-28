@@ -96,8 +96,8 @@ module.exports = {
         }
 
         // Send the customized response with only the required fields
-        return res.status(200).json({
-            message: "Growth data fetched and compared successfully",
+        return helper.success( res, "Growth data fetched and compared successfully",
+            {
             babyAgeInWeeks,
             babyGrowthData: {
                 _id: babyGrowthData._id,

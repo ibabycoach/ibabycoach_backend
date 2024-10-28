@@ -191,7 +191,7 @@ module.exports = {
         const babyId = req.body.babyId;
         const baby_growth = await growthModel.find({ babyId, deleted: false })
             .sort({ createdAt: -1 })
-            .limit(2) // Fetch only the last two entries
+            .limit(2)
             .populate("userId", "name");
 
         const findUserUnit = await unitModel.findOne({ userId });
@@ -241,16 +241,14 @@ module.exports = {
             ? `>${Math.abs(lastEntry.headSize_difference_in_cm)}` 
             : `<${Math.abs(lastEntry.headSize_difference_in_cm)}`;
 
-        // Save the updated last entry
         await lastEntry.save();
 
-        // Return the updated last entry in the response
         return helper.success(res, "Growth data compared and updated successfully", lastEntry);
     } catch (error) {
-        console.error(error); // Log the error for debugging
+        console.error(error); 
         return helper.failed(res, "Something went wrong");
     }
-}
+  }
 
   
 

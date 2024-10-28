@@ -113,8 +113,7 @@ router.delete('/delete_growth/:id', growthController.delete_growth)
 router.get('/addgrowth', compareGrowthController.addgrowth)
 router.post('/CreateGrowths', compareGrowthController.CreateGrowths)
 router.get('/growthListing', session, compareGrowthController.growthListing)
-
-
+router.post('/delete_Growth/:id', compareGrowthController.delete_Growth)
 
 //*****************  Activity  *************************************    
 router.post('/postActivity', session, activityController.postActivity)
