@@ -10,7 +10,7 @@ const pushCroneHandler = async () => {
     const endDateTime = moment().add(1, "second").endOf("second").format("YYYY-MM-DDTHH:mm:ss");
 
     let reminders = await reminderModel
-      .find({upcoming_time: {$gte: new Date(startDateTime),$lte: new Date(endDateTime)}})
+      .find({upcoming_time: {$gte: new Date(startDateTime),$lte: new Date(endDateTime)}, deleted:false, reminder_type:2})
       .populate("userId", "name relation image device_token")
       .populate("activityIds", "activity_name image bg_color")
       .populate("babyId", "baby_name");
@@ -22,7 +22,7 @@ const pushCroneHandler = async () => {
         const payLoad = {
           sender_name: reminders[i].userId.name,
           device_token: reminders[i].userId.device_token,
-          message: `${reminders[i].activityIds.activity_name} reminder for ${reminders[i].babyId.baby_name}`,
+          message: `${reminders[i].activityIds?.activity_name} reminder for ${reminders[i].babyId.baby_name}`,
           activityIds: reminders[i].activityIds._id,
           activity_name: reminders[i].activityIds.activity_name,
           image: reminders[i].activityIds.image,
@@ -40,8 +40,8 @@ const pushCroneHandler = async () => {
 };
 
 //Schedule a task to run every hour
-cron.schedule(" * * * * *", async () => {
-  // console.log("running a task every minute");
+cron.schedule("*/2 * * * * *", async () => {
+  console.log("running a task every 2 sec");
   pushCroneHandler();
   return;
   

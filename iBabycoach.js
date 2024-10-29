@@ -14,7 +14,7 @@ var flash = require('express-flash');
 var FCM = require('fcm-node');
 var jwt = require('jsonwebtoken');
 const admin = require('firebase-admin');
-const serviceAccount = require('./ibabycoach-7dbec-firebase-adminsdk-czdnc-4a0f5ae501.json'); // Downloaded from Firebase Console
+// const serviceAccount = require('./Helper/ibabycoach-7dbec-firebase-adminsdk-czdnc-4a0f5ae501.json'); // Downloaded from Firebase Console
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
@@ -30,10 +30,10 @@ var io = require("socket.io")(http);
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
-admin.initializeApp({
-  credential: admin.credential.cert(serviceAccount),
-  databaseURL: process.env.MONGO_URI
-});
+// admin.initializeApp({
+//   credential: admin.credential.cert(serviceAccount),
+//   databaseURL: process.env.MONGO_URI
+// });
 
 
 app.use(logger('dev'));

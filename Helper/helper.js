@@ -12,9 +12,11 @@ const SECRET_KEY = process.env.SECRET_KEY;
 const PUBLISH_KEY =process.env.PUBLISH_KEY;
 var FCM = require('fcm-node');
 
-// let hash =  bcrypt.hash("secret_KeyFor_jobbie_@#!$", 10).then((res)=>{
-  //   console.log("🚀  file: ApiController.js:31  hash:", res)
-  // })
+const admin = require('firebase-admin');
+const serviceAccount = require('../Helper/ibabycoach-7dbec-firebase-adminsdk-czdnc-4a0f5ae501.json');
+admin.initializeApp({
+  credential: admin.credential.cert(serviceAccount)
+});
 
 module.exports = {
 
@@ -531,101 +533,98 @@ module.exports = {
       return notify;
   },
 
-  send_push_notifications : (payLoad) => {
+  send_push_notificationsAdmin : (payLoad) => {
     try {
       if (payLoad && payLoad.device_token && payLoad.device_token != "") {
-        // console.log(payLoad,">>>>>>>>>>>>>>>>>>>>>payLoad");
         var message = {
-          to: payLoad.device_token,
+          token: payLoad.device_token,
           notification: {
             title: "ibabycoach",
-            body: payLoad.message,
-            content_available: true,
-            priority: "high",
-            activityIds: payLoad.activityIds.toString(),
-            activity_name: payLoad.activity_name,
-            image: payLoad.image,
-            bg_color: payLoad.bg_color,
-            notificationType: payLoad.type ,
-            sender_name: payLoad.sender_name,
+            body: String(payLoad.message) 
           },
           data: {
             title: "ibabycoach",
-            body: payLoad.message,
-            content_available: true,
+            body: String(payLoad.message),
+            content_available: "true", 
             priority: "high",
-            activityIds: payLoad.activityIds.toString(),
-            activity_name: payLoad.activity_name,
-            image: payLoad.image,
-            bg_color: payLoad.bg_color,
-            notificationType: payLoad.type,
-            sender_name: payLoad.sender_name,
-            sender_id:payLoad.sender_id  ,
-            receiver_id:payLoad.receiver_id ? payLoad.receiver_id : ""  ,
+            notificationType: String(payLoad.type),
+            sender_name: String(payLoad.sender_name),
+            sender_id: String(payLoad.sender_id)  ,
+            receiver_id: String(payLoad.receiver_id ? payLoad.receiver_id : "")  ,
           },
-        };
+      };
 
-        var serverKey = "AAAA_beXrdk:APA91bFrOU9EuiWw_c1TQeFnoWjcyVIzZxhDj4bge82kLNNVW9nhfTDvu0535a-zECGSc4Dxnm607CmJPDhG4ArLMPeJxmI828J1TG373OCNlQMhQuayzf2il7q0YpHC5gxmpKUeVdXh"; //put
-        var fcm = new FCM(serverKey);
-        // console.log(message, ">>>>>>>>>>>>>>>>>>>>>>>>>>>>");
+        // var message = {
+        //   to: payLoad.device_token,
+        //   notification: {
+        //     title: "ibabycoach",
+        //     body: payLoad.message,
+        //     content_available: true,
+        //     priority: "high",
+        //     notificationType: payLoad.type ,
+        //     sender_name: payLoad.sender_name,
+        //   },
+        //   data: {
+        //     title: "ibabycoach",
+        //     body: payLoad.message,
+        //     content_available: true,
+        //     priority: "high",
+        //     notificationType: payLoad.type,
+        //     sender_name: payLoad.sender_name,
+        //     sender_id:payLoad.sender_id  ,
+        //     receiver_id:payLoad.receiver_id ? payLoad.receiver_id : ""  ,
+        //   },
+        // };
 
-        fcm.send(message, function (err, response) {
-          // console.log(response, "PUSH.....FCM . SEND............!!!");
-  
-          if (err) {
-            console.log("Something has gone wrong!", err);
-          } else {
-            console.log("Successfully sent with response: ", response);
-          }
-        });
+        admin.messaging().send(message)
+          .then((response) => {
+              console.log('Successfully sent message:', response);
+          })
+          .catch((error) => {
+              console.log('Error sending message:', error);
+          });
       }
     } catch (error) {
       console.log(error)
     }
   },
 
-
-  send_push_notificationsAdmin : (payLoad) => {
+  send_push_notifications: (payLoad) => {
     try {
-      if (payLoad && payLoad.device_token && payLoad.device_token != "") {
+      if (payLoad && payLoad.device_token) {
+        
         var message = {
-          to: payLoad.device_token,
-          notification: {
-            title: "ibabycoach",
-            body: payLoad.message,
-            content_available: true,
-            priority: "high",
-            notificationType: payLoad.type ,
-            sender_name: payLoad.sender_name,
-          },
-          data: {
-            title: "ibabycoach",
-            body: payLoad.message,
-            content_available: true,
-            priority: "high",
-            notificationType: payLoad.type,
-            sender_name: payLoad.sender_name,
-            sender_id:payLoad.sender_id  ,
-            receiver_id:payLoad.receiver_id ? payLoad.receiver_id : ""  ,
-          },
+            token: payLoad.device_token,
+            notification: {
+              title: "ibabycoach",
+              body: String(payLoad.message) 
+            },
+            data: {
+              title: "ibabycoach",
+              body: String(payLoad.message),
+              content_available: "true", 
+              priority: "high",
+              activityIds: String(payLoad.activityIds.toString()),
+              activity_name: String(payLoad.activity_name),
+              image: String(payLoad.image),
+              bg_color: String(payLoad.bg_color),
+              notificationType: String(payLoad.type),
+              sender_name: String(payLoad.sender_name),
+              sender_id: String(payLoad.sender_id)  ,
+              receiver_id: String(payLoad.receiver_id ? payLoad.receiver_id : "")  ,
+            },
         };
-
-        var serverKey = "AAAA_beXrdk:APA91bFrOU9EuiWw_c1TQeFnoWjcyVIzZxhDj4bge82kLNNVW9nhfTDvu0535a-zECGSc4Dxnm607CmJPDhG4ArLMPeJxmI828J1TG373OCNlQMhQuayzf2il7q0YpHC5gxmpKUeVdXh"; //put
-        var fcm = new FCM(serverKey);
-        // console.log(message, ">>>>>>>>>>>>>>>>>>>>>>>>>>>>");
-
-        fcm.send(message, function (err, response) {
-          // console.log("PUSH.....FCM . SEND............!!!");
-  
-          if (err) {
-            console.log("Something has gone wrong!", err);
-          } else {
-            console.log("Successfully sent with response: ", response);
-          }
-        });
+        
+        admin.messaging().send(message)
+          .then((response) => {
+              console.log('Successfully sent message:', response);
+          })
+          .catch((error) => {
+              console.log('Error sending message:', error);
+          });
       }
     } catch (error) {
-      console.log(error)
+        console.log(error);
     }
   },
 
