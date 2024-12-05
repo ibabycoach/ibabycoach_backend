@@ -27,26 +27,23 @@ module.exports = {
       }
       
       const isemailExist = await user_model.findOne({ email: req.body.email, deleted:false });
-  
       if (isemailExist) {
         return helper.failed(res, "Email already exists");
       }
   
       const ismobileExist = await user_model.findOne({ phone: req.body.phone, deleted: false });
-  
       if (ismobileExist) {
         return helper.failed(res, "Mobile already exists");
       }
   
       if (req.files && req.files.image) {
         let image = req.files.image;
-  
         if (image) {
           values.inputs.image = helper.imageUpload(image, "images");
         }
       }
-      var Otp = 1111;
-      // var Otp = Math.floor(1000 + Math.random() * 9000);
+      // var Otp = 1111;
+      var Otp = Math.floor(1000 + Math.random() * 9000);
 
       let time = helper.unixTimestamp();
       values.inputs.loginTime = time;
@@ -76,6 +73,25 @@ module.exports = {
         userInfo = JSON.stringify(userInfo);
         userInfo = JSON.parse(userInfo);
         userInfo.token = token;
+
+        let html =` Hello ${req.body.name}, <br> This is your one time password (OTP) ${ Otp } to complete the signup process. <br><br> Regards,<br> ibabycoach`;
+
+          var transporter = nodemailer.createTransport({
+              host: 'smtp.hostinger.com',
+              port: '587',
+              auth: {
+                  user: 'app@ibabycoach.com',
+                  pass: 'Th3B@byCo@ch'
+              }
+          });
+          // send mail with defined transport object
+          let info = await transporter.sendMail({
+              from: 'app@ibabycoach.com' , 
+              to: req.body.email, 
+              subject: "ibabycoach", 
+              text: "ibabycoach", 
+              html: html,
+          });
   
         return helper.success(res, "Signup Successfully", userInfo);
       }
@@ -155,14 +171,14 @@ module.exports = {
     try {
       const v = new Validator(req.body, {
         otp: "required",
-        phone: "required",
-        country_code: "required",
+        email: "required",
+        // country_code: "required",
       });
       let errorsResponse = await helper.checkValidation(v);
       if (errorsResponse) {
         return helper.failed(res, errorsResponse);
       }
-      let isUserExist = await user_model.findOne({ phone: req.body.phone, country_code: req.body.country_code, deleted:false });
+      let isUserExist = await user_model.findOne({ email: req.body.email, deleted:false });
 
       if (isUserExist) {
         if (req.body.otp == isUserExist.otp) {
@@ -172,7 +188,7 @@ module.exports = {
         }
         let userDetail = await user_model.findOne({ _id: isUserExist._id })
 
-        let time = await helper.unixTimestamp();
+        let time = helper.unixTimestamp();
         let token = jwt.sign(
           {
             data: {
