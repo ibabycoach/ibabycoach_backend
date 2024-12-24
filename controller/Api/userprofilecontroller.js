@@ -47,9 +47,7 @@ module.exports = {
         name: "required",
         email: "required",
         password: "required",
-        phone: "required",
-        // relation: "required",
-        // country_code: "required",
+        phone: "required"
       });
       let errorsResponse = await helper.checkValidation(v);
       if (errorsResponse) {
@@ -62,7 +60,6 @@ module.exports = {
       }
   
       const isphoneExist = await user_model.findOne({ phone: req.body.phone });
-      
       if (isphoneExist) {
         return helper.failed(res, "Phone number already exists");
       }
@@ -98,7 +95,6 @@ module.exports = {
       }
      
       return helper.success(res, "Sub-user added successfully", addsubUser);
-  
     } catch (error) {
       console.log(error);
       return helper.error(res, "Error");

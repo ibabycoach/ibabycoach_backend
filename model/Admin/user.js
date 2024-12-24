@@ -27,6 +27,7 @@ const userSchema = new mongoose.Schema({
     enum: [1, 2, ], //1 for Android, 2 for IOS
     default: '',
   },
+  social_id: {type: String, default: ""},  
   google: {type: String},     //social login
   facebook: {type: String},   //social login
   apple: {type: String},      //social login

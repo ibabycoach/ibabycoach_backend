@@ -250,146 +250,146 @@ module.exports = {
     }
   },
 
-  socialLogin: async (req, res) => {
-    try {
-      const v = new Validator(req.body, {
-        social_id: "required",
-        role: "required",
-        socialtype: "required", //1 for google , 2 for facebook, 3 for apple
-        device_type: "required",
-        device_token: "required",
-      });
-      const values = JSON.parse(JSON.stringify(v));
-      let errorsResponse = await helper.checkValidation(v);
+  // socialLogin: async (req, res) => {
+  //   try {
+  //     const v = new Validator(req.body, {
+  //       social_id: "required",
+  //       // role: "required",
+  //       socialtype: "required", //1 for google , 2 for facebook, 3 for apple
+  //       device_type: "required",
+  //       device_token: "required",
+  //     });
+  //     const values = JSON.parse(JSON.stringify(v));
+  //     let errorsResponse = await helper.checkValidation(v);
 
-      if (errorsResponse) {
-        return helper.failed(res, errorsResponse);
-      }
-      let condition = {}
-      if (req.body.socialtype == 1) {
-        condition = {
-          google: req.body.social_id,
-          socialtype: req.body.socialtype,
-          role: req.body.role,
-        }
-      } else if (req.body.socialtype == 2) {
-        condition = {
-          facebook: req.body.social_id,
-          socialtype: req.body.socialtype,
-          role: req.body.role,
-        }
-      } else if (req.body.socialtype == 3) {
-        condition = {
-          apple: req.body.social_id,
-          socialtype: req.body.socialtype,
-          role: req.body.role,
-        }
-      }
-      var check_social_id = await user_model.findOne(condition);
-      // if(req.body.email){
-        var check_email = await user_model.findOne({
-          email: req.body.email
-        });
-      // }
+  //     if (errorsResponse) {
+  //       return helper.failed(res, errorsResponse);
+  //     }
+  //     let condition = {}
+  //     if (req.body.socialtype == 1) {
+  //       condition = {
+  //         google: req.body.social_id,
+  //         socialtype: req.body.socialtype,
+  //         role: req.body.role,
+  //       }
+  //     } else if (req.body.socialtype == 2) {
+  //       condition = {
+  //         facebook: req.body.social_id,
+  //         socialtype: req.body.socialtype,
+  //         role: req.body.role,
+  //       }
+  //     } else if (req.body.socialtype == 3) {
+  //       condition = {
+  //         apple: req.body.social_id,
+  //         socialtype: req.body.socialtype,
+  //         role: req.body.role,
+  //       }
+  //     }
+  //     var check_social_id = await user_model.findOne(condition);
+  //     // if(req.body.email){
+  //       var check_email = await user_model.findOne({
+  //         email: req.body.email
+  //       });
+  //     // }
     
-      if (check_social_id || check_email) {
-        await user_model.findOneAndUpdate({
-          device_token: req.body.device_token,
-          device_type: req.body.device_type,
-          login_time: helper.unixTimestamp(),
-        }, {
-          _id: check_social_id ? check_social_id._id : check_email._id
-        });
-        var get_user_data = await user_model.findOne({
-          _id: check_social_id._id,
-        });
-        let token = jwt.sign({
-          _id: get_user_data._id,
-          login_time: get_user_data.loginTime,
-        },
-          "secret", {
-          expiresIn: "365d",
-        });
-        get_user_data = JSON.stringify(get_user_data);
-        get_user_data = JSON.parse(get_user_data);
-        get_user_data.token = token;
-        delete get_user_data.password;
-        if (req.body.role == 2) {
-          const account = await bankmodel.count({ workerId: get_user_data._id });
-          var objs = {
-            get_user_data,
-            account
-          }
-        } else {
-          var objs = get_user_data
-        }
-        return helper.success(res, "Social Login successfully", objs);
-      } else {
-        let condition = {}
+  //     if (check_social_id || check_email) {
+  //       await user_model.findOneAndUpdate({
+  //         device_token: req.body.device_token,
+  //         device_type: req.body.device_type,
+  //         login_time: helper.unixTimestamp(),
+  //       }, {
+  //         _id: check_social_id ? check_social_id._id : check_email._id
+  //       });
+  //       var get_user_data = await user_model.findOne({
+  //         _id: check_social_id._id,
+  //       });
+  //       let token = jwt.sign({
+  //         _id: get_user_data._id,
+  //         login_time: get_user_data.loginTime,
+  //       },
+  //         "secret", {
+  //         expiresIn: "365d",
+  //       });
+  //       get_user_data = JSON.stringify(get_user_data);
+  //       get_user_data = JSON.parse(get_user_data);
+  //       get_user_data.token = token;
+  //       delete get_user_data.password;
+  //       if (req.body.role == 2) {
+  //         const account = await bankmodel.count({ workerId: get_user_data._id });
+  //         var objs = {
+  //           get_user_data,
+  //           account
+  //         }
+  //       } else {
+  //         var objs = get_user_data
+  //       }
+  //       return helper.success(res, "Social Login successfully", objs);
+  //     } else {
+  //       let condition = {}
 
-        if (req.body.socialtype == 1) {
-          condition = {
-            google: req.body.social_id,
-            socialtype: req.body.socialtype,
-            role: req.body.role,
-          }
-        } else if (req.body.socialtype == 2) {
-          condition = {
-            facebook: req.body.social_id,
-            socialtype: req.body.socialtype,
-            role: req.body.role,
-          }
-        } else if (req.body.socialtype == 3) {
-          condition = {
-            apple: req.body.social_id,
-            socialtype: req.body.social_type,
-            role: req.body.role,
-          }
-        }
-        var save_data = await user_model.create({
-          name: req.body.name ? req.body.name : '',
-          email: req.body.email ? req.body.email : '',
-          phone: req.body.phone ? req.body.phone : '',
-          image: req.body.image ? req.body.image : '',
-          otp: 1111,
-          login_time: await helper.unixTimestamp(),
-          type: req.body.type,
-          device_type: req.body.device_type ? req.body.device_type : '',
-          device_token: req.body.device_token ? req.body.device_token : '',
-          bio: req.body.bio ? req.body.bio : '',
-          country_code: req.body.country_code ? req.body.country_code : '',
-          ...condition
-        });
-        var get_user_data = await user_model.findOne(
-          {
-            _id: save_data._id,
-          });
-        let token = jwt.sign({
-          _id: get_user_data._id,
-          login_time: get_user_data.loginTime,
-        },
-          "secret", {
-          expiresIn: "365d",
-        });
-        get_user_data = JSON.stringify(get_user_data);
-        get_user_data = JSON.parse(get_user_data);
-        get_user_data.token = token;
-        delete get_user_data.password;
-        if (req.body.role == 2) {
-          const account = await bankmodel.count({ workerId: get_user_data._id });
-          var objs = {
-            get_user_data,
-            account
-          }
-        } else {
-          var objs = get_user_data
-        }
-        return helper.success(res, "Social Login successfully", objs);
-      }
-    } catch (error) {
-      return helper.failed(res, error);
-    }
-  },
+  //       if (req.body.socialtype == 1) {
+  //         condition = {
+  //           google: req.body.social_id,
+  //           socialtype: req.body.socialtype,
+  //           role: req.body.role,
+  //         }
+  //       } else if (req.body.socialtype == 2) {
+  //         condition = {
+  //           facebook: req.body.social_id,
+  //           socialtype: req.body.socialtype,
+  //           role: req.body.role,
+  //         }
+  //       } else if (req.body.socialtype == 3) {
+  //         condition = {
+  //           apple: req.body.social_id,
+  //           socialtype: req.body.social_type,
+  //           role: req.body.role,
+  //         }
+  //       }
+  //       var save_data = await user_model.create({
+  //         name: req.body.name ? req.body.name : '',
+  //         email: req.body.email ? req.body.email : '',
+  //         phone: req.body.phone ? req.body.phone : '',
+  //         image: req.body.image ? req.body.image : '',
+  //         otp: 1111,
+  //         login_time: await helper.unixTimestamp(),
+  //         type: req.body.type,
+  //         device_type: req.body.device_type ? req.body.device_type : '',
+  //         device_token: req.body.device_token ? req.body.device_token : '',
+  //         bio: req.body.bio ? req.body.bio : '',
+  //         country_code: req.body.country_code ? req.body.country_code : '',
+  //         ...condition
+  //       });
+  //       var get_user_data = await user_model.findOne(
+  //         {
+  //           _id: save_data._id,
+  //         });
+  //       let token = jwt.sign({
+  //         _id: get_user_data._id,
+  //         login_time: get_user_data.loginTime,
+  //       },
+  //         "secret", {
+  //         expiresIn: "365d",
+  //       });
+  //       get_user_data = JSON.stringify(get_user_data);
+  //       get_user_data = JSON.parse(get_user_data);
+  //       get_user_data.token = token;
+  //       delete get_user_data.password;
+  //       if (req.body.role == 2) {
+  //         const account = await bankmodel.count({ workerId: get_user_data._id });
+  //         var objs = {
+  //           get_user_data,
+  //           account
+  //         }
+  //       } else {
+  //         var objs = get_user_data
+  //       }
+  //       return helper.success(res, "Social Login successfully", objs);
+  //     }
+  //   } catch (error) {
+  //     return helper.failed(res, error);
+  //   }
+  // },
 
   change_password: async function (req, res) {
     try {
@@ -425,6 +425,159 @@ module.exports = {
         console.log(error)
     }
   },
+
+  // socialLogin: async (req, res) => {
+  //   try {
+  //       // Validate the request body
+  //       const v = new Validator(req.body, {
+  //         social_id: "required",
+  //         socialtype: "required", // 1 for Google, 2 for Facebook, 3 for Apple
+  //         device_type: "required",
+  //         device_token: "required",
+  //       });
+
+  //       let errorsResponse = await helper.checkValidation(v);
+  //       if (errorsResponse) {
+  //           return helper.failed(res, errorsResponse);
+  //       }
+  //       if (req.body.email){
+  //         const emailExist = await user_model.findOne({ email: req.body.email, deleted:false });
+  //         if (emailExist) {
+  //           return helper.failed(res, "Email already exists", emailExist);
+  //         }
+  //       }
+
+  //       // Check if a user exists with the provided social_id and social_type
+  //       const existingUser = await user_model.findOne({
+  //         social_id: req.body.social_id,
+  //         socialtype: req.body.socialtype,
+  //       });
+
+  //       // If user exists, log them in (update device info)
+  //       if (existingUser) {
+  //           return helper.success(res, "User already existed", existingUser);
+  //       } else {
+  //           // If user doesn't exist, create a new user
+  //           let newUser = {
+  //             loginTime: helper.unixTimestamp(),
+  //               device_type: req.body.device_type || '',
+  //               device_token: req.body.device_token || '',
+  //               socialtype: req.body.socialtype,
+  //               social_id: req.body.social_id,
+  //               email: req.body.email,
+  //           };
+  //           // Save new user data
+  //           const createdUser = await user_model.create(newUser);
+  //           let newUserData = await user_model.findOne(
+  //              { _id: createdUser.id });
+
+  //           // let token = jwt.sign({
+  //           //     data: {
+  //           //         id: createdUser.id,
+  //           //         login_time: createdUser.login_time,
+  //           //     }
+  //           // }, secretKey.enc_secret_key);
+
+  //           let token = jwt.sign(
+  //             {
+  //               data: {
+  //                 _id: newUserData._id,
+  //                 loginTime: newUserData.loginTime,
+  //               },
+  //             },
+  //             secretCryptoKey,
+  //             { expiresIn: "365d" }
+  //           );
+
+  //           // Clean up password and add token to the response
+  //           newUserData = newUserData.toJSON(); // Convert Sequelize model to plain object
+  //           newUserData.token = token;
+  //           delete newUserData.password;
+
+  //           return helper.success(res, "New user created and logged in successfully", newUserData);
+  //       }
+
+  //   } catch (error) {
+  //       // Handle errors
+  //       console.error(error); // Log the error to help with debugging
+  //       return helper.failed(res, error);
+  //   }
+  // },
+
+  socialLogin: async (req, res) => {
+    try {
+        // Validate the request body
+        const v = new Validator(req.body, {
+          social_id: "required",
+          socialtype: "required", // 1 for Google, 2 for Facebook, 3 for Apple
+          device_type: "required",
+          device_token: "required",
+        });
+
+        let errorsResponse = await helper.checkValidation(v);
+        if (errorsResponse) {
+            return helper.failed(res, errorsResponse);
+        }
+
+        // Check if the email is provided
+        if (req.body.email) {
+            // Look for an existing user by email
+            const emailExist = await user_model.findOne({ email: req.body.email, deleted: false });
+            if (emailExist) {
+                // If the user already exists, return user details
+                return helper.success(res, "User already exists", emailExist);
+            }
+        }
+
+        // Check if a user exists with the provided social_id and social_type
+        const existingUser = await user_model.findOne({
+          social_id: req.body.social_id,
+          socialtype: req.body.socialtype,
+        });
+
+        // If user exists, log them in (update device info)
+        if (existingUser) {
+            return helper.success(res, "User already existed", existingUser);
+        } else {
+            // If user doesn't exist, create a new user
+            let newUser = {
+              loginTime: helper.unixTimestamp(),
+                device_type: req.body.device_type || '',
+                device_token: req.body.device_token || '',
+                socialtype: req.body.socialtype,
+                social_id: req.body.social_id,
+                email: req.body.email,
+            };
+            // Save new user data
+            const createdUser = await user_model.create(newUser);
+            let newUserData = await user_model.findOne(
+               { _id: createdUser.id });
+
+            // Generate token for new user
+            let token = jwt.sign(
+              {
+                data: {
+                  _id: newUserData._id,
+                  loginTime: newUserData.loginTime,
+                },
+              },
+              secretCryptoKey,
+              { expiresIn: "365d" }
+            );
+
+            // Clean up password and add token to the response
+            newUserData = newUserData.toJSON(); // Convert Sequelize model to plain object
+            newUserData.token = token;
+            delete newUserData.password;
+
+          return helper.success(res, "New user created and logged in successfully", newUserData);
+        }
+    } catch (error) {
+        console.error(error);
+        return helper.failed(res, error);
+    }
+},
+
 
 
 }
