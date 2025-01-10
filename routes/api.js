@@ -30,6 +30,9 @@ router.post("/resend_otp", Authcontroller.resend_otp)
 router.post('/socialLogin', Authcontroller.socialLogin)
 router.post('/logout', authenticateJWT, Authcontroller.logout)
 router.post('/change_password', authenticateJWT, Authcontroller.change_password)
+router.post('/forgotPassword', Authcontroller.forgotPassword)
+
+
 
 ///////// PROFILE ////////////
 router.post('/profile', authenticateJWT, userprofilecontroller.profile)
