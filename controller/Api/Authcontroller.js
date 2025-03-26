@@ -300,13 +300,31 @@ module.exports = {
             return helper.failed(res, errorsResponse);
         }
 
-        // Check if the email is provided
         if (req.body.email) {
-            // Look for an existing user by email
             const emailExist = await user_model.findOne({ email: req.body.email, deleted: false });
             if (emailExist) {
-                // If the user already exists, return user details
-                return helper.success(res, "User already exists", emailExist);
+              const findbaby = await babyModel.findOne({ userId: emailExist._id, });
+                // Create a new object and add the hasBabyAdded field
+                const existingUser = { 
+                    ...emailExist.toObject(), 
+                    hasBabyAdded: findbaby ? 1 : 0
+                };  
+
+                // Generate token for new user
+                let token = jwt.sign(
+                  {
+                    data: {
+                      _id: existingUser._id,
+                      loginTime: existingUser.loginTime,
+                    },
+                  },
+                  secretCryptoKey,
+                  { expiresIn: "365d" }
+                );
+                
+                existingUser.token = token;
+
+              return helper.success(res, "User already exists", existingUser);
             }
         }
 
@@ -319,13 +337,11 @@ module.exports = {
         // If user exists, log them in (update device info)
         if (userExisted) {
 
-          const findbaby = await babyModel.findOne({
-            userId: userExisted._id,
-        });
+          const findbaby = await babyModel.findOne({ userId: userExisted._id, });
     
         // Create a new object and add the hasBabyAdded field
         const existingUser = { 
-            ...userExisted.toObject(), // Convert Mongoose document to plain object
+            ...userExisted.toObject(), 
             hasBabyAdded: findbaby ? 1 : 0
         };  
 
@@ -345,17 +361,18 @@ module.exports = {
 
             return helper.success(res, "User Already existed", existingUser);
         } else {
-            // If user doesn't exist, create a new user
-            let newUser = {
-              loginTime: helper.unixTimestamp(),
-                device_type: req.body.device_type || '',
-                device_token: req.body.device_token || '',
-                socialtype: req.body.socialtype,
-                social_id: req.body.social_id,
-                email: req.body.email,
-            };
-            // Save new user data
-            const createdUser = await user_model.create(newUser);
+
+          if (req.files && req.files.image) {
+            let image = req.files.image;
+            if (image) {
+              req.body.image = helper.imageUpload(image, "images");
+            }
+          }
+
+            const createdUser = await user_model.create({
+              ...req.body,
+              loginTime:helper.unixTimestamp(),
+            });
             let newUserData = await user_model.findOne(
                { _id: createdUser.id });
 
@@ -371,7 +388,6 @@ module.exports = {
               { expiresIn: "365d" }
             );
 
-            // Clean up password and add token to the response
             newUserData = newUserData.toJSON(); 
             newUserData.token = token;
             delete newUserData.password;
