@@ -329,6 +329,20 @@ module.exports = {
             hasBabyAdded: findbaby ? 1 : 0
         };  
 
+         // Generate token for new user
+         let token = jwt.sign(
+          {
+            data: {
+              _id: existingUser._id,
+              loginTime: existingUser.loginTime,
+            },
+          },
+          secretCryptoKey,
+          { expiresIn: "365d" }
+        );
+        
+        existingUser.token = token;
+
             return helper.success(res, "User Already existed", existingUser);
         } else {
             // If user doesn't exist, create a new user
@@ -358,7 +372,7 @@ module.exports = {
             );
 
             // Clean up password and add token to the response
-            newUserData = newUserData.toJSON(); // Convert Sequelize model to plain object
+            newUserData = newUserData.toJSON(); 
             newUserData.token = token;
             delete newUserData.password;
             
