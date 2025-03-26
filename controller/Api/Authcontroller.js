@@ -303,10 +303,17 @@ module.exports = {
         if (req.body.email) {
             const emailExist = await user_model.findOne({ email: req.body.email, deleted: false });
             if (emailExist) {
+
+              await user_model.updateOne({ _id: emailExist._id },
+                 { device_type: req.body.device_type,
+                  device_token: req.body.device_token
+              });
+              const updateddata = await user_model.findOne({ email: req.body.email, deleted: false });
+
               const findbaby = await babyModel.findOne({ userId: emailExist._id, });
                 // Create a new object and add the hasBabyAdded field
                 const existingUser = { 
-                    ...emailExist.toObject(), 
+                    ...updateddata.toObject(), 
                     hasBabyAdded: findbaby ? 1 : 0
                 };  
 
@@ -324,7 +331,7 @@ module.exports = {
                 
                 existingUser.token = token;
 
-              return helper.success(res, "User already exists", existingUser);
+              return helper.success(res, "User Already existed", existingUser);
             }
         }
 
@@ -337,11 +344,17 @@ module.exports = {
         // If user exists, log them in (update device info)
         if (userExisted) {
 
+          await user_model.updateOne({ _id: userExisted._id },
+            { device_type: req.body.device_type,
+             device_token: req.body.device_token
+         });
+         const updateddata = await user_model.findOne({ social_id: req.body.social_id, socialtype: req.body.socialtype });   
+
           const findbaby = await babyModel.findOne({ userId: userExisted._id, });
     
         // Create a new object and add the hasBabyAdded field
         const existingUser = { 
-            ...userExisted.toObject(), 
+            ...updateddata.toObject(), 
             hasBabyAdded: findbaby ? 1 : 0
         };  
 
@@ -373,8 +386,8 @@ module.exports = {
               ...req.body,
               loginTime:helper.unixTimestamp(),
             });
-            let newUserData = await user_model.findOne(
-               { _id: createdUser.id });
+
+            let newUserData = await user_model.findOne( { _id: createdUser.id });
 
             // Generate token for new user
             let token = jwt.sign(
