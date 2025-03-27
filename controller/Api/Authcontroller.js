@@ -477,7 +477,7 @@ module.exports = {
         console.log(error);
         return helper.failed(res, error);
     }
-},
+  },
 
 
 
