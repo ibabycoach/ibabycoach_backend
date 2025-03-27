@@ -306,7 +306,9 @@ module.exports = {
 
               await user_model.updateOne({ _id: emailExist._id },
                  { device_type: req.body.device_type,
-                  device_token: req.body.device_token
+                  device_token: req.body.device_token,
+                  email: req.body.email,
+                  name: req.body.name
               });
               const updateddata = await user_model.findOne({ email: req.body.email, deleted: false });
 
@@ -346,7 +348,9 @@ module.exports = {
 
           await user_model.updateOne({ _id: userExisted._id },
             { device_type: req.body.device_type,
-             device_token: req.body.device_token
+             device_token: req.body.device_token,
+             email: req.body.email,
+             name: req.body.name
          });
          const updateddata = await user_model.findOne({ social_id: req.body.social_id, socialtype: req.body.socialtype });   
 
