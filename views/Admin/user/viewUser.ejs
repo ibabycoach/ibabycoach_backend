@@ -20,7 +20,7 @@
                       <div class="row">
                         <div class="col-md-4">
                           <div class="profile-widget-header text-center">
-                            <img src="<%= userdetails.image %>" class="img-thumbnail user_bigimg ms-md-0 mx-auto">
+                            <img src="<%= userdetails?.image %>" class="img-thumbnail user_bigimg ms-md-0 mx-auto">
                           </div>
                         </div>
                         <div class="col-md-8" style="margin-top: 10px;">
@@ -29,7 +29,7 @@
                               <label class="col-form-label new_lable" for="first-name">Name</label>
                             </div>
                             <div class="col-sm-10">
-                              <input type="text" id="name" class="form-control" name="name" value="<%=userdetails.name%> "
+                              <input type="text" id="name" class="form-control" name="name" value="<%=userdetails?.name%> "
                                 disabled>
                             </div>
                           </div>
@@ -39,7 +39,7 @@
                             </div>
                             <div class="col-sm-10">
                               <input type="text" id="email" class="form-control" name="email"
-                                value="<%=userdetails.email%> " disabled>
+                                value="<%=userdetails?.email%> " disabled>
                             </div>
                           </div>
                           <div class="mb-1 row">
@@ -48,7 +48,7 @@
                             </div>
                             <div class="col-sm-10">
                               <input type="text" id="phone" class="form-control" name="phone"
-                                value="<%=userdetails.phone%> " disabled>
+                                value="<%=userdetails?.phone%> " disabled>
                             </div>
                           </div>
                         </div>
@@ -80,16 +80,16 @@
                                 <%=1+i%>
                               </td>
                               <td>
-                                <%=data.name ? data.name : "No sub-user found"%>
+                                <%=data?.name ? data.name : "No sub-user found"%>
                               </td>
                               <td>
-                                <%=data.email ? data.email : ""%>
+                                <%=data?.email ? data.email : ""%>
                               </td>
                               <td>
-                                <%=data.phone ? data.phone : ""%>
+                                <%=data?.phone ? data.phone : ""%>
                               </td>
                               <td>
-                                <img src="<%=data.image%>" width="45px" height="40px" type="submit" style="cursor:pointer;">
+                                <img src="<%=data?.image%>" width="45px" height="40px" type="submit" style="cursor:pointer;">
                               </td>
                             </tr>
                             <%} )%>
@@ -123,14 +123,14 @@
                                 <%=1+i%>
                               </td>
                               <td>
-                                <%=data.baby_name ? data.baby_name : "No baby found"%>
+                                <%=data?.baby_name ? data.baby_name : "No baby found"%>
                               </td>
                               <td>
                                 <% if (data.gender == 0) { %>
                                   Female
-                                <% } else if (data.gender == 1) { %>
+                                <% } else if (data?.gender == 1) { %>
                                   Male
-                                <% } else if (data.gender == 2) { %>
+                                <% } else if (data?.gender == 2) { %>
                                   Not specified
                                 <% } %>
                               </td>
@@ -138,7 +138,7 @@
                                 <%= new Date(data.birthday).toLocaleDateString('en-US', { day: '2-digit', month: 'short', year: 'numeric' }) %>
                               </td>
                               <td>
-                                <img src="<%=data.image%>" width="45px" height="40px" type="submit" style="cursor:pointer;">
+                                <img src="<%=data?.image%>" width="45px" height="40px" type="submit" style="cursor:pointer;">
                               </td>
                               <td>
                                 <a href="/viewBaby/<%=data._id%>" class="btn btn-sm bg-light-primary">

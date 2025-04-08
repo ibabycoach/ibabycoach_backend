@@ -62,6 +62,10 @@ router.get('/subAdmin_user_list', userController.subAdmin_user_list)
  //***************SUBUSER ****************************
  router.get('/subuser_List', subuserController.subuser_List)
  router.get('/viewSubuser/:id', subuserController.viewSubuser)
+ router.get('/editsubUser/:id', session, subuserController.editsubUser)
+ router.post('/updatesubUser', subuserController.updatesubUser)
+
+ 
 
 //**************** BABY *****************************
 router.post('/createBaby', babyController.createBaby)
@@ -70,6 +74,9 @@ router.get('/addBaby', session, babyController.addBaby)
 router.get('/editBaby/:id', session, babyController.editBaby)
 router.get('/viewBaby/:id', session, babyController.viewBaby)
 router.delete('/deleteBaby/:id', babyController.deleteBaby)
+router.post('/updatebaby', babyController.updatebaby)
+
+
 
 //************* CHAT ******************
 router.get('/user_chat', session, chatController.user_chat)
@@ -93,6 +100,8 @@ router.get('/viewContactUs/:id', session, contactUsController.viewContactUs)
 router.delete('/delete_contact/:id', contactUsController.delete_contact)
 
 //*******************  SUBSCRIPTIONS  *************************
+
+router.get('/addplan', session, subscriptionsController.addplan)
 router.post('/createSubscription', subscriptionsController.createSubscription)
 router.get('/subscriptionList', session, subscriptionsController.subscriptionList)
 router.get('/viewSubscription/:id', session, subscriptionsController.viewSubscription)

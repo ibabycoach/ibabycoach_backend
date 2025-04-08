@@ -30,4 +30,41 @@ module.exports = {
         }
     },
 
+    editsubUser: async(req, res)=> {
+            try {
+                let title = "subuser_List"
+                const subuserdata = await userModel.findOne({_id: req.params.id})
+                res.render('Admin/sub_user/editsubUser', { title, subuserdata, session:req.session.user,  msg: req.flash('msg') })
+            } catch (error) {
+               console.log(error) 
+            }
+    },
+    
+    updatesubUser: async(req, res)=> {
+        try {
+
+            if (req.files && req.files.image){
+                var image = req.files.image;
+
+                if(image){
+                    req.body.image = helper.imageUpload(image, "images")
+                }
+            }
+            const updateData = await userModel.updateOne({_id: req.body.id},
+                
+                {  
+                    name: req.body.name,
+                    phone: req.body.phone,
+                    email: req.body.email,
+                    image: req.body.image
+                })
+
+            res.redirect("/subuser_List")
+        } catch (error) {
+            console.log(error) 
+        }
+    },
+
+
+
 }

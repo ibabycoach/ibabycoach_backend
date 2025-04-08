@@ -79,7 +79,32 @@ module.exports = {
         } catch (error) {
                 console.log(error)
         }
-    }
+    },
+
+    updatebaby: async(req, res)=> {
+            try {
+    
+                if (req.files && req.files.image){
+                    var image = req.files.image;
+    
+                    if(image){
+                        req.body.image = helper.imageUpload(image, "images")
+                    }
+                }
+                const updateData = await babyModel.updateOne({_id: req.body.id},
+                    
+                    {  
+                        baby_name: req.body.baby_name,
+                        gender: req.body.gender,
+                        birthday: req.body.birthday,
+                        image: req.body.image
+                    })
+    
+                res.redirect("/babyList")
+            } catch (error) {
+               console.log(error) 
+            }
+        },
 
 
 

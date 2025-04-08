@@ -55,9 +55,9 @@
                                 <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
                               <circle cx="12" cy="12" r="3"></circle></svg></div></a>
                                 
-                            <!-- <a href="/editBaby/<%=data._id%>" class="btn btn-sm bg-warning"><i data-feather='edit'></i></a> -->
-                            <!-- <button onclick="confirmDelete('<%=data._id%>')" class="btn btn-sm bg-danger"> <i
-                                data-feather='trash'></i> </button> -->
+                            <a href="/editBaby/<%=data?._id%>" class="btn btn-sm bg-warning"><i data-feather='edit'></i></a>
+                            <button onclick="confirmDelete('<%=data._id%>')" class="btn btn-sm bg-danger"> <i
+                                data-feather='trash'></i> </button>
                           </td>
                         </tr>
                         <%} )%>

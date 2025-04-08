@@ -2,16 +2,25 @@ const subscriptions = require('../../model/Admin/subscriptions')
 
 module.exports = {
 
+    addplan: async(req, res)=> {
+        try {
+            let title = "subscriptionList"
+           
+            res.render('Admin/subscription/addplan', { title, session:req.session.user,  msg: req.flash('msg')})
+        } catch (error) {
+            console.log(error)
+        }
+    },
+
     createSubscription: async(req, res)=> {
         try {
-
             const addsubscription = await subscriptions.create({
                 name: req.body.name,
                 price: req.body.price,
                 tenure: req.body.tenure
             })
 
-            res.json(addsubscription)
+            res.redirect("/subscriptionList");
         } catch (error) {
             console.log(error)
         }
@@ -74,7 +83,7 @@ module.exports = {
 
     subsStatus: async (req, res) => {
         try {
-            var check = await activityModel.updateOne(
+            var check = await subscriptions.updateOne(
             { _id: req.body.id },
             { status: req.body.value }
             );

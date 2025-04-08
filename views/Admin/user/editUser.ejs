@@ -65,24 +65,26 @@
                 </div>
                 <br>
                 <div class="card-body">
-                  <form class="form form-horizontal" action="/profile/update" method="POST" id="profile" enctype="multipart/form-data">
+                  <form class="form form-horizontal" action="/updateUser" method="POST" id="profile" enctype="multipart/form-data">
                     <div class="row">
                       <div class="col-4">
-                        <!-- <div class="profile-widget-header text-center">
-                          <img src="<%=updatedata.image%>" alt="Image" class="img-thumbnail" name="profile_image" id="profile_image">
+                        <div class="profile-widget-header text-center">
+                          <img src="<%=updatedata?.image%>" alt="Image" class="img-thumbnail" name="profile_image" id="profile_image">
                           <input type="file" id="imgInp" name="image" />
                           <label for="imgInp" style="cursor: pointer;">
                             <i class="fe fe-24 camera_icon" data-feather='camera'></i>
                           </label>
                         </div>
-                      </div> -->
+                      </div>
                       <div class="col-8" style="margin-top: 17px;">
                         <div class="mb-1 row">
                           <div class="col-sm-2">
                             <label class="col-form-label new_lable" for="firstname">Name</label>
                           </div>
                           <div class="col-sm-10">
-                            <input type="text" id="name" class="form-control" name="name" value="<%=updatedata.name%>" maxlength="60">
+                            <input type="text" id="name" class="form-control" name="name" value="<%=updatedata?.name%>" maxlength="60">
+                            <input type="hidden" name="id" value="<%=updatedata?.id%>">
+
                           </div>
                         </div>
                         <div class="mb-1 row">
@@ -90,7 +92,7 @@
                             <label class="col-form-label new_lable" for="email">Email</label>
                           </div>
                           <div class="col-sm-10">
-                            <input type="email" id="email" class="form-control" name="email" value="<%=updatedata.email%>" disabled>
+                            <input type="email" id="email" class="form-control" name="email" value="<%=updatedata?.email%>" disabled>
                           </div>
                         </div>
 
@@ -99,7 +101,7 @@
                             <label class="col-form-label new_lable" for="mobile">Phone</label>
                           </div>
                           <div class="col-sm-10">
-                            <input type="number" id="phone" class="form-control" name="phone" value="<%=updatedata.phone%>" maxlength="15">
+                            <input type="number" id="phone" class="form-control" name="phone" value="<%=updatedata?.phone%>" maxlength="15">
                           </div>
                         </div>
                         <div class="mb-1 row justify-content-center">
@@ -134,27 +136,16 @@
 
     $('#profile').validate({
       rules: {
-        firstname: {
+        name: {
           required: true,
           noSpace: true,
           maxlength: 20
         },
-        lastname: {
-          required: true,
-          noSpace: true,
-          maxlength: 20
-        },
-        mobile: {
+        phone: {
           required: true,
           noSpace: true,
           maxlength: 12
         },
-
-        location: {
-          required: true,
-          noSpace: true,
-          maxlength: 60
-        }
       },
 
       errorElement: "div",

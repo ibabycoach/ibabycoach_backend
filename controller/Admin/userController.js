@@ -78,7 +78,7 @@ module.exports = {
             }
             const updateData = await userModel.updateOne({_id: req.body.id},
                 
-                {   role: req.body.role,
+                {  
                     name: req.body.name,
                     phone: req.body.phone,
                     email: req.body.email,

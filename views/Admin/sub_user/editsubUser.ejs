@@ -1,4 +1,6 @@
-<%- include('../common/header'); -%>
+
+
+    <%- include('../common/header'); -%>
 <%- include('../common/sidebar'); -%>
 
   <style>
@@ -61,16 +63,15 @@
             <div class="col-md-12 col-12">
               <div class="card">
                 <div class="card-header">
-                  <h4 class="card-title">Edit Profile </h4>
+                  <h4 class="card-title">Edit Subuser </h4>
                 </div>
                 <br>
                 <div class="card-body">
-                  <form class="form form-horizontal" action="/updatebaby" method="POST" id="profile" enctype="multipart/form-data">
+                  <form class="form form-horizontal" action="/updatesubUser" method="POST" id="profile" enctype="multipart/form-data">
                     <div class="row">
                       <div class="col-4">
                         <div class="profile-widget-header text-center">
-                          <img src="<%=babydetail?.image%>" alt="Image" class="img-thumbnail" name="profile_image" id="profile_image">
-
+                          <img src="<%=subuserdata?.image%>" alt="Image" class="img-thumbnail" name="profile_image" id="profile_image">
                           <input type="file" id="imgInp" name="image" />
                           <label for="imgInp" style="cursor: pointer;">
                             <i class="fe fe-24 camera_icon" data-feather='camera'></i>
@@ -80,30 +81,29 @@
                       <div class="col-8" style="margin-top: 17px;">
                         <div class="mb-1 row">
                           <div class="col-sm-2">
-                            <label class="col-form-label new_lable" for="name">Name</label>
+                            <label class="col-form-label new_lable" for="firstname">Name</label>
                           </div>
                           <div class="col-sm-10">
-                            <input type="text" id="name" class="form-control" name="baby_name" value="<%=babydetail?.baby_name%>" maxlength="60">
-                            <input type="hidden" name="id" value="<%=babydetail?.id%>">
+                            <input type="text" id="name" class="form-control" name="name" value="<%=subuserdata?.name%>" maxlength="60">
+                            <input type="hidden" name="id" value="<%=subuserdata?.id%>">
+
                           </div>
                         </div>
                         <div class="mb-1 row">
                           <div class="col-sm-2">
-                            <label class="col-form-label new_lable" for="mobile">gender</label>
+                            <label class="col-form-label new_lable" for="email">Email</label>
                           </div>
                           <div class="col-sm-10">
-                            <select id="gender" class="form-control" name="gender">
-                              <option value="0" <%= babydetail.gender == 0 ? 'selected' : '' %>>Girl</option>
-                              <option value="1" <%= babydetail.gender == 1 ? 'selected' : '' %>>Boy</option>
-                            </select>
+                            <input type="email" id="email" class="form-control" name="email" value="<%=subuserdata?.email%>" disabled>
                           </div>
                         </div>
+
                         <div class="mb-1 row">
                           <div class="col-sm-2">
-                            <label class="col-form-label new_lable" for="location">Birthday</label>
+                            <label class="col-form-label new_lable" for="mobile">Phone</label>
                           </div>
                           <div class="col-sm-10">
-                            <input type="text" id="birthday" class="form-control" name="birthday" value="<%=babydetail?.birthday%>" disabled>
+                            <input type="number" id="phone" class="form-control" name="phone" value="<%=subuserdata?.phone%>" maxlength="15">
                           </div>
                         </div>
                         <div class="mb-1 row justify-content-center">
@@ -127,7 +127,7 @@
 
   <%- include('../common/footer'); -%>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js" integrity="sha512-37T7leoNS06R80c8Ulq7cdCDU5MNQBwlYoy1TX/WUsLFC2eYNqtKlV0QjH7r8JpG/S0GUMZwebnVFLPd6SU5yg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js" integrity="sha512-37T7leoNS06R80c8Ulq7cdCDU5MNQBwlYoy1TX/WUsLFC2eYNqtKlV0QjH7r8JpG/S0GUMZwebnVFLPd6SU5yg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
 <script>
   $(document).ready(function() {
@@ -141,18 +141,13 @@
         name: {
           required: true,
           noSpace: true,
-          maxlength: 60
+          maxlength: 20
         },
-        mobile: {
+        phone: {
           required: true,
           noSpace: true,
-          maxlength: 15
+          maxlength: 12
         },
-
-        location: {
-          required: true,
-          noSpace: true
-        }
       },
 
       errorElement: "div",
@@ -178,43 +173,12 @@
   });
 </script>
 
-<script>
-  $(window).on('load', function() {
-    if (feather) {
-      feather.replace({
-        width: 14,
-        height: 14
-      });
+  <script>
+    // for preview of image
+    imgInp.onchange = evt => {
+      const [file] = imgInp.files
+      if (file) {
+        profile_image.src = URL.createObjectURL(file)
+      }
     }
-  })
-</script>
-
-<script>
-  // for preview of image
-  imgInp.onchange = evt => {
-    const [file] = imgInp.files
-    if (file) {
-      profile_image.src = URL.createObjectURL(file)
-    }
-  }
-</script>
-<script>
-  document.addEventListener("DOMContentLoaded", function () {
-    const birthdayInput = document.getElementById("birthday");
-    
-    // Get the date from the input value
-    const birthday = new Date(birthdayInput.value);
-
-    // Format the date to include the day of the week, e.g., "Wed, 24/04/2024"
-    const options = { weekday: 'short', day: '2-digit', month: '2-digit', year: 'numeric' };
-    const formattedDate = birthday.toLocaleDateString('en-GB', options);
-
-    // Set the formatted date back into the input field
-    birthdayInput.value = formattedDate; // For example: "Wed, 24/04/2024"
-  });
-</script>
-
-
-
-
- 
+  </script>
