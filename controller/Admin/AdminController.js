@@ -100,6 +100,40 @@ module.exports = {
                 const monthIndex = babyDAta._id.month - 1;
                 babyCount[monthIndex] = babyDAta.count;
             });
+
+            const babyData2025 = await babyModel.aggregate([
+                {
+                    $match: {
+                        // Add a match stage to filter by year 2025
+                        $expr: { $eq: [{ $year: "$createdAt" }, 2025] }
+                    }
+                },
+                {
+                    $project: {
+                        month: { $month: "$createdAt" },
+                        year: { $year: "$createdAt" }
+                    }
+                },
+                {
+                    $group: {
+                        _id: { month: "$month", year: "$year" },
+                        count: { $sum: 1 }
+                    }
+                },
+                {
+                    $sort: {
+                        "_id.year": 1, "_id.month": 1
+                    }
+                }
+            ]);
+            
+
+            const babycount = Array.from({ length: 12 }).fill(0);
+            await babyData2025.forEach(babyDAta => {
+                 const monthIndex = babyDAta._id.month - 1;
+                 babycount[monthIndex] = babyDAta.count;
+             });
+
             const results = await userModel.aggregate([
                 {
                     $match: { role: "1" }
@@ -127,7 +161,40 @@ module.exports = {
                 const monthIndex = result._id.month - 1;
                 userCounts[monthIndex] = result.count;
             });
-            res.render('Admin/admin/dashboard', { userCounts, babyCount, subadmin_users, sub_admin, contactus, title, users, subUser, babies, weekly_goals, customActivity, subscription, activity, session: req.session.user, msg: req.flash('msg') })
+
+            const userData2025 = await userModel.aggregate([
+                {
+                    $match: {
+                        // Add a match stage to filter by year 2025
+                        $expr: { $eq: [{ $year: "$createdAt" }, 2025] }
+                    }
+                },
+                {
+                    $project: {
+                        month: { $month: "$createdAt" },
+                        year: { $year: "$createdAt" }
+                    }
+                },
+                {
+                    $group: {
+                        _id: { month: "$month", year: "$year" },
+                        count: { $sum: 1 }
+                    }
+                },
+                {
+                    $sort: {
+                        "_id.year": 1, "_id.month": 1
+                    }
+                }
+            ]);
+
+            const usercount = Array.from({ length: 12 }).fill(0);
+            await userData2025.forEach(result => {
+                 const monthIndex = result._id.month - 1;
+                 usercount[monthIndex] = result.count;
+             });
+
+            res.render('Admin/admin/dashboard', { userCounts,  babyCount, usercount, babycount, subadmin_users, sub_admin, contactus, title, users, subUser, babies, weekly_goals, customActivity, subscription, activity, session: req.session.user, msg: req.flash('msg') })
         } catch (error) {
             console.log(error)
         }
