@@ -10,7 +10,7 @@ const pushCroneHandler = async () => {
     const endDateTime = moment().add(1, "second").endOf("second").format("YYYY-MM-DDTHH:mm:ss");
 
     let reminders = await reminderModel
-      .find({upcoming_time: {$gte: new Date(startDateTime),$lte: new Date(endDateTime)}, deleted:false, reminder_type:2})
+      .find({upcoming_time: {$gte: new Date(startDateTime),$lte: new Date(endDateTime)}, deleted:false })
       .populate("userId", "name relation image device_token")
       .populate("activityIds", "activity_name image bg_color")
       .populate("babyId", "baby_name");
@@ -40,7 +40,7 @@ const pushCroneHandler = async () => {
 };
 
 //Schedule a task to run every hour
-cron.schedule(" * * * * *", async () => {
+cron.schedule("*/1 * * * * *", async () => {
   console.log("running a task every minute");
   pushCroneHandler();
   return;
