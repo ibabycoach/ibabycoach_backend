@@ -85,7 +85,6 @@ module.exports = {
                     image: req.body.image
                 })
 
-            // res.redirect('/userList')
             res.redirect("/userList")
         } catch (error) {
            console.log(error) 

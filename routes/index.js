@@ -149,6 +149,9 @@ router.post('/goaleStatus', goalsController.goaleStatus)
 // **************************** Push Notification ***********************
 router.get('/push-notification', pushNotificationController.pushNotification);
 router.post('/push-notification', pushNotificationController.pushNotificationPost);
+router.get('/notificationhistory', pushNotificationController.notificationhistory);
+router.delete('/deletehistry/:id', pushNotificationController.deletehistry)
+
 
 
 //////////////  CHAT  ///////////////

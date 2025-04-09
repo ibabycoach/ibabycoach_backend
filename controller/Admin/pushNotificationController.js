@@ -61,7 +61,32 @@ module.exports = {
             console.log(error);
             res.status(500).send('Internal server error');
         }
-    }
+    },
 
+    notificationhistory: async(req, res)=> {
+            try {
+               let title = "push-notification"
+              
+                const notifylist = await notificationModel.find({senderId: req.session.user})
+                .populate('receiverId', 'name image')
+                .sort({ createdAt: -1 })
+
+                res.render('Admin/push_notification/notificationhistory', { title, notifylist, session:req.session.user,  msg: req.flash('msg')})
+            } catch (error) {
+               console.log(error) 
+            }
+    },
+
+    deletehistry: async(req, res)=> {
+            try {
+                console.log(req.body.id  , ">>>>>>>>>>>>>>>>>>req.body.id userId ")
+                let userId = req.body.id 
+                const removeuser = await notificationModel.deleteOne({_id: userId})
+                  
+                res.redirect("/notificationhistory") 
+            } catch (error) {
+            console.log(error)
+            }
+        },
 
 }

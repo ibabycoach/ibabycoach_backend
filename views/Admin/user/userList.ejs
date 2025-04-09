@@ -33,16 +33,16 @@
                         <%=1+i%>
                       </td>
                       <td>
-                        <%=data.name%>
+                        <%=data?.name%>
                       </td>
                       <td>
-                        <%=data.email%>
+                        <%=data?.email%>
                       </td>
                       <td>
-                        <%=data.phone%>
+                        <%=data?.phone%>
                       </td>
                       <td>
-                        <img src="<%=data.image%>" width="45px" height="40px" type="submit" style="cursor:pointer;">
+                        <img src="<%=data?.image%>" width="45px" height="40px" type="submit" style="cursor:pointer;">
                       </td>
                       <td>
                         <% if(data.status==1) { %>

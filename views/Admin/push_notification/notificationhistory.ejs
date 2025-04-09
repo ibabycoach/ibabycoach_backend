@@ -1,0 +1,132 @@
+<%- include('../common/header') %>
+<%- include('../common/sidebar') %>
+<style>
+    .limited-text {
+        white-space: nowrap; /* Prevents text from wrapping to the next line */
+        overflow: hidden;    /* Hides any overflow text */
+        text-overflow: ellipsis; /* Adds "..." at the end when the text is too long */
+        max-width: 200px;  /* Set a max width for the cell */
+    }
+</style>
+<!-- BEGIN: Content-->
+<div class="app-content content ">
+  <div class="content-overlay"></div>
+  <div class="header-navbar-shadow"></div>
+  <div class="content-wrapper container-xxl p-0">
+    <div class="content-body">
+      <section id="responsive-datatable">
+        <div class="row">
+          <div class="card">
+            <div class="card-header border-bottom">
+                <h4 class="card-title">Push-Notification History</h4>
+            </div>
+            <div class="card-DataTable table-responsive">
+              <table class="table table-hover-animation" style="color: rgb(65, 64, 64);" >
+                <thead>
+                  <tr>
+                    <th>S NO.</th>
+                    <th>Name</th>
+                    <th>Image</th>
+                    <th>Message</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <%notifylist.forEach(function(data,i) {%>
+                    <tr>
+                      <td>
+                        <%=1+i%>
+                      </td>
+                      <td>
+                        <%=data?.receiverId?.name ? data?.receiverId?.name : 'N/A'%>
+                      </td>
+                      <td>
+                        <img src="<%=data?.receiverId?.image ? data?.receiverId?.image : '/app-assets/images/Babycoach.jpg' %>" width="45px" height="40px" type="submit" style="cursor:pointer;">
+                      </td>
+                      <td class="limited-text">
+                        <%= data?.message %>
+                    </td>
+                      <td>
+                        <button onclick="confirmDelete('<%=data._id%>')" class="btn btn-sm bg-danger"> 
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-trash"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg> </button>
+                       
+                      </td>
+                    </tr>
+                  <%} )%>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
+</div>
+
+<div class="sidenav-overlay"></div>
+<div class="drag-target"></div>
+
+<%- include('../common/footer') %>
+
+<script>
+    $(document).ready(function () {
+      $('.table').DataTable(); // Initialize DataTable for all tables with the 'table' class
+    });
+  </script>
+
+<script>
+    $(document).ready(function () {
+      // alert("ready!");
+    });
+
+    function confirmDelete(id) {
+      console.log(">>>>>>>>done>>>>>>>>>>", id)
+
+      const swalWithBootstrapButtons = Swal.mixin({
+        customClass: {
+          confirmButton: 'btn btn-danger',
+          cancelButton: 'btn btn-success'
+        },
+        buttonsStyling: true
+
+      })
+
+      swalWithBootstrapButtons.fire({
+        title: 'Are you sure?',
+        text: "You won't be able to revert this!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Yes, delete it!',
+        cancelButtonText: 'No, cancel!',
+        reverseButtons: true
+      }).then((isConfirm) => {
+        // console.log(isConfirm)
+        // return
+        if (isConfirm.isConfirmed) {
+          // alert('asd')
+          $.ajax({
+            url: "/deletehistry/:id",
+            type: 'delete',
+            data: {
+              id: id
+            },
+            success: function (result) { }
+          });
+          swalWithBootstrapButtons.fire(
+            'Deleted!',
+            'The user history has been deleted .',
+            'success'
+          ).then(() => {
+            location.reload();
+          })
+        } else {
+          swalWithBootstrapButtons.fire(
+            'Cancelled',
+            'The user history is safe :)',
+            'error'
+          )
+        }
+      })
+
+    }
+  </script>
