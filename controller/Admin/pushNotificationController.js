@@ -49,7 +49,7 @@ module.exports = {
                 var payLoad = {
                     sender_name: req.session.user.name,
                     device_token: newArr[j].device_token,
-                    message: `${req.session.user.name} Sent you a notification`,
+                    message: `${req.session.user.name} Sent you a notification ${req.body.message}`,
                     type: 3,
                   };
                   await helper.send_push_notificationsAdmin(payLoad);
@@ -79,7 +79,6 @@ module.exports = {
 
     deletehistry: async(req, res)=> {
             try {
-                console.log(req.body.id  , ">>>>>>>>>>>>>>>>>>req.body.id userId ")
                 let userId = req.body.id 
                 const removeuser = await notificationModel.deleteOne({_id: userId})
                   
