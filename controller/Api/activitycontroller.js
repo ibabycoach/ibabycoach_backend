@@ -84,40 +84,39 @@ module.exports = {
   },
 
   get_activity: async(req, res)=> {
-      try {
-          let userId = req.user._id;
-            let adminActivities = await activity_model.find({ activity_type: '1', status: 1, deleted: false});
-            let userActivities = await activity_model.find({ babyId: req.body.babyId, activity_type: '2', status:1, deleted: false});
+    try {
+        let userId = req.user._id;
+          let adminActivities = await activity_model.find({ activity_type: '1', status: 1, deleted: false}).lean();
+          let userActivities = await activity_model.find({ babyId: req.body.babyId, activity_type: '2', status:1, deleted: false}).lean();
 
-            //we can use the spread operator to merge the multiple arrays
-            let getactivity = [...adminActivities, ...userActivities];
-          
-            const allActivities = [...adminActivities, ...userActivities];
+          //we can use the spread operator to merge the multiple arrays
+       
+        
+          const allActivities = [...adminActivities, ...userActivities];
 
-            const activitiesWithStats = await Promise.all(
-              allActivities.map(async (activity) => {
-                const [lastDailyTask, tasksCount] = await Promise.all([
-                  dailytaskModel
-                    .findOne({ activityIds: activity._id, deleted: false })
-                    .sort({ start_time: -1 })
-                    .lean(),
-                    dailytaskModel.countDocuments({ activityIds: activity._id, deleted: false }),
-                ])
-          
-        return {
-          ...activity,
-          lastUsed: lastDailyTask ? lastDailyTask.start_time : null,
-          totalTasks: tasksCount,
-        };
-              })
-            );
-          return helper.success(res, "activity list", activitiesWithStats )
-      } catch (error) {
-          console.log(error)
-          return helper.failed(res, "Something went wrong");
-      }
-  },
-
+          const activitiesWithStats = await Promise.all(
+            allActivities.map(async (activity) => {
+              const [lastDailyTask, tasksCount] = await Promise.all([
+                dailytaskModel
+                  .findOne({ activityIds: activity._id, deleted: false })
+                  .sort({ start_time: -1 })
+                  .lean(),
+                  dailytaskModel.countDocuments({ activityIds: activity._id, deleted: false }),
+              ])
+        
+      return {
+        ...activity,
+        lastUsed: lastDailyTask ? lastDailyTask.start_time : null,
+        totalTasks: tasksCount,
+      };
+            })
+          );
+        return helper.success(res, "activity list", activitiesWithStats )
+    } catch (error) {
+        console.log(error)
+        return helper.failed(res, "Something went wrong");
+    }
+},
   edit_activity: async(req, res)=> {
     try {
       const v = new Validator(req.body, {
