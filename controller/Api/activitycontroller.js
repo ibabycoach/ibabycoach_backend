@@ -96,7 +96,7 @@ module.exports = {
 
   get_activity: async (req, res) => {
     try {
-      let userId = req.user._id;
+
       let adminActivities = await activity_model
         .find({ activity_type: "1", status: 1, deleted: false })
         .lean();
@@ -110,23 +110,24 @@ module.exports = {
         .lean();
 
       //we can use the spread operator to merge the multiple arrays
-      let startDate = new Date(start_time);
-      let endDate = new Date(startDate);
-      endDate.setDate(endDate.getDate() + 1);
+      const startOfToday = new Date();
+      startOfToday.setHours(0, 0, 0, 0);
+      const endOfToday = new Date();
+      endOfToday.setHours(23, 59, 59, 999);
       const allActivities = [...adminActivities, ...userActivities];
 
       const activitiesWithStats = await Promise.all(
         allActivities.map(async (activity) => {
           const [lastDailyTask, tasksCount] = await Promise.all([
             dailytaskModel
-              .findOne({ activityIds: activity._id, babyId: req.body.babyId, deleted: false })
+              .findOne({ activityIds: activity._id,             babyId: req.body.babyId, deleted: false })
               .sort({ start_time: -1 })
               .lean(),
             dailytaskModel.countDocuments({
-              activityIds: activity._id,
               babyId: req.body.babyId,
+              activityIds: activity._id,
               deleted: false,
-              start_time: { $gte: startDate, $lte: endDate },
+              start_time: { $gte: startOfToday, $lte: endOfToday },
             }),
           ]);
 
