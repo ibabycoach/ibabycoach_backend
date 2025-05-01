@@ -94,21 +94,24 @@ module.exports = {
           
             const allActivities = [...adminActivities, ...userActivities];
 
-            // Get the latest daily task for each activity
-            const activitiesWithLastUsed = await Promise.all(
+            const activitiesWithStats = await Promise.all(
               allActivities.map(async (activity) => {
-                const lastDailyTask = await dailytask_model
-                  .findOne({ activityIds: activity._id, deleted: false })
-                  .sort({ start_time: -1 })
-                  .lean();
-        
-                return {
-                  ...activity,
-                  lastUsed: lastDailyTask ? lastDailyTask.start_time : null
-                };
+                const [lastDailyTask, tasksCount] = await Promise.all([
+                  dailytaskModel
+                    .findOne({ activityIds: activity._id, deleted: false })
+                    .sort({ start_time: -1 })
+                    .lean(),
+                    dailytaskModel.countDocuments({ activityIds: activity._id, deleted: false }),
+                ])
+          
+        return {
+          ...activity,
+          lastUsed: lastDailyTask ? lastDailyTask.start_time : null,
+          totalTasks: tasksCount,
+        };
               })
             );
-          return helper.success(res, "activity list", activitiesWithLastUsed )
+          return helper.success(res, "activity list", activitiesWithStats )
       } catch (error) {
           console.log(error)
           return helper.failed(res, "Something went wrong");
