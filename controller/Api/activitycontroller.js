@@ -110,10 +110,9 @@ module.exports = {
         .lean();
 
       //we can use the spread operator to merge the multiple arrays
-      const startOfToday = new Date();
-      startOfToday.setHours(0, 0, 0, 0);
-      const endOfToday = new Date();
-      endOfToday.setHours(23, 59, 59, 999);
+      let startDate = new Date(start_time);
+      let endDate = new Date(startDate);
+      endDate.setDate(endDate.getDate() + 1);
       const allActivities = [...adminActivities, ...userActivities];
 
       const activitiesWithStats = await Promise.all(
@@ -126,7 +125,7 @@ module.exports = {
             dailytaskModel.countDocuments({
               activityIds: activity._id,
               deleted: false,
-              start_time: { $gte: startOfToday, $lte: endOfToday },
+              start_time: { $gte: startDate, $lte: endDate },
             }),
           ]);
 
