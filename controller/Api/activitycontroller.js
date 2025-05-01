@@ -119,11 +119,12 @@ module.exports = {
         allActivities.map(async (activity) => {
           const [lastDailyTask, tasksCount] = await Promise.all([
             dailytaskModel
-              .findOne({ activityIds: activity._id, deleted: false })
+              .findOne({ activityIds: activity._id, babyId: req.body.babyId, deleted: false })
               .sort({ start_time: -1 })
               .lean(),
             dailytaskModel.countDocuments({
               activityIds: activity._id,
+              babyId: req.body.babyId,
               deleted: false,
               start_time: { $gte: startDate, $lte: endDate },
             }),
