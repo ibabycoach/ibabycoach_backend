@@ -92,8 +92,23 @@ module.exports = {
             //we can use the spread operator to merge the multiple arrays
             let getactivity = [...adminActivities, ...userActivities];
           
+            const allActivities = [...adminActivities, ...userActivities];
 
-          return helper.success(res, "activity list", getactivity )
+            // Get the latest daily task for each activity
+            const activitiesWithLastUsed = await Promise.all(
+              allActivities.map(async (activity) => {
+                const lastDailyTask = await dailytask_model
+                  .findOne({ activityIds: activity._id, deleted: false })
+                  .sort({ start_time: -1 })
+                  .lean();
+        
+                return {
+                  ...activity,
+                  lastUsed: lastDailyTask ? lastDailyTask.start_time : null
+                };
+              })
+            );
+          return helper.success(res, "activity list", activitiesWithLastUsed )
       } catch (error) {
           console.log(error)
           return helper.failed(res, "Something went wrong");
