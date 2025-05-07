@@ -101,20 +101,52 @@
                         <a class="dropdown-item" href="/profile"><i class="me-50" data-feather="user"></i> Profile</a>
                         <a class="dropdown-item" href="/changePassword"><i class="me-50" data-feather="lock"></i> Change
                             Password</a>
-                        <a class="dropdown-item" href="/logout"><i class="me-50" data-feather="power"></i> Logout</a>
-                    </div>
+                            <a class="dropdown-item" href="#" id="logoutBtn">
+                                <i class="me-50" data-feather="power"></i> Logout
+                            </a>
+                                                </div>
                 </li>
             </ul>
         </div>
     </nav>
-    
-    <% if(msg !='' ) { %>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <script>
+        document.getElementById('logoutBtn').addEventListener('click', function (e) {
+          e.preventDefault();
+          Swal.fire({
+            title: 'Are you sure?',
+            text: "You want to logout?",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, logout',
+            cancelButtonText: 'No'
+          }).then((result) => {
+            if (result.isConfirmed) {
+              window.location.href = '/logout';
+            }
+          });
+        });
+      </script>
+      
+
+      <% if(msg !='' ) { %>
         <div class="alert alert-success msg" style="position: absolute; z-index: 9999; right: 170px; top: 38px;">
-        <span style="font-size: 18px; padding: 10px; border-radius: 5px; color: rgb(232, 232, 240);  background-color: #1e4f99;">
-        <%= msg %>
-        </span>
+            <span style="font-size: 18px; padding: 10px; border-radius: 5px; color: rgb(232, 232, 240);  background-color: #1e4f99;">
+            <%= msg %>
+            </span>
         </div>
-        <% } %>
+    
+        <script>
+            // Hide the message after 1.5 seconds
+            setTimeout(function() {
+                $('.msg').fadeOut('slow');
+            }, 1500); // 1500 milliseconds = 1.5 seconds
+        </script>
+    <% } %>
     
 
     <!-- END: Header-->

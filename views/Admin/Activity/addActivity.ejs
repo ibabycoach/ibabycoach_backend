@@ -78,10 +78,20 @@
                   enctype="multipart/form-data">
                   <div class="mb-1 row">
                     <div class="col-sm-2">
-                      <label class="col-form-label new_lable" for="name">Activity Name</label>
+                      <label class="col-form-label new_lable" for="activity_name">Activity Name</label>
                     </div>
                     <div class="col-sm-10">
-                      <input type="text" id="activity_name" class="form-control" name="activity_name" value="" required>
+                      <input 
+                        type="text" 
+                        id="activity_name" 
+                        class="form-control" 
+                        name="activity_name" 
+                        placeholder="Enter activity name (alphabets only)" 
+                        pattern="[A-Za-z\s]+" 
+                        title="Special characters and numbers are not allowed"
+                        value="" 
+                        required>
+                      <div class="invalid-feedback">Special characters and numbers are not allowed</div>
                     </div>
                   </div>
                   <div class="mb-1 row">
@@ -257,5 +267,62 @@
             });
         });
     });
+</script>
+
+<script>
+ $(document).ready(function () {
+
+// Add a custom validation method to allow only alphabetic characters
+jQuery.validator.addMethod("alphabetOnly", function(value, element) {
+  return this.optional(element) || /^[a-zA-Z\s]+$/.test(value);
+}, "Name should contain alphabets only");
+
+jQuery.validator.addMethod("noSpace", function (value, element) {
+  return value == '' || value.trim().length != 0;
+}, "No space allowed");
+
+$('#profile').validate({
+  rules: {
+    activity_name: {
+      required: true,
+      noSpace: true,
+      alphabetOnly: true,
+      maxlength: 60
+    },
+    phone: {
+      required: true,
+      noSpace: true,
+      minlength: 10,
+      maxlength: 15
+    },
+  },
+  messages: {
+    activity_name: {
+      required: "This field is required",
+      alphabetOnly: "Name should contain alphabets only"
+    }
+  },
+
+  errorElement: "div",
+  errorClass: "jqval-error",
+  errorPlacement: function (error, element) {
+    error.insertAfter(element);
+    error.slideDown(400);
+    error.animate({
+      opacity: 1
+    }, {
+      queue: false,
+      duration: 700
+    });
+  },
+
+  submitHandler: function (form) {
+    var error = $(".assign_error_div").text();
+    if (!error) {
+      form.submit();
+    }
+  }
+});
+});
 </script>
 

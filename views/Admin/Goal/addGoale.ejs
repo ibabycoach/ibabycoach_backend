@@ -36,45 +36,48 @@
                      
                     <div class="mb-1 row">
                       <div class="col-sm-2">
-                          <label for="range-1a">Min Age:</label>
+                        <label for="range-1a">Min Age:</label>
                       </div>
                       <div class="col-sm-10">
-                          <input type="range" name="min_age" id="range-1a" min="0" max="100" value="0" data-popup-enabled="true" data-show-value="true">
-                          <span id="min_age_value"></span> <!-- Display min age value here -->
+                        <input type="range" name="min_age" id="range-1a" min="0" max="100" value="0">
+                        <span id="min_age_value"></span>
+                        <small id="min_age_error" class="text-danger" style="display: none;">Minimum age cannot be 0</small>
                       </div>
+                    
                       <div class="col-sm-2">
-                          <label for="range-1b">Max Age:</label>
+                        <label for="range-1b">Max Age:</label>
                       </div>
                       <div class="col-sm-10">
-                          <input type="range" name="max_age" id="range-1b" min="0" max="100" value="0" data-popup-enabled="true" data-show-value="true">
-                          <span id="max_age_value"></span> <!-- Display max age value here -->
+                        <input type="range" name="max_age" id="range-1b" min="0" max="100" value="0">
+                        <span id="max_age_value"></span>
                       </div>
                     </div>
+                    
                     <div class="mb-1 row">
                       <div class="col-sm-2">
-                          <label class="col-form-label new_label">Days</label>
+                        <label id="dayLabel" class="col-form-label new_label">Day</label>
                       </div>
                       <div class="col-sm-10">
-                        <input class="form-check-input" type="checkbox" id="mon" name="day" value="Mon">
-                        <label class="form-check-label" for="monday">Mon</label>
+                        <input class="form-check-input day-checkbox" type="checkbox" id="mon" name="day" value="Mon">
+                        <label class="form-check-label" for="mon">Mon</label>
                     
-                        <input class="form-check-input" type="checkbox" id="tue" name="day" value="Tue">
-                        <label class="form-check-label" for="tuesday">Tue</label>
+                        <input class="form-check-input day-checkbox" type="checkbox" id="tue" name="day" value="Tue">
+                        <label class="form-check-label" for="tue">Tue</label>
                     
-                        <input class="form-check-input" type="checkbox" id="wed" name="day" value="Wed">
-                        <label class="form-check-label" for="wednesday">Wed</label>
+                        <input class="form-check-input day-checkbox" type="checkbox" id="wed" name="day" value="Wed">
+                        <label class="form-check-label" for="wed">Wed</label>
                     
-                        <input class="form-check-input" type="checkbox" id="thu" name="day" value="Thu">
-                        <label class="form-check-label" for="thursday">Thu</label>
+                        <input class="form-check-input day-checkbox" type="checkbox" id="thu" name="day" value="Thu">
+                        <label class="form-check-label" for="thu">Thu</label>
                     
-                        <input class="form-check-input" type="checkbox" id="fri" name="day" value="Fri">
-                        <label class="form-check-label" for="friday">Fri</label>
+                        <input class="form-check-input day-checkbox" type="checkbox" id="fri" name="day" value="Fri">
+                        <label class="form-check-label" for="fri">Fri</label>
                     
-                        <input class="form-check-input" type="checkbox" id="sat" name="day" value="Sat">
-                        <label class="form-check-label" for="saturday">Sat</label>
-                  
-                        <input class="form-check-input" type="checkbox" id="sun" name="day" value="Sun">
-                        <label class="form-check-label" for="sunday">Sun</label>
+                        <input class="form-check-input day-checkbox" type="checkbox" id="sat" name="day" value="Sat">
+                        <label class="form-check-label" for="sat">Sat</label>
+                    
+                        <input class="form-check-input day-checkbox" type="checkbox" id="sun" name="day" value="Sun">
+                        <label class="form-check-label" for="sun">Sun</label>
                       </div>
                     </div>
                     <div class="mb-1 row">
@@ -186,65 +189,120 @@ updateMaxAge();
 
 
 <script>
-  $(document).ready(function() {
-    jQuery.validator.addMethod("noSpace", function(value, element) {
-      return value == '' || value.trim().length != 0;
-    }, "No space allowed");
+$(document).ready(function() {
+  // Add custom validation method for alphabets only
+  jQuery.validator.addMethod("alphabetOnly", function(value, element) {
+    return this.optional(element) || /^[a-zA-Z\s]+$/.test(value);
+  }, "Name should contain alphabets only");
 
-    jQuery.validator.addMethod("validImage", function(value, element, param) {
-      return this.optional(element) || /\.(jpe?g|gif|png)$/i.test(value);
-    }, 'Only valid image files (JPEG, GIF, PNG) are allowed.');
+  jQuery.validator.addMethod("noSpace", function(value, element) {
+    return value == '' || value.trim().length != 0;
+  }, "No space allowed");
+
+  jQuery.validator.addMethod("validImage", function(value, element, param) {
+    return this.optional(element) || /\.(jpe?g|gif|png)$/i.test(value);
+  }, 'Only valid image files (JPEG, GIF, PNG) are allowed.');
   
 
-    $('#add_validator').validate({
-      rules: {
-        name: {
-          required: true,
-          noSpace: true,
-          maxlength: 20
-        },
-        title:{
-          required: true,
-          noSpace: true,
-          maxlength: 20
-        },
-        min_age: {
-          required: true
-        },
-        max_age: {
-          required: true
-        },
-        description: {
-          required: true,
-          noSpace: true,
-          maxlength: 300
-        },
-        day:{
-          required: true
-        },
-        image: {
-          required: true,
-          validImage: true
-        }
+  $('#add_validator').validate({
+    rules: {
+      name: {
+        required: true,
+        noSpace: true,
+        alphabetOnly: true,  // Added alphabets only validation
+        maxlength: 20
       },
-      errorElement: "div",
-      errorClass: "jqval-error",
-      errorPlacement: function(error, element) {
-        error.insertAfter(element);
-        error.slideDown(400);
-        error.animate({
-          opacity: 1
-        }, {
-          queue: false,
-          duration: 700
-        });
+      title:{
+        required: true,
+        noSpace: true,
+        maxlength: 20
       },
-      submitHandler: function(form) {
-        var error = $(".assign_error_div").text();
-        if (!error) {
-          form.submit();
-        }
+      min_age: {
+        required: true
+      },
+      max_age: {
+        required: true
+      },
+      description: {
+        required: true,
+        noSpace: true,
+        maxlength: 300
+      },
+      day:{
+        required: true
+      },
+      image: {
+        required: true,
+        validImage: true
       }
-    });
+    },
+    messages: {
+      name: {
+        required: "This field is required",
+        alphabetOnly: "Name should contain alphabets only"
+      }
+    },
+    errorElement: "div",
+    errorClass: "jqval-error",
+    errorPlacement: function(error, element) {
+      error.insertAfter(element);
+      error.slideDown(400);
+      error.animate({
+        opacity: 1
+      }, {
+        queue: false,
+        duration: 700
+      });
+    },
+    submitHandler: function(form) {
+      var error = $(".assign_error_div").text();
+      if (!error) {
+        form.submit();
+      }
+    }
+  });
+});
+</script>
+
+<script>
+  const checkboxes = document.querySelectorAll('.day-checkbox');
+  const label = document.getElementById('dayLabel');
+
+  function updateLabel() {
+    const selected = Array.from(checkboxes).filter(cb => cb.checked).length;
+    label.textContent = selected > 1 ? 'Days' : 'Day';
+  }
+
+  checkboxes.forEach(cb => cb.addEventListener('change', updateLabel));
+</script>
+
+<script>
+  const form = document.querySelector('form');
+  const minAgeInput = document.getElementById('range-1a');
+  const minAgeError = document.getElementById('min_age_error');
+  const minAgeValue = document.getElementById('min_age_value');
+
+  const maxAgeInput = document.getElementById('range-1b');
+  const maxAgeValue = document.getElementById('max_age_value');
+
+  // Update live display
+  minAgeInput.addEventListener('input', () => {
+    minAgeValue.textContent = minAgeInput.value;
+    if (parseInt(minAgeInput.value) > 0) {
+      minAgeError.style.display = 'none';
+    }
+  });
+
+  maxAgeInput.addEventListener('input', () => {
+    maxAgeValue.textContent = maxAgeInput.value;
+  });
+
+  form.addEventListener('submit', function (e) {
+    if (parseInt(minAgeInput.value) === 0) {
+      e.preventDefault();
+      minAgeError.style.display = 'block';
+    } else {
+      minAgeError.style.display = 'none';
+    }
   });
 </script>

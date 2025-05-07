@@ -33,14 +33,20 @@
                     </div>
                     <div class="mb-1 row">
                       <div class="col-sm-2">
-                        <label class="col-form-label new_lable" for="name">Password</label>
+                        <label class="col-form-label new_lable" for="password">Password</label>
                       </div>
-                      <div class="col-sm-8">
+                      <div class="col-sm-8 position-relative">
                         <input id="password" type="password" class="form-control pwstrength" data-indicator="pwindicator" name="password" placeholder="Password" required>
-                        <div id="pwindicator" class="pwindicator">
-                        </div>
+                        
+                        <!-- Eye icon -->
+                        <span class="position-absolute" style="top: 50%; right: 30px; transform: translateY(-50%); cursor: pointer;" id="togglePassword">
+                          <i data-feather="eye"></i>
+                        </span>
+                    
+                        <div id="pwindicator" class="pwindicator"></div>
                       </div>
                     </div>
+                    
                     <div class="mb-1 row">
                       <div class="col-sm-2">
                         <label class="col-form-label new_lable" for="name">Image</label>
@@ -260,7 +266,28 @@ $(window).on('load', function() {
 
 <script>
 $(document).ready(function() {
+  // Initialize Select2
+  $('.js-example-basic-multiple').select2({
+    placeholder: 'Select an option'
+  });
 
+  // Handle "All" checkbox for users
+  $("#allUser").click(function() {
+    if ($("#allUser").is(':checked')) {
+      $("#users > option").prop("selected", true);
+      $("#users").trigger("change");
+    } else {
+      $("#users > option").prop("selected", false);
+      var selected = $("#user_id").val();
+      if (!selected || selected.length == 0) {
+        $("#users").val([]).trigger("change");
+      } else {
+        $("#users").trigger("change");
+      }
+    }
+  });
+
+  // Add custom validation methods
   jQuery.validator.addMethod("noSpace", function(value, element) {
     return value == '' || value.trim().length != 0;
   }, "No space allowed");
@@ -269,13 +296,19 @@ $(document).ready(function() {
     return this.optional(element) || /\.(jpe?g|gif|png)$/i.test(value);
   }, 'Only valid image files (JPEG, GIF, PNG) are allowed.');
 
+  // Add custom validation method for special characters
+  jQuery.validator.addMethod("noSpecialChars", function(value, element) {
+    return this.optional(element) || /^[a-zA-Z0-9 ]+$/.test(value);
+  }, "Special characters are not allowed");
+
+  // Form validation
   $('#add_validator').validate({
     rules: {
-
       name: {
         required: true,
         noSpace: true,
-        maxlength: 40
+        maxlength: 40,
+        noSpecialChars: true // Add the special character validation rule
       },
       email: {
         required: true,
@@ -297,7 +330,6 @@ $(document).ready(function() {
         validImage: true
       }
     },
-
     errorElement: "div",
     errorClass: "jqval-error",
     errorPlacement: function(error, element) {
@@ -310,7 +342,6 @@ $(document).ready(function() {
         duration: 700
       });
     },
-
     submitHandler: function(form) {
       var error = $(".assign_error_div").text();
       if (!error) {
@@ -319,7 +350,74 @@ $(document).ready(function() {
     }
   });
 });
+
+// Remove the separate event listener as we've integrated special character validation into the jQuery Validate rules
 </script>
 
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    feather.replace(); // Initialize Feather icons
 
+    const toggle = document.getElementById('togglePassword');
+    const password = document.getElementById('password');
+    let isVisible = false;
+
+    toggle.addEventListener('click', function () {
+      isVisible = !isVisible;
+      password.type = isVisible ? 'text' : 'password';
+      this.innerHTML = isVisible ? feather.icons['eye-off'].toSvg() : feather.icons['eye'].toSvg();
+    });
+  });
+</script>
+
+<style>
+  /* Match height and padding of regular inputs */
+  .select2-container--default .select2-selection--multiple {
+    min-height: 38px !important; /* Same as Bootstrap input */
+    padding-top: 4px !important;
+    padding-bottom: 4px !important;
+    border: 1px solid #ced4da !important;
+    border-radius: 0.25rem !important;
+    display: flex;
+    align-items: center;
+  }
+
+  /* Remove unwanted spacing inside selected tags */
+  .select2-selection__rendered {
+    padding: 0 8px !important;
+    margin-top: 0 !important;
+  }
+
+  .select2-search__field {
+    margin-top: 0 !important;
+  }
+</style>
+
+
+<script>
+  $(document).ready(function() {
+  $('#users').select2({
+    placeholder: "Select Users"
+  });
+});
+
+</script>
+
+<script>
+  document.getElementById("add_validator").addEventListener("submit", function (e) {
+    const nameInput = document.getElementById("name").value.trim();
+
+    // Allow only letters, numbers, and spaces
+    const validNamePattern = /^[a-zA-Z0-9 ]+$/;
+
+    if (!validNamePattern.test(nameInput)) {
+      e.preventDefault(); // stop form
+      // Trigger native "required" style alert
+      document.getElementById("name").setCustomValidity("Special characters are not allowed.");
+      document.getElementById("name").reportValidity();
+    } else {
+      document.getElementById("name").setCustomValidity(""); // reset validity
+    }
+  });
+</script>
 

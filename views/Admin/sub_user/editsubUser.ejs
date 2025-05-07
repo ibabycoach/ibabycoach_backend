@@ -66,6 +66,11 @@
                   <h4 class="card-title">Edit Subuser </h4>
                 </div>
                 <br>
+                <div class="mb-1 row justify-content-end">
+                  <div class="col-sm-4 text-end">
+                    <button type="button" class="btn btn-secondary waves-effect waves-float waves-light" onclick="history.back()">Back</button>
+                  </div>
+                </div>
                 <div class="card-body">
                   <form class="form form-horizontal" action="/updatesubUser" method="POST" id="profile" enctype="multipart/form-data">
                     <div class="row">
@@ -74,7 +79,7 @@
                           <img src="<%=subuserdata?.image%>" alt="Image" class="img-thumbnail" name="profile_image" id="profile_image">
                           <input type="file" id="imgInp" name="image" />
                           <label for="imgInp" style="cursor: pointer;">
-                            <i class="fe fe-24 camera_icon" data-feather='camera'></i>
+                            <i class="fe fe-24 camera_icon" data-feather='edit'></i>
                           </label>
                         </div>
                       </div>
@@ -106,7 +111,7 @@
                             <input type="number" id="phone" class="form-control" name="phone" value="<%=subuserdata?.phone%>" maxlength="15">
                           </div>
                         </div>
-                        <div class="mb-1 row justify-content-center">
+                        <div class="mb-1 row justify-content-end">
                           <div class="col-sm-4 text-end">
                             <button type="submit" class="btn btn-primary waves-effect waves-float waves-light">Update</button>
                           </div>
@@ -130,47 +135,59 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js" integrity="sha512-37T7leoNS06R80c8Ulq7cdCDU5MNQBwlYoy1TX/WUsLFC2eYNqtKlV0QjH7r8JpG/S0GUMZwebnVFLPd6SU5yg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
 <script>
-  $(document).ready(function() {
+ $(document).ready(function() {
 
-    jQuery.validator.addMethod("noSpace", function(value, element) {
-      return value == '' || value.trim().length != 0;
-    }, "No space please and don't leave it empty");
+// Add a custom validation method to allow only alphabetic characters
+jQuery.validator.addMethod("alphabetOnly", function(value, element) {
+  return this.optional(element) || /^[a-zA-Z\s]+$/.test(value);
+}, "Please enter alphabets only");
 
-    $('#profile').validate({
-      rules: {
-        name: {
-          required: true,
-          noSpace: true,
-          maxlength: 20
-        },
-        phone: {
-          required: true,
-          noSpace: true,
-          maxlength: 12
-        },
-      },
+jQuery.validator.addMethod("noSpace", function(value, element) {
+  return value == '' || value.trim().length != 0;
+}, "No space please and don't leave it empty");
 
-      errorElement: "div",
-      errorClass: "jqval-error",
-      errorPlacement: function(error, element) {
-        error.insertAfter(element);
-        error.slideDown(400);
-        error.animate({
-          opacity: 1
-        }, {
-          queue: false,
-          duration: 700
-        });
-      },
+$('#profile').validate({
+  rules: {
+    name: {
+      required: true,
+      noSpace: true,
+      alphabetOnly: true,
+      maxlength: 60
+    },
+    phone: {
+      required: true,
+      noSpace: true,
+      maxlength: 12
+    },
+  },
+  messages: {
+    name: {
+      required: "This field is required",
+      alphabetOnly: "Name should contain alphabets only"
+    }
+  },
 
-      submitHandler: function(form) {
-        var error = $(".assign_error_div").text();
-        if (!error) {
-          form.submit();
-        }
-      }
+  errorElement: "div",
+  errorClass: "jqval-error",
+  errorPlacement: function(error, element) {
+    error.insertAfter(element);
+    error.slideDown(400);
+    error.animate({
+      opacity: 1
+    }, {
+      queue: false,
+      duration: 700
     });
-  });
+  },
+
+  submitHandler: function(form) {
+    var error = $(".assign_error_div").text();
+    if (!error) {
+      form.submit();
+    }
+  }
+});
+});
 </script>
 
   <script>

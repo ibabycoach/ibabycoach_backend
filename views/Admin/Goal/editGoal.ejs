@@ -67,6 +67,7 @@
                             <input type="text" id="name" class="form-control" name="day" value="<%=Goaldetail.day%> ">
                           </div>
                         </div>
+                        
                         <!-- <div class="mb-1 row">
                           <div class="col-sm-2">
                             <label class="col-form-label new_lable" for="tenure">Date</label>
@@ -205,12 +206,14 @@ updateMaxAge();
           noSpace: true,
           maxlength: 300
         },
-        day:{
-          required: true,
-          noSpace: true,
-        },
+        day: {
+        required: true,
+        noSpace: true,
+        alphabetOnly: true, 
+        maxlength: 60
+      },
         image: {
-          required: true,
+          // required: true,
           validImage: true
         }
       },
@@ -226,6 +229,66 @@ updateMaxAge();
           duration: 700
         });
       },
+      submitHandler: function(form) {
+        var error = $(".assign_error_div").text();
+        if (!error) {
+          form.submit();
+        }
+      }
+    });
+  });
+</script>
+
+<script>
+  $(document).ready(function() {
+
+    // Add a custom validation method to allow only alphabetic characters and spaces
+    jQuery.validator.addMethod("alphabetOnly", function(value, element) {
+      return this.optional(element) || /^[a-zA-Z\s]*$/.test(value);  // Allow only letters and spaces
+    }, "Please enter alphabets only (no numbers or special characters)");
+
+    jQuery.validator.addMethod("noSpace", function(value, element) {
+      return value == '' || value.trim().length != 0;
+    }, "No space please and don't leave it empty");
+
+    // Add custom validation for the 'Day' field
+    $('#profile').validate({
+      rules: {
+        day: {
+          required: true,
+          noSpace: true,      // No spaces allowed at the start or end
+          alphabetOnly: true, // Only alphabets allowed
+          maxlength: 60       // Max length (optional)
+        },
+        phone: {
+          required: true,
+          noSpace: true,
+          maxlength: 12
+        }
+      },
+      messages: {
+        day: {
+          required: "This field is required",
+          alphabetOnly: "Day should contain only alphabets (no numbers or special characters)"
+        },
+        phone: {
+          required: "This field is required"
+        }
+      },
+
+      errorElement: "div",
+      errorClass: "jqval-error",
+      errorPlacement: function(error, element) {
+        error.insertAfter(element);
+        error.slideDown(400);
+        error.animate({
+          opacity: 1
+        }, {
+          queue: false,
+          duration: 700
+        });
+      },
+
       submitHandler: function(form) {
         var error = $(".assign_error_div").text();
         if (!error) {

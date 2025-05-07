@@ -34,7 +34,7 @@
                         <tr>
                           <td> <%=1+i%> </td>
                           <td> <%=data.activity_name%> </td>
-                          <td> <img src="<%=data.image%>" width="45px" height="40px" type="submit" style="cursor:pointer;"> </td>
+                          <td> <img src="<%=data.image%>" width="45px" height="40px"> </td>
                         
                           <td>
                             <% if(data.status==1) { %>
@@ -97,8 +97,13 @@
                         <tr>
                           <td> <%=1+i%> </td>
                           <td> <%=data.activity_name%> </td>
-                          <td> <img src="<%=data.image%>" width="45px" height="40px" type="submit" style="cursor:pointer;"> </td>
                           <td>
+                            <% if (!data.image || data.image === '') { %>
+                              <img src="/app-assets/images.jpg" width="45px" height="40px" alt="default image">
+                            <% } else { %>
+                              <img src="<%= data.image %>" width="45px" height="40px" alt="user image">
+                            <% } %>
+                          </td>                          <td>
                             <% if(data.status==1) { %>
                               <button onclick="changeStatus(this)" id="userId_<%-data.id%>" class=" btn btn-sm btn-success status " data-id="<%=data._id%>"
                                 value="0">Active
@@ -173,7 +178,7 @@
                               <td> <%=data.userId ? data.userId.name : "User not available" %></td>
                               <td> <%=data.activity_name%> </td>
                               <td>
-                                <img src="<%=data.image%>" width="45px" height="40px" type="submit" style="cursor:pointer;">
+                                <img src="<%=data.image%>" width="45px" height="40px">
                               </td>
                               <td>
                                 <% if(data.status==1) { %>
@@ -221,7 +226,7 @@
                                 <td> <%=data.userId ? data.userId.name : "User not available" %></td>
                                 <td> <%=data.activity_name%> </td>
                                 <td>
-                                  <img src="<%=data.image%>" width="45px" height="40px" type="submit" style="cursor:pointer;">
+                                  <img src="<%=data.image%>" width="45px" height="40px">
                                 </td>
                                 <td>
                                   <% if(data.status==1) { %>

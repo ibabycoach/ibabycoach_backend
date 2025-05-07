@@ -4045,3 +4045,11 @@ td:last-child {
   left: 0;
   z-index: 1;
 }
+
+.jqval-error {
+  color: red;
+}
+
+.input-group-text {
+  border-color: grey;
+}

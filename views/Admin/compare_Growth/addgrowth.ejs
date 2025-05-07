@@ -21,10 +21,11 @@
                       <label class="col-form-label new_lable" for="title"> Title</label>
                     </div>
                     <div class="col-sm-10">
-                      <input type="text" id="price" class="form-control" name="title" placeholder="Time duration here For eg: CDC (1-6y) - Weight & Height"
+                      <input type="text" id="title" class="form-control" name="title" placeholder="Time duration here For eg: CDC (1-6y) - Weight & Height"
                         value="" required>
                     </div>
                   </div>
+                  
                   <!-- //START DURATION// -->
                   <div class="mb-2 row">
                     <div class="col-sm-2">
@@ -32,7 +33,7 @@
                     </div>
                     <div class="col-sm-4">
                       <select id="start_duration" class="form-control" name="start_duration" required>
-                        <option value="">Select Start Duration</option>
+                        <option value="" disabled selected>Select Start Duration</option>
                         <option value="0">0 </option>
                         <option value="1">1 </option>
                         <option value="2">2 </option>
@@ -106,15 +107,18 @@
                       <label class="col-form-label new_lable" for="height_in_cm">Height (in cm)</label>
                     </div>
                     <div class="col-sm-4">
-                      <input type="text" id="height_in_cm" class="form-control" name="height_in_cm" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" maxlength="4"  placeholder="Height in centimetres" value="" required>
+                      <input type="text" id="height_in_cm" class="form-control" name="height_in_cm" 
+                        oninput="validateNumericInput(this)" maxlength="4" placeholder="Height in centimetres" value="" required>
                     </div>
                     <div class="col-sm-2">
                       <label class="col-form-label new_lable" for="headSize_in_cm">Head Size (in cm)</label>
                     </div>
                     <div class="col-sm-4">
-                      <input type="text" id="headSize_in_cm" class="form-control" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" maxlength="4"  name="headSize_in_cm"  placeholder="Head size in centimetres" value="" required>
+                      <input type="text" id="headSize_in_cm" class="form-control" oninput="validateNumericInput(this)" 
+                        maxlength="4" name="headSize_in_cm" placeholder="Head size in centimetres" value="" required>
                     </div>
                   </div>
+                  
                   <br>
                     <div class="col-12">
                     <div class="col-sm-9 offset-sm-6">
@@ -143,33 +147,90 @@ crossorigin="anonymous" referrerpolicy="no-referrer">
 
 <script>
   $(document).ready(function() {
-    jQuery.validator.addMethod("noSpace", function(value, element) {
-      return value == '' || value.trim().length != 0;
-    }, "No space allowed");
-
-    jQuery.validator.addMethod("validImage", function(value, element, param) {
-      return this.optional(element) || /\.(jpe?g|gif|png)$/i.test(value);
-    }, 'Only valid image files (JPEG, GIF, PNG) are allowed.');
+    jQuery.validator.addMethod("onlyAlphabets", function(value, element) {
+      return /^[a-zA-Z\s]*$/.test(value);  // Only alphabets and spaces allowed
+    }, "Only alphabets and spaces are allowed.");
   
-
     $('#add_validator').validate({
       rules: {
         title: {
-          required: true,
-          noSpace: true,
+          required: true,  // Title is required
+          onlyAlphabets: true,  // Apply custom validation for alphabets only
           maxlength: 50
         },
         headSize_in_cm: {
           required: true,
           noSpace: true,
         },
-        height_in_cm:{
+        height_in_cm: {
           required: true,
           noSpace: true,
         },
         weight_in_lbs: {
           required: true,
           noSpace: true,
+        }
+      },
+      errorElement: "div",
+      errorClass: "jqval-error",
+      errorPlacement: function(error, element) {
+        error.insertAfter(element);  // Insert error message after the element
+        error.slideDown(400);
+        error.animate({
+          opacity: 1
+        }, {
+          queue: false,
+          duration: 700
+        });
+      },
+      messages: {
+        title: {
+          required: "This field is required.",
+          onlyAlphabets: "Only alphabets and spaces are allowed."  // Custom message for invalid characters
+        },
+        headSize_in_cm: {
+          required: "This field is required."
+        },
+        height_in_cm: {
+          required: "This field is required."
+        },
+        weight_in_lbs: {
+          required: "This field is required."
+        }
+      },
+      submitHandler: function(form) {
+        var error = $(".assign_error_div").text();
+        if (!error) {
+          form.submit();  // Submit the form if no validation errors
+        }
+      }
+    });
+  });
+  
+  
+  </script>
+
+
+<script>
+  $(document).ready(function() {
+    // Add custom validation for 'Start Duration' and 'End Duration'
+    $('#profile').validate({
+      rules: {
+        start_duration: {
+          required: true,
+          notEqual: "" // Ensure the placeholder is not selected
+        },
+        end_duration: {
+          required: true,
+          notEqual: "" // Ensure the placeholder is not selected
+        },
+      },
+      messages: {
+        start_duration: {
+          required: "Please select the start duration"
+        },
+        end_duration: {
+          required: "Please select the end duration"
         }
       },
       errorElement: "div",
@@ -192,4 +253,21 @@ crossorigin="anonymous" referrerpolicy="no-referrer">
       }
     });
   });
+</script>
+
+<script>
+// Function to validate numeric input
+function validateNumericInput(input) {
+  // Allow only digits and one decimal point
+  input.value = input.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');
+  
+  // Reject "0.00" or any similar inputs starting with "0."
+  if (input.value === "0.00" || input.value === "0.") {
+    input.setCustomValidity("0.00 is not a valid data."); // Custom error message
+  } else {
+    input.setCustomValidity(""); // Reset validity if the input is valid
+  }
+}
+
+
 </script>

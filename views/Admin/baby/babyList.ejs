@@ -46,7 +46,11 @@
                             <%= new Date(data.birthday).toLocaleDateString('en-US', { day: '2-digit', month: 'short', year: 'numeric' }) %>
                           </td>
                           <td>
-                            <img src="<%=data.image%>" width="45px" height="40px" type="submit" style="cursor:pointer;">
+                            <% if (!data.image || data.image === '') { %>
+                              <img src="/app-assets/images.jpg" width="45px" height="40px" alt="default image">
+                            <% } else { %>
+                              <img src="<%= data.image %>" width="45px" height="40px" alt="user image">
+                            <% } %>
                           </td>
 
                           <td>

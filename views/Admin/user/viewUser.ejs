@@ -89,7 +89,7 @@
                                 <%=data?.phone ? data.phone : ""%>
                               </td>
                               <td>
-                                <img src="<%=data?.image%>" width="45px" height="40px" type="submit" style="cursor:pointer;">
+                                <img src="<%=data?.image%>" width="45px" height="40px">
                               </td>
                             </tr>
                             <%} )%>
@@ -138,7 +138,7 @@
                                 <%= new Date(data.birthday).toLocaleDateString('en-US', { day: '2-digit', month: 'short', year: 'numeric' }) %>
                               </td>
                               <td>
-                                <img src="<%=data?.image%>" width="45px" height="40px" type="submit" style="cursor:pointer;">
+                                <img src="<%=data?.image%>" width="45px" height="40px">
                               </td>
                               <td>
                                 <a href="/viewBaby/<%=data._id%>" class="btn btn-sm bg-light-primary">
