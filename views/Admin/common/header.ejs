@@ -93,8 +93,11 @@
                             </span>
                         </div>
                         <span class="avatar">
-                            <img class="round" src="<%=session.image%>" alt="avatar" height="40" width="40">
-                            <span class="avatar-status-online"></span>
+                            <% if (!session.image || session.image === '') { %>
+                                <img src="/app-assets/images.jpg" alt="default image" height="45" width="45" style="cursor: default;" aria-readonly="true" />
+                              <% } else { %>
+                                <img src="<%= session.image %>" alt="user_avatar" height="45" width="45" style="cursor: default;" aria-readonly="true" />
+                              <% } %>                            <span class="avatar-status-online"></span>
                         </span>
                     </a>
                     <div class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdown-user">
