@@ -17,13 +17,23 @@
                     <form class="form form-vertical" id="add_validator" action="/updateGole" method="POST"
                       enctype="multipart/form-data">
                       <div class="row">
+
+
+
+
                         <div class="col-md-4">
                           <div class="profile-widget-header text-center">
-                            <img src="<%=Goaldetail.image%>" id="output2" alt=" "
-                              class="ms-md-0 mx-auto img-thumbnail user_bigimg">
+                            <img src="<%= Goaldetail.image %>" id="output2" alt=" " class="ms-md-0 mx-auto img-thumbnail user_bigimg">
+                        
+                            <!-- Custom file input -->
+                            <label for="imgInp" class="custom-file-upload">Choose Photo</label>
                             <input onchange="loadFile(event,'output2')" type="file" id="imgInp" name="image" />
                           </div>
                         </div>
+
+
+
+
                         <div class="col-md-8">
                           <div class="mb-1 row">
                             <div class="col-sm-2">
@@ -297,4 +307,31 @@ updateMaxAge();
       }
     });
   });
+</script>
+
+<style>
+  .custom-file-upload {
+    display: inline-block;
+    padding: 6px 12px;
+    cursor: pointer;
+    background-color: #007bff;
+    color: white;
+    border-radius: 4px;
+    margin-top: 10px;
+  }
+
+  input[type="file"] {
+    display: none; /* Hide default input */
+  }
+</style>
+
+<script>
+  function loadFile(event, outputId) {
+    const reader = new FileReader();
+    reader.onload = function () {
+      const output = document.getElementById(outputId);
+      output.src = reader.result;
+    };
+    reader.readAsDataURL(event.target.files[0]);
+  }
 </script>
