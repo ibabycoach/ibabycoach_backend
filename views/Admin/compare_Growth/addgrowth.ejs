@@ -21,7 +21,7 @@
                       <label class="col-form-label new_lable" for="title"> Title</label>
                     </div>
                     <div class="col-sm-10">
-                      <input type="text" id="title" class="form-control" name="title" placeholder="Time duration here For eg: CDC (1-6y) - Weight & Height"
+                      <input type="text" id="title" class="form-control" name="title" placeholder=""
                         value="" required>
                     </div>
                   </div>
@@ -146,128 +146,132 @@ crossorigin="anonymous" referrerpolicy="no-referrer">
 
 
 <script>
-  $(document).ready(function() {
-    jQuery.validator.addMethod("onlyAlphabets", function(value, element) {
-      return /^[a-zA-Z\s]*$/.test(value);  // Only alphabets and spaces allowed
-    }, "Only alphabets and spaces are allowed.");
+$(document).ready(function() {
+  // Add custom method to validate alphanumeric values (letters and numbers only)
+  jQuery.validator.addMethod("alphanumeric", function(value, element) {
+    return this.optional(element) || /^[a-zA-Z0-9]+$/.test(value);
+  }, "Only letters and numbers are allowed, no spaces or special characters.");
   
-    $('#add_validator').validate({
-      rules: {
-        title: {
-          required: true,  // Title is required
-          onlyAlphabets: true,  // Apply custom validation for alphabets only
-          maxlength: 50
-        },
-        headSize_in_cm: {
-          required: true,
-          noSpace: true,
-        },
-        height_in_cm: {
-          required: true,
-          noSpace: true,
-        },
-        weight_in_lbs: {
-          required: true,
-          noSpace: true,
-        }
+  // Add method to validate positive numbers greater than zero
+  jQuery.validator.addMethod("greaterThanZero", function(value, element) {
+    return parseFloat(value) > 0;
+  }, "Value must be greater than 0.");
+  
+  // Add method to check if dropdown has a valid selection
+  jQuery.validator.addMethod("validSelection", function(value, element) {
+    return value !== "" && value !== null;
+  }, "Please select an option.");
+  
+  $('#add_validator').validate({
+    rules: {
+      title: {
+        required: true,
+        alphanumeric: true, // Only alphabets and numbers, no spaces or special chars
+        maxlength: 50
       },
-      errorElement: "div",
-      errorClass: "jqval-error",
-      errorPlacement: function(error, element) {
-        error.insertAfter(element);  // Insert error message after the element
-        error.slideDown(400);
-        error.animate({
-          opacity: 1
-        }, {
-          queue: false,
-          duration: 700
-        });
+      start_duration: {
+        required: true,
+        validSelection: true
       },
-      messages: {
-        title: {
-          required: "This field is required.",
-          onlyAlphabets: "Only alphabets and spaces are allowed."  // Custom message for invalid characters
-        },
-        headSize_in_cm: {
-          required: "This field is required."
-        },
-        height_in_cm: {
-          required: "This field is required."
-        },
-        weight_in_lbs: {
-          required: "This field is required."
-        }
+      end_duration: {
+        required: true,
+        validSelection: true
       },
-      submitHandler: function(form) {
-        var error = $(".assign_error_div").text();
-        if (!error) {
-          form.submit();  // Submit the form if no validation errors
-        }
+      end_duration_type: {
+        required: true,
+        validSelection: true
+      },
+      headSize_in_cm: {
+        required: true,
+        number: true,
+        greaterThanZero: true
+      },
+      height_in_cm: {
+        required: true,
+        number: true,
+        greaterThanZero: true
+      },
+      weight_in_lbs: {
+        required: true,
+        number: true,
+        greaterThanZero: true
       }
-    });
-  });
-  
-  
-  </script>
-
-
-<script>
-  $(document).ready(function() {
-    // Add custom validation for 'Start Duration' and 'End Duration'
-    $('#profile').validate({
-      rules: {
-        start_duration: {
-          required: true,
-          notEqual: "" // Ensure the placeholder is not selected
-        },
-        end_duration: {
-          required: true,
-          notEqual: "" // Ensure the placeholder is not selected
-        },
+    },
+    errorElement: "div",
+    errorClass: "jqval-error",
+    highlight: function(element, errorClass) {
+      $(element).addClass("error");
+      $(element).css("border-color", "#ea5455");
+    },
+    unhighlight: function(element, errorClass) {
+      $(element).removeClass("error");
+      $(element).css("border-color", "");
+    },
+    errorPlacement: function(error, element) {
+      error.insertAfter(element);
+      error.slideDown(400);
+      error.animate({
+        opacity: 1
+      }, {
+        queue: false,
+        duration: 700
+      });
+    },
+    messages: {
+      title: {
+        required: "This field is required.",
+        alphanumeric: "Only letters and numbers are allowed. No spaces or special characters."
       },
-      messages: {
-        start_duration: {
-          required: "Please select the start duration"
-        },
-        end_duration: {
-          required: "Please select the end duration"
-        }
+      start_duration: {
+        required: "Please select a start duration."
       },
-      errorElement: "div",
-      errorClass: "jqval-error",
-      errorPlacement: function(error, element) {
-        error.insertAfter(element);
-        error.slideDown(400);
-        error.animate({
-          opacity: 1
-        }, {
-          queue: false,
-          duration: 700
-        });
+      end_duration: {
+        required: "Please select an end duration."
       },
-      submitHandler: function(form) {
-        var error = $(".assign_error_div").text();
-        if (!error) {
-          form.submit();
-        }
+      end_duration_type: {
+        required: "Please select a duration type."
+      },
+      headSize_in_cm: {
+        required: "This field is required.",
+        number: "Please enter a valid number.",
+        greaterThanZero: "Value must be greater than 0."
+      },
+      height_in_cm: {
+        required: "This field is required.",
+        number: "Please enter a valid number.",
+        greaterThanZero: "Value must be greater than 0."
+      },
+      weight_in_lbs: {
+        required: "This field is required.",
+        number: "Please enter a valid number.",
+        greaterThanZero: "Value must be greater than 0."
       }
-    });
+    },
+    submitHandler: function(form) {
+      var error = $(".assign_error_div").text();
+      if (!error) {
+        form.submit();
+      }
+    }
   });
-</script>
+});
 
-<script>
-// Function to validate numeric input
+// Improved function to validate numeric input
 function validateNumericInput(input) {
   // Allow only digits and one decimal point
   input.value = input.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');
   
-  // Reject "0.00" or any similar inputs starting with "0."
-  if (input.value === "0.00" || input.value === "0.") {
-    input.setCustomValidity("0.00 is not a valid data."); // Custom error message
+  // Reject values ≤ 0, including "0.00" or any similar inputs
+  const numValue = parseFloat(input.value);
+  if (isNaN(numValue) || numValue <= 0) {
+    input.setCustomValidity("Please enter a value greater than 0");
   } else {
     input.setCustomValidity(""); // Reset validity if the input is valid
   }
 }
+  
+  </script>
 
 
-</script>
+
+
