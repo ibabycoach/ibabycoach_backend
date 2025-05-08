@@ -30,9 +30,12 @@
               <div class="d-flex align-items-center w-100">
                 <div class="sidebar-profile-toggle">
                   <div class="avatar avatar-border">
-                    <img src="<%=session.image%>" alt="user_avatar" height="45" width="45" aria-readonly="true" />
-                    <!-- <span class="avatar-status-online"></span> -->
-                  </div>
+                    <% if (!session.image || session.image === '') { %>
+                      <img src="/app-assets/images.jpg" alt="default image" height="45" width="45" style="cursor: default;" aria-readonly="true" />
+                    <% } else { %>
+                      <img src="<%= session.image %>" alt="user_avatar" height="45" width="45" style="cursor: default;" aria-readonly="true" />
+                    <% } %>
+                  </div>                  
                 </div>
                 <div class="input-group input-group-merge ms-1 w-100">
                   <span class="input-group-text round"><i data-feather="search" class="text-muted"></i></span>
@@ -47,7 +50,10 @@
             <div id="users-list" class="chat-user-list-wrapper list-group">
               <h4 class="chat-list-title">Chats</h4>
               <ul class="chat-users-list chat-list media-list" id="chatList">
-              </ul>
+                <li id="no-user-msg" style="display: none; text-align: center; padding: 10px; color: #999;">
+                  No user found
+                </li>
+              </ul>              
             </div>
 
             <!-- Sidebar Users end -->
@@ -158,6 +164,37 @@
   <!-- BEGIN: Page JS-->
   <script src="/app-assets/js/scripts/pages/app-chat.js"></script>
   <!-- END: Page JS-->
+
+  <style>
+    .chat-list-title {
+    font-weight: bold; 
+    color: black !important;   
+    text-align: center;
+    text-decoration: underline; 
+}
+
+  </style>
+
+  <script>
+    document.getElementById("chat-search").addEventListener("input", function () {
+  const query = this.value.toLowerCase();
+  const users = document.querySelectorAll("#chatList li:not(#no-user-msg)");
+  let hasVisible = false;
+
+  users.forEach(user => {
+    const name = user.querySelector("h5")?.innerText.toLowerCase() || "";
+    if (name.includes(query)) {
+      user.style.display = "";
+      hasVisible = true;
+    } else {
+      user.style.display = "none";
+    }
+  });
+
+  document.getElementById("no-user-msg").style.display = hasVisible ? "none" : "block";
+});
+
+  </script>
 
   <script>
     $(window).on('load', function() {
