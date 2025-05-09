@@ -183,48 +183,113 @@ updateMaxAge();
 </script>
 
 <script>
-  $(document).ready(function() {
-    jQuery.validator.addMethod("noSpace", function(value, element) {
-      return value == '' || value.trim().length != 0;
-    }, "No space allowed");
+ $(document).ready(function() {
+  // Add a custom validation method to allow alphabetic characters, spaces, and commas
+  jQuery.validator.addMethod("alphabetWithCommas", function(value, element) {
+    return this.optional(element) || /^[a-zA-Z\s,]*$/.test(value);  // Allow letters, spaces, and commas
+  }, "Please enter alphabets, commas, and spaces only (no numbers or other special characters)");
 
-    jQuery.validator.addMethod("validImage", function(value, element, param) {
-      return this.optional(element) || /\.(jpe?g|gif|png)$/i.test(value);
-    }, 'Only valid image files (JPEG, GIF, PNG) are allowed.');
-  
+  jQuery.validator.addMethod("noSpace", function(value, element) {
+    return value == '' || value.trim().length != 0;
+  }, "No space allowed at beginning or end");
 
-    $('#add_validator').validate({
-      rules: {
-        name: {
-          required: true,
-          noSpace: true,
-          maxlength: 20
-        },
-        title:{
-          required: true,
-          noSpace: true,
-          maxlength: 20
-        },
-        min_age: {
-          required: true
-        },
-        max_age: {
-          required: true
-        },
-        description: {
-          required: true,
-          noSpace: true,
-          maxlength: 300
-        },
-        day: {
+  jQuery.validator.addMethod("validImage", function(value, element, param) {
+    return this.optional(element) || /\.(jpe?g|gif|png)$/i.test(value);
+  }, 'Only valid image files (JPEG, GIF, PNG) are allowed.');
+
+  $('#add_validator').validate({
+    rules: {
+      name: {
         required: true,
         noSpace: true,
-        alphabetOnly: true, 
+        maxlength: 20
+      },
+      title:{
+        required: true,
+        noSpace: true,
+        maxlength: 20
+      },
+      min_age: {
+        required: true
+      },
+      max_age: {
+        required: true
+      },
+      description: {
+        required: true,
+        noSpace: true,
+        maxlength: 300
+      },
+      day: {
+        required: true,
+        noSpace: true,
+        alphabetWithCommas: true,  // Updated to new validation rule that accepts commas
         maxlength: 60
       },
-        image: {
-          // required: true,
-          validImage: true
+      image: {
+        // required: true,
+        validImage: true
+      }
+    },
+    messages: {
+      name: {
+        required: "This field is required"
+      },
+      title: {
+        required: "This field is required"
+      },
+      day: {
+        required: "This field is required",
+        alphabetWithCommas: "Day should contain only alphabets, commas, and spaces"
+      },
+      description: {
+        required: "This field is required"
+      }
+    },
+    errorElement: "div",
+    errorClass: "jqval-error",
+    errorPlacement: function(error, element) {
+      error.insertAfter(element);
+      error.slideDown(400);
+      error.animate({
+        opacity: 1
+      }, {
+        queue: false,
+        duration: 700
+      });
+    },
+    submitHandler: function(form) {
+      var error = $(".assign_error_div").text();
+      if (!error) {
+        form.submit();
+      }
+    }
+  });
+  
+  // Fix the alphabetOnly validation in the second script
+  // Add custom validation for the 'Day' field in profile form (if it exists)
+  if ($('#profile').length > 0) {
+    $('#profile').validate({
+      rules: {
+        day: {
+          required: true,
+          noSpace: true,
+          alphabetWithCommas: true, // Updated to allow commas
+          maxlength: 60
+        },
+        phone: {
+          required: true,
+          noSpace: true,
+          maxlength: 12
+        }
+      },
+      messages: {
+        day: {
+          required: "This field is required",
+          alphabetWithCommas: "Day should contain only alphabets, commas, and spaces"
+        },
+        phone: {
+          required: "This field is required"
         }
       },
       errorElement: "div",
@@ -246,7 +311,8 @@ updateMaxAge();
         }
       }
     });
-  });
+  }
+});
 </script>
 
 <script>
