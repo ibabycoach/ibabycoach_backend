@@ -53,33 +53,38 @@
                       </div>
                     </div>
                     
-                    <div class="mb-1 row">
-                      <div class="col-sm-2">
-                        <label id="dayLabel" class="col-form-label new_label">Day</label>
-                      </div>
-                      <div class="col-sm-10">
-                        <input class="form-check-input day-checkbox" type="checkbox" id="mon" name="day" value="Mon">
-                        <label class="form-check-label" for="mon">Mon</label>
-                    
-                        <input class="form-check-input day-checkbox" type="checkbox" id="tue" name="day" value="Tue">
-                        <label class="form-check-label" for="tue">Tue</label>
-                    
-                        <input class="form-check-input day-checkbox" type="checkbox" id="wed" name="day" value="Wed">
-                        <label class="form-check-label" for="wed">Wed</label>
-                    
-                        <input class="form-check-input day-checkbox" type="checkbox" id="thu" name="day" value="Thu">
-                        <label class="form-check-label" for="thu">Thu</label>
-                    
-                        <input class="form-check-input day-checkbox" type="checkbox" id="fri" name="day" value="Fri">
-                        <label class="form-check-label" for="fri">Fri</label>
-                    
-                        <input class="form-check-input day-checkbox" type="checkbox" id="sat" name="day" value="Sat">
-                        <label class="form-check-label" for="sat">Sat</label>
-                    
-                        <input class="form-check-input day-checkbox" type="checkbox" id="sun" name="day" value="Sun">
-                        <label class="form-check-label" for="sun">Sun</label>
-                      </div>
-                    </div>
+           <div class="mb-1 row">
+  <div class="col-sm-2">
+    <label id="dayLabel" class="col-form-label new_label">Day</label>
+  </div>
+  <div class="col-sm-10">
+    <div id="day-checkbox-group" class="position-relative">
+      <input class="form-check-input day-checkbox" type="checkbox" id="mon" name="day" value="Mon">
+      <label class="form-check-label me-2" for="mon">Mon</label>
+
+      <input class="form-check-input day-checkbox" type="checkbox" id="tue" name="day" value="Tue">
+      <label class="form-check-label me-2" for="tue">Tue</label>
+
+      <input class="form-check-input day-checkbox" type="checkbox" id="wed" name="day" value="Wed">
+      <label class="form-check-label me-2" for="wed">Wed</label>
+
+      <input class="form-check-input day-checkbox" type="checkbox" id="thu" name="day" value="Thu">
+      <label class="form-check-label me-2" for="thu">Thu</label>
+
+      <input class="form-check-input day-checkbox" type="checkbox" id="fri" name="day" value="Fri">
+      <label class="form-check-label me-2" for="fri">Fri</label>
+
+      <input class="form-check-input day-checkbox" type="checkbox" id="sat" name="day" value="Sat">
+      <label class="form-check-label me-2" for="sat">Sat</label>
+
+      <input class="form-check-input day-checkbox" type="checkbox" id="sun" name="day" value="Sun">
+      <label class="form-check-label me-2" for="sun">Sun</label>
+    </div>
+    <!-- Placeholder for error message to avoid shifting -->
+    <div id="day-error-placeholder"></div>
+  </div>
+</div>
+
                     <div class="mb-1 row">
                       <div class="col-sm-2">
                         <label class="col-form-label new_lable" for="name">Description</label>
@@ -244,16 +249,15 @@ $(document).ready(function() {
     },
     errorElement: "div",
     errorClass: "jqval-error",
-    errorPlacement: function(error, element) {
-      error.insertAfter(element);
-      error.slideDown(400);
-      error.animate({
-        opacity: 1
-      }, {
-        queue: false,
-        duration: 700
-      });
-    },
+   errorPlacement: function(error, element) {
+  if (element.attr("name") === "day") {
+    error.appendTo("#day-error-placeholder"); // Place error in reserved space
+  } else {
+    error.insertAfter(element);
+  }
+  error.slideDown(400).animate({ opacity: 1 }, { queue: false, duration: 700 });
+},
+
     submitHandler: function(form) {
       var error = $(".assign_error_div").text();
       if (!error) {
@@ -262,6 +266,7 @@ $(document).ready(function() {
     }
   });
 });
+
 </script>
 
 <script>
@@ -306,3 +311,18 @@ $(document).ready(function() {
     }
   });
 </script>
+
+<style>
+#day-error-placeholder {
+  min-height: 20px; /* Reserve space for error message */
+}
+
+.jqval-error {
+  color: red;
+  font-size: 0.875rem;
+  margin-top: 5px;
+  position: relative;
+}
+
+
+</style>

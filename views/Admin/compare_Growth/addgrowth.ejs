@@ -152,10 +152,10 @@ $(document).ready(function() {
     return this.optional(element) || /^[a-zA-Z0-9]+$/.test(value);
   }, "Only letters and numbers are allowed, no spaces or special characters.");
   
-  // Add method to validate positive numbers greater than zero
-  jQuery.validator.addMethod("greaterThanZero", function(value, element) {
-    return parseFloat(value) > 0;
-  }, "Value must be greater than 0.");
+  // Add method to validate positive numbers greater than or equal to 1
+  jQuery.validator.addMethod("greaterThanOrEqualToOne", function(value, element) {
+    return parseFloat(value) >= 1;
+  }, "Value must be 1 or greater.");
   
   // Add method to check if dropdown has a valid selection
   jQuery.validator.addMethod("validSelection", function(value, element) {
@@ -197,17 +197,17 @@ $(document).ready(function() {
       headSize_in_cm: {
         required: true,
         number: true,
-        greaterThanZero: true
+        greaterThanOrEqualToOne: true  // Changed to ensure value is >= 1
       },
       height_in_cm: {
         required: true,
         number: true,
-        greaterThanZero: true
+        greaterThanOrEqualToOne: true  // Changed to ensure value is >= 1
       },
       weight_in_lbs: {
         required: true,
         number: true,
-        greaterThanZero: true
+        greaterThanOrEqualToOne: true  // Changed to ensure value is >= 1
       }
     },
     errorElement: "div",
@@ -248,17 +248,17 @@ $(document).ready(function() {
       headSize_in_cm: {
         required: "This field is required.",
         number: "Please enter a valid number.",
-        greaterThanZero: "Value must be greater than 0."
+        greaterThanOrEqualToOne: "Value must be 1 or greater."
       },
       height_in_cm: {
         required: "This field is required.",
         number: "Please enter a valid number.",
-        greaterThanZero: "Value must be greater than 0."
+        greaterThanOrEqualToOne: "Value must be 1 or greater."
       },
       weight_in_lbs: {
         required: "This field is required.",
         number: "Please enter a valid number.",
-        greaterThanZero: "Value must be greater than 0."
+        greaterThanOrEqualToOne: "Value must be 1 or greater."
       }
     },
     submitHandler: function(form) {
@@ -278,19 +278,41 @@ $(document).ready(function() {
   });
 });
 
-// Improved function to validate numeric input
+// Improved function to validate numeric input - ensure values are >= 1
 function validateNumericInput(input) {
   // Allow only digits and one decimal point
   input.value = input.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');
   
-  // Reject values ≤ 0, including "0.00" or any similar inputs
+  // Reject values < 1
   const numValue = parseFloat(input.value);
-  if (isNaN(numValue) || numValue <= 0) {
-    input.setCustomValidity("Please enter a value greater than 0");
+  if (isNaN(numValue) || numValue < 1) {
+    input.setCustomValidity("Please enter a value of 1 or greater");
+    
+    // Add visual indication of error
+    input.style.borderColor = "#ea5455";
+    
+    // If there's no error message yet, add one
+    let nextElement = input.nextElementSibling;
+    if (!nextElement || !nextElement.classList.contains('jqval-error')) {
+      let errorDiv = document.createElement('div');
+      errorDiv.className = 'jqval-error';
+      errorDiv.textContent = "Value must be 1 or greater";
+      errorDiv.style.display = "block";
+      errorDiv.style.color = "#ea5455";
+      errorDiv.style.fontSize = "0.875rem";
+      errorDiv.style.marginTop = "5px";
+      input.parentNode.insertBefore(errorDiv, input.nextSibling);
+    }
   } else {
     input.setCustomValidity(""); // Reset validity if the input is valid
+    input.style.borderColor = ""; // Reset border color
+    
+    // Remove error message if it exists
+    let nextElement = input.nextElementSibling;
+    if (nextElement && nextElement.classList.contains('jqval-error')) {
+      nextElement.remove();
+    }
   }
 }
-  
   </script>
 
