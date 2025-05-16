@@ -39,24 +39,26 @@
                 </div>
                 <div class="input-group input-group-merge ms-1 w-100">
                   <span class="input-group-text round"><i data-feather="search" class="text-muted"></i></span>
-                  <input type="text" class="form-control round" id="chat-search" placeholder="Search or start a new chat" aria-label="Search..." aria-describedby="chat-search" />
+                  <!-- <input type="search" name="search" id="search" class="form-control round" placeholder="Search"> -->
+                  <input type="text" class="form-control round" onkeyup="filterUsers(this.value)" placeholder="Search users...">
+
+                  <!-- <input type="text" class="form-control round" id="chat-search" placeholder="Search or start a new chat" aria-label="Search..." aria-describedby="chat-search" /> -->
                 </div>
               </div>
             </div>
-            <!-- Sidebar header end -->
-
-            <!-- Sidebar Users start -->
+          
             <input type="hidden" name="adminId" id="adminId" value="<%= adminId %>">
             <div id="users-list" class="chat-user-list-wrapper list-group">
               <h4 class="chat-list-title">Chats</h4>
-              <ul class="chat-users-list chat-list media-list" id="chatList">
-                <li id="no-user-msg" style="display: none; text-align: center; padding: 10px; color: #999;">
-                  No user found
-                </li>
-              </ul>              
-            </div>
 
-            <!-- Sidebar Users end -->
+            <!-- Add this div to show "No user found" message -->
+            <div id="no-user-message" style="display: none; text-align: center; color: rgb(244, 41, 41);">
+                No user found
+            </div>
+               <ul class="chat-users-list chat-list media-list" id="chatList">
+               
+              </ul>  
+            </div>
           </div>
           <!--/ Chat Sidebar area -->
         </div>
@@ -462,6 +464,71 @@ chating.querySelectorAll('li:not(#no-user-msg)').forEach(el => el.remove());
     }
     
   </script>
+
+<!-- search user by name -->
+<script>
+  // Get reference to the search input field
+  const searchInput = document.getElementById('search');
+
+  // Listen for input event on the search field
+  searchInput.addEventListener('input', function() {
+      // Get the search query and convert it to lowercase for case-insensitive comparison
+      const query = searchInput.value.toLowerCase();
+
+      // Get all the chat list items (assuming they are inside the 'chating' container)
+      const chatItems = document.querySelectorAll('.list-group-item');
+
+      let resultsFound = false;
+
+      // Loop through each chat item
+      chatItems.forEach(item => {
+          const userName = item.querySelector('.user_name h5').innerText.toLowerCase(); // Get the user name
+
+          // If the user name contains the search query, show the chat, otherwise hide it
+          if (userName.includes(query)) {
+              item.style.display = ''; // Show the item
+              resultsFound = true; // Mark that at least one result was found
+          } else {
+              item.style.display = 'none'; // Hide the item
+          }
+      });
+
+      // Check if no results were found
+      const noUserMessage = document.getElementById('no-user-message');
+      if (!resultsFound) {
+          noUserMessage.style.display = 'block'; // Show "No user found" message
+      } else {
+          noUserMessage.style.display = 'none'; // Hide "No user found" message
+      }
+  });
+
+  function filterUsers(searchTerm) {
+    const chatList = document.getElementById("chatList");
+    const noUserMessage = document.getElementById("no-user-message");
+    const users = chatList.querySelectorAll("li");
+    let hasMatch = false;
+
+    users.forEach(user => {
+        const username = user.textContent.toLowerCase();
+        if (username.includes(searchTerm.toLowerCase())) {
+            user.style.display = "block";
+            hasMatch = true;
+        } else {
+            user.style.display = "none";
+        }
+    });
+
+    if (hasMatch) {
+        chatList.style.display = "block";
+        noUserMessage.style.display = "none";
+    } else {
+        chatList.style.display = "none";
+        noUserMessage.style.display = "block";
+    }
+}
+
+
+</script>
 
 </body>
 

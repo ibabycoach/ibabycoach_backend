@@ -45,12 +45,8 @@
                           <!-- <td>
                             <%=data.country_code%> <%=data.phone%>
                           </td> -->
-                          <td>
-                            <% if (!data.image || data.image === '') { %>
-                              <img src="/app-assets/images.jpg" width="45px" height="40px" alt="default image">
-                            <% } else { %>
-                              <img src="<%= data.image %>" width="45px" height="40px" alt="user image">
-                            <% } %>
+                          <td>                            
+                              <img src="<%= data?.image ? data?.image : '../app-assets/images/demouser.jpeg' %>" width="45px" height="40px" alt="image">
                           </td>
                           <td>
                             <% if(data.status==1) { %>
@@ -64,11 +60,6 @@
                                 <% } %>
                           </td>
                           <td>
-                            <!-- <a href="/view_sub_admin/<%=data._id%>" class="btn btn-sm bg-light-primary">
-                              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-eye">
-                              <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
-                              <circle cx="12" cy="12" r="3"></circle></svg></i></a> -->
-
                               <a href="/edit_sub_admin/<%=data._id%>" class="btn btn-sm bg-warning">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-edit">
                                   <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
