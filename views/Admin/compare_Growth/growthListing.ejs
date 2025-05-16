@@ -35,7 +35,7 @@
                         <%growthdata.forEach(function(data,i) {%>
                           <tr>
                             <td> <%=1+i%> </td>
-                            <td> <%=data?.title%> </td>
+                            <td> <%= data.title.length > 20 ? data.title.slice(0, 20) + "..." : data.title %></td>
                             <td> <%=data?.start_duration%> - <%=data?.end_duration%> <%=data?.end_duration_type%> </td>
                             <td> <%=data?.height_in_cm%> cm</td>
                             <td> <%=data?.weight_in_lbs%> lbs</td>

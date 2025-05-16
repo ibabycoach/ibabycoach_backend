@@ -35,9 +35,13 @@
                     <%subscriptionsData.forEach(function(data,i) {%>
                       <tr>
                         <td> <%=1+i%> </td>
-                        <td> <%=data.name%> </td>
+                        <td>
+                          <%= data.name.length > 15 ? data.name.slice(0, 15) + "..." : data.name %>
+                        </td>
                         <td> <%=data.price%> </td>
-                        <td> <%=data.tenure%> </td>
+
+                        <td>
+                          <%= data.tenure.length > 15 ? data.tenure.slice(0, 15) + "..." : data.tenure %></td>
                         <td>
                           <% if(data.status==1) { %>
                             <button onclick="changeStatus(this)" id="userId_<%-data.id%>"
