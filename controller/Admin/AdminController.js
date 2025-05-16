@@ -21,8 +21,11 @@ module.exports = {
 
     login: async (req, res) => {
         try {
+
+            console.log("====", req.body);
         
             let findUser = await userModel.findOne({ email: req.body.email, role: "0"});
+            console.log("+++++++++", findUser); 
         
             if (!findUser) {
                 findUser = await subadminModel.findOne({ email: req.body.email });

@@ -114,7 +114,6 @@
     </nav>
 
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
 <script>
   document.getElementById('logoutBtn').addEventListener('click', function (e) {
     e.preventDefault();
@@ -129,23 +128,25 @@
       cancelButtonText: 'No'
     }).then((result) => {
       if (result.isConfirmed) {
-        // First success popup
+        // Logout success popup with timer, no OK button
         Swal.fire({
           icon: 'success',
           title: 'You have been logged out successfully.',
-          confirmButtonText: 'OK',
+          showConfirmButton: false,
+          timer: 2000,
+          timerProgressBar: true,
           allowOutsideClick: false,
-          allowEscapeKey: false
-        }).then(() => {
-          // Wait 2 seconds then redirect
-          setTimeout(() => {
-            window.location.href = '/logout';  // This will destroy session and redirect to loginPage
-          }, 2000);
+          allowEscapeKey: false,
+          didClose: () => {
+            // Redirect to logout endpoint after timer ends
+            window.location.href = '/logout';
+          }
         });
       }
     });
   });
 </script>
+
 
       
 
