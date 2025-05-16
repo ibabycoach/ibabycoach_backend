@@ -173,10 +173,27 @@
     text-decoration: underline; 
 }
 
+#chatList:empty::before {
+  content: "No user found";
+  display: block;
+  text-align: center;
+  padding: 10px;
+  color: #999;
+}
+
+#no-user-msg {
+  display: none;
+  text-align: center;
+  padding: 10px;
+  color: black !important;
+  font-weight: bold;
+}
+
+
   </style>
 
   <script>
-    document.getElementById("chat-search").addEventListener("input", function () {
+   document.getElementById("chat-search").addEventListener("input", function () {
   const query = this.value.toLowerCase();
   const users = document.querySelectorAll("#chatList li:not(#no-user-msg)");
   let hasVisible = false;
@@ -191,7 +208,20 @@
     }
   });
 
-  document.getElementById("no-user-msg").style.display = hasVisible ? "none" : "block";
+  const noUserMsg = document.getElementById("no-user-msg");
+
+  if (query === "") {
+    // If search is empty, reset list and hide "No user found"
+    users.forEach(user => user.style.display = "");
+    noUserMsg.style.display = "none";
+  } else {
+    // Show "No user found" only if nothing matches
+    noUserMsg.style.display = hasVisible ? "none" : "block";
+  }
+
+  // Optional: Reset min-height to prevent ugly blank spaces
+  const chatList = document.getElementById("chatList");
+  chatList.style.minHeight = hasVisible ? "" : "auto";
 });
 
   </script>
@@ -222,8 +252,11 @@
 
     socket.on('chat_list', (data) => {
 
-      let chating = document.getElementById('chatList'); // to get the chat list (ul)
-      chating.innerHTML = "";
+      let chating = document.getElementById('chatList');
+
+// Keep the 'no-user-msg' element, clear only user list items
+chating.querySelectorAll('li:not(#no-user-msg)').forEach(el => el.remove());
+
       data.forEach(users => {
 
         let rId = users.receiver[0]._id == adminID ? users.sender[0]._id : users.receiver[0]._id;
@@ -293,34 +326,37 @@
     }
 
     // On Send Button
-    const sendMsg = () => {
-      let receiverId = document.getElementById('receiverId');
-      let receiver_id = receiverId.value;
+   const sendMsg = () => {
+  let receiverId = document.getElementById('receiverId');
+  let receiver_id = receiverId.value;
 
-      let msgText = document.getElementById('chatMsg');
-      msgText = msgText.value;
+  let msgInput = document.getElementById('chatMsg');
+  let msgText = msgInput.value.trim(); // ✨ Trim to remove spaces from start/end
 
-      socket.emit('send_message', {
-        sender_id: adminID,
-        receiver_id: receiver_id,
-        message: msgText,
-        type: 1
-      });
+  if (msgText === '') {
+    return; // ❌ Prevent sending empty/space-only messages
+  }
 
-      msgText = document.getElementById('chatMsg');
-      msgText.value = '';
+  socket.emit('send_message', {
+    sender_id: adminID,
+    receiver_id: receiver_id,
+    message: msgText,
+    type: 1
+  });
 
-      socket.emit('get_chat', {
-        sender_id: adminID,
-        receiver_id: receiver_id,
-      });
+  msgInput.value = '';
 
-      socket.emit('chat_list', {
-        sender_id: adminID
-      });
-      $('.user-chats').scrollTop($('.user-chats > .chats').height());
+  socket.emit('get_chat', {
+    sender_id: adminID,
+    receiver_id: receiver_id,
+  });
 
-    }
+  socket.emit('chat_list', {
+    sender_id: adminID
+  });
+
+  $('.user-chats').scrollTop($('.user-chats > .chats').height());
+}
 
     // user chat 
     socket.on('my_chat', (data) => {
