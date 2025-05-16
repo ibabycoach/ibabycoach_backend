@@ -49,11 +49,11 @@
                             <%=1+i%>
                           </td>
                           <td>
-                            <%=data.title%>
+                            <%= data.title.length > 20 ? data.title.slice(0, 20) + "..." : data.title %>
                           </td>
-                            <td>
-                              <%- data.description.length > 60 ? data.description.substring(0, 60) + "..." : data.description %>
-                            </td>
+                          <td>
+                            <%= data.description.length > 20 ? data.description.slice(0, 20) + "..." : data.description %>
+                          </td>
                           <td>
                             <a href="/edit_changelog/<%=data._id%>" class="btn btn-sm bg-warning">
                               <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-edit">
@@ -88,11 +88,12 @@
                           <td>
                             <%=1+i%>
                           </td>
+                      
                           <td>
-                            <%=data.title%>
+                            <%= data.title.length > 20 ? data.title.slice(0, 20) + "..." : data.title %>
                           </td>
                           <td>
-                            <%- data.description.length > 60 ? data.description.substring(0, 60) + "..." : data.description %>
+                            <%= data.description.length > 20 ? data.description.slice(0, 20) + "..." : data.description %>
                           </td>
                           <td>
                             <a href="/edit_changelog/<%=data._id%>" class="btn btn-sm bg-warning">

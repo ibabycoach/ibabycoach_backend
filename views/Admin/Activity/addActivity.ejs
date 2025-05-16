@@ -1,66 +1,16 @@
 <%- include('../common/header') %>
 <%- include('../common/sidebar') %>
   <style>
-    .switch {
+   
+    .jqval-error {
+      color: red;
+      font-size: 0.875rem;
+      margin-top: 5px;
       position: relative;
-      display: inline-block;
-      width: 50px;
-      height: 25px;
     }
     
-    .switch input { 
-      opacity: 0;
-      width: 0;
-      height: 0;
-    }
-    
-    .slider {
-      position: absolute;
-      cursor: pointer;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background-color: #ccc;
-      -webkit-transition: .4s;
-      transition: .4s;
-    }
-    
-    .slider:before {
-      position: absolute;
-      content: "";
-      height: 15px;
-      width: 15px;
-      left: 4px;
-      bottom: 4px;
-      background-color: white;
-      -webkit-transition: .4s;
-      transition: .4s;
-    }
-    
-    input:checked + .slider {
-      background-color: #2196F3;
-    }
-    
-    input:focus + .slider {
-      box-shadow: 0 0 1px #2196F3;
-    }
-    
-    input:checked + .slider:before {
-      -webkit-transform: translateX(26px);
-      -ms-transform: translateX(26px);
-      transform: translateX(26px);
-    }
-    
-    /* Rounded sliders */
-    .slider.round {
-      border-radius: 34px;
-    }
-    
-    .slider.round:before {
-      border-radius: 50%;
-    }
   </style>
+ 
 
 <!-- BEGIN: Content-->
 <div class="app-content content ">
@@ -74,8 +24,7 @@
                 <h4 class="card-title"> Add Activity</h4>
               </div>
               <div class="card-body" style="margin-top: 15px;" >
-                <form class="form form-vertical" action="/postActivity" method="POST" id="profile"
-                  enctype="multipart/form-data">
+                <form class="form form-vertical" action="/postActivity" id="validator" method="POST" enctype="multipart/form-data">
                   <div class="mb-1 row">
                     <div class="col-sm-2">
                       <label class="col-form-label new_lable" for="activity_name">Activity Name</label>
@@ -87,11 +36,8 @@
                         class="form-control" 
                         name="activity_name" 
                         placeholder="Enter activity name (alphabets only)" 
-                        pattern="[A-Za-z\s]+" 
-                        title="Special characters and numbers are not allowed"
                         value="" 
                         required>
-                      <div class="invalid-feedback">Special characters and numbers are not allowed</div>
                     </div>
                   </div>
                   <div class="mb-1 row">
@@ -171,36 +117,39 @@
 <div class="drag-target"></div>
 <%- include('../common/footer') %>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js"
-          integrity="sha512-37T7leoNS06R80c8Ulq7cdCDU5MNQBwlYoy1TX/WUsLFC2eYNqtKlV0QjH7r8JpG/S0GUMZwebnVFLPd6SU5yg=="
-          crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js"></script>
 
+          
 <script>
-  $(document).ready(function () {
-
-    jQuery.validator.addMethod("noSpace", function (value, element) {
+  $(document).ready(function() {
+    jQuery.validator.addMethod("noSpace", function(value, element) {
       return value == '' || value.trim().length != 0;
     }, "No space allowed");
 
-    $('#profile').validate({
+   
+    jQuery.validator.addMethod("validImage", function(value, element, param) {
+      return this.optional(element) || /\.(jpe?g|gif|png)$/i.test(value);
+    }, 'Only valid image files (JPEG, GIF, PNG) are allowed.');
+  
+    $('#validator').validate({
       rules: {
         activity_name: {
           required: true,
           noSpace: true,
-          maxlength: 60
+          maxlength: 30,
+          noSpecialChars: true
         },
-        phone: {
+        image:{
           required: true,
           noSpace: true,
-          minlength: 10,
-          maxlength: 15
+          maxlength: 50
         },
-
+   
       },
-
       errorElement: "div",
       errorClass: "jqval-error",
-      errorPlacement: function (error, element) {
+      errorPlacement: function(error, element) {
         error.insertAfter(element);
         error.slideDown(400);
         error.animate({
@@ -210,8 +159,7 @@
           duration: 700
         });
       },
-
-      submitHandler: function (form) {
+      submitHandler: function(form) {
         var error = $(".assign_error_div").text();
         if (!error) {
           form.submit();
@@ -220,109 +168,3 @@
     });
   });
 </script>
-
-<style>
-  /* Style for the checkbox */
-  .form-check-input[type="checkbox"] {
-    width: 20px;
-    height: 20px;
-    background-color: #ffffff; /* Dark color */
-    border: 1px solid #333; /* Same color as background initially */
-    border-radius: 4px;
-  }
-
-  /* Style for the checkbox when checked */
-  .form-check-input[type="checkbox"]:checked {
-    background-color: #204783; /* Darker color when checked */
-  }
-
-  /* Style for the label */
-  .form-check-label {
-    color: #333; /* Dark color */
-  }
-</style>
-
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<script>
-    $(document).ready(function() {
-        $('#is_amount, #is_duration').change(function() {
-            let data = {};
-            if (this.checked) {
-                data[this.id] = 1;
-            } else {
-                data[this.id] = 0; // You can also handle the uncheck event if needed
-            }
-
-            $.ajax({
-                type: 'POST',
-                url: '/save_switch_state',  // Your endpoint to save data
-                data: JSON.stringify(data),
-                contentType: 'application/json',
-                success: function(response) {
-                    console.log('Saved successfully');
-                },
-                error: function(error) {
-                    console.error('Error saving data', error);
-                }
-            });
-        });
-    });
-</script>
-
-<script>
- $(document).ready(function () {
-
-// Add a custom validation method to allow only alphabetic characters
-jQuery.validator.addMethod("alphabetOnly", function(value, element) {
-  return this.optional(element) || /^[a-zA-Z\s]+$/.test(value);
-}, "Name should contain alphabets only");
-
-jQuery.validator.addMethod("noSpace", function (value, element) {
-  return value == '' || value.trim().length != 0;
-}, "No space allowed");
-
-$('#profile').validate({
-  rules: {
-    activity_name: {
-      required: true,
-      noSpace: true,
-      alphabetOnly: true,
-      maxlength: 60
-    },
-    phone: {
-      required: true,
-      noSpace: true,
-      minlength: 10,
-      maxlength: 15
-    },
-  },
-  messages: {
-    activity_name: {
-      required: "This field is required",
-      alphabetOnly: "Name should contain alphabets only"
-    }
-  },
-
-  errorElement: "div",
-  errorClass: "jqval-error",
-  errorPlacement: function (error, element) {
-    error.insertAfter(element);
-    error.slideDown(400);
-    error.animate({
-      opacity: 1
-    }, {
-      queue: false,
-      duration: 700
-    });
-  },
-
-  submitHandler: function (form) {
-    var error = $(".assign_error_div").text();
-    if (!error) {
-      form.submit();
-    }
-  }
-});
-});
-</script>
-

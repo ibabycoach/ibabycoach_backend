@@ -55,6 +55,7 @@ module.exports = {
         try {
             const updatedata = await cmsModel.updateOne({ _id: req.body.id },
                 {role: req.body.role,
+                    title: req.body.title,
                   description: req.body.description,
                   version:req.body.version
                 });

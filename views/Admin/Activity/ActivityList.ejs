@@ -1,6 +1,15 @@
 <%- include('../common/header') %>
 <%- include('../common/sidebar') %>
 
+<style>
+  .truncate-text {
+  max-width: 100px; /* Adjust the width as needed */
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+</style>
+
   <div class="app-content content ">
     <div class="content-overlay"></div>
     <div class="header-navbar-shadow"></div>
@@ -33,7 +42,9 @@
                       <%activityData.forEach(function(data,i) {%>
                         <tr>
                           <td> <%=1+i%> </td>
-                          <td> <%=data.activity_name%> </td>
+                          <td class="truncate-text" title="<%= data.activity_name %>">
+                            <%= data.activity_name %>
+                          </td>
                           <td> <img src="<%= data?.image ? data?.image : '../app-assets/images/demouser.jpeg' %>" width="45px" height="40px"> </td>
                         
                           <td>
@@ -49,8 +60,6 @@
                           <%if(session.activity_permission == '3'){%>
                             <td>
                               
-                               
-                             
                                 <a href="/editActivity/<%= data._id %>" class="btn btn-sm bg-warning">
                                   <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-edit">
                                     <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
@@ -85,7 +94,9 @@
                       <%activityData.forEach(function(data,i) {%>
                         <tr>
                           <td> <%=1+i%> </td>
-                          <td> <%=data.activity_name%> </td>
+                          <td class="truncate-text" title="<%= data.activity_name %>">
+                            <%= data.activity_name %>
+                          </td>
                           <td>
                            
                               <img src="<%= data?.image ? data?.image : '../app-assets/images/demouser.jpeg' %>" width="45px" height="40px" alt="image">
