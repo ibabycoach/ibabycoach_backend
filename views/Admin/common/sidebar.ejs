@@ -17,7 +17,7 @@
   <div class="main-menu-content">
     <ul class="navigation navigation-main" id="main-menu-navigation" data-menu="menu-navigation">
    <% if (session.role == '3') {%>
-      <li class="nav-item <%= title =='dashboard'?'active':'' %>"><a class="d-flex align-items-center" href="/dashboard"><i data-feather="home"></i><span class="menu-title text-truncate" data-i18n="Email">Dashboards</span></a>
+      <li class="nav-item <%= title =='dashboard'?'active':'' %>"><a class="d-flex align-items-center" href="/dashboard"><i data-feather="home"></i><span class="menu-title text-truncate" data-i18n="Email">Dashboard</span></a>
       </li>
       <li class="nav-item <%= title =='userList'?'active':'' %> "><a class="d-flex align-items-center" href="/userList"><i data-feather="user"></i><span class="menu-title text-truncate" data-i18n="Chat">User</span></a>
       </li>
@@ -72,7 +72,7 @@
       
     <%}else{%>
       
-      <li class="nav-item <%= title =='dashboard'?'active':'' %>"><a class="d-flex align-items-center" href="/dashboard"><i data-feather="home"></i><span class="menu-title text-truncate" data-i18n="Email">Dashboards</span></a>
+      <li class="nav-item <%= title =='dashboard'?'active':'' %>"><a class="d-flex align-items-center" href="/dashboard"><i data-feather="home"></i><span class="menu-title text-truncate" data-i18n="Email">Dashboard</span></a>
       </li>
       <li class="nav-item <%= title =='sub_admin_list'?'active':'' %>"><a class="d-flex align-items-center" href="/sub_admin_list">
         <svg version="1.1" baseProfile="tiny" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"

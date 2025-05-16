@@ -42,6 +42,17 @@
 </div>
 <% } %>
 
+<% if(msg !='' ) { %>
+    <script>
+        Swal.fire({
+            icon: 'success',
+            title: '<%= msg %>',
+            showConfirmButton: false,
+            timer: 2000
+        });
+    </script>
+<% } %>
+
 <style>
   .error {
     color: red !important;

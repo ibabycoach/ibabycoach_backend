@@ -38,7 +38,7 @@
                       <div class="col-sm-8 position-relative">
                         <input id="password" type="password" class="form-control pwstrength pr-5" 
                               style="padding-right: 45px;" 
-                              data-indicator="pwindicator" name="password" placeholder="Password" required>
+                              data-indicator="pwindicator" name="password" placeholder="Password" required minlength="6">
                           
                         <!-- Eye icon -->
                         <span class="position-absolute" style="top: 50%; right: 30px; transform: translateY(-50%); cursor: pointer;" id="togglePassword">
@@ -310,13 +310,17 @@ $(document).ready(function() {
         required: true,
         noSpace: true,
         maxlength: 40,
-        noSpecialChars: true // Add the special character validation rule
+        onlyLetters: true
       },
       email: {
         required: true,
         noSpace: true,
         maxlength: 40
       },
+       password: {
+      required: true,
+      minlength: 6
+    },
       country_code: {
         required: true,
         noSpace: true,
@@ -406,20 +410,27 @@ $(document).ready(function() {
 </script>
 
 <script>
-  document.getElementById("add_validator").addEventListener("submit", function (e) {
-    const nameInput = document.getElementById("name").value.trim();
+document.getElementById("add_validator").addEventListener("submit", function (e) {
+  const nameInput = document.getElementById("name").value.trim();
 
-    // Allow only letters, numbers, and spaces
-    const validNamePattern = /^[a-zA-Z0-9 ]+$/;
+  // Allow only alphabets and spaces
+  const validNamePattern = /^[a-zA-Z ]+$/;
 
-    if (!validNamePattern.test(nameInput)) {
-      e.preventDefault(); // stop form
-      // Trigger native "required" style alert
-      document.getElementById("name").setCustomValidity("Special characters are not allowed.");
-      document.getElementById("name").reportValidity();
-    } else {
-      document.getElementById("name").setCustomValidity(""); // reset validity
-    }
-  });
+  if (!validNamePattern.test(nameInput)) {
+    e.preventDefault(); // stop form submission
+    document.getElementById("name").setCustomValidity("Only alphabets and spaces are allowed.");
+    document.getElementById("name").reportValidity();
+  } else {
+    document.getElementById("name").setCustomValidity(""); // reset validity
+  }
+});
+
+</script>
+
+<script>
+  jQuery.validator.addMethod("onlyLetters", function(value, element) {
+  return this.optional(element) || /^[a-zA-Z ]+$/.test(value);
+}, "No numeric value or special characters allowed");
+
 </script>
 

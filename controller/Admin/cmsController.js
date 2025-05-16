@@ -12,6 +12,8 @@ module.exports = {
                 version: req.body.version,
                 role: 4
             })
+                    req.flash('success', 'Log added successfully');
+
             res.redirect("/changelog_list");
             // return helper.success(res, "CMS added successfully")
         } catch (error) {
@@ -56,7 +58,9 @@ module.exports = {
                   description: req.body.description,
                   version:req.body.version
                 });
-            res.redirect("back")
+                req.flash('success', 'Log edited successfully');
+
+            res.redirect("/changelog_list")
         } catch (error) {
             console.log(error)
         }

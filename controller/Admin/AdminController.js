@@ -301,14 +301,19 @@ module.exports = {
         }
     },
 
-    logout: async (req, res) => {
-        try {
-            req.session.destroy((err) => { });
-            res.redirect("/loginPage");
-        } catch (error) {
-            helper.error(res, error);
-        }
-    },
+logout: async (req, res) => {
+  try {
+    req.session.destroy((err) => {
+      if (err) {
+        console.log(err);
+        return res.redirect('/'); // or handle error page
+      }
+      res.redirect("/loginPage");
+    });
+  } catch (error) {
+    helper.error(res, error);
+  }
+},
 
     errorPage: async(req, res) => {
         try {

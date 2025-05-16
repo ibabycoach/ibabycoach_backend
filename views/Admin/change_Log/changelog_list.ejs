@@ -1,6 +1,21 @@
 <%- include('../common/header') %>
   <%- include('../common/sidebar') %>
 
+  <% if (locals.success) { %>
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <%= success %>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+<% } %>
+
+<% if (locals.error) { %>
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <%= error %>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+<% } %>
+
+
   <!-- BEGIN: Content-->
   <div class="app-content content ">
     <div class="content-overlay"></div>
