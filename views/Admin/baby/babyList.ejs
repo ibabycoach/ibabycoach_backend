@@ -96,7 +96,6 @@
         });
 
         function confirmDelete(id) {
-          console.log(">>>>>>>>done>>>>>>>>>>", id)
 
           const swalWithBootstrapButtons = Swal.mixin({
             customClass: {
@@ -132,7 +131,7 @@
               });
               swalWithBootstrapButtons.fire(
                 'Deleted!',
-                'The user has been deleted .',
+                'The baby details has been deleted .',
                 'success'
               ).then(() => {
                 location.reload();
@@ -140,7 +139,7 @@
             } else {
               swalWithBootstrapButtons.fire(
                 'Cancelled',
-                'The user is safe :)',
+                'Baby details are safe :)',
                 'error'
               )
             }

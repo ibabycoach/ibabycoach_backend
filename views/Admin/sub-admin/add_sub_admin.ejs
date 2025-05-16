@@ -13,7 +13,7 @@
                 <h4 class="card-title">Add Sub-Admin</h4>
               </div>
               <div class="card-body">
-                <form class="form form-vertical" id="add_validator" action="/create_sub_admin" method="POST" enctype="multipart/form-data">
+                <form class="form form-vertical" id="validator" action="/create_sub_admin" method="POST" enctype="multipart/form-data">
                   <div class="row" style="margin-top: 12px;" >
                     <div class="mb-1 row">
                       <div class="col-sm-2">
@@ -407,6 +407,68 @@ $(document).ready(function() {
   });
 });
 
+</script>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js"></script>
+
+          
+<script>
+  $(document).ready(function() {
+    jQuery.validator.addMethod("noSpace", function(value, element) {
+      return value == '' || value.trim().length != 0;
+    }, "No space allowed");
+
+   
+    jQuery.validator.addMethod("validImage", function(value, element, param) {
+      return this.optional(element) || /\.(jpe?g|gif|png)$/i.test(value);
+    }, 'Only valid image files (JPEG, GIF, PNG) are allowed.');
+  
+    $('#validator').validate({
+      rules: {
+        name: {
+          required: true,
+          noSpace: true,
+          maxlength: 30,
+          noSpecialChars: true
+        },
+        email:{
+            required: true,
+          noSpace: true,
+        //   maxlength: 30,
+          noSpecialChars: true
+        },
+        password: {
+            required: true,
+          noSpace: true,
+          maxlength: 30,
+          noSpecialChars: true
+        },
+        image: {
+            required: true
+        }
+   
+      },
+      errorElement: "div",
+      errorClass: "jqval-error",
+      errorPlacement: function(error, element) {
+        error.insertAfter(element);
+        error.slideDown(400);
+        error.animate({
+          opacity: 1
+        }, {
+          queue: false,
+          duration: 700
+        });
+      },
+      submitHandler: function(form) {
+        var error = $(".assign_error_div").text();
+        if (!error) {
+          form.submit();
+        }
+      }
+    });
+  });
 </script>
 
 <script>
