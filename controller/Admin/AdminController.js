@@ -21,11 +21,8 @@ module.exports = {
 
     login: async (req, res) => {
         try {
-
-            console.log("====", req.body);
         
             let findUser = await userModel.findOne({ email: req.body.email, role: "0"});
-            console.log("+++++++++", findUser); 
         
             if (!findUser) {
                 findUser = await subadminModel.findOne({ email: req.body.email });
@@ -47,7 +44,7 @@ module.exports = {
                         {device_token: req.body.deviceToken}
                     )
 
-                    req.flash('msg', 'Login successfully');
+                    req.flash('msg', 'Logged in successfully');
                     res.redirect("/dashboard")
                 } else {
                     console.log("incorrect password")
@@ -289,13 +286,13 @@ module.exports = {
                         { _id: data._id },
                         { password: bcryptPassword }
                     );
-                    req.session.user = create;
+                    // req.session.user = create;
                       req.flash('msg', 'Password updated successfully')
-                    res.redirect("/loginPage");
+                    res.redirect("back");
                     // res.json("updated successfully")
                 } else {
                       req.flash('msg', 'Invalid old password')
-                    res.redirect("/changePassword");
+                    res.redirect("/profile");
                     // res.json("Old password do not match")
                 }
             }
@@ -304,19 +301,19 @@ module.exports = {
         }
     },
 
-logout: async (req, res) => {
-  try {
-    req.session.destroy((err) => {
-      if (err) {
-        console.log(err);
-        return res.redirect('/'); // or handle error page
-      }
-      res.redirect("/loginPage");
-    });
-  } catch (error) {
-    helper.error(res, error);
-  }
-},
+    logout: async (req, res) => {
+    try {
+        req.session.destroy((err) => {
+        if (err) {
+            console.log(err);
+            return res.redirect('/'); // or handle error page
+        }
+        res.redirect("/loginPage");
+        });
+    } catch (error) {
+        helper.error(res, error);
+    }
+    },
 
     errorPage: async(req, res) => {
         try {

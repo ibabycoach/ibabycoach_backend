@@ -36,6 +36,7 @@ module.exports = {
                 }
             }
              else {
+
                 await notificationModel.create({
                     message: req.body.message,
                     receiverId: req.body.users,
@@ -44,6 +45,9 @@ module.exports = {
                 var findUsers = await userModel.findOne({_id: req.body.users});
                 newArr.push(findUsers);
             }
+
+                req.flash('msg', 'Push notification sent');
+                res.redirect('/push-notification');
                 
             for(const j in newArr){
                 var payLoad = {
@@ -54,9 +58,8 @@ module.exports = {
                   };
                   await helper.send_push_notificationsAdmin(payLoad);
                 }
-            req.flash('msg', 'Push notification sent');
-            res.redirect('/push-notification');
-
+          
+            return
         } catch (error) {
             console.log(error);
             res.status(500).send('Internal server error');
@@ -86,6 +89,6 @@ module.exports = {
             } catch (error) {
             console.log(error)
             }
-        },
+    },
 
 }

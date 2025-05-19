@@ -106,8 +106,6 @@
 
           })
 
-          // console.log("------------------------------result------", id);
-
           swalWithBootstrapButtons.fire({
             title: 'Are you sure?',
             text: "You won't be able to revert this!",
@@ -131,7 +129,7 @@
               });
               swalWithBootstrapButtons.fire(
                 'Deleted!',
-                'The baby details has been deleted .',
+                'Baby details has been deleted .',
                 'success'
               ).then(() => {
                 location.reload();
@@ -139,7 +137,7 @@
             } else {
               swalWithBootstrapButtons.fire(
                 'Cancelled',
-                'Baby details are safe :)',
+                'Baby detail is safe :)',
                 'error'
               )
             }

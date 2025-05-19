@@ -86,6 +86,7 @@ module.exports = {
         { _id: req.body.id },
         { ...req.body }
       );
+      req.flash("msg", "Details updated successfully");
       res.redirect("/sub_admin_list");
     } catch (error) {
       console.log(error);
