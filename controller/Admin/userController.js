@@ -4,6 +4,13 @@ const subadminModel = require("../../model/Admin/subAdmin_permissions");
 const activityModel = require('../../model/Admin/activity');
 const helper = require('../../Helper/helper')
 const bcrypt = require('bcrypt')
+var fs = require("fs")
+var path = require("path");
+var ejs = require("ejs")
+const { ReadableStream } = require('web-streams-polyfill');
+global.ReadableStream = ReadableStream;
+const puppeteer = require('puppeteer');
+
 
 module.exports = {
     
@@ -170,7 +177,58 @@ module.exports = {
         } catch (error) {
             
         }
-    }
+    },
+
+
+    getPdfData: async (req, res) => {
+        try {
+            
+            const baseUrl = `${req.protocol}://${req.get('host')}`;
+
+            const userlist = await userModel.find({ deleted: false,  });
+
+            if (!userlist) {
+                return res.status(404).send("User not found");
+            }
+
+            const filePath = path.join(__dirname, '../../views/admin/pdffile.ejs');
+
+            const html = await fs.promises.readFile(filePath, 'utf8');
+
+            const content = ejs.render(html, {
+                userdata: userlist,
+                baseUrl: baseUrl
+            });
+
+            const browser = await puppeteer.launch({ headless: false, args: ['--no-sandbox', '--disable-setuid-sandbox'] });
+            const page = await browser.newPage();
+            await page.setViewport({ width: 1280, height: 800 }); // Set viewport size
+            await page.setContent(content, { waitUntil: 'networkidle0' });
+            await page.waitForTimeout(1000);
+
+            const pdfBuffer = await page.pdf({
+                format: 'A4',
+                printBackground: true,
+                margin: { top: '20mm', right: '20mm', bottom: '20mm', left: '20mm' }
+            });
+            await browser.close();
+
+            // Save PDF locally for debugging
+            await fs.promises.writeFile('debug_output.pdf', pdfBuffer); // Debug output file
+
+            res.setHeader('Content-Disposition', 'attachment; filename="userdata.pdf"');
+            res.setHeader('Content-Type', 'application/pdf');
+            res.setHeader('Content-Length', pdfBuffer.length);
+            res.send(pdfBuffer);
+
+        } catch (error) {
+            console.error("Error generating PDF:", error.stack); // Log stack trace for better debugging
+            // req.flash('success', 'Pdf Fetched')
+            res.redirect("back")
+        }
+    },
+
+   
 
 
 }

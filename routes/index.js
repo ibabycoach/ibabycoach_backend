@@ -58,6 +58,8 @@ router.post('/updateUser', userController.updateUser)
 router.delete('/deleteUser/:id', userController.deleteUser)
 router.post('/userStatus', userController.userStatus)
 router.get('/subAdmin_user_list', userController.subAdmin_user_list)
+router.get('/getPdfData', userController.getPdfData)
+
 
  //***************SUBUSER ****************************
  router.get('/subuser_List', subuserController.subuser_List)
