@@ -183,7 +183,7 @@ module.exports = {
     getPdfData: async (req, res) => {
         try {
             
-            const userlist = await userModel.find({ deleted: false,  });
+            const userlist = await userModel.find({ deleted: false, role:1  });
             
            const doc = new PDFDocument({ margin: 30, size: "A4", layout: "landscape" });
  
