@@ -76,7 +76,7 @@
     $(document).ready(function () {
       $('.table').DataTable(); // Initialize DataTable for all tables with the 'table' class
     });
-  </script>
+</script>
 
 <script>
     $(document).ready(function () {
@@ -84,7 +84,6 @@
     });
 
     function confirmDelete(id) {
-      console.log(">>>>>>>>done>>>>>>>>>>", id)
 
       const swalWithBootstrapButtons = Swal.mixin({
         customClass: {
@@ -118,7 +117,7 @@
           });
           swalWithBootstrapButtons.fire(
             'Deleted!',
-            'The user history has been deleted .',
+            'Notification history has been deleted .',
             'success'
           ).then(() => {
             location.reload();
@@ -126,16 +125,16 @@
         } else {
           swalWithBootstrapButtons.fire(
             'Cancelled',
-            'The user history is safe :)',
+            'Notification history is safe :)',
             'error'
           )
         }
       })
 
     }
-  </script>
+</script>
 
-  <script>
+<script>
     function goBackWithReload() {
         history.back();
         // Reload the previous page after going back (slight delay to ensure it triggers)

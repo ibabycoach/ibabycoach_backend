@@ -162,6 +162,10 @@ $(document).ready(function() {
     return value !== "" && value !== null;
   }, "Please select an option.");
   
+   jQuery.validator.addMethod("noSpace", function (value, element) {
+      return value == '' || value.trim().length != 0;
+    }, "No space allowed");
+    
   // Add method to check if end duration is greater than or equal to start duration
   jQuery.validator.addMethod("endGreaterThanStart", function(value, element) {
     var startDuration = parseInt($("#start_duration").val());
@@ -178,8 +182,9 @@ $(document).ready(function() {
     rules: {
       title: {
         required: true,
-        alphanumeric: true, // Only alphabets and numbers, no spaces or special chars
-        maxlength: 50
+        alphanumeric: false, // Only alphabets and numbers, no spaces or special chars
+        maxlength: 50,
+        noSpace: true
       },
       start_duration: {
         required: true,

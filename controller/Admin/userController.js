@@ -10,6 +10,7 @@ var ejs = require("ejs")
 const { ReadableStream } = require('web-streams-polyfill');
 global.ReadableStream = ReadableStream;
 const puppeteer = require('puppeteer');
+const PDFDocument = require("pdfkit");
 
 
 module.exports = {
@@ -179,56 +180,75 @@ module.exports = {
         }
     },
 
-
     getPdfData: async (req, res) => {
         try {
             
-            const baseUrl = `${req.protocol}://${req.get('host')}`;
-
             const userlist = await userModel.find({ deleted: false,  });
-
-            if (!userlist) {
-                return res.status(404).send("User not found");
-            }
-
-            const filePath = path.join(__dirname, '../../views/admin/pdffile.ejs');
-
-            const html = await fs.promises.readFile(filePath, 'utf8');
-
-            const content = ejs.render(html, {
-                userdata: userlist,
-                baseUrl: baseUrl
-            });
-
-            const browser = await puppeteer.launch({ headless: false, args: ['--no-sandbox', '--disable-setuid-sandbox'] });
-            const page = await browser.newPage();
-            await page.setViewport({ width: 1280, height: 800 }); // Set viewport size
-            await page.setContent(content, { waitUntil: 'networkidle0' });
-            await page.waitForTimeout(1000);
-
-            const pdfBuffer = await page.pdf({
-                format: 'A4',
-                printBackground: true,
-                margin: { top: '20mm', right: '20mm', bottom: '20mm', left: '20mm' }
-            });
-            await browser.close();
-
-            // Save PDF locally for debugging
-            await fs.promises.writeFile('debug_output.pdf', pdfBuffer); // Debug output file
-
-            res.setHeader('Content-Disposition', 'attachment; filename="userdata.pdf"');
-            res.setHeader('Content-Type', 'application/pdf');
-            res.setHeader('Content-Length', pdfBuffer.length);
-            res.send(pdfBuffer);
-
+            
+           const doc = new PDFDocument({ margin: 30, size: "A4", layout: "landscape" });
+ 
+                res.setHeader("Content-Disposition", 'attachment; filename="users.pdf"');
+                res.setHeader("Content-Type", "application/pdf");
+ 
+                doc.pipe(res);
+ 
+                doc.fontSize(15).text("Users List", { align: "center" }).moveDown(1);
+ 
+                const tableTop = 100;
+                const columnWidths = [50, 200, 300, 120, 120];
+                const totalWidth = columnWidths.reduce((sum, width) => sum + width, 50);
+                const rowHeight = 25;
+                const headers = ["S.No", "Full Name", "Email", "Phone", "Created At"];
+ 
+                function drawTableHeaders(yPos) {
+                    let xPos = 50;
+                    // doc.font("Helvetica-Bold");
+                    headers.forEach((header, index) => {
+                        doc.text(header, xPos, yPos, { width: columnWidths[index], align: "center" });
+                        xPos += columnWidths[index];
+                    });
+                    doc.moveTo(50, yPos + 15).lineTo(totalWidth, yPos + 15).stroke();
+                }
+ 
+                drawTableHeaders(tableTop);
+                let yPos = tableTop + rowHeight;
+ 
+                doc.font("Helvetica");
+ 
+                userlist.forEach((user, index) => {
+                    if (yPos + rowHeight > 550) {
+                        doc.addPage();
+                        yPos = 100;
+                        drawTableHeaders(yPos);
+                        yPos += rowHeight;
+                    }
+ 
+                    let xPos = 50;
+                    const row = [
+                        index + 1,
+                        user.name,
+                        user.email.length > 20 ? user.email.substring(0, 20) + "..." : user.email,
+                        user.phone || "N/A",
+                        user.createdAt.toISOString().split("T")[0],
+                        // user.status || "N/A"
+                    ];
+ 
+ 
+                    row.forEach((text, colIndex) => {
+                        doc.text(text.toString(), xPos, yPos, { width: columnWidths[colIndex], align: "center" });
+                        xPos += columnWidths[colIndex];
+                    });
+ 
+                    yPos += rowHeight;
+                    doc.moveTo(50, yPos - 5).lineTo(totalWidth, yPos - 5).stroke();
+                });
+ 
+                doc.end();
         } catch (error) {
             console.error("Error generating PDF:", error.stack); // Log stack trace for better debugging
             // req.flash('success', 'Pdf Fetched')
             res.redirect("back")
         }
     },
-
-   
-
 
 }
