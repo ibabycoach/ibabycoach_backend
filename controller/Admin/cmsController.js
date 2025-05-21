@@ -59,9 +59,9 @@ module.exports = {
                   description: req.body.description,
                   version:req.body.version
                 });
-                req.flash('success', 'Log edited successfully');
+                req.flash('success', 'Details updated successfully');
 
-            res.redirect("/changelog_list")
+            res.redirect("back")
         } catch (error) {
             console.log(error)
         }

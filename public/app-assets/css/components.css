@@ -648,7 +648,8 @@ footer.footer-border {
 
 .main-menu.menu-light .navigation li a {
   color: #625f6e;
-  padding: 10px 15px 10px 15px;
+  padding: 8px 13px 7px 12px;
+  /* padding: 10px 15px 10px 15px; */
   line-height: 1.45;
 }
 

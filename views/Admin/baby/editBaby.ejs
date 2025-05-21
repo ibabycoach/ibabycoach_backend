@@ -65,7 +65,7 @@
                 </div>
                 <br>
                 <div class="card-body">
-                  <form class="form form-horizontal" action="/updatebaby" method="POST" id="profile" enctype="multipart/form-data">
+                  <form class="form form-horizontal" action="/updatebaby" method="POST" id="validator" enctype="multipart/form-data">
                     <div class="row">
                       <div class="col-4">
                         <div class="profile-widget-header text-center">
@@ -89,7 +89,7 @@
                         </div>
                         <div class="mb-1 row">
                           <div class="col-sm-2">
-                            <label class="col-form-label new_lable" for="mobile">gender</label>
+                            <label class="col-form-label new_lable" for="mobile">Gender</label>
                           </div>
                           <div class="col-sm-10">
                             <select id="gender" class="form-control" name="gender">
@@ -127,34 +127,32 @@
 
   <%- include('../common/footer'); -%>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js" integrity="sha512-37T7leoNS06R80c8Ulq7cdCDU5MNQBwlYoy1TX/WUsLFC2eYNqtKlV0QjH7r8JpG/S0GUMZwebnVFLPd6SU5yg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js"></script>
 
+          
 <script>
   $(document).ready(function() {
-
     jQuery.validator.addMethod("noSpace", function(value, element) {
       return value == '' || value.trim().length != 0;
-    }, "No space please and don't leave it empty");
+    }, "No space allowed");
 
-    $('#profile').validate({
+   
+    jQuery.validator.addMethod("validImage", function(value, element, param) {
+      return this.optional(element) || /\.(jpe?g|gif|png)$/i.test(value);
+    }, 'Only valid image files (JPEG, GIF, PNG) are allowed.');
+  
+    $('#validator').validate({
       rules: {
-        name: {
+        baby_name: {
           required: true,
           noSpace: true,
-          maxlength: 60
+          maxlength: 30,
+          noSpecialChars: true
         },
-        mobile: {
-          required: true,
-          noSpace: true,
-          maxlength: 15
-        },
-
-        location: {
-          required: true,
-          noSpace: true
-        }
+     
+   
       },
-
       errorElement: "div",
       errorClass: "jqval-error",
       errorPlacement: function(error, element) {
@@ -167,7 +165,6 @@
           duration: 700
         });
       },
-
       submitHandler: function(form) {
         var error = $(".assign_error_div").text();
         if (!error) {
@@ -177,6 +174,7 @@
     });
   });
 </script>
+
 
 <script>
   $(window).on('load', function() {
@@ -198,6 +196,7 @@
     }
   }
 </script>
+
 <script>
   document.addEventListener("DOMContentLoaded", function () {
     const birthdayInput = document.getElementById("birthday");
