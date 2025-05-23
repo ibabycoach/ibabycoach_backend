@@ -20,7 +20,7 @@
                       <div class="row">
                         <div class="col-md-4">
                           <div class="profile-widget-header text-center">
-                            <img src="<%= userdetails?.image %>" class="img-thumbnail user_bigimg ms-md-0 mx-auto">
+                            <img src="<%= userdetails?.image ? userdetails?.image : '/app-assets/demouser.jpeg' %>" class="img-thumbnail user_bigimg ms-md-0 mx-auto">
                           </div>
                         </div>
                         <div class="col-md-8" style="margin-top: 10px;">

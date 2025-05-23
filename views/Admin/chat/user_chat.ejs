@@ -28,7 +28,9 @@
   white-space: pre-wrap;  /* Preserve whitespace but allow line breaks */
   word-break: break-word; /* Breaks long words without spaces */
 }
-
+small, .small {
+    font-size: 10px;
+}
   </style>
 
 <body class="vertical-layout vertical-menu-modern content-left-sidebar navbar-floating footer-static  " data-open="click" data-menu="vertical-menu-modern" data-col="content-left-sidebar">
@@ -369,11 +371,12 @@
           <div class="chat-body">
             <div class="chat-content">
               <p>${d.message}</p>
+               <div class="chat-meta text-nowrap mt-25">
+                <small class="chat-time">${formatTimestamp(d.createdAt)}</small>
+              </div>
             </div>
           </div>
-          <div class="chat-meta text-nowrap">
-            <small class="float-end chat-time">${formatTimestamp(d.createdAt)}</small>
-          </div>
+         
         </div>
       `;
     } else {
@@ -389,10 +392,10 @@
           <div class="chat-body">
             <div class="chat-content">
               <p>${d.message}</p>
+               <div class="chat-meta text-nowrap mt-25">
+                <small class="chat-time">${formatTimestamp(d.createdAt)}</small>
+              </div>
             </div>
-          </div>
-          <div class="chat-meta text-nowrap">
-            <small class="float-start chat-time">${formatTimestamp(d.createdAt)}</small>
           </div>
         </div>
       `;
@@ -435,12 +438,23 @@
 
     // To convert createdAT  to show the readable real-time 
     function formatTimestamp(timestamp) {
-      const date = new Date(timestamp);
-      return date.toLocaleTimeString('en-US', {
-        hour: 'numeric',
-        minute: 'numeric'
-      });
-    }
+  const date = new Date(timestamp);
+  return date.toLocaleString('en-US', {
+    // year: 'numeric',
+    month: 'short',  // or 'long' for full month name
+    day: 'numeric',
+    hour: 'numeric',
+    minute: 'numeric',
+    hour12: true
+  });
+}
+    // function formatTimestamp(timestamp) {
+    //   const date = new Date(timestamp);
+    //   return date.toLocaleTimeString('en-US', {
+    //     hour: 'numeric',
+    //     minute: 'numeric'
+    //   });
+    // }
 
 
     //user redirect to the view profile on the click on profile imkage

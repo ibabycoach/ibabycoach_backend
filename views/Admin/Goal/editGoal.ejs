@@ -36,7 +36,7 @@
 
                         <div class="col-md-4">
                           <div class="profile-widget-header text-center">
-                            <img src="<%= Goaldetail.image %>" id="output2" alt=" " class="ms-md-0 mx-auto img-thumbnail user_bigimg">
+                            <img src="<%= Goaldetail.image ? Goaldetail.image : '/app-assets/demouser.jpeg' %>" id="output2" alt=" " class="ms-md-0 mx-auto img-thumbnail user_bigimg">
                         
                             <!-- Custom file input -->
                             <label for="imgInp" class="custom-file-upload">Choose Photo</label>

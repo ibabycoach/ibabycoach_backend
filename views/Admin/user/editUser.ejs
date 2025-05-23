@@ -69,7 +69,7 @@
                     <div class="row">
                       <div class="col-4">
                         <div class="profile-widget-header text-center">
-                          <img src="<%=updatedata?.image%>" alt="Image" class="img-thumbnail" name="profile_image" id="profile_image">
+                          <img src="<%=updatedata?.image ? updatedata?.image : '/app-assets/demouser.jpeg'%>" alt="Image" class="img-thumbnail" name="profile_image" id="profile_image">
                           <input type="file" id="imgInp" name="image" />
                           <label for="imgInp" style="cursor: pointer;">
                             <i class="fe fe-24 camera_icon" data-feather='edit'></i>
