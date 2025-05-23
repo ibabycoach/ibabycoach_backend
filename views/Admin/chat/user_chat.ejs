@@ -1,6 +1,36 @@
 <%- include('../common/header') %>
 <%- include('../common/sidebar') %>
 
+ <style>
+    .chat-list-title {
+    font-weight: bold; 
+    color: black !important;   
+    text-align: center;
+    text-decoration: underline; 
+}
+
+#chatList:empty::before {
+  content: "No user found";
+  display: block;
+  text-align: center;
+  padding: 10px;
+  color: #999;
+}
+#no-user-msg {
+  display: none;
+  text-align: center;
+  padding: 10px;
+  color: black !important;
+  font-weight: bold;
+}
+.chat-content p {
+  word-wrap: break-word; /* Ensures long words break */
+  white-space: pre-wrap;  /* Preserve whitespace but allow line breaks */
+  word-break: break-word; /* Breaks long words without spaces */
+}
+
+  </style>
+
 <body class="vertical-layout vertical-menu-modern content-left-sidebar navbar-floating footer-static  " data-open="click" data-menu="vertical-menu-modern" data-col="content-left-sidebar">
   <input type="hidden" name="adminId" value=" ">
 
@@ -11,27 +41,13 @@
     <div class="content-area-wrapper container-xxl p-0">
       <div class="sidebar-left">
         <div class="sidebar">
-          <!-- Admin user profile area -->
-          <!-- <div class="chat-profile-sidebar">
-            <header class="chat-profile-header">
-              <span class="close-icon">
-                <i data-feather="x"></i>
-              </span>
-            </header>
-          </div> -->
-          <!--/ Admin user profile area -->
-          <!-- Chat Sidebar area -->
           <div class="sidebar-content">
-            <!-- <span class="sidebar-close-icon">
-              <i data-feather="x"></i>
-            </span> -->
-            <!-- Sidebar header start -->
             <div class="chat-fixed-search">
               <div class="d-flex align-items-center w-100">
                 <div class="sidebar-profile-toggle">
                   <div class="avatar avatar-border">
                     <% if (!session.image || session.image === '') { %>
-                      <img src="/app-assets/images.jpg" alt="default image" height="45" width="45" style="cursor: default;" aria-readonly="true" />
+                      <img src="/app-assets/demouser.jpeg" alt="default image" height="45" width="45" style="cursor: default;" aria-readonly="true" />
                     <% } else { %>
                       <img src="<%= session.image %>" alt="user_avatar" height="45" width="45" style="cursor: default;" aria-readonly="true" />
                     <% } %>
@@ -39,17 +55,14 @@
                 </div>
                 <div class="input-group input-group-merge ms-1 w-100">
                   <span class="input-group-text round"><i data-feather="search" class="text-muted"></i></span>
-                  <!-- <input type="search" name="search" id="search" class="form-control round" placeholder="Search"> -->
                   <input type="text" class="form-control round" onkeyup="filterUsers(this.value)" placeholder="Search users...">
-
-                  <!-- <input type="text" class="form-control round" id="chat-search" placeholder="Search or start a new chat" aria-label="Search..." aria-describedby="chat-search" /> -->
                 </div>
               </div>
             </div>
           
             <input type="hidden" name="adminId" id="adminId" value="<%= adminId %>">
             <div id="users-list" class="chat-user-list-wrapper list-group">
-              <h4 class="chat-list-title">Chats</h4>
+              <!-- <h4 class="chat-list-title">Chats</h4> -->
 
             <!-- Add this div to show "No user found" message -->
             <div id="no-user-message" style="display: none; text-align: center; color: rgb(244, 41, 41);">
@@ -167,66 +180,7 @@
   <script src="/app-assets/js/scripts/pages/app-chat.js"></script>
   <!-- END: Page JS-->
 
-  <style>
-    .chat-list-title {
-    font-weight: bold; 
-    color: black !important;   
-    text-align: center;
-    text-decoration: underline; 
-}
-
-#chatList:empty::before {
-  content: "No user found";
-  display: block;
-  text-align: center;
-  padding: 10px;
-  color: #999;
-}
-
-#no-user-msg {
-  display: none;
-  text-align: center;
-  padding: 10px;
-  color: black !important;
-  font-weight: bold;
-}
-
-
-  </style>
-
-  <script>
-   document.getElementById("chat-search").addEventListener("input", function () {
-  const query = this.value.toLowerCase();
-  const users = document.querySelectorAll("#chatList li:not(#no-user-msg)");
-  let hasVisible = false;
-
-  users.forEach(user => {
-    const name = user.querySelector("h5")?.innerText.toLowerCase() || "";
-    if (name.includes(query)) {
-      user.style.display = "";
-      hasVisible = true;
-    } else {
-      user.style.display = "none";
-    }
-  });
-
-  const noUserMsg = document.getElementById("no-user-msg");
-
-  if (query === "") {
-    // If search is empty, reset list and hide "No user found"
-    users.forEach(user => user.style.display = "");
-    noUserMsg.style.display = "none";
-  } else {
-    // Show "No user found" only if nothing matches
-    noUserMsg.style.display = hasVisible ? "none" : "block";
-  }
-
-  // Optional: Reset min-height to prevent ugly blank spaces
-  const chatList = document.getElementById("chatList");
-  chatList.style.minHeight = hasVisible ? "" : "auto";
-});
-
-  </script>
+ 
 
   <script>
     $(window).on('load', function() {
@@ -256,20 +210,21 @@
 
       let chating = document.getElementById('chatList');
 
-// Keep the 'no-user-msg' element, clear only user list items
-chating.querySelectorAll('li:not(#no-user-msg)').forEach(el => el.remove());
+      // Keep the 'no-user-msg' element, clear only user list items
+      chating.querySelectorAll('li:not(#no-user-msg)').forEach(el => el.remove());
 
       data.forEach(users => {
 
         let rId = users.receiver[0]._id == adminID ? users.sender[0]._id : users.receiver[0]._id;
 
         let userImg = users.receiver[0]._id == adminID ? users.sender[0].image : users.receiver[0].image;
+        let imageSrc = userImg ? userImg : '/app-assets/demouser.jpeg';
         const listitem = document.createElement("div")
         listitem.innerHTML = `
                           
         <li id="userId_${rId}" onclick='showChats("${users.sender[0]._id}", "${users.receiver[0]._id}", "${users.receiver[0]._id == adminID ? users.sender[0].name : users.receiver[0].name}", "${users.receiver[0]._id == adminID ? users.sender[0].role : users.receiver[0].role}")'>
           <span class="avatar">
-            <img src="${userImg}" id="userImage_${rId}" height="42" width="42" alt="Generic placeholder image" />
+            <img src="${imageSrc}" id="userImage_${rId}" height="42" width="42" alt="" />
           </span>
           <div class="chat-info flex-grow-1">
             <h5 class="mb-0"> ${users.receiver[0]._id == adminID ? users.sender[0].name : users.receiver[0].name} </h5>
@@ -290,44 +245,78 @@ chating.querySelectorAll('li:not(#no-user-msg)').forEach(el => el.remove());
 
     // On User List click
     const showChats = (sender_id, receiver_id, listUserName, userRole) => {
-      let rId = receiver_id == adminID ? sender_id : receiver_id;
-      let rRole = userRole;
 
-      document.getElementById('userHeaderImg').src = document.getElementById(`userImage_${rId}`).src;
-      document.getElementById('userProfileId').value = rId;
-      document.getElementById('userProfileRole').value = rRole;
+    let rId = receiver_id == adminID ? sender_id : receiver_id;
+    let rRole = userRole;
 
-      let user_li = document.getElementById(`userId_${receiver_id == adminID ? sender_id : receiver_id}`);
-      if (user_li) {
-        document.querySelectorAll('li.active').forEach(element => {
-          element.classList.remove('active');
-        });
-        user_li.classList.add('active');
-      }
+  // Set the profile image, id, and role
+  document.getElementById('userHeaderImg').src = document.getElementById(`userImage_${rId}`).src;
+  document.getElementById('userProfileId').value = rId;
+  document.getElementById('userProfileRole').value = rRole;
 
-      let receiverId = document.getElementById('receiverId');
-      receiverId.value = receiver_id == adminID ? sender_id : receiver_id;
+  // Mark the clicked user as active
+  let user_li = document.getElementById(`userId_${receiver_id == adminID ? sender_id : receiver_id}`);
+  if (user_li) {
+    document.querySelectorAll('li.active').forEach(element => {
+      element.classList.remove('active');
+    });
+    user_li.classList.add('active');
+  }
 
-      let startChat = document.getElementById('startChat'); //getting div by ID //
-      startChat.classList.add('d-none'); //adding class to div to show the chatting screen
-      let user_name = document.getElementById('userName'); // to get the user name on chat header
-      user_name.innerText = listUserName //passing the name to header
+  let receiverId = document.getElementById('receiverId');
+  receiverId.value = receiver_id == adminID ? sender_id : receiver_id;
 
-      let spanMsg = document.getElementById(`msgSpan_${receiverId.value}`);
-      spanMsg.style.display = 'none';
+  // Hide the start chat screen
+  let startChat = document.getElementById('startChat');
+  startChat.classList.add('d-none');
 
-      socket.emit('get_chat', {
-        sender_id,
-        receiver_id
-      });
+  // Set user name in chat header
+  let user_name = document.getElementById('userName');
+  user_name.innerText = listUserName;
 
-      socket.emit('read_unread', {
-        sender_id,
-        receiver_id
-      });
-    }
+  // Hide unread message badge
+  let spanMsg = document.getElementById(`msgSpan_${receiverId.value}`);
+  if (spanMsg) {
+    spanMsg.style.display = 'none';
+  }
 
-    // On Send Button
+  let userChatsDiv = document.getElementById('userChats');
+  userChatsDiv.innerHTML = ''; // Clear the current chat window
+
+  // Fetch the chat messages for this user
+  socket.emit('get_chat', {
+    sender_id,
+    receiver_id
+  });
+
+  // Mark the chat as read
+  socket.emit('read_unread', {
+    sender_id,
+    receiver_id
+  });
+
+  // Listen for the chat data to be returned
+  socket.on('chat_data', (messages) => {
+    let chatWindow = document.getElementById('chatWindow');
+    chatWindow.innerHTML = ''; // Clear current chat
+
+    // Loop through messages and append them to the chat window
+    messages.forEach(message => {
+      const messageDiv = document.createElement("div");
+      messageDiv.classList.add('message');
+      messageDiv.innerHTML = `
+        <p><strong>${message.sender_name}</strong>: ${message.text}</p>
+        <small>${formatTimestamp(message.timestamp)}</small>
+      `;
+      chatWindow.appendChild(messageDiv);
+    });
+
+    // Scroll to the bottom of the chat
+    chatWindow.scrollTop = chatWindow.scrollHeight;
+  });
+}
+
+   
    const sendMsg = () => {
   let receiverId = document.getElementById('receiverId');
   let receiver_id = receiverId.value;
@@ -362,57 +351,59 @@ chating.querySelectorAll('li:not(#no-user-msg)').forEach(el => el.remove());
 
     // user chat 
     socket.on('my_chat', (data) => {
-      // alert('Hello, I am send msg listener');
-      var userChatsDiv = document.getElementById('userChats');
-      userChatsDiv.innerHTML = '';
+  var userChatsDiv = document.getElementById('userChats');
 
-      for (d of data) {
-        var chatMsg = document.createElement('div');
+  // Loop through chat data and append new chat messages
+  data.forEach(d => {
+    var chatMsg = document.createElement('div');
 
-        if (adminID == d.sender_id) {
-          chatMsg.innerHTML = `            
-            <div class="chat" id="chatRight">
-              <div class="chat-avatar">
-                <span class="avatar box-shadow-1 cursor-pointer">
-                  <img src="<%=session.image%>" alt="avatar" height="36" width="36" />
-                </span>
-              </div>
-              <div class="chat-body">
-                <div class="chat-content">
-                  <p>${d.message}</p>
-                </div>
-              </div>
-              <div class="chat-meta text-nowrap">
-                <small class="float-end chat-time"> ${formatTimestamp(d.createdAt)}</small>
-              </div>
+    if (adminID == d.sender_id) {
+      chatMsg.innerHTML = `
+        <div class="chat" id="chatRight">
+          <div class="chat-avatar">
+            <span class="avatar box-shadow-1 cursor-pointer">
+              <img src="<%=session.image%>" alt="avatar" height="36" width="36" />
+            </span>
+          </div>
+          <div class="chat-body">
+            <div class="chat-content">
+              <p>${d.message}</p>
             </div>
-          `
-        } else {
-          let userImg = document.getElementById(`userImage_${d.sender_id}`).src;
+          </div>
+          <div class="chat-meta text-nowrap">
+            <small class="float-end chat-time">${formatTimestamp(d.createdAt)}</small>
+          </div>
+        </div>
+      `;
+    } else {
+      let userImg = document.getElementById(`userImage_${d.sender_id}`).src;
 
-          chatMsg.innerHTML = `
-                      
-            <div class="chat chat-left" id="chatLeft">
-              <div class="chat-avatar">
-                <span class="avatar box-shadow-1 cursor-pointer">
-                  <img src=${userImg} alt="avatar" height="36" width="36" />
-                </span>
-              </div>
-              <div class="chat-body">
-                <div class="chat-content">
-                  <p>${d.message}</p>
-                </div>
-              </div>
-              <div class="chat-meta text-nowrap">
-                <small class="float-start chat-time">${formatTimestamp(d.createdAt)}</small>
-              </div>
+      chatMsg.innerHTML = `
+        <div class="chat chat-left" id="chatLeft">
+          <div class="chat-avatar">
+            <span class="avatar box-shadow-1 cursor-pointer">
+              <img src="${userImg}" alt="avatar" height="36" width="36" />
+            </span>
+          </div>
+          <div class="chat-body">
+            <div class="chat-content">
+              <p>${d.message}</p>
             </div>
-          `
-        }
-        userChatsDiv.appendChild(chatMsg);
-      }
-      $('.user-chats').scrollTop($('.user-chats > .chats').height());
-    });
+          </div>
+          <div class="chat-meta text-nowrap">
+            <small class="float-start chat-time">${formatTimestamp(d.createdAt)}</small>
+          </div>
+        </div>
+      `;
+    }
+
+    // Append the new chat message
+    userChatsDiv.appendChild(chatMsg);
+  });
+
+  // Ensure the chat scrolls to the latest message
+  $('.user-chats').scrollTop($('.user-chats')[0].scrollHeight);
+});
 
 
     socket.on('send_message_listener', (data) => {

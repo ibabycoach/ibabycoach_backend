@@ -94,7 +94,7 @@
                         </div>
                         <span class="avatar">
                             <% if (!session.image || session.image === '') { %>
-                                <img src="/app-assets/images.jpg" alt="default image" height="45" width="45" style="cursor: default;" aria-readonly="true" />
+                                <img src="/app-assets/demouser.jpeg" alt="default image" height="45" width="45" style="cursor: default;" aria-readonly="true" />
                               <% } else { %>
                                 <img src="<%= session.image %>" alt="user_avatar" height="45" width="45" style="cursor: default;" aria-readonly="true" />
                               <% } %>                            <span class="avatar-status-online"></span>
@@ -107,7 +107,7 @@
                             <a class="dropdown-item" href="#" id="logoutBtn">
                                 <i class="me-50" data-feather="power"></i> Logout
                             </a>
-                                                </div>
+                            </div>
                 </li>
             </ul>
         </div>
