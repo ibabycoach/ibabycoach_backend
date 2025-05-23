@@ -54,10 +54,12 @@ module.exports = {
                 
                 {  
                     name: req.body.name,
+                    country_code: req.body.country_code,
                     phone: req.body.phone,
                     email: req.body.email,
                     image: req.body.image
                 })
+            req.flash("msg", "Sub_user details updated successfully");
 
             res.redirect("/subuser_List")
         } catch (error) {

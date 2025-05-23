@@ -38,13 +38,13 @@
                             <%=1+i%>
                           </td>
                           <td>
-                            <%=data.name%>
+                            <%=data?.name%>
                           </td>
                           <td>
-                            <%=data.email%>
+                            <%=data?.email%>
                           </td>
                           <td>
-                            <%=data.phone%>
+                            <%=data?.country_code%> <%=data?.phone%>
                           </td>
                           <td>
                               <img src="<%= data?.image ? data?.image : '../app-assets/images/demouser.jpeg' %>" width="45px" height="40px" alt="image">

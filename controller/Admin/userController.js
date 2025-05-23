@@ -87,12 +87,13 @@ module.exports = {
             const updateData = await userModel.updateOne({_id: req.body.id},
                 
                 {  
+                    country_code: req.body.country_code,
                     name: req.body.name,
                     phone: req.body.phone,
                     email: req.body.email,
                     image: req.body.image
                 })
-
+            req.flash("msg", "User details updated successfully");
             res.redirect("/userList")
         } catch (error) {
            console.log(error) 

@@ -1,6 +1,12 @@
 <%- include('../common/header') %>
 <%- include('../common/sidebar') %>
 
+<style>
+  table.dataTable tbody th, table.dataTable tbody td {
+    padding: 8px 6px;
+    font-size: 13px;
+}
+</style>
 <!-- BEGIN: Content-->
 <div class="app-content content ">
   <div class="content-overlay"></div>
@@ -46,7 +52,7 @@
                         <%=data?.email%>
                       </td>
                       <td>
-                        <%=data?.phone%>
+                       <%=data?.country_code%> <%=data?.phone%>
                       </td>
                       <td>
                           <img src="<%= data?.image ? data?.image : '../app-assets/images/demouser.jpeg' %>" width="45px" height="40px" alt="image">
