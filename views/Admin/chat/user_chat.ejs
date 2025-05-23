@@ -53,6 +53,7 @@
                     <% } %>
                   </div>                  
                 </div>
+                
                 <div class="input-group input-group-merge ms-1 w-100">
                   <span class="input-group-text round"><i data-feather="search" class="text-muted"></i></span>
                   <input type="text" class="form-control round" onkeyup="filterUsers(this.value)" placeholder="Search users...">
@@ -200,7 +201,7 @@
 
     socket.emit('connect_user', {
       userId: adminID
-    });27568270
+    });
 
     socket.emit('chat_list', {
       sender_id: adminID
@@ -496,7 +497,7 @@
   function filterUsers(searchTerm) {
     const chatList = document.getElementById("chatList");
     const noUserMessage = document.getElementById("no-user-message");
-    const users = chatList.querySelectorAll("li");
+    const users = chatList.querySelectorAll("div");
     let hasMatch = false;
 
     users.forEach(user => {
