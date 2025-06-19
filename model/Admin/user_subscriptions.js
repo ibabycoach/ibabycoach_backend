@@ -30,19 +30,26 @@ const userSubscriptionSchema = new mongoose.Schema({
   },
 
   expiry_time: {
-    type: String,
-    default: ''
+    type: Date,
+    default: 'null'
   },
 
   status: {
     type: String,
     enum: ['1', '0'],
-    default: 'active'
+    default: '1',
+    comment : 'active = 1 , inactive = 0'
   },
 
   deleted: {
     type: Boolean,
     default: false
+  },
+  plan_type:{
+    type:String,
+    enum:['1','2'],
+    default:'1',
+    comment:'1 for Monthly , 2 for Yearly'
   }
 
 }, {

@@ -8,15 +8,16 @@ const bcrypt = require('bcrypt');
 var jwt = require('jsonwebtoken');
 var secretCryptoKey = process.env.jwtSecretKey || "secret_iBabycoachs_@onlyF0r_JWT";
 const nodemailer = require("nodemailer");
+const userSubscriptionModel = require('../../model/Admin/user_subscriptions');
 
 module.exports = {
- 
+
   edit_profile: async(req, res)=> {
       try {
-        
+
           if (req.files && req.files.image) {
             var image = req.files.image;
-          
+
             if (image) {
               req.body.image = helper.imageUpload(image, "images");
             }
@@ -30,8 +31,8 @@ module.exports = {
               image: req.body.image});
 
               const findUpdatedUser = await user_model.findOne({_id: userId})
-              
-          return helper.success(res, "user details updated successfully", 
+
+          return helper.success(res, "user details updated successfully",
           { user_data: findUpdatedUser})
 
       } catch (error) {
@@ -53,31 +54,31 @@ module.exports = {
       if (errorsResponse) {
         return helper.failed(res, errorsResponse);
       }
-  
+
       const isemailExist = await user_model.findOne({ email: req.body.email });
       if (isemailExist) {
         return helper.failed(res, "Email already exists");
       }
-  
+
       const isphoneExist = await user_model.findOne({ phone: req.body.phone });
       if (isphoneExist) {
         return helper.failed(res, "Phone number already exists");
       }
       var Otp = 1111;
       // var Otp = Math.floor(1000 + Math.random() * 9000);
-  
+
       let time = helper.unixTimestamp();
       req.body.loginTime = time;
       req.body.otp = Otp;
-  
+
       let hash = await bcrypt.hash(req.body.password, 10);
-  
-      let userData = { 
+
+      let userData = {
         parentId: parentId,
-        ...req.body, 
-        password: hash 
+        ...req.body,
+        password: hash
       };
-  
+
       if (req.user.role == 1) {
         // If the logged-in user has role:1, set babyId in userData
         const userBaby = await baby_model.findOne({ userId: parentId });
@@ -88,19 +89,19 @@ module.exports = {
           return helper.failed(res, "Parent user does not have a baby assigned");
         }
       }
-  
+
       let addsubUser = await user_model.create(userData);
       if (addsubUser) {
         const update_image = await user_model.findByIdAndUpdate({_id: addsubUser._id },{image: parentImg})
       }
-     
+
       return helper.success(res, "Sub-user added successfully", addsubUser);
     } catch (error) {
       console.log(error);
       return helper.error(res, "Error");
     }
   },
-  
+
   subUser_list: async (req, res) => {
     try {
       const userId = req.user._id
@@ -120,11 +121,11 @@ module.exports = {
     try {
       const userId = req.user._id;
       const adminData = await user_model.findOne({ role: 0});
-  
+
       if (!adminData) {
         return helper.failed(res, "User not found");
       }
-  
+
       return helper.success(res, "Admin profile", adminData );
     } catch (error) {
       console.log(error);
@@ -150,7 +151,7 @@ module.exports = {
       } else {
         userBaby = await baby_model.findOne({ userId: req.body.userId });
       }
-       
+
       return helper.success(res, "User details", { userdata, userBaby });
     } catch (error) {
       return helper.failed(res, "Something went wrong");
@@ -162,7 +163,7 @@ module.exports = {
       const v = new Validator(req.body, {
         babyId: "required",
       });
-      
+
       const errorResponse = await helper.checkValidation(v);
       if (errorResponse) {
           return helper.failed(res, errorResponse);
@@ -190,7 +191,7 @@ module.exports = {
       }
       // Fetch reminder status from the reminderModel for the userBaby
       const reminderStatus = await reminderModel.find({ babyId: userBaby._id });
-      
+
       let statusValue;
       if (reminderStatus.length === 0) {
           statusValue = null; // No data for this baby
@@ -198,8 +199,8 @@ module.exports = {
           const anyStatusOne = reminderStatus.some(status => status.status === 1);
           statusValue = anyStatusOne ? 1 : 0;
       }
-
-      return helper.success(res, "User profile", { userprofile, userBaby, reminderStatus: statusValue });
+      const subscription = await userSubscriptionModel.find({ user: userId });
+      return helper.success(res, "User profile", { userprofile, userBaby, reminderStatus: statusValue,subscription });
     } catch (error) {
       console.log(error);
       return helper.error(res, "Error");
@@ -211,14 +212,14 @@ module.exports = {
       const v = new Validator(req.body, {
         userId: "required",
       });
-      
+
       const errorResponse = await helper.checkValidation(v);
       if (errorResponse) {
         return helper.failed(res, errorResponse);
       }
-      const userdata = await user_model.findByIdAndUpdate({_id: req.body.userId}, 
+      const userdata = await user_model.findByIdAndUpdate({_id: req.body.userId},
         {deleted: true})
-            
+
       return helper.success(res, "User deleted successfully", {})
     } catch (error) {
       console.log(error)
@@ -230,7 +231,7 @@ module.exports = {
       let userId = req.user._id;
       const deleteProfile = await user_model.findByIdAndUpdate({_id: userId},
       {deleted: true});
-  
+
       return helper.success(res, "Profile deleted successfully.", {})
     } catch (error) {
       console.log(error)

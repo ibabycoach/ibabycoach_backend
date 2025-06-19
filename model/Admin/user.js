@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 const userSchema = new mongoose.Schema({
-  
+
   babyId:{ type: mongoose.Schema.Types.ObjectId, ref: "baby", default: null},
   name: { type: String, default: '' },
   email: { type: String, default: '' },
@@ -27,7 +27,7 @@ const userSchema = new mongoose.Schema({
     enum: [1, 2, ], //1 for Android, 2 for IOS
     default: '',
   },
-  social_id: {type: String, default: ""},  
+  social_id: {type: String, default: ""},
   google: {type: String},     //social login
   facebook: {type: String},   //social login
   apple: {type: String},      //social login
@@ -38,6 +38,7 @@ const userSchema = new mongoose.Schema({
   userData_Pdf: {type: String, default: ""},
   loginTime:{type: String},
   deleted: {type: Boolean, default: false},
+  subscription_status: {type: String, default: '0'},
 }, {
   timestamps: true, // Use 'timestamps' (plural) for automatic timestamp fields
 });
