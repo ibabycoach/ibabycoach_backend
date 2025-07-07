@@ -29,6 +29,7 @@ router.get('/changePassword', session, AdminController.changePassword)
 router.post('/updatepassword', AdminController.updatepassword)
 router.get('/logout', AdminController.logout)
 router.get('/errorPage', AdminController.errorPage)
+router.route('/deleteMyData').get(AdminController.deleteMyData);
 
 //************** SUB_ADMIN *****************
 router.get('/sub_admin_list', session, subAdminController.sub_admin_list)

@@ -323,6 +323,19 @@ module.exports = {
         }
     },
 
+    deleteMyData: async function (req, res) {
+          try {
+              res.render('Admin/admin/deleteMyData', {
+                  msg: req.flash('msg'),
+                  error: req.flash('error'),
+                  sessionData: req.session,
+                  title: 'deleteMyData'
+              });
+          } catch (error) {
+              throw error
+          }
+  },
+
 
 
 }

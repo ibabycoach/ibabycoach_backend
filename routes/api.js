@@ -44,6 +44,8 @@ router.post('/switch_user_account', authenticateJWT, userprofilecontroller.switc
 router.post('/delete_user', authenticateJWT, userprofilecontroller. delete_user)
 router.post('/deleted_account', authenticateJWT, userprofilecontroller.deleted_account)
 
+
+
 //////////////// BABY ////////
 router.post('/add_baby', authenticateJWT, babycontroller.add_baby)
 router.post('/edit_baby', authenticateJWT, babycontroller.edit_baby)
