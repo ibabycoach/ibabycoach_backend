@@ -7,7 +7,7 @@ const { Validator } = require('node-input-validator');
 var jwt = require('jsonwebtoken');
 var secretCryptoKey = process.env.jwtSecretKey || "secret_iBabycoachs_@onlyF0r_JWT";
 const nodemailer = require("nodemailer");
-
+const userSubscriptionModel = require('../../model/Admin/user_subscriptions');
 module.exports = {
 
   signup: async (req, res) => {
@@ -21,21 +21,21 @@ module.exports = {
       });
       const values = JSON.parse(JSON.stringify(v));
       let errorsResponse = await helper.checkValidation(v);
-  
+
       if (errorsResponse) {
         return helper.failed(res, errorsResponse);
       }
-      
+
       const isemailExist = await user_model.findOne({ email: req.body.email, deleted:false });
       if (isemailExist) {
         return helper.failed(res, "Email already exists");
       }
-  
+
       const ismobileExist = await user_model.findOne({ phone: req.body.phone, deleted: false });
       if (ismobileExist) {
         return helper.failed(res, "Mobile already exists");
       }
-  
+
       if (req.files && req.files.image) {
         let image = req.files.image;
         if (image) {
@@ -48,14 +48,14 @@ module.exports = {
       let time = helper.unixTimestamp();
       values.inputs.loginTime = time;
       values.inputs.otp = Otp;
-  
+
       let hash = await bcrypt.hash(req.body.password, 10);
-      
+
       req.body.email = req.body.email.toLowerCase();
       let dataEnter = await user_model.create({ ...values.inputs, password: hash });
-  
+
       const getUser = await user_model.findOne({ email: dataEnter.email });
-  
+
       if (dataEnter) {
         let userInfo = await user_model.findOne({ _id: dataEnter._id });
         delete userInfo.password;
@@ -86,13 +86,13 @@ module.exports = {
           });
           // send mail with defined transport object
           let info = await transporter.sendMail({
-              from: 'app@ibabycoach.com' , 
-              to: req.body.email, 
-              subject: "ibabycoach", 
-              text: "ibabycoach", 
+              from: 'app@ibabycoach.com' ,
+              to: req.body.email,
+              subject: "ibabycoach",
+              text: "ibabycoach",
               html: html,
           });
-  
+
         return helper.success(res, "Signup Successfully", userInfo);
       }
     } catch (error) {
@@ -100,7 +100,7 @@ module.exports = {
       return helper.error(res, "error");
     }
   },
-  
+
   Login: async (req, res) => {
     try {
           const v = new Validator(req.body, {
@@ -112,13 +112,13 @@ module.exports = {
         if (errorsResponse) {
             return await helper.failed(res, errorsResponse)
         }
-        
+
         req.body.email = req.body.email.toLowerCase();
         const updateDeviceToken = await user_model.findOneAndUpdate({email: req.body.email, deleted: false},
           {device_token: req.body.device_token,
             device_type: req.body.device_type},
             {new: true}
-            ); 
+            );
 
         var findUser = await user_model.findOne({ email: req.body.email, deleted: false})
 
@@ -140,17 +140,20 @@ module.exports = {
             findUser = JSON.stringify(findUser);
             findUser = JSON.parse(findUser);
             findUser.token = token;
+            const checksubscription = await userSubscriptionModel.find({user: findUser._id});
+            findUser.subscription = checksubscription ;
 
             if (findUser.role === 2) {
               return await helper.success(res, "login successful", findUser)
           } else {
-             
+
             const findbaby = await babyModel.findOne({
               userId: findUser._id,
             });
             findUser.hasBabyAdded = findbaby ? 1 : 0;
           }
-        
+
+
             if (checkPassword == true) {
               req.session.user = findUser;
               return await helper.success(res, "Login successful", findUser)
@@ -252,7 +255,7 @@ module.exports = {
 
   change_password: async function (req, res) {
     try {
-      
+
         const V = new Validator(req.body, {
             oldPassword: "required",
             newPassword: "required",
@@ -264,7 +267,7 @@ module.exports = {
             console.log(V.errors);
         });
         let data = req.user;
-        
+
         if (data) {
             let comp = await bcrypt.compare(V.inputs.oldPassword, data.password);
 
@@ -274,7 +277,7 @@ module.exports = {
                     { _id: data._id },
                     { password: bcryptPassword }
                 );
-              
+
                 return helper.success(res, "updated successfully")
             } else {
               return helper.failed(res, "Old password not match")
@@ -314,10 +317,10 @@ module.exports = {
 
               const findbaby = await babyModel.findOne({ userId: emailExist._id, });
                 // Create a new object and add the hasBabyAdded field
-                const existingUser = { 
-                    ...updateddata.toObject(), 
+                const existingUser = {
+                    ...updateddata.toObject(),
                     hasBabyAdded: findbaby ? 1 : 0
-                };  
+                };
 
                 // Generate token for new user
                 let token = jwt.sign(
@@ -330,7 +333,7 @@ module.exports = {
                   secretCryptoKey,
                   { expiresIn: "365d" }
                 );
-                
+
                 existingUser.token = token;
 
               return helper.success(res, "User Already existed", existingUser);
@@ -341,7 +344,7 @@ module.exports = {
         const userExisted = await user_model.findOne({
           social_id: req.body.social_id,
           socialtype: req.body.socialtype,
-        });    
+        });
 
         // If user exists, log them in (update device info)
         if (userExisted) {
@@ -352,15 +355,15 @@ module.exports = {
              email: req.body.email,
              name: req.body.name
          });
-         const updateddata = await user_model.findOne({ social_id: req.body.social_id, socialtype: req.body.socialtype });   
+         const updateddata = await user_model.findOne({ social_id: req.body.social_id, socialtype: req.body.socialtype });
 
           const findbaby = await babyModel.findOne({ userId: userExisted._id, });
-    
+
         // Create a new object and add the hasBabyAdded field
-        const existingUser = { 
-            ...updateddata.toObject(), 
+        const existingUser = {
+            ...updateddata.toObject(),
             hasBabyAdded: findbaby ? 1 : 0
-        };  
+        };
 
          // Generate token for new user
          let token = jwt.sign(
@@ -373,7 +376,7 @@ module.exports = {
           secretCryptoKey,
           { expiresIn: "365d" }
         );
-        
+
         existingUser.token = token;
 
             return helper.success(res, "User Already existed", existingUser);
@@ -405,10 +408,10 @@ module.exports = {
               { expiresIn: "365d" }
             );
 
-            newUserData = newUserData.toJSON(); 
+            newUserData = newUserData.toJSON();
             newUserData.token = token;
             delete newUserData.password;
-            
+
 
           return helper.success(res, "New user created and logged in successfully", newUserData);
         }
@@ -447,7 +450,7 @@ module.exports = {
             });
         let otp = findUser2.otp;
 
-         // sent OTP to email 
+         // sent OTP to email
          let html =` Hello ${req.body.name}, <br> This is your one time password (OTP) ${ Otp } to complete the forgot password process. <br><br> Regards,<br> ibabycoach`;
 
          var transporter = nodemailer.createTransport({
@@ -460,13 +463,13 @@ module.exports = {
          });
          // send mail with defined transport object
          let info = await transporter.sendMail({
-             from: 'app@ibabycoach.com' , 
-             to: req.body.email, 
-             subject: "ibabycoach", 
-             text: "ibabycoach", 
+             from: 'app@ibabycoach.com' ,
+             to: req.body.email,
+             subject: "ibabycoach",
+             text: "ibabycoach",
              html: html,
          });
- 
+
         return helper.success(res, 'Otp send to reset password', { otp });
 
         } else {

@@ -17,6 +17,7 @@ const daily_taskcontroller = require('../controller/Api/daily_taskcontroller');
 const iconcontroller = require('../controller/Api/iconcontroller');
 const unitcontroller = require('../controller/Api/unitcontroller');
 const compareGrowthcontroller = require('../controller/Api/compareGrowthcontroller');
+const user_subscription = require('../controller/Api/user_subscription');
 const authenticateJWT = require("../Helper/helper").authenticateJWT;
 const authenticateHeader = require("../Helper/helper").authenticateHeader;
 
@@ -66,7 +67,7 @@ router.post('/compare_growth', authenticateJWT, growthcontroller.compare_growth)
 ///////////// ICONS ////////////
 router.get('/icons_list', authenticateJWT, iconcontroller.icons_list)
 
-////////////// UNITS ///////////// 
+////////////// UNITS /////////////
 router.post('/update_unit', authenticateJWT, unitcontroller.update_unit)
 
 ////// ROUTINE BUILDER ///////////
@@ -129,6 +130,13 @@ router.post('/do_not_disturb', authenticateJWT, remindercontroller.do_not_distur
 router.post('/change_reminder_status', authenticateJWT, remindercontroller.change_reminder_status)
 router.post('/reminder_detail', authenticateJWT, remindercontroller.reminder_detail)
 router.post('/edit_reminder', authenticateJWT, remindercontroller.edit_reminder)
+
+
+////////////////////////////////////// subscriptions ////////////////////////
+router.post('/add_subscription', authenticateJWT, user_subscription.addSubscription)
+
+
+
 
 
 module.exports = router;
