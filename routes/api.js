@@ -32,6 +32,8 @@ router.post('/socialLogin', Authcontroller.socialLogin)
 router.post('/logout', authenticateJWT, Authcontroller.logout)
 router.post('/change_password', authenticateJWT, Authcontroller.change_password)
 router.post('/forgotPassword', Authcontroller.forgotPassword)
+router.get('/reset_password/:id/:ran_token',Authcontroller.resetPassword);
+router.post('/update_forgot_password',Authcontroller.updateResetPassword);
 
 
 

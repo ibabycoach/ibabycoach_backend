@@ -431,50 +431,62 @@ module.exports = {
             return await helper.failed(res, errorsResponse);
         }
 
-        let findUser = await user_model.findOne({
+        var findUser = await user_model.findOne({
           email: req.body.email
         });
-        console.log('✌️findUser --->', findUser);
 
         if(findUser) {
-            // var Otp = 1111;
-            var Otp = Math.floor(1000 + Math.random() * 9000);
-console.log('✌️Otpsssssssssssss --->', Otp);
-          let updateOtp = await user_model.findOneAndUpdate(
-  { email: req.body.email },     // Find by email
-  { otp: Otp },                  // Update OTP
-  { new: true }                  // Return updated document
-);
-            if (!updateOtp) {
-                return helper.failed(res, "Failed to send OTP");
-            }
+          // var Otp = 1111;
+          // var Otp = Math.floor(1000 + Math.random() * 9000);
+          // // console.log('✌️Otpsssssssssssss --->', Otp);
+          // let updateOtp = await user_model.findOneAndUpdate(
+          //   { email: req.body.email },     // Find by email
+          //   { otp: Otp },                  // Update OTP
+          //   { new: true }                  // Return updated document
+          // );
+          // if (!updateOtp) {
+          //     return helper.failed(res, "Failed to send OTP");
+          // }
 
-            let findUser2 = await user_model.findOne({
-              email: req.body.email
-            });
-        let otp = findUser2.otp;
+          // let findUser2 = await user_model.findOne({
+          //   email: req.body.email
+          // });
+          // let otp = findUser2.otp;
 
-         // sent OTP to email
-         let html =` Hello ${findUser2.name}, <br> This is your one time password (OTP) ${ Otp } to complete the forgot password process. <br><br> Regards,<br> ibabycoach`;
+          // // sent OTP to email
+          // let html =` Hello ${findUser2.name}, <br> This is your one time password (OTP) ${ Otp } to complete the forgot password process. <br><br> Regards,<br> ibabycoach`;
 
-         var transporter = nodemailer.createTransport({
-             host: 'smtp.hostinger.com',
-             port: '587',
-             auth: {
-                 user: 'app@ibabycoach.com',
-                 pass: 'Th3B@byCo@ch'
-             }
-         });
-         // send mail with defined transport object
-         let info = await transporter.sendMail({
-             from: 'app@ibabycoach.com' ,
-             to: req.body.email,
-             subject: "ibabycoach",
-             text: "ibabycoach",
-             html: html,
-         });
+          
+          var ran_token = Math.random().toString(36).substring(2,25);
+           
+          await user_model.updateOne({ 
+            _id:findUser._id
+          },{
+              forgotPasswordToken : ran_token,
+          });
+          let forgotPasswordUrl = "" + ran_token; 
+          var baseUrl = req.protocol + '://' + req.get('host') + '/api/reset_password/' + findUser._id + '/'+forgotPasswordUrl;
+              
+          let html = 'Hello ' + findUser.name + ',<br> Your Forgot Password Link is: <a href="' + baseUrl + '"><u>CLICK HERE TO RESET PASSWORD </u></a>. <br><br><br> Regards,<br> ibabycoach';
 
-        return helper.success(res, 'Otp send to reset password', { otp });
+          var transporter = nodemailer.createTransport({
+              host: 'smtp.hostinger.com',
+              port: '587',
+              auth: {
+                  user: 'app@ibabycoach.com',
+                  pass: 'Th3B@byCo@ch'
+              }
+          });
+          // send mail with defined transport object
+          let info = await transporter.sendMail({
+              from: 'app@ibabycoach.com' ,
+              to: 'rahulbansal@cqlsys.co.uk',//req.body.email,
+              subject: "ibabycoach | Forget Password Link",
+              text: "ibabycoach",
+              html: html,
+          });
+
+          return helper.success(res, 'A password reset link has been sent to your email.', {  });
 
         } else {
             return helper.failed(res, "Incorrect email")
@@ -482,6 +494,68 @@ console.log('✌️Otpsssssssssssss --->', Otp);
 
     } catch (error) {
         console.log(":xswgbywgdywgdyegdyegdye",error);
+        return helper.failed(res, error);
+    }
+  },
+  resetPassword:async(req,res) =>{
+    try {
+        let token = req.params.ran_token;
+        let user_id = req.params.id;
+
+        let checkToken = await user_model.findOne({
+          forgotPasswordToken: token,
+          _id: user_id
+        });
+        // console.log(checkToken,">>>>>>>>checkToken");
+
+        if(checkToken) {
+            res.render("Auth/forgot_password",{'token':token,'id':user_id, 'tokenFound': 1});
+        } else {
+            res.render("Auth/forgot_password",{'token':token,'id':user_id, 'tokenFound': 0});
+        }
+    } catch (error) {
+        console.log(error);
+        return await helper.failed(res, error);
+    }
+  },
+  updateResetPassword:async(req,res) =>{
+    try {
+        let check_token = await user_model.findOne({
+            forgotPasswordToken:req.body.token,
+            _id: req.body.id
+        });
+        if(check_token){
+          const v = new Validator(req.body, {
+            password: 'required',
+            confirm_password:'required|same:password',
+          });
+          let errorsResponse = await helper.checkValidation(v);
+          if (errorsResponse) {
+              return await helper.failed(res, errorsResponse);
+          }
+          // var password = req.body.password;
+          let hash = await bcrypt.hash(req.body.password, 10);
+
+            let update_password = await user_model.updateOne({
+              forgotPasswordToken: req.body.token,
+              _id: req.body.id
+            },{
+                password : hash,
+            });
+            if(update_password){
+                await user_model.updateOne({
+                  _id: req.body.id
+                },{
+                    forgotPasswordToken: '',
+                });
+            }
+            res.render('Auth/messaage_success');                 
+        } else {
+            res.render("Auth/forgot_password",{'token':0,'id':0, 'tokenFound': 0});
+        }
+        
+    } catch (error) {
+        console.log(error);
         return helper.failed(res, error);
     }
   },
