@@ -434,24 +434,28 @@ module.exports = {
         let findUser = await user_model.findOne({
           email: req.body.email
         });
+        console.log('✌️findUser --->', findUser);
+
         if(findUser) {
             // var Otp = 1111;
             var Otp = Math.floor(1000 + Math.random() * 9000);
-            let updateOtp = await user_model.update(
-              { otp: Otp },
-              { email: req.body.email }
-            );
+console.log('✌️Otpsssssssssssss --->', Otp);
+          let updateOtp = await user_model.findOneAndUpdate(
+  { email: req.body.email },     // Find by email
+  { otp: Otp },                  // Update OTP
+  { new: true }                  // Return updated document
+);
             if (!updateOtp) {
                 return helper.failed(res, "Failed to send OTP");
             }
 
-            let findUser2 = await db.users.findOne({
+            let findUser2 = await user_model.findOne({
               email: req.body.email
             });
         let otp = findUser2.otp;
 
          // sent OTP to email
-         let html =` Hello ${req.body.name}, <br> This is your one time password (OTP) ${ Otp } to complete the forgot password process. <br><br> Regards,<br> ibabycoach`;
+         let html =` Hello ${findUser2.name}, <br> This is your one time password (OTP) ${ Otp } to complete the forgot password process. <br><br> Regards,<br> ibabycoach`;
 
          var transporter = nodemailer.createTransport({
              host: 'smtp.hostinger.com',
@@ -477,7 +481,7 @@ module.exports = {
         }
 
     } catch (error) {
-        console.log(error);
+        console.log(":xswgbywgdywgdyegdyegdye",error);
         return helper.failed(res, error);
     }
   },
