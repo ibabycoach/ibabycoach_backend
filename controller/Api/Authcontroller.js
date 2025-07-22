@@ -480,7 +480,7 @@ module.exports = {
           // send mail with defined transport object
           let info = await transporter.sendMail({
               from: 'app@ibabycoach.com' ,
-              to: 'rahulbansal@cqlsys.co.uk',//req.body.email,
+              to: req.body.email,//'rahulbansal@cqlsys.co.uk',//req.body.email,
               subject: "ibabycoach | Forget Password Link",
               text: "ibabycoach",
               html: html,
