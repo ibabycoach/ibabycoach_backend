@@ -87,7 +87,7 @@ router.post('/routine_detail', authenticateJWT, routinecontroller.routine_detail
 ///////////  MEMORIES ///////////
 router.post('/add_memories', authenticateJWT, memoriescontroller.add_memories)
 router.post('/get_memory_images', authenticateJWT, memoriescontroller.get_memory_images)
-router.post('/delete_images', authenticateJWT, memoriescontroller.delete_images)
+router.post('/delete_memories', authenticateJWT, memoriescontroller.delete_memories)
 router.post('/edit_memories', authenticateJWT, memoriescontroller.edit_memories)
 
 //////// ACTIVITY ///////////////

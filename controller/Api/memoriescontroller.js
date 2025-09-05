@@ -8,7 +8,7 @@ module.exports = {
   add_memories: async (req, res) => {
       try {
         let userId = req.user.id;
-    
+
         const v = new Validator(req.body, {
           babyId: "required",
           // image: "required"
@@ -28,7 +28,7 @@ module.exports = {
           userId,
           ...req.body,
         });
-    
+
         return helper.success(res, "Memories added successfully", {} );
       } catch (error) {
         console.log(error);
@@ -58,7 +58,7 @@ module.exports = {
     }
   },
 
-  delete_images : async(req, res)=> {
+  delete_memories : async(req, res)=> {
     try {
       let memoryId = req.body;
       // let imageId = req.body.imageId;
@@ -69,8 +69,8 @@ module.exports = {
       if (!findmemory) {
         return helper.failed(res, "memories not found")
       }
-      const updatedmemories = await memories_model.findOne({_id: req.body.memoryId}) 
-    
+      const updatedmemories = await memories_model.findOne({_id: req.body.memoryId})
+
       return helper.success(res, "image removed successfully", updatedmemories)
     } catch (error) {
       console.log(error)
@@ -89,7 +89,7 @@ module.exports = {
 
       if (req.files && req.files.image) {
         var image = req.files.image;
-      
+
         if (image) {
           req.body.image = helper.imageUpload(image, "images");
         }
@@ -100,7 +100,7 @@ module.exports = {
         { image: req.body.image,
           note: req.body.note,
         });
-     
+
         const updatedImage = await memories_model.findOne({_id: memoryId});
 
       return helper.success(res, "Memory details updated successfully", {})
