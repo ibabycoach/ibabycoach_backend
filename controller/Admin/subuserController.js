@@ -20,7 +20,7 @@ module.exports = {
             const userdetails = await userModel.findById({_id: req.params.id})
             
             if (userdetails.parentId){
-                const parentdetail = await userModel.findOne({ _id: userdetails.parentId})
+                var parentdetail = await userModel.findOne({ _id: userdetails.parentId})
 
                 res.render('Admin/sub_user/viewSubuser', { title, userdetails, parentdetail, session:req.session.user, msg: req.flash('msg') })
             }

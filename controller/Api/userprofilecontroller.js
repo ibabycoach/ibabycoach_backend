@@ -138,7 +138,7 @@ module.exports = {
 
       let sub_user_Data = await caregiverModel.find({ parentId: userId, deleted: false}).sort({ createdAt: -1 })
       .populate("parentId", 'name')
-      .populate("caregiverId")
+      .populate('caregiverId')
 
       if (!sub_user_Data) {
         return helper.failed(res, "Sub-user not found");
@@ -251,7 +251,11 @@ module.exports = {
         return helper.failed(res, errorResponse);
       }
       const userdata = await user_model.findByIdAndUpdate({_id: req.body.userId},
-        {deleted: true})
+      {deleted: true})      
+
+      const deletecaregiver = await caregiverModel.findOneAndUpdate({parentId: req.user._id},
+      {deleted: true})
+
 
       return helper.success(res, "User deleted successfully", {})
     } catch (error) {
