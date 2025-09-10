@@ -60,7 +60,7 @@ module.exports = {
       const isemailExist = await user_model.findOne({ email: req.body.email,  });
       if (isemailExist) {
           const caregiverExists = await caregiverModel.findOne({
-            userId: parentId,
+            parentId: parentId,
             caregiverId: isemailExist._id
           })
           .populate('userId', 'name image relation')
@@ -74,7 +74,7 @@ module.exports = {
         if (userBaby != null) {
           // ✅ create caregiver entry if not already linked
             const caregiverExists = await caregiverModel.create({
-              userId: parentId,
+              parentId: parentId,
               caregiverId: isemailExist._id,
               babyId: userBaby ? userBaby._id : null
             });
@@ -118,7 +118,7 @@ module.exports = {
         }
 
       let addbabytoSubuser = await caregiverModel.create({
-        userId: parentId,
+        parentId: parentId,
         caregiverId: addsubUser._id,
         babyId: userBaby._id ? userBaby._id : null
       });
@@ -136,7 +136,9 @@ module.exports = {
       const userId = req.user._id
       // let sub_user_Data = await user_model.find({ parentId: userId, deleted: false}).sort({ createdAt: -1 }).populate("parentId", 'name')
 
-      let sub_user_Data = await caregiverModel.find({ userId: userId, deleted: false}).sort({ createdAt: -1 }).populate("userId", 'name')
+      let sub_user_Data = await caregiverModel.find({ parentId: userId, deleted: false}).sort({ createdAt: -1 })
+      .populate("parentId", 'name')
+      .populate("caregiverId")
 
       if (!sub_user_Data) {
         return helper.failed(res, "Sub-user not found");
