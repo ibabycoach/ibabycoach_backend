@@ -1,6 +1,6 @@
 const user_model = require('../../model/Admin/user')
 const baby_model = require('../../model/Admin/baby')
-const activity_model = require('../../model/Admin/activity')
+const caregiverModel = require('../../model/Admin/caregiver')
 const reminderModel = require('../../model/Admin/reminder')
 const helper = require('../../Helper/helper')
 const { Validator } = require('node-input-validator');
@@ -55,45 +55,74 @@ module.exports = {
         return helper.failed(res, errorsResponse);
       }
 
-      const isemailExist = await user_model.findOne({ email: req.body.email });
+      const userBaby = await baby_model.findOne({ userId: parentId });
+
+      const isemailExist = await user_model.findOne({ email: req.body.email,  });
       if (isemailExist) {
-        return helper.failed(res, "Email already exists");
-      }
+          const caregiverExists = await caregiverModel.findOne({
+            userId: parentId,
+            caregiverId: isemailExist._id
+          })
+          .populate('userId', 'name image relation')
+          .populate('caregiverId', 'name image relation')
+          .populate('babyId', 'baby_name birthday age image gender')
 
-      const isphoneExist = await user_model.findOne({ phone: req.body.phone });
-      if (isphoneExist) {
-        return helper.failed(res, "Phone number already exists");
-      }
-      var Otp = 1111;
-      // var Otp = Math.floor(1000 + Math.random() * 9000);
-
-      let time = helper.unixTimestamp();
-      req.body.loginTime = time;
-      req.body.otp = Otp;
-
-      let hash = await bcrypt.hash(req.body.password, 10);
-
-      let userData = {
-        parentId: parentId,
-        ...req.body,
-        password: hash
-      };
-
-      if (req.user.role == 1) {
-        // If the logged-in user has role:1, set babyId in userData
-        const userBaby = await baby_model.findOne({ userId: parentId });
-
-        if (userBaby) {
-          userData.babyId = userBaby._id;
-        } else {
-          return helper.failed(res, "Parent user does not have a baby assigned");
+        if (caregiverExists) {
+          return helper.success( res, "Caregiver already exists and is already assigned to your baby", caregiverExists);
         }
+        
+        if (userBaby != null) {
+          // ✅ create caregiver entry if not already linked
+            const caregiverExists = await caregiverModel.create({
+              userId: parentId,
+              caregiverId: isemailExist._id,
+              babyId: userBaby ? userBaby._id : null
+            });
+
+            return helper.success( res, "Caregiver already exists, added baby details", caregiverExists );
+        } 
+        return helper.failed(res, "Parent user does not have a baby to assign, please add baby details first");
+          
       }
 
-      let addsubUser = await user_model.create(userData);
-      if (addsubUser) {
-        const update_image = await user_model.findByIdAndUpdate({_id: addsubUser._id },{image: parentImg})
-      }
+        // const isphoneExist = await user_model.findOne({ phone: req.body.phone });
+        // if (isphoneExist) {
+        //   return helper.failed(res, "Phone number already exists");
+        // }
+        // var Otp = Math.floor(1000 + Math.random() * 9000);
+        
+        var Otp = 1111;
+        let time = helper.unixTimestamp();
+        req.body.loginTime = time;
+        req.body.otp = Otp;
+
+        let hash = await bcrypt.hash(req.body.password, 10);
+
+        let userData = {
+          parentId: parentId,
+          ...req.body,
+          password: hash
+        };
+
+        if (req.user.role == 1) {
+          if (userBaby) {
+            userData.babyId = userBaby._id;
+          } else {
+            return helper.failed(res, "Parent user does not have a baby assigned");
+          }
+        }
+
+        let addsubUser = await user_model.create(userData);
+        if (addsubUser) {
+          const update_image = await user_model.findByIdAndUpdate({_id: addsubUser._id },{image: parentImg})
+        }
+
+      let addbabytoSubuser = await caregiverModel.create({
+        userId: parentId,
+        caregiverId: addsubUser._id,
+        babyId: userBaby._id ? userBaby._id : null
+      });
+
 
       return helper.success(res, "Sub-user added successfully", addsubUser);
     } catch (error) {
