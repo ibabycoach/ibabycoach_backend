@@ -140,7 +140,7 @@ module.exports = {
             findUser = JSON.stringify(findUser);
             findUser = JSON.parse(findUser);
             findUser.token = token;
-            const checksubscription = await userSubscriptionModel.find({user: findUser._id});
+            const checksubscription = await userSubscriptionModel.findOne({user: findUser._id});
             findUser.subscription = checksubscription ;
 
             if (findUser.role === 2) {
@@ -560,7 +560,34 @@ module.exports = {
     }
   },
 
+  caregiver_exist: async (req, res) => {
+    try {
+          const v = new Validator(req.body, {
+            email: 'required|email',
+          });
 
+        let errorsResponse = await helper.checkValidation(v)
+        if (errorsResponse) {
+            return await helper.failed(res, errorsResponse)
+        }
+
+        req.body.email = req.body.email.toLowerCase();
+
+        var findUser = await user_model.findOne({ email: req.body.email, deleted: false})
+
+        if(!findUser) {
+          return helper.success(res, "Email available", {status: 0})
+        }
+
+        if (findUser.role == 1) {
+           return helper.success(res, "Email already registered to user/Parent", {status: 2})
+        } else {
+        return helper.success(res, "Email already registered to Caregiver", {status: 1})
+        }
+    } catch (error) {
+        console.log(error)
+    }
+  },
 
 }
 

@@ -154,6 +154,19 @@ module.exports = {
         return helper.failed(res, errorResponse);
       }
 
+      if (req.files && req.files.image_theme) {
+        var image_theme = req.files.image_theme;
+        if (image_theme) {
+          req.body.image_theme = helper.imageUpload(image_theme, "images");
+        }
+      }
+       if (req.files && req.files.image) {
+        var image = req.files.image;
+        if (image) {
+          req.body.image = helper.imageUpload(image, "images");
+        }
+      }
+
       let activityId = req.body.activityId;
       const editActivity = await activity_model.findOneAndUpdate(
         { _id: req.body.activityId },

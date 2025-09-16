@@ -2,6 +2,7 @@ const user_model = require ('../../model/Admin/user')
 const baby_model = require ('../../model/Admin/baby')
 const helper = require('../../Helper/helper')
 const { Validator } = require('node-input-validator');
+const userSubscription = require('../../model/Admin/user_subscriptions')
 const routinebuilder = require('../../model/Admin/routinebuilder');
 const unitModel = require('../../model/Admin/units');
 
@@ -109,16 +110,37 @@ module.exports = {
 
   baby_list: async(req, res)=> {
     try {
-        let userId = req.user._id;
+      let userId = req.user._id;
+        let getbabydetails;
 
-        if (req.user.role == 2) {
-          const parentId = req.user.parentId;
-          getbabydetails = await baby_model.find({ userId: parentId, deleted:false});
-        } else {
-          getbabydetails = await baby_model.find({ userId: userId, deleted:false});
-        }
+      if (req.user.role == 2) {
+        let getbabydetail = await baby_model.find({ caregiverId: userId, deleted:false})
+        .populate('userId')
+
+         // For each baby's userId, fetch subscriptions
+      const getbabydetails = await Promise.all(getbabydetail.map(async (baby) => {
+        const subscriptions = await userSubscription.findOne({
+          user: baby.userId?._id,
+          deleted: false
+        });
+
+        return {
+          ...baby.toObject(),
+          subscriptions
+        };
+      }));
+        return helper.success(res, "baby list", getbabydetails);
+        // return helper.success(res, "baby list", {
+        //   getbabydetails: getbabydetails
+        // });
+
+      } else {
+        getbabydetails = await baby_model.find({ userId: userId, deleted:false})
+        .populate('userId', '_id')
+        .populate('caregiverId')
+      }
         
-        return helper.success(res, "baby list", getbabydetails )
+      return helper.success(res, "baby list", getbabydetails )
     } catch (error) {
         console.log(error)
         return helper.failed(res, "Something went wrong");
@@ -150,6 +172,23 @@ module.exports = {
       console.log(error)
       return helper.failed(res, "Something went wrong");
   }
+  },
+
+  babyNotAssinedToCargiver: async (req, res) => {
+    try {
+      const userId = req.user._id
+      let babylist = await baby_model.find({ userId: userId, caregiverId:null, deleted: false})
+      .sort({ createdAt: -1 })
+
+      if (!babylist) {
+        return helper.failed(res, "Sub-user not found");
+      }
+
+    return helper.success(res, "baby not assigned list", babylist);
+
+    } catch (error) {
+      console.log(error)
+    }
   },
     
 }

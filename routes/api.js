@@ -34,7 +34,7 @@ router.post('/change_password', authenticateJWT, Authcontroller.change_password)
 router.post('/forgotPassword', Authcontroller.forgotPassword)
 router.get('/reset_password/:id/:ran_token',Authcontroller.resetPassword);
 router.post('/update_forgot_password',Authcontroller.updateResetPassword);
-
+router.post('/caregiver_exist',Authcontroller.caregiver_exist);
 
 
 ///////// PROFILE ////////////
@@ -55,6 +55,7 @@ router.post('/edit_baby', authenticateJWT, babycontroller.edit_baby)
 router.post('/delete_baby', authenticateJWT, babycontroller.delete_baby)
 router.get('/baby_list', authenticateJWT, babycontroller.baby_list)
 router.post('/switch_baby_account', authenticateJWT, babycontroller.switch_baby_account)
+router.get('/babyNotAssinedToCargiver', authenticateJWT, babycontroller.babyNotAssinedToCargiver)
 
 /////////// GROWTH ///////////
 router.post('/Add_growth', authenticateJWT, growthcontroller.Add_growth)
