@@ -317,7 +317,7 @@ module.exports = {
           const anyStatusOne = reminderStatus.some(status => status.status === 1);
           statusValue = anyStatusOne ? 1 : 0;
       }
-      const subscription = await userSubscriptionModel.findOne({ user: userId });
+      const subscription = await userSubscriptionModel.findOne({ user: userId, deleted:false });
       return helper.success(res, "User profile", { userprofile, userBaby, reminderStatus: statusValue,subscription });
     } catch (error) {
       console.log(error);
@@ -328,25 +328,22 @@ module.exports = {
   delete_user: async(req, res)=> {
     try {
       const v = new Validator(req.body, {
-        userId: "required",
+        _id: "required",
       });     
       let userId = req.user._id 
-      let caregiverId = req.body.userId
+      let caregiverId = req.body._id
 
       const errorResponse = await helper.checkValidation(v);
       if (errorResponse) {
         return helper.failed(res, errorResponse);
       }
-      // const userdata = await user_model.findByIdAndUpdate({_id: userId},
-      // {deleted: true})      
+    
+      await baby_model.updateMany(
+        { userId: userId, caregiverId: caregiverId },
+        { $set: { caregiverId: null } }
+      );     
 
-      const deletecaregiver = await caregiverModel.findOneAndDelete(
-        {parentId: userId,
-          caregiverId: caregiverId
-        }
-      )           
-
-      return helper.success(res, "User deleted successfully", {})
+      return helper.success(res, "Caregiver deleted successfully", {})
     } catch (error) {
       console.log(error)
     }

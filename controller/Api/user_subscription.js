@@ -1,7 +1,7 @@
 const userSubscriptionModel = require('../../model/Admin/user_subscriptions');
 const userModel = require('../../model/Admin/user');
 const helper = require('../../Helper/helper');
-
+const { Validator } = require("node-input-validator");
 const cron = require('node-cron');
 
 cron.schedule('0 0 * * * *', async () => {
@@ -32,6 +32,51 @@ cron.schedule('0 0 * * * *', async () => {
           { $set: { subscription_status: hasActive ? '1' : '0' } }
         );
         console.log(` User ${userId} subscription_status set to ${hasActive ? '1' : '0'}`);
+      }
+    } else {
+      console.log(' No expired subscriptions found.');
+    }
+
+  } catch (error) {
+    console.error(' Error running cron job:', error);
+  }
+});
+
+cron.schedule(' * * * * *', async () => {
+  console.log('🔄 Running subscription expiry checker cron on every 1 minute.');
+  try {
+    const now = new Date();
+    const hours = String(now.getHours()).padStart(2, '0');
+    const minutes = String(now.getMinutes()).padStart(2, '0');
+    const seconds = String(now.getSeconds()).padStart(2, '0');
+    const currentTime = `${hours}:${minutes}:${seconds}`;
+
+    const date = now.toISOString().split("T")[0]; // yyyy-mm-dd
+
+    const expiredSubscriptions = await userSubscriptionModel.find({
+      status: '0',
+      deleted: false,
+      expiryDate: date,
+      expiryTime: { $lte: currentTime }
+    });
+
+    if (expiredSubscriptions.length > 0) {
+      const idsToUpdate = expiredSubscriptions.map(sub => sub._id);
+      
+      const userIds = expiredSubscriptions.map(sub => sub.user.toString());
+
+      await userSubscriptionModel.updateMany(
+        { _id: { $in: idsToUpdate } },
+        { $set: { deleted:true } }
+      );
+
+      for (const userId of [...new Set(userIds)]) {
+
+        await userModel.updateOne(
+          { _id: userId },
+          { $set: { subscription_status: '0' } }
+        );
+        console.log(` User ${userId} subscription_status set to 0 status`);
       }
     } else {
       console.log(' No expired subscriptions found.');
@@ -107,36 +152,47 @@ module.exports = {
       });
     }
   },
+
   addSubscription: async (req, res) => {
-    try {
-      const userId = req.user.id;
-      const { type, duration, plan_type } = req.body;
+  try {
+    const userId = req.user.id;
+    const { type, duration, plan_type } = req.body;
 
-      if (!plan_type) {
-        return res.status(400).json({
-          success: false,
-          code: 400,
-          message: 'Plan type is required',
-        });
-      }
-      const existingSubscription = await userSubscriptionModel.findOne({
-        user: userId,
-        type,
-        plan_type,
-        status: '1',
-        deleted: false,
+    if (!plan_type) {
+      return res.status(400).json({
+        success: false,
+        code: 400,
+        message: 'Plan type is required',
       });
+    }
 
-      if (existingSubscription) {
-        return helper.failed(
-          res,
-          'You already have an active subscription of this type'
-        );
-      }
-      const startDate = new Date();
-      const endDate = new Date(startDate);
-      endDate.setDate(endDate.getDate() + parseInt(duration));
-      const newSubscription = await userSubscriptionModel.create({
+    // Calculate dates
+    const startDate = new Date();
+    const endDate = new Date(startDate);
+    endDate.setDate(endDate.getDate() + parseInt(duration));
+
+    // Check if subscription already exists
+    let subscription = await userSubscriptionModel.findOne({
+      user: userId,
+      // type,
+      // plan_type,
+      deleted: false,
+    });
+
+    if (subscription) {
+      // Update existing subscription
+      subscription.duration = duration;
+      subscription.start_date = startDate;
+      subscription.end_date = endDate;
+      subscription.plan_type = plan_type;
+      subscription.type = type;
+      subscription.expiry_time = endDate.toISOString();
+      subscription.status = '1';
+
+      await subscription.save();
+    } else {
+      // Create new subscription
+      subscription = await userSubscriptionModel.create({
         user: userId,
         type,
         duration,
@@ -147,29 +203,64 @@ module.exports = {
         status: '1',
         deleted: false,
       });
-      await userModel.updateOne(
-        { _id: userId },
-        { $set: { subscription_status: '1' } }
-      );
-       const responseBody = {
-        ...newSubscription.toObject(),
-        subscription_status: '1',
-      };
-
-      return res.status(200).json({
-        success: true,
-        code: 200,
-        message: 'Subscription created successfully',
-        body: responseBody,
-      });
-    } catch (error) {
-      console.error('Subscription creation error:', error);
-      return res.status(500).json({
-        success: false,
-        code: 500,
-        message: 'Internal Server Error',
-        error: error.message,
-      });
     }
+
+    // Update user subscription_status
+    await userModel.updateOne(
+      { _id: userId },
+      { $set: { subscription_status: '1' } }
+    );
+
+    const responseBody = {
+      ...subscription.toObject(),
+      subscription_status: '1',
+    };
+
+    return res.status(200).json({
+      success: true,
+      code: 200,
+      message: subscription.isNew
+        ? 'Subscription created successfully'
+        : 'Subscription updated successfully',
+      body: responseBody,
+    });
+
+  } catch (error) {
+    console.error('Subscription creation error:', error);
+    return res.status(500).json({
+      success: false,
+      code: 500,
+      message: 'Internal Server Error',
+      error: error.message,
+    });
+  }
   },
+
+  updateExpiryDate: async (req, res) => {
+      try {
+        let userId = req.user._id;
+
+        const v = new Validator(req.body, {
+          expiryTime: "required",
+          expiryDate: "required"
+        });
+        const errorResponse = await helper.checkValidation(v);
+        if (errorResponse) {
+          return helper.failed(res, errorResponse);
+        }
+  
+        const updateExpiry = await userSubscriptionModel.findOneAndUpdate(
+          { user: userId },
+          { ...req.body }
+        );       
+  
+        const userSubscription = await userSubscriptionModel.findOne({ user: userId });
+
+        return helper.success(res, "Subscription expiry date updated successfully", userSubscription);
+      } catch (error) {
+        console.log(error);
+      }
+  },
+
+
 };

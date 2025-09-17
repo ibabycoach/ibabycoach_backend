@@ -29,13 +29,13 @@ module.exports = {
             }
           }
           let userId = req.user._id
-            var addbaby = await baby_model.create({ 
+            var addsbaby = await baby_model.create({ 
               userId,
               ...req.body });
 
               const updatebabydata = await user_model.findByIdAndUpdate(userId, {
-               babyId: addbaby._id,
-              //  image: addbaby.image
+               babyId: addsbaby._id,
+              //  image: addsbaby.image
             });
 
            // Check if a unit already exists for the user before creating a new one
@@ -43,6 +43,8 @@ module.exports = {
             if (!existingUnit) {
               await unitModel.create({ userId });
             }
+            const addbaby = await baby_model.findOne({ _id: addsbaby._id })
+            .populate('userId', '_id')
 
           return helper.success(res, "baby details added", addbaby)
     } catch (error) {
@@ -130,9 +132,6 @@ module.exports = {
         };
       }));
         return helper.success(res, "baby list", getbabydetails);
-        // return helper.success(res, "baby list", {
-        //   getbabydetails: getbabydetails
-        // });
 
       } else {
         getbabydetails = await baby_model.find({ userId: userId, deleted:false})
@@ -179,6 +178,7 @@ module.exports = {
       const userId = req.user._id
       let babylist = await baby_model.find({ userId: userId, caregiverId:null, deleted: false})
       .sort({ createdAt: -1 })
+      .populate('userId', '_id')
 
       if (!babylist) {
         return helper.failed(res, "Sub-user not found");

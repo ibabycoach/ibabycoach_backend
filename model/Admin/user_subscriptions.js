@@ -29,6 +29,14 @@ const userSubscriptionSchema = new mongoose.Schema({
     type: Date,
     default: 'null'
   },
+  expiryDate: {
+    type: String,
+    default: ''
+  },
+  expiryTime: {
+    type: String,
+    default: ''
+  },
   status: {
     type: String,
     enum: ['1', '0'],

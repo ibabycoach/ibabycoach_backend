@@ -140,7 +140,7 @@ module.exports = {
             findUser = JSON.stringify(findUser);
             findUser = JSON.parse(findUser);
             findUser.token = token;
-            const checksubscription = await userSubscriptionModel.findOne({user: findUser._id});
+            const checksubscription = await userSubscriptionModel.findOne({user: findUser._id, deleted:false});
             findUser.subscription = checksubscription ;
 
             if (findUser.role === 2) {
