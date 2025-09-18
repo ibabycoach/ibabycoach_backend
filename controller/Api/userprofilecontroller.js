@@ -130,19 +130,18 @@ module.exports = {
       return helper.failed(res, errorsResponse);
     }
 
-    // ✅ Normalize babyIds properly
-    let babyIds = [];
-    if (Array.isArray(req.body.babyId)) {
-      babyIds = req.body.babyId; // already an array
-    } else if (typeof req.body.babyId === "string") {
-      babyIds = req.body.babyId.split(",").map(id => id.trim());
-    } else {
-      babyIds = [req.body.babyId];
-    }
+   // Normalize babyIds
+      let babyIds = [];
+      if (Array.isArray(req.body.babyId)) {
+        babyIds = req.body.babyId;
+      } else if (typeof req.body.babyId === "string") {
+        babyIds = req.body.babyId.split(",").map(id => id.trim());
+      } else if (req.body.babyId) {
+        babyIds = [req.body.babyId];
+      }
 
     // ✅ Convert to ObjectIds
     babyIds = babyIds.map(id => new mongoose.Types.ObjectId(id));
-    console.log(babyIds, ">>>>>>>>>>>>>>>>>>>>>>>>>>>.babyIds");
 
     // Check if caregiver already exists
     let caregiverUser = await user_model.findOne({ email: req.body.email, deleted: false });
@@ -165,7 +164,7 @@ module.exports = {
     const Otp = 1111;
     req.body.loginTime = helper.unixTimestamp();
     req.body.otp = Otp;
-    console.log(req.body, "=====>>>>>>>>>>>>>>.caregiverUser");
+    delete req.body.babyId;
 
     const hash = await bcrypt.hash(req.body.password, 10);
 
@@ -177,14 +176,11 @@ module.exports = {
       ...req.body
     });
 
-    console.log(caregiverUser, "=====>>>>>>>>>>>>>>.caregiverUser");
-
     const updateResult = await baby_model.updateMany(
       { _id: { $in: babyIds }, userId: parentId },
       { $set: { caregiverId: caregiverUser._id } }
     );
 
-    console.log(updateResult, "=== ????????????==updateResult");
     return helper.success(res, "New caregiver created and linked to babies", caregiverUser);
 
   } catch (error) {
