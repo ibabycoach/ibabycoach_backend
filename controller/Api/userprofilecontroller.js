@@ -171,9 +171,14 @@ module.exports = {
     caregiverUser = await user_model.create({
       parentId,
       role: 2,
+      otp: req.body.otp,
+      name: req.body.name,
+      email: req.body.email,
+      country_code: req.body.country_code,
+      phone: req.body.phone,
+      relation: req.body.relation,
       password: hash,
       image: parentImg,
-      ...req.body
     });
 
     const updateResult = await baby_model.updateMany(
