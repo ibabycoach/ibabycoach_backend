@@ -311,7 +311,32 @@ module.exports = {
     console.log(error);
     return helper.error(res, "Error updating caregiver");
   }
-},
+  },
+
+  subuser_details: async (req, res) => {
+  try {
+    const parentId = req.user._id;
+
+    const v = new Validator(req.body, {
+      caregiverId: "required",
+    });
+    const errorsResponse = await helper.checkValidation(v);
+    if (errorsResponse) {
+      return helper.failed(res, errorsResponse);
+    }
+
+    let caregiver = await user_model.findOne({ _id: req.body.caregiverId, role:2,  parentId:parentId });
+    if (!caregiver) {
+      return helper.failed(res, "Caregiver not found");
+    }
+    let babies = await baby_model.find({ userId: parentId, caregiverId: req.body.caregiverId, deleted:false });
+
+    return helper.success(res, "Caregiver details", {caregiver, babies});
+  } catch (error) {
+    console.log(error);
+    return helper.error(res, "Error updating caregiver");
+  }
+  },
 
 
 

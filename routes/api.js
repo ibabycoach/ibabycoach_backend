@@ -47,6 +47,7 @@ router.post('/switch_user_account', authenticateJWT, userprofilecontroller.switc
 router.post('/delete_user', authenticateJWT, userprofilecontroller. delete_user)
 router.post('/deleted_account', authenticateJWT, userprofilecontroller.deleted_account)
 router.post('/update_subuser', authenticateJWT, userprofilecontroller.update_subuser)
+router.post('/subuser_details', authenticateJWT, userprofilecontroller.subuser_details)
 
 
 

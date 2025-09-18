@@ -192,6 +192,8 @@ module.exports = function (io) {
             const get_socket_id = await SocketUsers.findOne({
               userId: get_data.receiver_id,
             });
+            console.log(get_socket_id, ">>>>>>>>>>>>>>>>>>>>>>>>>>get_socket_id");
+            
             var get_user = await Users.findOne({ _id: get_data.receiver_id });
             var sender_data = await Users.findOne({ _id: get_data.sender_id });
             const { device_token, device_type, name } = get_user;
@@ -216,9 +218,11 @@ module.exports = function (io) {
               const push = await helper.send_push_notificationsAdmin(objS);
             }
             if (get_socket_id) {
+            console.log(get_socket_id.socketId, ">>>>>>>>>>>>>>>>>>>>>>>>>>get_socket_id.socketId");
+
               io.to(get_socket_id.socketId).emit('send_message_listener', getdata);
             }
-            // socket.emit('send_message_listener', getdata);
+            socket.emit('send_message_listener', getdata);
           }
         }
       } catch (error) {
