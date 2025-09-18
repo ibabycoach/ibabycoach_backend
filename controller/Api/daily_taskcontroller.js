@@ -52,7 +52,7 @@ module.exports = {
 
       const findDailyTasks = await daily_task.find(filter)
       .populate('activityIds', 'activity_name image bg_color is_reaction')
-      .populate('userId', 'name relation')
+      .populate('userId', 'name relation role')
       .sort({ createdAt: -1 });
       
       // Count occurrences of each activity

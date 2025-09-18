@@ -41,80 +41,6 @@ module.exports = {
       }
   },
 
-  // add_subuser: async (req, res) => {
-  //   try {
-  //     const parentId = req.user._id;
-  //     const parentImg = req.user.image;
-
-  //     const v = new Validator(req.body, {
-  //       name: "required",
-  //       email: "required",
-  //       // password: "required" 
-  //     });
-  //     const errorsResponse = await helper.checkValidation(v);
-  //     if (errorsResponse) {
-  //       return helper.failed(res, errorsResponse);
-  //     }
-
-  //     // Handle babyIds
-  //     let babyIds = req.body.babyId;
-  //     if (!Array.isArray(babyIds)) {
-  //       babyIds = babyIds.toString().split(",").map(id => id.trim());
-  //     }
-  //     babyIds = babyIds.map(id => new mongoose.Types.ObjectId(id));
-
-  //     console.log(babyIds, ">>>>>>>>>>>>>>>>>>>>>>>>>>>.babyIds");
-
-  //     // Check if caregiver already exists
-  //     let caregiverUser = await user_model.findOne({ email: req.body.email, deleted: false });
-
-  //     if (caregiverUser) {
-  //       if (caregiverUser.role == 1) {
-  //         return helper.failed(res, "Email already exists for a Parent user");
-  //       }
-
-  //       const updateResult = await baby_model.updateMany(
-  //         { _id: { $in: babyIds }, userId: parentId },
-  //         { $set: { caregiverId: caregiverUser._id } } // or $addToSet if array
-  //       );
-
-  //       console.log(updateResult, "=== caregiver update result ===");
-
-  //       return helper.success(res, "Caregiver already exists and updated in babies", caregiverUser);
-  //     }
-
-  //     // Create caregiver user
-  //     const Otp = 1111;
-  //     req.body.loginTime = helper.unixTimestamp();
-  //     req.body.otp = Otp;
-
-  //     const hash = await bcrypt.hash(req.body.password, 10);
-
-  //     caregiverUser = await user_model.create({
-  //       parentId,
-  //       ...req.body,
-  //       role: 2,
-  //       password: hash,
-  //       image: parentImg
-  //     });
-  //     console.log(caregiverUser._id, "=====>>>>>>>>>>>>>>.caregiverUser._id");
-
-  //     const updateResult = await baby_model.updateMany(
-  //       { _id: { $in: babyIds }, userId: parentId },
-  //       { $set: { caregiverId: caregiverUser._id } }
-  //     );
-
-  //     console.log(updateResult, "=== ????????????==updateResult");
-
-  //     return helper.success(res, "New caregiver created and linked to babies", caregiverUser);
-
-  //   } catch (error) {
-  //     console.log(error);
-  //     return helper.error(res, "Error");
-  //   }
-  // },
-
-
   add_subuser: async (req, res) => {
   try {
     const parentId = req.user._id;
@@ -192,7 +118,7 @@ module.exports = {
     console.log(error);
     return helper.error(res, "Error");
   }
-},
+  },
 
   subUser_list: async (req, res) => {
     try {
@@ -349,6 +275,44 @@ module.exports = {
       console.log(error)
     }
   },
+
+  update_subuser: async (req, res) => {
+  try {
+    const parentId = req.user._id;
+
+    const v = new Validator(req.body, {
+      caregiverId: "required",
+    });
+    const errorsResponse = await helper.checkValidation(v);
+    if (errorsResponse) {
+      return helper.failed(res, errorsResponse);
+    }
+
+    let caregiver = await user_model.findOne({ _id: req.body.caregiverId, role:2,  parentId:parentId });
+    if (!caregiver) {
+      return helper.failed(res, "Caregiver not found");
+    }
+
+    const { caregiverId, ...updateData } = req.body;
+   
+    if (updateData.password) {
+      updateData.password = await bcrypt.hash(updateData.password, 10);
+    }
+
+    const updatedCaregiver = await user_model.findOneAndUpdate(
+      { _id: caregiverId, role:2, parentId:parentId  },
+        updateData,
+      { new: true } 
+    );
+
+    return helper.success(res, "Caregiver details updated successfully", updatedCaregiver);
+
+  } catch (error) {
+    console.log(error);
+    return helper.error(res, "Error updating caregiver");
+  }
+},
+
 
 
 

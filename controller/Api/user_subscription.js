@@ -241,8 +241,8 @@ module.exports = {
         let userId = req.user._id;
 
         const v = new Validator(req.body, {
-          expiryTime: "required",
-          expiryDate: "required"
+          // expiryTime: "required",
+          // expiryDate: "required",
         });
         const errorResponse = await helper.checkValidation(v);
         if (errorResponse) {
