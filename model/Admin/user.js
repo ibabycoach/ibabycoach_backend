@@ -32,7 +32,7 @@ const userSchema = new mongoose.Schema({
   facebook: {type: String},   //social login
   apple: {type: String},      //social login
   socialtype: {type: String, enum: ["0", "1", "2", "3"]},
-  otp:{type:Number},
+  otp:{type:Number, default:0},
   otpverify:{type:Number,default:0},
   forgotPasswordToken: {type: String},
   userData_Pdf: {type: String, default: ""},

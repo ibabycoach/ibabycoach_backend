@@ -26,6 +26,8 @@ module.exports = {
         return helper.failed(res, errorsResponse);
       }
 
+      req.body.email = req.body.email.toLowerCase();
+
       const isemailExist = await user_model.findOne({ email: req.body.email, deleted:false });
       if (isemailExist) {
         return helper.failed(res, "Email already exists");
@@ -51,7 +53,7 @@ module.exports = {
 
       let hash = await bcrypt.hash(req.body.password, 10);
 
-      req.body.email = req.body.email.toLowerCase();
+      // req.body.email = req.body.email.toLowerCase();
       let dataEnter = await user_model.create({ ...values.inputs, password: hash });
 
       const getUser = await user_model.findOne({ email: dataEnter.email });
@@ -74,7 +76,7 @@ module.exports = {
         userInfo = JSON.parse(userInfo);
         userInfo.token = token;
 
-        let html =` Hello ${req.body.name}, <br> This is your one time password (OTP) ${ Otp } to complete the signup process. <br><br> Regards,<br> ibabycoach`;
+        let html =` Hello ${req.body.name}, <br> This is your one time password (OTP) ${ Otp } to complete the signup process. <br> Please do not share this OTP with anyone. <br><br> Regards,<br> ibabycoach`;
 
           var transporter = nodemailer.createTransport({
               host: 'smtp.hostinger.com',
@@ -101,74 +103,190 @@ module.exports = {
     }
   },
 
+  // Login: async (req, res) => {
+  //   try {
+  //         const v = new Validator(req.body, {
+  //           email: 'required|email',
+  //           password: 'required',
+  //         });
+
+  //       let errorsResponse = await helper.checkValidation(v)
+  //       if (errorsResponse) {
+  //           return await helper.failed(res, errorsResponse)
+  //       }
+
+  //       req.body.email = req.body.email.toLowerCase();
+  //       const updateDeviceToken = await user_model.findOneAndUpdate({email: req.body.email, deleted: false},
+  //         {device_token: req.body.device_token,
+  //           device_type: req.body.device_type},
+  //           {new: true}
+  //           );
+
+  //       var findUser = await user_model.findOne({ email: req.body.email, deleted: false})
+
+  //       if (findUser) {
+
+  //           let checkPassword = await bcrypt.compare(req.body.password, findUser.password);
+  //           const findbaby = await babyModel.findOne({userId: findUser._id});
+
+  //           let time = await helper.unixTimestamp();
+  //           let token = jwt.sign(
+  //             {
+  //               data: {
+  //                 _id: findUser._id,
+  //                 loginTime: time,
+  //               },
+  //             },
+  //             secretCryptoKey,
+  //             { expiresIn: "365d"}
+  //           );
+  //           findUser = JSON.stringify(findUser);
+  //           findUser = JSON.parse(findUser);
+  //           findUser.token = token;
+  //           const checksubscription = await userSubscriptionModel.findOne({user: findUser._id, deleted:false});
+  //           findUser.subscription = checksubscription ;
+
+  //           if (findUser.role === 2) {
+  //             return await helper.success(res, "login successful", findUser)
+  //         } else {
+
+  //             const findbaby = await babyModel.findOne({
+  //               userId: findUser._id,
+  //             });
+  //             findUser.hasBabyAdded = findbaby ? 1 : 0;
+  //           }
+
+  //           if (checkPassword == true) {
+
+              
+
+  //             req.session.user = findUser;
+  //             return await helper.success(res, "Login successful", findUser)
+  //           } else {
+  //             console.log("incorrect password")
+  //             return helper.failed(res, "Incorrect password")
+  //           }
+  //       } else {
+  //         console.log("incorrect email")
+  //         return helper.failed(res, "Incorrect email")
+  //       }
+  //   } catch (error) {
+  //       console.log(error)
+  //   }
+  // },
+
+
   Login: async (req, res) => {
-    try {
-          const v = new Validator(req.body, {
-            email: 'required|email',
-            password: 'required',
+  try {
+    const v = new Validator(req.body, {
+      email: "required|email",
+      password: "required",
+    });
+
+    let errorsResponse = await helper.checkValidation(v);
+    if (errorsResponse) {
+      return await helper.failed(res, errorsResponse);
+    }
+
+    req.body.email = req.body.email.toLowerCase();
+
+    let findUser = await user_model.findOne({
+      email: req.body.email,
+      deleted: false,
+    });
+
+    if (!findUser) {
+      return helper.failed(res, "Incorrect email");
+    }
+    
+    let checkPassword = await bcrypt.compare( req.body.password, findUser.password );
+    
+    if (checkPassword !== true) {
+      return helper.failed(res, "Incorrect password");
+    }
+
+    // ✅ Password correct, now check OTP for caregivers
+    if (findUser.role == 2) {
+      
+      if (findUser.otpverify == 0) {
+        var otp = Math.floor(1000 + Math.random() * 9000);
+        
+        // Save OTP to user table
+        let updateuser = await user_model.updateOne(
+          { _id: findUser._id },
+          { otp, 
+            otpverify: 0,
+            device_token: req.body.device_token,
+            device_type: req.body.device_type,
+          }
+        );
+
+         findUser = await user_model.findOne({
+            email: req.body.email,
+            deleted: false,
           });
 
-        let errorsResponse = await helper.checkValidation(v)
-        if (errorsResponse) {
-            return await helper.failed(res, errorsResponse)
-        }
+        let html =` Hello ${findUser.name}, <br> This is your one time password (OTP) ${ otp } to complete the login process. <br> Please do not share this OTP with anyone. <br><br> Regards,<br> ibabycoach`;
 
-        req.body.email = req.body.email.toLowerCase();
-        const updateDeviceToken = await user_model.findOneAndUpdate({email: req.body.email, deleted: false},
-          {device_token: req.body.device_token,
-            device_type: req.body.device_type},
-            {new: true}
-            );
+          var transporter = nodemailer.createTransport({
+              host: 'smtp.hostinger.com',
+              port: '587',
+              auth: {
+                  user: 'app@ibabycoach.com',
+                  pass: 'Th3B@byCo@ch'
+              }
+          });
+          // send mail with defined transport object
+          let info = await transporter.sendMail({
+              from: 'app@ibabycoach.com' ,
+              to: req.body.email,
+              subject: "ibabycoach",
+              text: "ibabycoach",
+              html: html,
+          });
 
-        var findUser = await user_model.findOne({ email: req.body.email, deleted: false})
+        return helper.success(res, "OTP sent to your email, please verify to complete the login process", findUser);
+      }
 
-        if (findUser) {
-            let checkPassword = await bcrypt.compare(req.body.password, findUser.password);
-            const findbaby = await babyModel.findOne({userId: findUser._id});
-
-            let time = await helper.unixTimestamp();
-            let token = jwt.sign(
-              {
-                data: {
-                  _id: findUser._id,
-                  loginTime: time,
-                },
-              },
-              secretCryptoKey,
-              { expiresIn: "365d"}
-            );
-            findUser = JSON.stringify(findUser);
-            findUser = JSON.parse(findUser);
-            findUser.token = token;
-            const checksubscription = await userSubscriptionModel.findOne({user: findUser._id, deleted:false});
-            findUser.subscription = checksubscription ;
-
-            if (findUser.role === 2) {
-              return await helper.success(res, "login successful", findUser)
-          } else {
-
-            const findbaby = await babyModel.findOne({
-              userId: findUser._id,
-            });
-            findUser.hasBabyAdded = findbaby ? 1 : 0;
-          }
-
-
-            if (checkPassword == true) {
-              req.session.user = findUser;
-              return await helper.success(res, "Login successful", findUser)
-            } else {
-              console.log("incorrect password")
-              return helper.failed(res, "Incorrect password")
-            }
-        } else {
-          console.log("incorrect email")
-          return helper.failed(res, "Incorrect email")
-        }
-    } catch (error) {
-        console.log(error)
     }
+
+    let time = await helper.unixTimestamp();
+    let token = jwt.sign(
+      {
+        data: {
+          _id: findUser._id,
+          loginTime: time,
+        },
+      },
+      secretCryptoKey,
+      { expiresIn: "365d" }
+    );
+
+    // Convert to plain object
+    findUser = JSON.parse(JSON.stringify(findUser));
+    findUser.token = token;
+
+    // Attach subscription
+    const checksubscription = await userSubscriptionModel.findOne({
+      user: findUser._id,
+      deleted: false,
+    });
+    findUser.subscription = checksubscription;
+
+    // Has baby check (for parent users)
+    if (findUser.role !== 2) {
+      const findbaby = await babyModel.findOne({ userId: findUser._id });
+      findUser.hasBabyAdded = findbaby ? 1 : 0;
+    }
+
+    req.session.user = findUser;
+    return helper.success(res, "Login successful", findUser);
+  } catch (error) {
+    console.log(error);
+    return helper.error(res, "Error during login");
+  }
   },
+
 
   otpVerify: async (req, res) => {
     try {
@@ -223,12 +341,44 @@ module.exports = {
 
   resend_otp: async (req, res) => {
     try {
-      // var otp = Math.floor(1000 + Math.random() * 9000);
-      var otp = 1111;
-      var update_otp = await user_model.findOneAndUpdate(
-        { phone: req.body.phone },
+      // var otp = 1111;
+      var otp = Math.floor(1000 + Math.random() * 9000);
+      req.body.email = req.body.email.toLowerCase();
+
+      var finduser = await user_model.findOne(
+        { email: req.body.email,
+          deleted:false
+        },
+      );
+      if (!finduser) {
+        return helper.failed(res, "User not found")
+      }
+
+       var update_otp = await user_model.findOneAndUpdate(
+        { email: req.body.email,
+          deleted: false
+         },
         { otp: otp }
       );
+
+      let html =` Hello ${finduser.name}, <br> This is your one time password (OTP) ${ otp } to complete the login process. <br> Please do not share this OTP with anyone. <br><br> Regards,<br> ibabycoach`;
+
+          var transporter = nodemailer.createTransport({
+              host: 'smtp.hostinger.com',
+              port: '587',
+              auth: {
+                  user: 'app@ibabycoach.com',
+                  pass: 'Th3B@byCo@ch'
+              }
+          });
+          // send mail with defined transport object
+          let info = await transporter.sendMail({
+              from: 'app@ibabycoach.com' ,
+              to: req.body.email,
+              subject: "ibabycoach",
+              text: "ibabycoach",
+              html: html,
+          });
 
       if (update_otp) {
         return await helper.success(res, "Resend otp successfully", otp);

@@ -87,17 +87,13 @@ module.exports = {
     }
 
     // Create caregiver user
-    const Otp = 1111;
     req.body.loginTime = helper.unixTimestamp();
-    req.body.otp = Otp;
     delete req.body.babyId;
-
     const hash = await bcrypt.hash(req.body.password, 10);
 
     caregiverUser = await user_model.create({
       parentId,
       role: 2,
-      otp: req.body.otp,
       name: req.body.name,
       email: req.body.email,
       country_code: req.body.country_code,
@@ -329,7 +325,7 @@ module.exports = {
     if (!caregiver) {
       return helper.failed(res, "Caregiver not found");
     }
-    let babies = await baby_model.find({ userId: parentId, caregiverId: req.body.caregiverId, deleted:false });
+    let babies = await baby_model.find({ userId: parentId, caregiverId: req.body.caregiverId, deleted:false }).populate('userId', '_id')
 
     return helper.success(res, "Caregiver details", {caregiver, babies});
   } catch (error) {
