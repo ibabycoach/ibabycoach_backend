@@ -21,6 +21,10 @@ module.exports = {
       const baby_growth = await growthModel.find({ babyId: babyId, deleted: false })
         .sort({ createdAt: -1 })
         .populate("userId", "name");
+
+        if (!baby_growth) {
+          return helper.failed(res, "Baby growth not found", [])
+        }
   
       const findUserUnit = await unitModel.findOne({ userId });
   
@@ -202,7 +206,7 @@ module.exports = {
 
         // Check if we have at least two entries
         if (baby_growth.length < 2) {
-          return helper.success(res, "Only one entry available, no comparison made.");
+          return helper.success(res, "Only one entry available, no comparison made.", []);
       }
 
         const lastEntry = baby_growth[0];
