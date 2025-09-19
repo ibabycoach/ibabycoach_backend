@@ -321,7 +321,7 @@ module.exports = {
       return helper.failed(res, errorsResponse);
     }
 
-    let caregiver = await user_model.findOne({ _id: req.body.caregiverId, role:2,  parentId:parentId });
+    let caregiver = await user_model.findOne({ _id: req.body.caregiverId, role:2 });
     if (!caregiver) {
       return helper.failed(res, "Caregiver not found");
     }
