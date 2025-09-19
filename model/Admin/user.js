@@ -36,7 +36,7 @@ const userSchema = new mongoose.Schema({
   otpverify:{type:Number,default:0},
   forgotPasswordToken: {type: String},
   userData_Pdf: {type: String, default: ""},
-  loginTime:{type: String},
+  loginTime:{type: String, default: ""},
   deleted: {type: Boolean, default: false},
   subscription_status: {type: String, default: '0'},
 }, {

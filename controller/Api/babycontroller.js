@@ -112,12 +112,16 @@ module.exports = {
 
   baby_list: async(req, res)=> {
     try {
-      let userId = req.user._id;
+      let userId = req.user._id;      
         let getbabydetails;
 
       if (req.user.role == 2) {
         let getbabydetail = await baby_model.find({ caregiverId: userId, deleted:false})
-        .populate('userId')
+        .populate('userId');
+
+        if (!getbabydetail) {
+          return helper.failed(res, "No baby found", [])
+        }
 
          // For each baby's userId, fetch subscriptions
       const getbabydetails = await Promise.all(getbabydetail.map(async (baby) => {
@@ -138,11 +142,11 @@ module.exports = {
         .populate('userId', '_id')
         .populate('caregiverId')
       }
-        
+
       return helper.success(res, "baby list", getbabydetails )
     } catch (error) {
         console.log(error)
-        return helper.failed(res, "Something went wrong in baby list");
+        return helper.failed(res, "Something went wrong in baby list", []);
     }
   },
 

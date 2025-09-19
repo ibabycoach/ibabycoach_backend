@@ -299,20 +299,23 @@ module.exports = {
 
       jwt.verify(token, secretCryptoKey, async (err, payload) => {
 
+        // console.log(token, ">>>>>>>>>>>>>>>>>>.token");
+        console.log( payload, ">>>>>>>>>>>>>>>>>>payload.");
+        
+
         if (err) {
           return res.status(401).json({
             success: false,
             code: 401,
             message: "invalid token",
-            body: {},
+            // body: {},
+            body: []
           });
         }
 
         const existingUser = await user_model.findOne({
-
           _id: payload.data._id,
           // loginTime: payload.data.loginTime,
-
         });
 
         if (existingUser) {
@@ -324,7 +327,8 @@ module.exports = {
             success: false,
             code: 401,
             message: "Unauthorized token",
-            body: {},
+            // body: {},
+             body: []
           });
         }
       });
@@ -333,7 +337,8 @@ module.exports = {
         success: false,
         code: 403,
         message: "Token required",
-        body: {},
+        // body: {},
+         body: []
       });
     }
   },

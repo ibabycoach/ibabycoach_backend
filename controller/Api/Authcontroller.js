@@ -210,12 +210,13 @@ module.exports = {
       
       if (findUser.otpverify == 0) {
         var otp = Math.floor(1000 + Math.random() * 9000);
-        
+        let time = helper.unixTimestamp();
         // Save OTP to user table
         let updateuser = await user_model.updateOne(
           { _id: findUser._id },
           { otp, 
-            otpverify: 0,
+            // otpverify: 0,
+            loginTime: time,
             device_token: req.body.device_token,
             device_type: req.body.device_type,
           }
@@ -250,7 +251,7 @@ module.exports = {
 
     }
 
-    let time = await helper.unixTimestamp();
+    let time = helper.unixTimestamp();
     let token = jwt.sign(
       {
         data: {
@@ -287,7 +288,6 @@ module.exports = {
   }
   },
 
-
   otpVerify: async (req, res) => {
     try {
       const v = new Validator(req.body, {
@@ -318,18 +318,18 @@ module.exports = {
               loginTime: time,
             },
           },
-          "secretCryptoKey",
+          secretCryptoKey,
           { expiresIn: "365d" }
         );
 
         userDetail = JSON.stringify(userDetail);
         userDetail = JSON.parse(userDetail);
-        userDetail.token = token;
+        userDetail.token = token;       
 
-        let obj = {
-          userDetail,
-        }
-        return await helper.success(res, " otp verify successfully", obj);
+        // let obj = {
+        //   userDetail,
+        // }
+        return await helper.success(res, " otp verify successfully", userDetail);
       } else {
         return await helper.failed(res, "user does not exist", {});
       }
