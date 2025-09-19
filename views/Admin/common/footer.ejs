@@ -45,33 +45,62 @@
     </script>
 
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <!-- <script>
+      
+      <% if (locals.success && locals.success.length) { %>
+        Swal.fire({
+          icon: 'success',
+          title: '<%= success[0] %>',
+          toast: true,
+          position: 'top-end',
+          showConfirmButton: false,
+          timer: 3000,
+          timerProgressBar: true
+        });
+      <% } %>
+      <% if (locals.error && locals.error.length) { %>
+        Swal.fire({
+          icon: 'error',
+          title: '<%= error[0] %>',
+          toast: true,
+          position: 'top-end',
+          showConfirmButton: false,
+          timer: 3000,
+          timerProgressBar: true
+        });
+      <% } %>
+    </script> -->
+
 <script>
-  
-  <% if (locals.success && locals.success.length) { %>
-    Swal.fire({
-      icon: 'success',
-      title: '<%= success[0] %>',
-      toast: true,
-      position: 'top-end',
-      showConfirmButton: false,
-      timer: 3000,
-      timerProgressBar: true
-    });
-  <% } %>
-  <% if (locals.error && locals.error.length) { %>
-    Swal.fire({
-      icon: 'error',
-      title: '<%= error[0] %>',
-      toast: true,
-      position: 'top-end',
-      showConfirmButton: false,
-      timer: 3000,
-      timerProgressBar: true
-    });
-  <% } %>
+    setInterval(function() {
+        notificationCount();
+    }, 10000); // 10 seconds interval
+
+    function notificationCount() {
+        $.ajax({
+            method: 'GET',
+            url: '/get/notification/count',
+            success: function(response) {
+                let count = response.notification_count;
+                let badge = $('#chatCountBadge'); // target the badge by ID
+
+                if (count > 0) {
+                    badge.text(count);
+                    badge.show();   // show badge
+                } else {
+                    badge.hide();   // hide badge
+                }
+            },
+            error: function(error) {
+                console.error("Error fetching data:", error);
+            }
+        });
+    }
+
+    // Initial call to set the notification count when the page loads
+    notificationCount();
 </script>
 
-    
 </body>
 <!-- END: Body-->
 

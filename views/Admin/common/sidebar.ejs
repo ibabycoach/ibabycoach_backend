@@ -119,7 +119,15 @@
       </li>
       <li class="nav-item <%= title =='push-notification'?'active':'' %> "><a class="d-flex align-items-center" href="/push-notification"><i data-feather="bell"></i><span class="menu-title text-truncate" data-i18n="Subscriptions">Push-notification </span></a>
       </li>
-      <li class=" nav-item <%= title =='user_chat'?'active':'' %> "><a class="d-flex align-items-center" href="/user_chat"><i data-feather="message-circle"></i><span class="menu-title text-truncate" data-i18n="Subscriptions">Chat</span></a>
+      <!-- <li class=" nav-item <%= title =='user_chat'?'active':'' %> "><a class="d-flex align-items-center" href="/user_chat"><i data-feather="message-circle"></i><span class="menu-title text-truncate" data-i18n="Subscriptions">Chat</span></a>
+      </li> -->
+      <li class="nav-item <%= title =='user_chat'?'active':'' %>">
+        <a class="d-flex align-items-center" href="/user_chat">
+          <i data-feather="message-circle"></i>
+          <span class="menu-title text-truncate" data-i18n="Subscriptions">Chat</span>
+          <!-- 🔴 Badge placeholder -->
+           <span id="chatCountBadge" class="count badge-pill badge-danger ml-1" style="display:none;  margin-left: 40px;">0</span>
+        </a>
       </li>
       <li class=" nav-item"><a class="d-flex align-items-center" href="index.html"><i data-feather="info"></i><span class="menu-title text-truncate" data-i18n="Dashboards">CMS</span><span class="badge badge-light-warning rounded-pill ms-auto me-1"></span></a>
         <ul class="menu-content">
@@ -142,6 +150,8 @@
     </ul>
   </div>
 </div>
+
+
 <!-- END: Main Menu-->
 
 <div class="sidenav-overlay"></div>

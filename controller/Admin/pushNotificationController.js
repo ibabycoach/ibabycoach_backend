@@ -1,4 +1,5 @@
 const userModel = require('../../model/Admin/user')
+const message = require('../../model/socket/message')
 const notificationModel = require('../../model/Admin/push_notification')
 const helper = require('../../Helper/helper')
 
@@ -90,5 +91,20 @@ module.exports = {
             console.log(error)
             }
     },
+
+    getNotificationCount: async (req, res) => {
+        try {
+            let session = req.session.user;
+            
+            const notification_count = await message.count({
+                receiver_id: session._id,
+                is_read: 0
+            });
+
+            res.status(200).json({ notification_count });
+        } catch (error) {
+            return helper.error(res, error);
+        }
+    }
 
 }

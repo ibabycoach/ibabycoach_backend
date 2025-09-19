@@ -154,6 +154,8 @@ router.get('/push-notification', pushNotificationController.pushNotification);
 router.post('/push-notification', pushNotificationController.pushNotificationPost);
 router.get('/notificationhistory', pushNotificationController.notificationhistory);
 router.delete('/deletehistry/:id', pushNotificationController.deletehistry)
+// router.get('/getchatCount', session, pushNotificationController.getchatCount)
+router.get('/get/notification/count', pushNotificationController.getNotificationCount)
 
 
 
