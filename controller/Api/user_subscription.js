@@ -243,6 +243,7 @@ module.exports = {
         const v = new Validator(req.body, {
           // expiryTime: "required",
           // expiryDate: "required",
+          status: "required"
         });
         const errorResponse = await helper.checkValidation(v);
         if (errorResponse) {
@@ -252,7 +253,14 @@ module.exports = {
         const updateExpiry = await userSubscriptionModel.findOneAndUpdate(
           { user: userId },
           { ...req.body }
-        );       
+        );   
+        
+        const updateInUserTable = await userModel.findOneAndUpdate(
+          { _id: userId },
+          { subscription_status: req.body.status}
+        );  
+
+
   
         const userSubscription = await userSubscriptionModel.findOne({ user: userId });
 

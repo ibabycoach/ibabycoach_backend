@@ -140,8 +140,8 @@ module.exports = {
       );
       return helper.success(res, "activity list", activitiesWithStats);
     } catch (error) {
-      console.log(error);
-      return helper.failed(res, "Something went wrong");
+      
+      return helper.failed(res, "Internal server error");
     }
   },
   edit_activity: async (req, res) => {

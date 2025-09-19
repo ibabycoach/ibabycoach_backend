@@ -123,7 +123,7 @@ module.exports = function (io) {
             var get_user = await Users.findById( get_data.receiver_id);
             var sender_data = await Users.findById( get_data.sender_id );         
         
-            const { device_token, device_type, name } = get_user;
+            // const { device_token, device_type, name } = get_user;
             if (get_user) {
               let payload = {};
               payload = sender_data;

@@ -252,10 +252,10 @@ small, .small {
     let rId = receiver_id == adminID ? sender_id : receiver_id;
     let rRole = userRole;
 
-  // Set the profile image, id, and role
-  document.getElementById('userHeaderImg').src = document.getElementById(`userImage_${rId}`).src;
-  document.getElementById('userProfileId').value = rId;
-  document.getElementById('userProfileRole').value = rRole;
+    // Set the profile image, id, and role
+    document.getElementById('userHeaderImg').src = document.getElementById(`userImage_${rId}`).src;
+    document.getElementById('userProfileId').value = rId;
+    document.getElementById('userProfileRole').value = rRole;
 
   // Mark the clicked user as active
   let user_li = document.getElementById(`userId_${receiver_id == adminID ? sender_id : receiver_id}`);
@@ -354,60 +354,63 @@ small, .small {
 
     // user chat 
     socket.on('my_chat', (data) => {
-  var userChatsDiv = document.getElementById('userChats');
+      var userChatsDiv = document.getElementById('userChats');
 
-  // Loop through chat data and append new chat messages
-  data.forEach(d => {
-    var chatMsg = document.createElement('div');
+      // ✅ Clear previous chats before appending
+      userChatsDiv.innerHTML = '';
 
-    if (adminID == d.sender_id) {
-      chatMsg.innerHTML = `
-        <div class="chat" id="chatRight">
-          <div class="chat-avatar">
-            <span class="avatar box-shadow-1 cursor-pointer">
-              <img src="<%=session.image%>" alt="avatar" height="36" width="36" />
-            </span>
-          </div>
-          <div class="chat-body">
-            <div class="chat-content">
-              <p>${d.message}</p>
-               <div class="chat-meta text-nowrap mt-25">
-                <small class="chat-time">${formatTimestamp(d.createdAt)}</small>
+      // Loop through chat data and append new chat messages
+      data.forEach(d => {
+        var chatMsg = document.createElement('div');
+
+        if (adminID == d.sender_id) {
+          chatMsg.innerHTML = `
+            <div class="chat" id="chatRight">
+              <div class="chat-avatar">
+                <span class="avatar box-shadow-1 cursor-pointer">
+                  <img src="<%=session.image%>" alt="avatar" height="36" width="36" />
+                </span>
+              </div>
+              <div class="chat-body">
+                <div class="chat-content">
+                  <p>${d.message}</p>
+                  <div class="chat-meta text-nowrap mt-25">
+                    <small class="chat-time">${formatTimestamp(d.createdAt)}</small>
+                  </div>
+                </div>
+              </div>
+            
+            </div>
+          `;
+        } else {
+          let userImg = document.getElementById(`userImage_${d.sender_id}`).src;
+
+          chatMsg.innerHTML = `
+            <div class="chat chat-left" id="chatLeft">
+              <div class="chat-avatar">
+                <span class="avatar box-shadow-1 cursor-pointer">
+                  <img src="${userImg}" alt="avatar" height="36" width="36" />
+                </span>
+              </div>
+              <div class="chat-body">
+                <div class="chat-content">
+                  <p>${d.message}</p>
+                  <div class="chat-meta text-nowrap mt-25">
+                    <small class="chat-time">${formatTimestamp(d.createdAt)}</small>
+                  </div>
+                </div>
               </div>
             </div>
-          </div>
-         
-        </div>
-      `;
-    } else {
-      let userImg = document.getElementById(`userImage_${d.sender_id}`).src;
+          `;
+        }
 
-      chatMsg.innerHTML = `
-        <div class="chat chat-left" id="chatLeft">
-          <div class="chat-avatar">
-            <span class="avatar box-shadow-1 cursor-pointer">
-              <img src="${userImg}" alt="avatar" height="36" width="36" />
-            </span>
-          </div>
-          <div class="chat-body">
-            <div class="chat-content">
-              <p>${d.message}</p>
-               <div class="chat-meta text-nowrap mt-25">
-                <small class="chat-time">${formatTimestamp(d.createdAt)}</small>
-              </div>
-            </div>
-          </div>
-        </div>
-      `;
-    }
+        // Append the new chat message
+        userChatsDiv.appendChild(chatMsg);
+      });
 
-    // Append the new chat message
-    userChatsDiv.appendChild(chatMsg);
-  });
-
-  // Ensure the chat scrolls to the latest message
-  $('.user-chats').scrollTop($('.user-chats')[0].scrollHeight);
-});
+      // Ensure the chat scrolls to the latest message
+      $('.user-chats').scrollTop($('.user-chats')[0].scrollHeight);
+    });
 
 
     socket.on('send_message_listener', (data) => {

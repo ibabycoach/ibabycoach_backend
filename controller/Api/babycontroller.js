@@ -142,7 +142,7 @@ module.exports = {
       return helper.success(res, "baby list", getbabydetails )
     } catch (error) {
         console.log(error)
-        return helper.failed(res, "Something went wrong");
+        return helper.failed(res, "Something went wrong in baby list");
     }
   },
 
