@@ -179,6 +179,17 @@ module.exports = {
     }
 
     let time = helper.unixTimestamp();
+
+    let updateuser = await user_model.updateOne(
+          { _id: findUser._id },
+          { otp, 
+            // otpverify: 0,
+            loginTime: time,
+            device_token: req.body.device_token,
+            device_type: req.body.device_type,
+          }
+        );
+
     let token = jwt.sign(
       {
         data: {

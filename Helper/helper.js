@@ -540,6 +540,8 @@ module.exports = {
 
   send_push_notificationsAdmin : (payLoad) => {
     try {
+      console.log(payLoad, ">>>>>>>>>>>>>>>>>>>>>>>>>>.payload");
+      
       if (payLoad && payLoad.device_token && payLoad.device_token != "") {
         var message = {
           token: payLoad.device_token,
