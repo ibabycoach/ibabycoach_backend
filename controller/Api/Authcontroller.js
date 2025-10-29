@@ -123,7 +123,7 @@ module.exports = {
     });
 
     if (!findUser) {
-      return helper.failed(res, "Incorrect email");
+      return helper.failed2(res, "Incorrect email");
     }
     
     let checkPassword = await bcrypt.compare( req.body.password, findUser.password );

@@ -334,7 +334,6 @@ module.exports = {
   }
   },
 
-
   notificationList: async (req, res) => {
     try {
       const page = parseInt(req.query.page) || 1;
@@ -343,7 +342,7 @@ module.exports = {
 
       const skip = (page - 1) * perPage;
 
-      const notifications = await push_notification.find({ receiverId: userId })
+      const notifications = await push_notification.find({ receiverId: userId, is_deleted: 0 })
         .populate("senderId", "name image")
         .skip(skip)
         .limit(perPage)
@@ -373,5 +372,24 @@ module.exports = {
       return helper.failed(res, "Something went wrong");
     }
   },
+
+  notificationClear: async (req, res) => {
+    try {
+     
+      const userId = req.user._id;
+
+        await push_notification.updateMany(
+          { receiverId: userId },
+          { $set: { is_deleted: 1 } }
+        );
+
+      return helper.success(res, "Notification cleared");
+    } catch (error) {
+      console.log(error);
+      return helper.failed(res, "Something went wrong");
+    }
+  },
+
+
 
 }

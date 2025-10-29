@@ -6,6 +6,7 @@ const push_notification = new mongoose.Schema ({
     message: {type: String, default: ''},
     type: {type: Number, default: 0},
     is_read: {type: Number, default: 0},
+    is_deleted: {type: Number, default: 0},
     status: {type: Number,
         enum: [0, 1],
         default: 1},
