@@ -48,9 +48,7 @@ router.post('/delete_user', authenticateJWT, userprofilecontroller. delete_user)
 router.post('/deleted_account', authenticateJWT, userprofilecontroller.deleted_account)
 router.post('/update_subuser', authenticateJWT, userprofilecontroller.update_subuser)
 router.post('/subuser_details', authenticateJWT, userprofilecontroller.subuser_details)
-
-
-
+router.get('/notificationList', authenticateJWT, userprofilecontroller.notificationList)
 
 //////////////// BABY ////////
 router.post('/add_baby', authenticateJWT, babycontroller.add_baby)

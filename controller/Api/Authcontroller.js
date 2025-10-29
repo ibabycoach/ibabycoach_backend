@@ -294,21 +294,21 @@ module.exports = {
               host: 'smtp.hostinger.com',
               port: '587',
               auth: {
-                  user: 'app@ibabycoach.com',
-                  pass: 'Th3B@byCo@ch'
+                user: 'app@ibabycoach.com',
+                pass: 'Th3B@byCo@ch'
               }
           });
           // send mail with defined transport object
           let info = await transporter.sendMail({
-              from: 'app@ibabycoach.com' ,
-              to: req.body.email,
-              subject: "ibabycoach",
-              text: "ibabycoach",
-              html: html,
+            from: 'app@ibabycoach.com' ,
+            to: req.body.email,
+            subject: "ibabycoach",
+            text: "ibabycoach",
+            html: html,
           });
 
       if (update_otp) {
-        return await helper.success(res, "Resend otp successfully", otp);
+        return await helper.success(res, "Resend otp successfully", {otp});
       } else {
         return helper.failed(res, "something went wrong");
       }

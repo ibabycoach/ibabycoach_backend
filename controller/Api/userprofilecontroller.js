@@ -1,6 +1,6 @@
 const user_model = require('../../model/Admin/user')
 const baby_model = require('../../model/Admin/baby')
-const caregiverModel = require('../../model/Admin/caregiver')
+const push_notification = require('../../model/Admin/push_notification')
 const reminderModel = require('../../model/Admin/reminder')
 const helper = require('../../Helper/helper')
 const { Validator } = require('node-input-validator');
@@ -334,5 +334,44 @@ module.exports = {
   }
   },
 
+
+  notificationList: async (req, res) => {
+    try {
+      const page = parseInt(req.query.page) || 1;
+      const perPage = parseInt(req.query.perPage) || 10;
+      const userId = req.user._id;
+
+      const skip = (page - 1) * perPage;
+
+      const notifications = await push_notification.find({ receiverId: userId })
+        .populate("senderId", "name image")
+        .skip(skip)
+        .limit(perPage)
+        .sort({ createdAt: -1 });
+
+         // Mark all notifications as read
+        await push_notification.updateMany(
+          { receiverId: userId,
+            is_read: { $ne: 1 }
+        },
+          { $set: { is_read: 1 } }
+        );
+
+      const totalNotificationCount = await push_notification.countDocuments({ receiverId: userId, });
+
+      const totalPages = Math.ceil(totalNotificationCount / perPage);
+
+      return helper.success(res, "Notification list", {
+        notifications,
+        page,
+        perPage,
+        totalNotificationCount,
+        totalPages
+      });
+    } catch (error) {
+      console.log(error);
+      return helper.failed(res, "Something went wrong");
+    }
+  },
 
 }
