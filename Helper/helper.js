@@ -13,7 +13,7 @@ const PUBLISH_KEY =process.env.PUBLISH_KEY;
 var FCM = require('fcm-node');
 
 const admin = require('firebase-admin');
-const serviceAccount = require('../Helper/ibabycoach-b7acf-firebase-adminsdk-l7xu6-8772c2e7f9.json');
+const serviceAccount = require('../Helper/ibabycoach-bb27e-firebase-adminsdk-2vkft-8cb683c78e.json');
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount)
 });
