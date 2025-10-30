@@ -94,11 +94,15 @@ module.exports = {
 
     getNotificationCount: async (req, res) => {
         try {
-            let session = req.session.user;
-            
-            const notification_count = await message.count({
-                receiver_id: session._id,
-                is_read: 0
+            const session = req.session?.user;
+
+            if (!session || !session._id) {
+            return helper.failed(res, "User session not found");
+            }
+
+            const notification_count = await message.countDocuments({
+            receiver_id: session._id,
+            is_read: 0,
             });
 
             res.status(200).json({ notification_count });

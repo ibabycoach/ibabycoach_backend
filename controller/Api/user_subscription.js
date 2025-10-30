@@ -1,5 +1,6 @@
 const userSubscriptionModel = require('../../model/Admin/user_subscriptions');
 const userModel = require('../../model/Admin/user');
+const planImage = require('../../model/Admin/subscriptionImage')
 const helper = require('../../Helper/helper');
 const { Validator } = require("node-input-validator");
 const cron = require('node-cron');
@@ -268,6 +269,20 @@ module.exports = {
       } catch (error) {
         console.log(error);
       }
+  },
+
+  planImageList: async(req, res)=> {
+    try {
+      const subscriptionsData = await planImage.find({deleted:false})
+
+      if(!subscriptionsData) {
+        return helper.failed(res, "No plan image found");
+      }
+
+      return helper.success(res, "Plan images", subscriptionsData);
+    } catch (error) {
+      console.log(error)
+    }
   },
 
 

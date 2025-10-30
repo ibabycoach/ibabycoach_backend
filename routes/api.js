@@ -140,6 +140,8 @@ router.post('/edit_reminder', authenticateJWT, remindercontroller.edit_reminder)
 ////////////////////////////////////// subscriptions ////////////////////////
 router.post('/add_subscription', authenticateJWT, user_subscription.addSubscription)
 router.post('/updateExpiryDate', authenticateJWT, user_subscription.updateExpiryDate)
+router.get('/planImageList', user_subscription.planImageList)
+
 
 
 
