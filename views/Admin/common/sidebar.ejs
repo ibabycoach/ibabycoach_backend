@@ -115,8 +115,22 @@
       </li>
       <li class="nav-item <%= title =='growthListing'?'active':'' %> "><a class="d-flex align-items-center" href="/growthListing"><i data-feather="trending-up"></i><span class="menu-title text-truncate" data-i18n="Subscriptions">Growth </span></a>
       </li>
-      <li class="nav-item <%= title =='subscriptionList'?'active':'' %> "><a class="d-flex align-items-center" href="/subscriptionList"><i data-feather="dollar-sign"></i><span class="menu-title text-truncate" data-i18n="Subscriptions">Subscriptions </span></a>
+
+
+       <li class=" nav-item"><a class="d-flex align-items-center" href="index.html"><i data-feather="dollar-sign"></i><span class="menu-title text-truncate" data-i18n="Dashboards">Subscriptions</span><span class="badge badge-light-warning rounded-pill ms-auto me-1"></span></a>
+        <ul class="menu-content">
+          <li class="nav-item <%= title =='subscriptionList'?'active':'' %> "><a class="d-flex align-items-center" href="/subscriptionList"><i data-feather="dollar-sign"></i><span class="menu-title text-truncate" data-i18n="Subscriptions">Subscriptions </span></a>
+          </li>
+          <li class="nav-item <%= title =='planimages'?'active':'' %> "><a class="d-flex align-items-center" href="/planImageList"><i data-feather="image"></i><span class="menu-title text-truncate" data-i18n="Subscriptions">Plan Images </span></a>
+          </li>
+        </ul>
       </li>
+
+
+
+
+     
+      
       <li class="nav-item <%= title =='push-notification'?'active':'' %> "><a class="d-flex align-items-center" href="/push-notification"><i data-feather="bell"></i><span class="menu-title text-truncate" data-i18n="Subscriptions">Push-notification </span></a>
       </li>
       <!-- <li class=" nav-item <%= title =='user_chat'?'active':'' %> "><a class="d-flex align-items-center" href="/user_chat"><i data-feather="message-circle"></i><span class="menu-title text-truncate" data-i18n="Subscriptions">Chat</span></a>

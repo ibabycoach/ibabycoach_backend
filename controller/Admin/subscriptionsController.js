@@ -1,5 +1,7 @@
 const subscriptions = require('../../model/Admin/subscriptions')
-const imagesubscription = require('../../model/Admin/subscriptionImage')
+const planImage = require('../../model/Admin/subscriptionImage')
+const helper = require('../../Helper/helper')
+
 
 module.exports = {
 
@@ -98,6 +100,89 @@ module.exports = {
             }
     },
     
+
+    addplanimage: async(req, res)=> {
+        try {
+            let title = "planimages"
+           
+            res.render('Admin/subscription/addplanimage', { title, session:req.session.user,  msg: req.flash('msg')})
+        } catch (error) {
+            console.log(error)
+        }
+    },
+
+    createPlanImage: async(req, res)=> {
+        try {
+
+            if (req.files && req.files.image) {
+                var image = req.files.image;
+                if (image) {
+                    req.body.image = helper.imageUpload(image, "images");
+                }
+            }
+
+            const addsubscription = await planImage.create({
+                description: req.body.description,
+                image:req.body.image,
+            })
+
+            res.redirect("/planImageList");
+        } catch (error) {
+            console.log(error)
+        }
+    },
+
+     planImageList: async(req, res)=> {
+        try {
+            let title = "planimages"
+            const subscriptionsData = await planImage.find()
+            res.render('Admin/subscription/planImageList', {title, subscriptionsData, session:req.session.user,  msg: req.flash('msg')})
+        } catch (error) {
+            console.log(error)
+        }
+    },
+
+     editplanimg: async(req, res)=> {
+        try {
+            let title = "planimages"
+            const subsdetail = await planImage.findById({_id: req.params.id})
+            res.render('Admin/subscription/editplanimg', {title, subsdetail, session:req.session.user,  msg: req.flash('msg')})
+        } catch (error) {
+           console.log(error) 
+        }
+    },
+
+    updateplanimage: async(req, res)=> {
+        try {
+
+              if (req.files && req.files.image) {
+                var image = req.files.image;
+                if (image) {
+                    req.body.image = helper.imageUpload(image, "images");
+                }
+            }
+
+            const updateData = await planImage.updateOne({_id: req.body.id},
+                {  
+                    description: req.body.description,
+                    image: req.body.image,
+                })
+
+            res.redirect("/planImageList")
+        } catch (error) {
+           console.log(error) 
+        }
+    },
+
+    deleteplanimg: async(req, res)=> {
+        try {
+            let userId = req.body.id 
+            const removesubs = await planImage.deleteOne({_id: userId})
+            res.redirect("/planImageList") 
+        } catch (error) {
+                console.log(error)
+        }
+    },
 
 
 

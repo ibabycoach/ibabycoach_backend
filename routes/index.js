@@ -113,6 +113,16 @@ router.post('/updateSubscription', subscriptionsController.updateSubscription)
 router.delete('/deleteSubscription/:id', subscriptionsController.deleteSubscription)
 router.post('/subsStatus', subscriptionsController.subsStatus)
 
+router.get('/addplanimage', session, subscriptionsController.addplanimage)
+router.post('/createPlanImage', subscriptionsController.createPlanImage)
+router.get('/planImageList', session, subscriptionsController.planImageList)
+router.get('/editplanimg/:id', session, subscriptionsController.editplanimg)
+router.post('/updateplanimage', subscriptionsController.updateplanimage)
+router.delete('/deleteplanimg/:id', subscriptionsController.deleteplanimg)
+
+
+
+
 //*****************  GROWTH  *************************************  
 router.post('/add_growth', growthController.add_growth)
 router.get('/growthList', session, growthController.growth_List)
