@@ -2,3 +2,10 @@
 /.env
 /public/images
 /package-lock.json
+
+# Firebase credentials
+/Helper/ibabycoach-bb27e-firebase-adminsdk-2vkft-8cb683c78e.json
+/Helper/*firebase*.json
+
+# Git credentials
+.git-credentials
