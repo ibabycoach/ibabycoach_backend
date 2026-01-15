@@ -16,8 +16,6 @@ module.exports = {
         name: "required",
         email: "required|email",
         password: "required",
-        phone: "required",
-        country_code: "required",
       });
       const values = JSON.parse(JSON.stringify(v));
       let errorsResponse = await helper.checkValidation(v);
@@ -33,9 +31,12 @@ module.exports = {
         return helper.failed(res, "Email already exists");
       }
 
-      const ismobileExist = await user_model.findOne({ phone: req.body.phone, deleted: false });
-      if (ismobileExist) {
-        return helper.failed(res, "Mobile already exists");
+      // Verifica telefone duplicado apenas se foi fornecido
+      if (req.body.phone) {
+        const ismobileExist = await user_model.findOne({ phone: req.body.phone, deleted: false });
+        if (ismobileExist) {
+          return helper.failed(res, "Mobile already exists");
+        }
       }
 
       if (req.files && req.files.image) {
