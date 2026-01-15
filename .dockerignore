@@ -1,0 +1,11 @@
+.git
+.gitignore
+node_modules
+npm-debug.log
+.env
+.DS_Store
+*.md
+.vscode
+.elasticbeanstalk
+.ebextensions
+Helper/*firebase*.json

@@ -3,7 +3,8 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "nodemon iBabycoach.js"
+    "start": "node iBabycoach.js",
+    "dev": "nodemon iBabycoach.js"
   },
   "dependencies": {
     "bcrypt": "^5.1.1",
