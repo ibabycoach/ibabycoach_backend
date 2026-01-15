@@ -3,9 +3,11 @@
 /public/images
 /package-lock.json
 
-# Firebase credentials
-/Helper/ibabycoach-bb27e-firebase-adminsdk-2vkft-8cb683c78e.json
-/Helper/*firebase*.json
+# Firebase credentials (todas as variações)
+*firebase*adminsdk*.json
+Helper/*firebase*.json
+Helper/ibabycoach-*-firebase-adminsdk-*.json
+ibabycoach-*-firebase-adminsdk-*.json
 
 # Git credentials
 .git-credentials
